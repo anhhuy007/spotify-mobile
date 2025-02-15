@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SpotifyClone</string>
+    <string name="test">This is Login Activity made for testing purpose</string>
+</resources>
