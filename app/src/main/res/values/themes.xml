@@ -1,9 +1,9 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.SpotifyClone" parent="Theme.Material3.DayNight">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+    <style name="Base.Theme.SpotifyClone.Light" parent="Theme.Material3.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:textColorPrimary">@color/textColor</item>
     </style>
 
-    <style name="Theme.SpotifyClone" parent="Base.Theme.SpotifyClone" />
+    <style name="Theme.SpotifyClone.Light" parent="Base.Theme.SpotifyClone.Light" />
 </resources>
