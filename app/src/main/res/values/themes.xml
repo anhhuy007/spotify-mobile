@@ -3,6 +3,7 @@
     <style name="Base.Theme.SpotifyClone" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:fontFamily">@font/avenir_next</item>
     </style>
 
     <style name="Theme.SpotifyClone" parent="Base.Theme.SpotifyClone" />

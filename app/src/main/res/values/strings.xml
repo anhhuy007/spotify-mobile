@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">SpotifyClone</string>
     <string name="test">This is Login Activity made for testing purpose</string>
+    <string name="email_or_username">Email or username</string>
+    <string name="password">Password</string>
+    <string name="forgot_your_password">Forgot password</string>
+    <string name="Back">Back</string>
+    <string name="sign_in_with_facebook">Sign in with Facebook</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="log_in">Log in</string>
+    <string name="client_id">852149445936-52iej16juv24qafjsg3n3vu41n5of36h.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">576052045431275</string>
+    <string name="facebook_client_token">154c501250c48510ad2780cd2140982a</string>
+    <string name="start_title">Miliion of Songs. Free on Spotify</string>
+    <string name="login_here">Login here</string>
+    <string name="sign_up_free">Sign up free</string>
+    <string name="continue_with_google">Continue with Google</string>
 </resources>
