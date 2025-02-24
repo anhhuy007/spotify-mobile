@@ -13,9 +13,10 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.SpotifyClone"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".features.authentication.ui.LoginScreen"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".features.authentication.ui.LoginActivity" />
+
     </application>
 
 </manifest>
