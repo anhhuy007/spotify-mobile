@@ -21,6 +21,7 @@ import com.example.spotifyclone.MainActivity;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.authentication.network.AuthService;
 import com.example.spotifyclone.features.authentication.network.TokenManager;
+import com.example.spotifyclone.features.authentication.viewmodel.AuthVMFactory;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthViewModel;
 import com.example.spotifyclone.shared.network.RetrofitClient;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -32,10 +33,14 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class LoginActivity extends AppCompatActivity {
 
     private AuthViewModel authViewModel;
+
+    //    ui elements
     private EditText emailInput, passwordInput;
     private Button loginButton, googleLoginBtn, backButton;
     private ProgressBar progressBar;
     private TextView forgotPasswordText;
+
+    private Boolean passwordVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,16 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         initializeViews();
 
         // initialize view model
-        authViewModel = new ViewModelProvider(
-                this,
-                new ViewModelProvider.Factory() {
-                    @NonNull
-                    @Override
-                    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                        return (T) new AuthViewModel(RetrofitClient.getClient(LoginActivity.this).create(AuthService.class), new TokenManager(LoginActivity.this));
-                    }
-                }
-        ).get(AuthViewModel.class);
+        authViewModel = new ViewModelProvider(this, new AuthVMFactory(this)).get(AuthViewModel.class);
 
         googleLoginBtn.setOnClickListener(v -> {
             var signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -74,6 +70,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(v -> {
             loginUser();
         });
+
+
 
         observeViewModel();
     }
@@ -111,6 +109,15 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        authViewModel.getErrorMessage().observe(this, errorMessage -> {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+        });
+
+        authViewModel.getIsLoading().observe(this, isLoading -> {
+            progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+        });
     }
 
     @Override
@@ -122,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 var account = task.getResult();
                 firebaseAuthWithGoogle(account.getIdToken());
+                Toast.makeText(this, "Login as " + account.getDisplayName(), Toast.LENGTH_SHORT).show();
                 // Signed in successfully, show authenticated UI.
                 // updateUI(account);
             } catch (Exception e) {

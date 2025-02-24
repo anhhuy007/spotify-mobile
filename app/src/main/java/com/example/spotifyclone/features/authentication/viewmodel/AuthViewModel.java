@@ -20,22 +20,24 @@ import retrofit2.Response;
 public class AuthViewModel extends ViewModel {
     private final AuthService authService;
     private final TokenManager tokenManager;
+
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoggedIn = new MutableLiveData<>();
 
-    public AuthViewModel(AuthService authService, TokenManager tokenManager) {
-        this.authService = authService;
-        this.tokenManager = tokenManager;
+    public AuthViewModel(Context context) {
+        this.authService = RetrofitClient.getClient(context).create(AuthService.class);
+        this.tokenManager = new TokenManager(context);
     }
 
     public void login(String email, String password) {
         isLoading.setValue(true);
         Log.d("DEBUG", "login: " + email + " " + password);
-        authService.login(email, password).enqueue(new Callback<APIResponse<LoginResponse>>() {
+        authService.login(email, password).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<APIResponse<LoginResponse>> call, Response<APIResponse<LoginResponse>> response) {
                 Log.d("DEBUG", "onResponse: " + response);
+                Log.d("DEBUG", "onResponse: " + response.body());
                 isLoading.setValue(false);
                 if (response.isSuccessful()) {
                     APIResponse<LoginResponse> apiResponse = response.body();
@@ -46,7 +48,10 @@ public class AuthViewModel extends ViewModel {
                     } else {
                         errorMessage.setValue(apiResponse != null ? apiResponse.getMessage() : "An error occurred");
                     }
-                } else {
+                } else if (response.code() == 401) {
+                    errorMessage.setValue("Invalid email or password");
+                }
+                else {
                     errorMessage.setValue("An error occurred");
                 }
             }
