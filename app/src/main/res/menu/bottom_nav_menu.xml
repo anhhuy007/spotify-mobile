@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/nav_home_selector"/>
+    <item
+        android:id="@+id/nav_search"
+        android:title="Search"
+        android:icon="@drawable/nav_search_selector"/>
+    <item
+        android:id="@+id/nav_library"
+        android:title="Library"
+        android:icon="@drawable/nav_library_selector"/>
+
+    <item
+        android:id="@+id/nav_premium"
+        android:title="Profile"
+        android:icon="@drawable/icon_spotify"/>
 
 </menu>

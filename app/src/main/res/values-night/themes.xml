@@ -1,9 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Base.Theme.SpotifyClone.Dark" parent="Theme.Material3.Dark">
+    <style name="Theme.SpotifyClone" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Primary brand color -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorBackground">@color/colorBackground</item>
-        <item name="android:textColorPrimary">@color/textColor</item>
-    </style>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
 
-    <style name="Theme.SpotifyClone.Dark" parent="Base.Theme.SpotifyClone.Dark" />
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+
+        <!-- Status bar and navigation -->
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+    </style>
 </resources>

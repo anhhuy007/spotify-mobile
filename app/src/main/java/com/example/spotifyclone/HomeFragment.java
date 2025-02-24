@@ -1,4 +1,4 @@
-package com.example.spotifyclone.features.player.ui;
+package com.example.spotifyclone;
 
 import android.os.Bundle;
 
@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.spotifyclone.R;
 
 /**
  * A simple {@link Fragment} subclass.
