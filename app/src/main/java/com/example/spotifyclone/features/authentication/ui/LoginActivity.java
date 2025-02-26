@@ -23,6 +23,7 @@ import com.example.spotifyclone.features.authentication.network.AuthService;
 import com.example.spotifyclone.features.authentication.network.TokenManager;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthVMFactory;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthViewModel;
+import com.example.spotifyclone.features.profile.ui.ProfileActivity;
 import com.example.spotifyclone.shared.network.RetrofitClient;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -71,7 +72,10 @@ public class LoginActivity extends AppCompatActivity {
             loginUser();
         });
 
-
+        if (authViewModel.getIsLoggedIn().getValue() != null && authViewModel.getIsLoggedIn().getValue()) {
+            startActivity(new Intent(this, ProfileActivity.class));
+            finish();
+        }
 
         observeViewModel();
     }
@@ -105,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (result) {
                 Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, MainActivity.class));
+                startActivity(new Intent(this, ProfileActivity.class));
                 finish();
             }
         });
@@ -117,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
         authViewModel.getIsLoading().observe(this, isLoading -> {
             progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            loginButton.setEnabled(!isLoading);
         });
     }
 

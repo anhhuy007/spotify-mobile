@@ -51,4 +51,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+    implementation(libs.circleimageview)
+    implementation(libs.glide)
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 }

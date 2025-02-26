@@ -6,63 +6,55 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
+import com.example.spotifyclone.shared.model.User;
 
-import com.example.spotifyclone.features.authentication.model.LoginResponse;
-import com.example.spotifyclone.features.authentication.network.AuthService;
-import com.example.spotifyclone.features.authentication.network.TokenManager;
-import com.example.spotifyclone.shared.model.APIResponse;
-import com.example.spotifyclone.shared.network.RetrofitClient;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class AuthViewModel extends ViewModel {
-    private final AuthService authService;
-    private final TokenManager tokenManager;
+    private final AuthRepository authRepo;
 
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoggedIn = new MutableLiveData<>();
+    private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
+
 
     public AuthViewModel(Context context) {
-        this.authService = RetrofitClient.getClient(context).create(AuthService.class);
-        this.tokenManager = new TokenManager(context);
+        this.authRepo = new AuthRepository(context);
+
+        if (authRepo.isLoggedIn()) {
+            isLoggedIn.setValue(true);
+            userLiveData.setValue(authRepo.getUser());
+        }
+        else {
+            isLoggedIn.setValue(false);
+        }
+
     }
 
     public void login(String email, String password) {
         isLoading.setValue(true);
         Log.d("DEBUG", "login: " + email + " " + password);
-        authService.login(email, password).enqueue(new Callback<>() {
+        authRepo.login(email, password, new AuthRepository.AuthCallback() {
             @Override
-            public void onResponse(Call<APIResponse<LoginResponse>> call, Response<APIResponse<LoginResponse>> response) {
-                Log.d("DEBUG", "onResponse: " + response);
-                Log.d("DEBUG", "onResponse: " + response.body());
+            public void onSuccess(User user) {
                 isLoading.setValue(false);
-                if (response.isSuccessful()) {
-                    APIResponse<LoginResponse> apiResponse = response.body();
-                    if (apiResponse != null && apiResponse.isSuccess()) {
-                        LoginResponse loginResponse = apiResponse.getData();
-                        tokenManager.saveTokens(loginResponse.getTokens().getAccessToken(), loginResponse.getTokens().getRefreshToken());
-                        isLoggedIn.setValue(true);
-                    } else {
-                        errorMessage.setValue(apiResponse != null ? apiResponse.getMessage() : "An error occurred");
-                    }
-                } else if (response.code() == 401) {
-                    errorMessage.setValue("Invalid email or password");
-                }
-                else {
-                    errorMessage.setValue("An error occurred");
-                }
+                isLoggedIn.setValue(true);
+                userLiveData.setValue(user);
             }
 
             @Override
-            public void onFailure(Call<APIResponse<LoginResponse>> call, Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+            public void onFailure(String error) {
                 isLoading.setValue(false);
-                errorMessage.setValue(t.getMessage());
+                errorMessage.setValue(error);
             }
         });
+    }
+
+   public void logout() {
+        authRepo.logout();
+        isLoggedIn.setValue(false);
+        userLiveData.setValue(null);
     }
 
     public LiveData<Boolean> getIsLoading() {
