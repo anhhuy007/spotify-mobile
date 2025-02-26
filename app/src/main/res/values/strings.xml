@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">SpotifyClone</string>
-    <string name="test">This is Login Activity made for testing purpose</string>
+    <string name="test">Đây là màn hình Đăng nhập được tạo cho mục đích kiểm tra</string>
+    <string name="theme">Giao diện</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="notification">Thông báo</string>
+    <string name="dark_mode">Chế độ tối</string>
+    <string name="light_mode">Chế độ sáng</string>
 </resources>
