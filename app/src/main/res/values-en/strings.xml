@@ -10,8 +10,22 @@
     <string name="fl">follow</string>
     <string name="edit">Edit</string>
     <string name="noActivity">No recent activity</string>
-    <string name="setting">CÀI ĐẶT</string>
-    <string name="account">Tài khoản</string>
+
+    <string name="setting">SETTINGS</string>
+    <string name="account">Account</string>
+    <string name="account_information">Account information</string>
+    <string name="logout">Log out</string>
+    <string name="logout_confirmation">Are you sure you want to log out?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="logout_success">Logged out successfully</string>
+    <string name="general">General</string>
+    <string name="notification_permission_title">Notification Permission</string>
+    <string name="notification_permission_message">This app requires notification permissions to function properly.</string>
+    <string name="open_settings">Open Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="notifications_disabled">Notifications are disabled</string>
+
 
 
 </resources>

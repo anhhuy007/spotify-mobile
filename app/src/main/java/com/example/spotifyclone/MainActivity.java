@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.spotifyclone.features.artist.ui.artistDetailUI;
 import com.example.spotifyclone.features.artist.ui.artistListUI;
 import com.example.spotifyclone.features.profile.ui.profileUI;
-import com.example.spotifyclone.features.settings.helper.NotificationHelper;
 import com.example.spotifyclone.features.settings.ui.settingsUI;
 import com.example.spotifyclone.shared.utils.Constants;
 
@@ -21,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         setContentView(R.layout.activity_main);
-        NotificationHelper.createNotificationChannel(this);
 
         Button btnArtistList = findViewById(R.id.button);
         btnArtistList.setOnClickListener(v -> {

@@ -10,8 +10,21 @@
     <string name="fl">Đang theo dõi</string>
     <string name="edit" >Chỉnh sửa</string>
     <string name="noActivity">Không có hoạt động nào gần đây</string>
-    <string name="setting">SETTINGS</string>
-    <string name="account">Account</string>
+    <string name="setting">CÀI ĐẶT</string>
+    <string name="account">Tài khoản</string>
+    <string name="account_information">Thông tin cá nhân</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="logout_confirmation">Bạn có chắc muốn đăng xuất</string>
+    <string name="yes">Đồng ý</string>
+    <string name="no">Không đồng ý</string>
+    <string name="logout_success">Đăng xuất thành công</string>
+    <string name="general">Chung</string>
+    <string name="notification_permission_title">Quyền thông báo</string>
+    <string name="notification_permission_message">Ứng dụng này cần quyền thông báo để hoạt động đúng.</string>
+    <string name="open_settings">Mở cài đặt</string>
+    <string name="cancel">Hủy</string>
+    <string name="notifications_disabled">Thông báo đã bị tắt</string>
+
 
 
 
