@@ -72,7 +72,7 @@ public class profileUI extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     data = response.body();
                     userName.setText(data.getName());
-                    followDisc.setText(data.getFollower() + " người theo dõi • Đang theo dõi " + data.getFollow());
+                    followDisc.setText(data.getFollower() +" "+getString(R.string.fler)+ " • "+ getString(R.string.fl)+" "+ data.getFollow());
 
                     Glide.with(profileUI.this)
                             .load(data.getAvatarUrl())

@@ -1,15 +1,26 @@
 package com.example.spotifyclone.features.settings.ui;
 
+import static com.example.spotifyclone.features.settings.helper.NotificationHelper.createNotificationChannel;
+
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.widget.Switch;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.spotifyclone.R;
 
 import java.util.Locale;
@@ -17,8 +28,10 @@ import java.util.Locale;
 public class settingsUI extends AppCompatActivity {
 
     private Switch switchTheme, switchLang, switchNoti;
-    private ImageView imgOnNoti, imgOffNoti;
+    private ImageView imgOnNoti, imgOffNoti, imgDark, imgLight;
     private TextView txtVN, txtEN;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,32 +43,30 @@ public class settingsUI extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        // Áp dụng ngôn ngữ trước khi setContentView
         boolean isEnglish = prefs.getBoolean("isEnglish", false);
         setLocale(isEnglish ? "en" : "vi");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // Ánh xạ View
         switchTheme = findViewById(R.id.switchTheme);
         switchLang = findViewById(R.id.switchlang);
         switchNoti = findViewById(R.id.switchNoti);
         imgOnNoti = findViewById(R.id.onNoti);
         imgOffNoti = findViewById(R.id.offNoti);
+        imgDark = findViewById(R.id.dark);
+        imgLight = findViewById(R.id.light);
         txtVN = findViewById(R.id.VN);
         txtEN = findViewById(R.id.EN);
 
-        // Gán trạng thái đã lưu
         switchTheme.setChecked(isDarkMode);
         switchLang.setChecked(isEnglish);
         switchNoti.setChecked(prefs.getBoolean("notificationEnabled", false));
 
-        // Cập nhật UI theo trạng thái đã lưu
         updateLanguageUI();
         updateNotificationUI();
+        updateThemeIcons();
 
-        // Xử lý sự kiện bật/tắt Theme
         switchTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("darkMode", isChecked);
@@ -63,27 +74,36 @@ public class settingsUI extends AppCompatActivity {
             updateTheme();
         });
 
-        // Xử lý sự kiện chọn ngôn ngữ
         switchLang.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("isEnglish", isChecked);
             editor.apply();
-            // Đổi ngôn ngữ và restart activity
             setLocale(isChecked ? "en" : "vi");
             recreate();
         });
 
-        // Xử lý sự kiện bật/tắt thông báo
         switchNoti.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("notificationEnabled", isChecked);
-            editor.apply();
+            if (isChecked) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                        ContextCompat.checkSelfPermission(this, "android.permission.POST_NOTIFICATIONS")
+                                != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{"android.permission.POST_NOTIFICATIONS"}, 100);
+                    openNotificationSettings();
+                    switchNoti.setChecked(false);
+                } else {
+
+                    createNotificationChannel(this);
+                    saveNotificationState(true);
+                }
+            } else {
+                unregisterForNotifications();
+                saveNotificationState(false);
+            }
             updateNotificationUI();
-            toggleNotifications(isChecked);
         });
     }
 
-    // Đặt ngôn ngữ cho ứng dụng
     private void setLocale(String languageCode) {
         Locale locale = new Locale(languageCode);
         Locale.setDefault(locale);
@@ -95,57 +115,57 @@ public class settingsUI extends AppCompatActivity {
         resources.updateConfiguration(config, resources.getDisplayMetrics());
     }
 
-    // Cập nhật chế độ sáng/tối toàn bộ app
+    private void updateThemeIcons() {
+        boolean isDarkMode = switchTheme.isChecked();
+        if (isDarkMode) {
+            imgDark.setColorFilter(getResources().getColor(R.color.colorPrimary));
+            imgLight.setColorFilter(getResources().getColor(R.color.black));
+        } else {
+            imgLight.setColorFilter(getResources().getColor(R.color.colorPrimary));
+            imgDark.setColorFilter(getResources().getColor(R.color.black));
+        }
+    }
+
     private void updateTheme() {
-        if (switchTheme.isChecked()) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-        recreate(); // Áp dụng theme ngay lập tức
+        AppCompatDelegate.setDefaultNightMode(switchTheme.isChecked() ?
+                AppCompatDelegate.MODE_NIGHT_YES :
+                AppCompatDelegate.MODE_NIGHT_NO);
+        updateThemeIcons();
+
+        SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("darkMode", switchTheme.isChecked());
+        editor.apply();
+
+        recreate();
     }
 
-    // Cập nhật UI ngôn ngữ
     private void updateLanguageUI() {
-        if (switchLang.isChecked()) {
-            txtVN.setTextColor(getResources().getColor(R.color.gray));
-            txtEN.setTextColor(getResources().getColor(R.color.black));
-        } else {
-            txtVN.setTextColor(getResources().getColor(R.color.black));
-            txtEN.setTextColor(getResources().getColor(R.color.gray));
-        }
+        txtVN.setTextColor(getResources().getColor(switchLang.isChecked() ? R.color.black : R.color.colorPrimary));
+        txtEN.setTextColor(getResources().getColor(switchLang.isChecked() ? R.color.colorPrimary : R.color.black));
     }
 
-    // Cập nhật UI trạng thái thông báo
     private void updateNotificationUI() {
-        boolean isEnabled = switchNoti.isChecked();
-        imgOnNoti.setAlpha(isEnabled ? 1.0f : 0.3f);
-        imgOffNoti.setAlpha(isEnabled ? 0.3f : 1.0f);
+        imgOnNoti.setColorFilter(getResources().getColor(switchNoti.isChecked() ? R.color.colorPrimary : R.color.black));
+        imgOffNoti.setColorFilter(getResources().getColor(switchNoti.isChecked() ? R.color.black : R.color.colorPrimary));
     }
 
-    // Bật/tắt thông báo
-    private void toggleNotifications(boolean enable) {
-        // Đây là nơi để triển khai logic bật/tắt thông báo
-        if (enable) {
-            // Đăng ký nhận thông báo
-            registerForNotifications();
-        } else {
-            // Hủy đăng ký nhận thông báo
-            unregisterForNotifications();
-        }
-    }
-
-    // Đăng ký nhận thông báo
-    private void registerForNotifications() {
-        // Triển khai đăng ký FCM token hoặc cấu hình thông báo ở đây
-        // Ví dụ:
-        // FirebaseMessaging.getInstance().subscribeToTopic("all_notifications");
-    }
-
-    // Hủy đăng ký nhận thông báo
     private void unregisterForNotifications() {
-        // Triển khai hủy đăng ký FCM token hoặc vô hiệu hóa thông báo ở đây
-        // Ví dụ:
-        // FirebaseMessaging.getInstance().unsubscribeFromTopic("all_notifications");
+        NotificationManagerCompat.from(this).cancelAll();
     }
+
+    private void saveNotificationState(boolean enabled) {
+        SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
+        editor.putBoolean("notificationEnabled", enabled);
+        editor.apply();
+    }
+
+    private void openNotificationSettings() {
+        Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                .putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+        startActivity(intent);
+    }
+
+
+
 }

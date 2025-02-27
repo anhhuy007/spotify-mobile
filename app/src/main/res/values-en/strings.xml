@@ -6,4 +6,12 @@
     <string name="notification">Notification</string>
     <string name="dark_mode">Dark mode</string>
     <string name="light_mode">Light mode</string>
+    <string name="fler">follower</string>
+    <string name="fl">follow</string>
+    <string name="edit">Edit</string>
+    <string name="noActivity">No recent activity</string>
+    <string name="setting">CÀI ĐẶT</string>
+    <string name="account">Tài khoản</string>
+
+
 </resources>

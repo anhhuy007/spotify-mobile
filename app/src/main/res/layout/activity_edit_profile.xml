@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/white"
     android:paddingTop="20dp">
 
     <ImageButton
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Chỉnh sửa hồ sơ"
         android:textSize="18sp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:text="Lưu"
         android:textSize="16sp"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textStyle="bold"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:text="Tên"
             android:textSize="16sp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <EditText
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:text="Nhật Phước"
             android:textSize="16sp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black"
             android:background="@android:color/transparent"
             android:layout_marginStart="16dp"/>
     </LinearLayout>
@@ -134,7 +134,7 @@
             android:layout_height="wrap_content"
             android:text="Mật khẩu"
             android:textSize="16sp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <EditText
@@ -143,7 +143,7 @@
             android:layout_height="wrap_content"
             android:text="Nhật Phước"
             android:textSize="16sp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black"
             android:background="@android:color/transparent"
             android:layout_marginStart="16dp"
             android:inputType="textPassword"

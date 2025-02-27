@@ -55,6 +55,7 @@ public class profileEditUI extends AppCompatActivity {
         apiService = retrofit.create(apiProfileService.class);
 
         btnSave.setOnClickListener(v -> updateUserProfile());
+        btnClose.setOnClickListener(v -> finish());
     }
 
     private void updateUserProfile() {

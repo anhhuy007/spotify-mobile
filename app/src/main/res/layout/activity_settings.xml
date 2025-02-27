@@ -9,40 +9,61 @@
     android:padding="8dp"
     android:orientation="vertical">
 
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="8dp"
+
+        android:padding="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/back_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="@string/setting"
+        android:textSize="30dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-black"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center_vertical"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="10dp"
         >
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="@string/theme"
             android:layout_weight="3"
             android:textSize="30dp"
-            android:textColor="@color/black"
+            android:textColor="@color/gray"
             android:textStyle="bold"/>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_weight="2"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             >
-
             <ImageView
-                android:id="@+id/dark"
+                android:id="@+id/light"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/baseline_dark_mode_24"
-                android:contentDescription="@string/dark_mode"
+                android:src="@drawable/baseline_light_mode_24"
+                android:contentDescription="@string/light_mode"
                 app:tint="@color/black"/>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -62,15 +83,17 @@
 
             </LinearLayout>
 
-
             <ImageView
-                android:id="@+id/light"
+                android:id="@+id/dark"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/baseline_light_mode_24"
-                android:contentDescription="@string/light_mode"
+                android:src="@drawable/baseline_dark_mode_24"
+                android:contentDescription="@string/dark_mode"
                 app:tint="@color/black"/>
+
+
+
         </LinearLayout>
 
     </LinearLayout>
@@ -90,7 +113,7 @@
             android:text="@string/language"
             android:layout_weight="3"
             android:textSize="30dp"
-            android:textColor="@color/black"
+            android:textColor="@color/gray"
             android:textStyle="bold"/>
 
         <LinearLayout
@@ -162,7 +185,7 @@
             android:text="@string/notification"
             android:layout_weight="3"
             android:textSize="30dp"
-            android:textColor="@color/black"
+            android:textColor="@color/gray"
             android:textStyle="bold"/>
 
         <LinearLayout
@@ -174,7 +197,7 @@
             >
 
             <ImageView
-                android:id="@+id/onNoti"
+                android:id="@+id/offNoti"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
@@ -201,7 +224,7 @@
 
 
             <ImageView
-                android:id="@+id/offNoti"
+                android:id="@+id/onNoti"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"
