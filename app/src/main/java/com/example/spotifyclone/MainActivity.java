@@ -7,10 +7,9 @@ import android.widget.Button;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.spotifyclone.features.artist.ui.artistDetailUI;
-import com.example.spotifyclone.features.artist.ui.artistListUI;
+import com.example.spotifyclone.features.artist.ui.ArtistUI;
 import com.example.spotifyclone.features.profile.ui.profileUI;
-import com.example.spotifyclone.features.settings.ui.settingsUI;
+import com.example.spotifyclone.features.settings.ui.SettingsUI;
 import com.example.spotifyclone.shared.utils.Constants;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnArtistList = findViewById(R.id.button);
         btnArtistList.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, artistListUI.class);
+            Intent intent = new Intent(MainActivity.this, ArtistUI.class);
+            intent.putExtra("ARTIST_ID", "1");
             startActivity(intent);
         });
 
@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnSetting = findViewById(R.id.button2);
         btnSetting.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, settingsUI.class);
+            Intent intent = new Intent(MainActivity.this, SettingsUI.class);
+            intent.putExtra("USER_ID", Constants.userID);
             startActivity(intent);
         });
 

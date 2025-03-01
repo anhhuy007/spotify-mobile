@@ -5,6 +5,16 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <ImageButton
+        android:id="@+id/back_button_artist_list"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:padding="8dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/back_btn" />
+
     <EditText
         android:id="@+id/search_input"
         android:layout_width="match_parent"
@@ -14,7 +24,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
 
         android:background="@color/white"/>
 

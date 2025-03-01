@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/gray"
+        >
 
         <ImageButton
             android:id="@+id/back_button"
@@ -25,25 +27,72 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:text="@string/setting"
             android:textSize="24sp"
+            android:layout_marginEnd="24dp"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:gravity="center" />
     </LinearLayout>
 
-    <!-- General Section Label -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/container_free_account"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/general"
-        android:textSize="16sp"
-        android:textColor="@color/gray"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp" />
+        android:orientation="vertical"
+        android:visibility="visible"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/free_account"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp" />
 
-    <!-- Account Information Option -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/premiumButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/go_premium"
+            android:textColor="@color/white"
+            app:cornerRadius="50dp"
+            app:backgroundTint="@color/black"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/container_pre_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/premium_account"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp" />
+
+    </LinearLayout>
+
+
+
+    <!-- Profile Section -->
     <LinearLayout
         android:id="@+id/account_info_container"
         android:layout_width="match_parent"
@@ -52,22 +101,45 @@
         android:padding="16dp"
         android:background="?android:attr/selectableItemBackground">
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_info_24"
-            android:layout_gravity="center_vertical" />
 
-        <TextView
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_round"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:cardCornerRadius="24dp">
+
+            <ImageView
+                android:id="@+id/user_logo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher_background"
+                android:background="@color/black"
+                android:scaleType="centerCrop"/>
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/account_information"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginStart="16dp"
-            android:layout_gravity="center_vertical" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
 
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Huynh Anh Huy"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view_profile"
+                android:textSize="14sp"
+                android:textColor="@color/gray" />
+        </LinearLayout>
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -78,266 +150,163 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/lightGrey"
-        android:layout_marginStart="56dp" />
+        android:background="@color/gray"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
 
-    <!-- Theme Option -->
-    <LinearLayout
-        android:id="@+id/theme_container"
+    <!-- Data Saver Section -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="?android:attr/selectableItemBackground">
+        android:text="@string/general"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp" />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_dark_mode_24"
-            android:layout_gravity="center_vertical" />
+    <!-- Audio Quality Option -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/theme"
             android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginStart="16dp"
-            android:layout_gravity="center_vertical" />
-
-        <ImageView
-            android:id="@+id/theme_expand"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_keyboard_arrow_down_24"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightGrey"
-        android:layout_marginStart="56dp" />
-
-    <!-- Theme Options (Initially Hidden) -->
-    <LinearLayout
-        android:id="@+id/theme_options"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:layout_marginStart="56dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/light"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_light_mode_24"
-            android:contentDescription="Light mode" />
+            android:textColor="@color/black" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:text="@string/dark_mode_description"
+                android:textSize="14sp"
+                android:textColor="@color/gray"
+                android:layout_marginTop="4dp" />
 
             <Switch
                 android:id="@+id/switchTheme"
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="-36dp"
                 android:thumbTint="@color/black"
-                android:trackTint="#808080" />
+                android:trackTint="@color/gray" />
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/dark"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_dark_mode_24"
-            android:contentDescription="Dark mode" />
     </LinearLayout>
 
-
-
-    <!-- Language Option -->
     <LinearLayout
-        android:id="@+id/language_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="?android:attr/selectableItemBackground">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_g_translate_24"
-            android:layout_gravity="center_vertical" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/language"
             android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginStart="16dp"
-            android:layout_gravity="center_vertical" />
-
-        <ImageView
-            android:id="@+id/language_expand"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_keyboard_arrow_down_24"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightGrey"
-        android:layout_marginStart="56dp" />
-
-    <!-- Language Options (Initially Hidden) -->
-    <LinearLayout
-        android:id="@+id/language_options"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:layout_marginStart="56dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/VN"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="VN" />
+            android:textColor="@color/black" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:text="@string/language_switch_description"
+                android:textSize="14sp"
+                android:textColor="@color/gray"
+                android:layout_marginTop="4dp" />
 
             <Switch
                 android:id="@+id/switchLang"
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="-36dp"
                 android:thumbTint="@color/black"
-                android:trackTint="#808080" />
+                android:trackTint="@color/gray" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/EN"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="EN" />
     </LinearLayout>
-
-
-    <!-- Notifications Option -->
     <LinearLayout
-        android:id="@+id/notifications_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="?android:attr/selectableItemBackground">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_notifications_active_24"
-            android:layout_gravity="center_vertical" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/notification"
             android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginStart="16dp"
-            android:layout_gravity="center_vertical" />
-
-        <ImageView
-            android:id="@+id/notifications_expand"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_keyboard_arrow_down_24"
-            android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <!-- Notification Options (Initially Hidden) -->
-    <LinearLayout
-        android:id="@+id/notification_options"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:layout_marginStart="56dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/offNoti"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_notifications_off_24" />
+            android:textColor="@color/black" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:text="@string/notification_toggle_description"
+                android:textSize="14sp"
+                android:textColor="@color/gray"
+                android:layout_marginTop="4dp" />
 
             <Switch
                 android:id="@+id/switchNoti"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:thumbTint="@color/black"
-                android:trackTint="#808080" />
-        </LinearLayout>
+                android:layout_weight="1"
 
-        <ImageView
-            android:id="@+id/onNoti"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_notifications_active_24" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="-36dp"
+                android:thumbTint="@color/black"
+                android:trackTint="@color/gray" />
+        </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightGrey"
-        android:layout_marginStart="56dp" />
-
-    <!-- Spacer to push logout to bottom -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <!-- Logout button -->
-    <Button
-        android:id="@+id/logoutButton"
+    <LinearLayout
+        android:id="@+id/logoutContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:padding="12dp"
-        android:text="@string/logout"
-        android:textColor="@color/black"
-        android:background="@drawable/rounded_button_background" />
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/logout"
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/logout_description"
+            android:textSize="14sp"
+            android:textColor="@color/gray"
+            android:layout_marginTop="4dp" />
+
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

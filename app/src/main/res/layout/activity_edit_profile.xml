@@ -23,7 +23,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chỉnh sửa hồ sơ"
+        android:text="@string/edit_profile"
         android:textSize="18sp"
         android:textColor="@color/black"
         android:textStyle="bold"
@@ -36,9 +36,9 @@
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lưu"
+        android:text="@string/save"
         android:textSize="16sp"
-        android:textColor="@android:color/black"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
@@ -64,7 +64,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/ic_launcher_background"
-            android:background="@color/black" />
+            android:background="@color/black"
+            android:scaleType="centerCrop"/>
     </androidx.cardview.widget.CardView>
 
     <ImageView
@@ -94,7 +95,7 @@
             android:id="@+id/label_name"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Tên"
+            android:text="@string/name"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:textStyle="bold"/>
@@ -132,7 +133,7 @@
             android:id="@+id/label_password"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Mật khẩu"
+            android:text="@string/password"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:textStyle="bold"/>

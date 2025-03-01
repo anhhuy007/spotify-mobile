@@ -25,7 +25,21 @@
     <string name="open_settings">Open Settings</string>
     <string name="cancel">Cancel</string>
     <string name="notifications_disabled">Notifications are disabled</string>
-
-
+    <string name="error_loading_profile">Error loading profile</string>
+    <string name="network_error">Network error</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="save">Save</string>
+    <string name="name">Account Name</string>
+    <string name="password">Password</string>
+    <string name="post_by">Post by </string>
+    <string name="monthly_listeners">Monthly Listeners </string>
+    <string name="dark_mode_description">Toggle dark mode for a better night experience</string>
+    <string name="language_switch_description">Switch between English and Vietnamese</string>
+    <string name="notification_toggle_description">Enable or disable app notifications</string>
+    <string name="logout_description">Sign out of your account securely</string>
+    <string name="view_profile">View profile</string>
+    <string name="free_account">Free Account</string>
+    <string name="premium_account">Premium Account</string>
+    <string name="go_premium">Go Premium</string>
 
 </resources>

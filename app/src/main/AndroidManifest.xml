@@ -26,11 +26,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".features.artist.ui.artistDetailUI" android:exported="false"/>
-        <activity android:name=".features.artist.ui.artistListUI" android:exported="false"/>
+        <activity android:name=".features.artist.ui.ArtistOverallUI" android:exported="false"/>
+        <activity android:name=".features.artist.ui.ArtistListUI" android:exported="false"/>
+        <activity android:name=".features.artist.ui.ArtistUI" android:exported="false"/>
         <activity android:name=".features.profile.ui.profileUI" android:exported="false"/>
         <activity android:name=".features.profile.ui.profileEditUI" android:exported="false"/>
-        <activity android:name=".features.settings.ui.settingsUI" android:exported="false"/>
+        <activity android:name=".features.settings.ui.SettingsUI" android:exported="false"/>
 
     </application>
 

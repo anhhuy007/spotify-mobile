@@ -8,7 +8,7 @@ import retrofit2.http.Path;
 
 public interface apiProfileService {
     @GET("user/{id}")
-    Call<profile> getUserProfile(@Path("id") int userID);
+    Call<profile> getUserProfile(@Path("id") String userID);
 
     @PUT("user/{id}")
     Call<profile> updateUserProfile(@Path("id") String userID, @Body profile updatedProfile);

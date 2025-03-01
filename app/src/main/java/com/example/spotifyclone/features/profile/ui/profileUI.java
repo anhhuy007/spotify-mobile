@@ -59,8 +59,8 @@ public class profileUI extends AppCompatActivity {
         Retrofit retrofit = profileRetrofit.getClient();
         apiProfileService apiService = retrofit.create(apiProfileService.class);
 
-        int userId = getIntent().getIntExtra("USER_ID", -1);
-        if (userId <= 0) {
+        String userId = getIntent().getStringExtra("USER_ID");
+        if (userId == null) {
             Toast.makeText(this, "Invalid User ID", Toast.LENGTH_SHORT).show();
             return;
         }
