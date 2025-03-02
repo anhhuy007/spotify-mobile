@@ -28,8 +28,8 @@ public class ArtistUI extends AppCompatActivity {
     private RecyclerView rv_popular_songs,rv_albums,rv_playlists,rv_similar_artists;
     private Context context;
     private ImageButton btnBack;
-    private TextView tv_artist_name,tv_artist_info;
-    private ImageView img_artist_artist_detal,img_artist_cover;
+    private TextView tv_artist_name,tv_artist_info,tv_monthly_listeners,participant_artist_detail,artist_name,tv_playlist_title_artist_detail;
+    private ImageView img_artist_artist_detal,img_artist_cover,img_playlist_artist_detail,img_album_artist_detail;
 
     private ConstraintLayout artist_detail_info_container;
 
@@ -56,6 +56,8 @@ public class ArtistUI extends AppCompatActivity {
 
         rv_similar_artists = findViewById(R.id.rv_similar_artists);
         rv_similar_artists.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        tv_monthly_listeners = findViewById(R.id.tv_monthly_listeners);
+        tv_monthly_listeners.setText("100000000 "+getString(R.string.monthly_listeners));
 
 
         btnBack = findViewById(R.id.btn_artist_detail_ui_back);
@@ -81,22 +83,29 @@ public class ArtistUI extends AppCompatActivity {
         });
         artistListViewModel.fetchItems();
 
-        ArtistOverallViewModel viewModel = new ViewModelProvider(this,
+        ArtistOverallViewModel artistViewModel = new ViewModelProvider(this,
                 new ArtistOverallViewModel.Factory(getApplication(), artistId))
                 .get(ArtistOverallViewModel.class);
-
-        viewModel.getArtist().observe(this, data -> {
+        artistViewModel.getArtist().observe(this, data -> {
             tv_artist_name = findViewById(R.id.tv_artist_name);
             tv_artist_name.setText(data.getName());
+            artist_name = findViewById(R.id.artist_name);
+            artist_name.setText(data.getName());
             tv_artist_info = findViewById(R.id.tv_artist_info);
             tv_artist_info.setText(data.getDescription());
-
+            participant_artist_detail = findViewById(R.id.participant_artist_detail);
+            participant_artist_detail.setText(getString(R.string.participant_text)+data.getName());
+            img_album_artist_detail = findViewById(R.id.img_album_artist_detail);
+            Glide.with(ArtistUI.this)
+                    .load(data.getAvatarUrl())
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .into(img_album_artist_detail);
             img_artist_cover = findViewById(R.id.img_artist_cover);
             Glide.with(ArtistUI.this)
                     .load(data.getAvatarUrl())
                     .placeholder(R.drawable.ic_launcher_background)
                     .into(img_artist_cover);
-            img_artist_artist_detal = findViewById(R.id.img_artist_artist_detal);
+            img_artist_artist_detal = findViewById(R.id.img_artist_artist_detail);
             Glide.with(ArtistUI.this)
                     .load(data.getAvatarUrl())
                     .placeholder(R.drawable.ic_launcher_background)
@@ -104,13 +113,28 @@ public class ArtistUI extends AppCompatActivity {
 
             artist_detail_info_container = findViewById(R.id.artist_detail_info_container);
             artist_detail_info_container.setOnClickListener(v -> {
-                Intent intent = new Intent(context, ArtistOverallUI.class);
-                intent.putExtra("ARTIST_ID", "1");
+                Intent intent = new Intent(ArtistUI.this, ArtistOverallUI.class);
+                intent.putExtra("ARTIST_ID", data.getId());
                 startActivity(intent);
             });
         });
-        viewModel.fetchArtistDetails();
+        artistViewModel.fetchArtistDetails();
 
+
+        ArtistOverallViewModel playlistArtist = new ViewModelProvider(this,
+                new ArtistOverallViewModel.Factory(getApplication(), artistId))
+                .get(ArtistOverallViewModel.class);
+        playlistArtist.getArtist().observe(this, data -> {
+            tv_playlist_title_artist_detail = findViewById(R.id.tv_playlist_title_artist_detail);
+            img_playlist_artist_detail = findViewById(R.id.img_playlist_artist_detail);
+            Glide.with(ArtistUI.this)
+                    .load(data.getAvatarUrl())
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .into(img_playlist_artist_detail);
+            tv_playlist_title_artist_detail.setText(data.getName());
+
+        });
+        playlistArtist.fetchArtistDetails();
 
     }
 }

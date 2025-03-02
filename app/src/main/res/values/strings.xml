@@ -40,12 +40,16 @@
     <string name="free_account">Tài khoản miễn phí</string>
     <string name="premium_account">Tài khoản cao cấp</string>
     <string name="go_premium">Nâng cấp lên cao cấp</string>
-
-
-
-
-
-
+    <string name="popular">Phổ biến</string>
+    <string name="new_releases_popular">Bản phát hành mới phổ biến</string>
+    <string name="see_more">Xem thêm</string>
+    <string name="show_all">Hiện tất cả</string>
+    <string name="view_discography">Xem danh sách đĩa nhạc</string>
+    <string name="about">Giới thiệu</string>
+    <string name="verified_artist">Nghệ sĩ đã xác minh</string>
+    <string name="playlist_based_on_artist">Playlist dựa trên Nghệ sĩ</string>
+    <string name="fans_also_like">Fan cũng thích</string>
+    <string name="participant_text">Có sự tham gia của </string>
 
 
 </resources>

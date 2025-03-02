@@ -41,5 +41,16 @@
     <string name="free_account">Free Account</string>
     <string name="premium_account">Premium Account</string>
     <string name="go_premium">Go Premium</string>
+    <string name="popular">Popular</string>
+    <string name="new_releases_popular">Popular New Releases</string>
+    <string name="see_more">See More</string>
+    <string name="show_all">Show All</string>
+    <string name="view_discography">View Discography</string>
+    <string name="about">About</string>
+    <string name="verified_artist">Verified Artist</string>
+    <string name="playlist_based_on_artist">Playlist Based on Artist</string>
+    <string name="fans_also_like">Fans Also Like</string>
+    <string name="participant_text">Featuring </string>
+
 
 </resources>

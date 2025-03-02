@@ -17,7 +17,7 @@
         android:paddingBottom="10dp"
         android:background="@color/gray">
         <ImageButton
-            android:id="@+id/back_button"
+            android:id="@+id/back_button_overall"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
@@ -29,7 +29,7 @@
 
 
         <TextView
-            android:id="@+id/artist_name"
+            android:id="@+id/artist_name_overall"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:gravity="center"
@@ -47,7 +47,7 @@
 
 
     <ImageView
-        android:id="@+id/artist_image"
+        android:id="@+id/artist_image_overall"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:scaleType="centerCrop"
@@ -56,7 +56,7 @@
 
     <!-- Monthly Listeners -->
     <TextView
-        android:id="@+id/monthly_listeners"
+        android:id="@+id/monthly_listeners_overall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1.528.502"
@@ -67,7 +67,7 @@
         android:layout_marginStart="16dp" />
 
     <TextView
-        android:id="@+id/monthly_listeners_label"
+        android:id="@+id/monthly_listeners_label_overall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/monthly_listeners"
@@ -76,7 +76,7 @@
         android:layout_marginStart="16dp" />
 
     <TextView
-        android:id="@+id/artist_description"
+        android:id="@+id/artist_description_overall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SOOBIN is a singer and songwriter of various genres..."
@@ -100,7 +100,7 @@
             android:layout_marginHorizontal="18dp">
 
             <ImageView
-                android:id="@+id/artist_logo"
+                android:id="@+id/artist_logo_overall"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_launcher_background"
@@ -110,7 +110,7 @@
 
 
         <TextView
-            android:id="@+id/post_author"
+            android:id="@+id/post_author_overall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Đăng bởi SOOBIN"

@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.artist.model.artistDetail;
 import com.example.spotifyclone.features.artist.ui.ArtistOverallUI;
+import com.example.spotifyclone.features.artist.ui.ArtistUI;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         holder.artistItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ArtistOverallUI.class);
+                Intent intent = new Intent(context, ArtistUI.class);
                 intent.putExtra("ARTIST_ID", item.getId());
                 context.startActivity(intent);
 

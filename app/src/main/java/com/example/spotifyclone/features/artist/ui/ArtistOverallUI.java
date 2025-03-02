@@ -19,7 +19,7 @@ import com.example.spotifyclone.features.artist.viewModel.ArtistOverallViewModel
 
 public class ArtistOverallUI extends AppCompatActivity {
 
-    private TextView artistName, artistDescription, postAuthor;
+    private TextView artistName, artistDescription, postAuthor,tv_monthly_listeners;
     private ImageView artistImage, artistLogo;
     private ImageButton btnBack;
     private Context context;
@@ -33,44 +33,45 @@ public class ArtistOverallUI extends AppCompatActivity {
         context = this;
         initViews();
         setupBackButton();
-
         String artistId = getIntent().getStringExtra("ARTIST_ID");
         if (artistId == null || artistId.isEmpty()) {
             Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
-            finish();
             return;
         }
+
+        Toast.makeText(context, artistId, Toast.LENGTH_SHORT).show();
+
+        tv_monthly_listeners.setText("100000000");
 
         viewModel = new ViewModelProvider(this,
                 new ArtistOverallViewModel.Factory(getApplication(), artistId))
                 .get(ArtistOverallViewModel.class);
 
-        viewModel.getArtist().observe(this, this::updateUI);
+
+        viewModel.getArtist().observe(this, data -> {
+                    artistName.setText(data.getName());
+                    artistDescription.setText(data.getDescription());
+                    postAuthor.setText(getString(R.string.post_by) +" "+ data.getName());
+
+                    loadImage(artistImage, data.getAvatarUrl());
+                    loadImage(artistLogo, data.getAvatarUrl());
+                }
+        );
         viewModel.fetchArtistDetails();
     }
 
     private void initViews() {
-        artistName = findViewById(R.id.artist_name);
-        artistDescription = findViewById(R.id.artist_description);
-        postAuthor = findViewById(R.id.post_author);
-        artistImage = findViewById(R.id.artist_image);
-        artistLogo = findViewById(R.id.artist_logo);
-        btnBack = findViewById(R.id.back_button);
+        artistName = findViewById(R.id.artist_name_overall);
+        artistDescription = findViewById(R.id.artist_description_overall);
+        postAuthor = findViewById(R.id.post_author_overall);
+        artistImage = findViewById(R.id.artist_image_overall);
+        artistLogo = findViewById(R.id.artist_logo_overall);
+        btnBack = findViewById(R.id.back_button_overall);
+        tv_monthly_listeners = findViewById(R.id.monthly_listeners_overall);
     }
 
     private void setupBackButton() {
         btnBack.setOnClickListener(v -> finish());
-    }
-
-    private void updateUI(artistDetail data) {
-        if (data == null) return;
-
-        artistName.setText(data.getName());
-        artistDescription.setText(data.getDescription());
-        postAuthor.setText(getString(R.string.post_by) + data.getName());
-
-        loadImage(artistImage, data.getAvatarUrl());
-        loadImage(artistLogo, data.getAvatarUrl());
     }
 
     private void loadImage(ImageView imageView, String url) {

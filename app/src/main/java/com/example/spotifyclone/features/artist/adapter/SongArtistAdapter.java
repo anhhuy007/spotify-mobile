@@ -31,19 +31,20 @@ public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_album, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_song, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         artistDetail item = artistList.get(position);
-        holder.tv_album_title.setText(item.getName());
-        holder.tv_album_info.setText(item.getDescription());
+        holder.tv_song_number.setText(Integer.toString(position+1) );
+        holder.tv_song_title.setText(item.getName());
+        holder.tv_song_plays.setText(item.getDescription());
         Glide.with(context)
                 .load(item.getAvatarUrl())
                 .placeholder(R.drawable.ic_launcher_background)
-                .into(holder.img_album_cover);
+                .into(holder.img_song_cover);
 
     }
 
@@ -53,14 +54,15 @@ public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_album_title,tv_album_info;
-        ImageView img_album_cover;
+        TextView tv_song_title,tv_song_plays,tv_song_number;
+        ImageView img_song_cover;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_album_info = itemView.findViewById(R.id.tv_album_info);
-            tv_album_title = itemView.findViewById(R.id.tv_album_title);
-            img_album_cover = itemView.findViewById(R.id.img_album_cover);
+            tv_song_number = itemView.findViewById(R.id.tv_song_number);
+            tv_song_title = itemView.findViewById(R.id.tv_song_title);
+            tv_song_plays = itemView.findViewById(R.id.tv_song_plays);
+            img_song_cover = itemView.findViewById(R.id.img_song_cover);
         }
     }
 }

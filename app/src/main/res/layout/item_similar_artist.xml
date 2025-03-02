@@ -5,7 +5,7 @@
     android:layout_height="200dp"
     android:layout_margin="8dp"
     app:cardBackgroundColor="@android:color/transparent"
-    app:cardCornerRadius="8dp">
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,8 @@
             android:id="@+id/cv_round"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            app:cardCornerRadius="80dp">
+            app:cardCornerRadius="80dp"
+            app:cardElevation="0dp">
 
             <ImageView
                 android:id="@+id/artist_logo"
@@ -37,8 +38,9 @@
             android:text="Noo Phước Thịnh"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+
+            android:maxLines="2"
+            android:ellipsize="end"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

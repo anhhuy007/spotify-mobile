@@ -35,7 +35,7 @@ public class ArtistListUI extends AppCompatActivity {
         artistListViewModel = new ViewModelProvider(this).get(ArtistListViewModel.class);
         artistListViewModel.getArtists().observe(this, artists -> {
             if (artists != null) {
-                artistAdapter = new ArtistAdapter(context, artists);
+                artistAdapter = new ArtistAdapter(this, artists);
                 recyclerView.setAdapter(artistAdapter);
             }
         });

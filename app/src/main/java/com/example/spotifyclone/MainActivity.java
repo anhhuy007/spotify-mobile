@@ -7,6 +7,7 @@ import android.widget.Button;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.spotifyclone.features.artist.ui.ArtistListUI;
 import com.example.spotifyclone.features.artist.ui.ArtistUI;
 import com.example.spotifyclone.features.profile.ui.profileUI;
 import com.example.spotifyclone.features.settings.ui.SettingsUI;
@@ -22,8 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnArtistList = findViewById(R.id.button);
         btnArtistList.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ArtistUI.class);
-            intent.putExtra("ARTIST_ID", "1");
+            Intent intent = new Intent(MainActivity.this, ArtistListUI.class);
             startActivity(intent);
         });
 

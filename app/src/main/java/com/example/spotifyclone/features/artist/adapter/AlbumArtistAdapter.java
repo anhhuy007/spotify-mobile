@@ -49,8 +49,9 @@ public class AlbumArtistAdapter extends RecyclerView.Adapter<AlbumArtistAdapter.
 
     @Override
     public int getItemCount() {
-        return artistList.size();
+        return Math.min(artistList.size(), 4);
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_album_title,tv_album_info;
