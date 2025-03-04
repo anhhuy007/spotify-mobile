@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Dark theme colors -->
-    <color name="colorBackground">#121212</color>
-    <color name="textColorPrimary">#FFFFFF</color>
-    <color name="textColorSecondary">#B3B3B3</color>
+    <!-- Spotify brand colors -->
+    <color name="colorPrimary">#1DB954</color> <!-- Signature green color -->
+    <color name="colorPrimaryDark">#191414</color> <!-- Spotify's dark background -->
+    <color name="colorAccent">#1DB954</color> <!-- Accent color (same green as primary) -->
+
+    <!-- Dark Theme Colors -->
+    <color name="colorBackground">#121212</color> <!-- Main dark background -->
+    <color name="colorBackgroundLight">#181818</color> <!-- Slightly lighter background for depth -->
+    <color name="colorCardBackground">#232323</color> <!-- Background color for cards -->
+
+    <!-- Text Colors -->
+    <color name="textColorPrimary">#FFFFFF</color> <!-- Primary text color (white) -->
+    <color name="textColorSecondary">#B3B3B3</color> <!-- Secondary text color (light gray) -->
+    <color name="textColorTertiary">#808080</color> <!-- Tertiary text color (muted gray for descriptions) -->
+    <color name="iconTintColor">#E0E0E0</color> <!-- Icon tint for better contrast -->
+
 </resources>

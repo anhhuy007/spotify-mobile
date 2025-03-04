@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="icon_size_small">30dp</dimen>
+    <dimen name="icon_size_medium">50dp</dimen>
+    <dimen name="icon_size_large">75dp</dimen>
+    <dimen name="icon_margin">30dp</dimen>
+</resources>

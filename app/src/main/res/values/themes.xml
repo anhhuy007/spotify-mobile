@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Theme.SpotifyClone" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -19,5 +20,17 @@
 
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.SpotifyClone.Translucent" parent="Theme.SpotifyClone">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="ThemeOverlay.SpotifyClone.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
 </resources>

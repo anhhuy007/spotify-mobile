@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
+        android:id="@+id/root_layout">
+
+        <!-- Top Bar -->
+        <ImageButton
+            android:id="@+id/btnDown"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Go back"
+            android:src="@drawable/icon_arrow_down"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvPlaylistInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:text="Now Playing"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnOptions"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Options"
+            android:src="@drawable/icon_more_vert"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Album Cover -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvSongCover"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginBottom="80dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPlaylistInfo"
+            app:layout_constraintBottom_toTopOf="@+id/tvSongTitle">
+
+            <ImageView
+                android:id="@+id/ivSongCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Album Cover"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars"/>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- Song Info -->
+        <TextView
+            android:id="@+id/tvSongTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Song Title"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/btnAdd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cvSongCover" />
+
+        <TextView
+            android:id="@+id/tvArtistName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Artist Name"
+            android:textColor="@color/textColorSecondary"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/btnAdd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSongTitle" />
+
+        <ImageButton
+            android:id="@+id/btnAdd"
+            android:layout_width="@dimen/icon_size_small"
+            android:layout_height="@dimen/icon_size_small"
+            android:layout_marginEnd="24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Add to playlist"
+            android:src="@drawable/icon_add_circle"
+            app:layout_constraintBottom_toBottomOf="@+id/tvArtistName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvSongTitle"
+            android:scaleType="fitCenter"/>
+
+        <!-- Progress -->
+        <SeekBar
+            android:id="@+id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:progressBackgroundTint="@color/textColorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvArtistName" />
+
+        <TextView
+            android:id="@+id/tvCurrentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="4dp"
+            android:text="0:00"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+        <TextView
+            android:id="@+id/tvTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
+            android:text="3:45"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+        <!-- Control Buttons in LinearLayout -->
+        <LinearLayout
+            android:id="@+id/controlButtonsLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="24dp"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvCurrentTime"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+            <ImageButton
+                android:id="@+id/btnShuffle"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:layout_marginEnd="20dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Shuffle"
+                android:src="@drawable/icon_shuffle_off"
+                android:scaleType="fitCenter" />
+
+            <ImageButton
+                android:id="@+id/btnPrevious"
+                android:layout_width="@dimen/icon_size_medium"
+                android:layout_height="@dimen/icon_size_medium"
+                android:layout_marginEnd="30dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Previous"
+                android:src="@drawable/icon_skip_prev"
+                android:scaleType="fitCenter"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/icon_size_large"
+                android:layout_height="@dimen/icon_size_large"
+                app:cardCornerRadius="@dimen/icon_size_large"
+                app:cardElevation="0dp"
+                android:layout_marginEnd="30dp">
+
+                <ImageButton
+                    android:id="@+id/btnPlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Play/Pause"
+                    android:src="@drawable/icon_play_circle"
+                    android:scaleType="fitCenter"
+                    android:background="@android:color/transparent"/>
+            </androidx.cardview.widget.CardView>
+
+            <ImageButton
+                android:id="@+id/btnNext"
+                android:layout_width="@dimen/icon_size_medium"
+                android:layout_height="@dimen/icon_size_medium"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginEnd="30dp"
+                android:contentDescription="Next"
+                android:src="@drawable/icon_skip_next"
+                android:scaleType="fitCenter"/>
+
+            <ImageButton
+                android:id="@+id/btnRepeat"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Repeat"
+                android:src="@drawable/icon_repeat_off"
+                android:scaleType="fitCenter"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/optionsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="33dp"
+            app:layout_constraintTop_toBottomOf="@+id/controlButtonsLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnMultimedia"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Left Icon"
+                android:src="@drawable/icon_multimedia"
+                android:scaleType="fitCenter"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/btnShare"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginEnd="30dp"
+                android:contentDescription="Share"
+                android:src="@drawable/icon_share"
+                android:scaleType="fitCenter"/>
+
+            <ImageButton
+                android:id="@+id/btnPlaylist"
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Playlist"
+                android:src="@drawable/icon_playlist"
+                android:scaleType="fitCenter"/>
+        </LinearLayout>
+        <!-- Lyrics Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/lyricsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            android:layout_marginBottom="20dp"
+            app:cardElevation="6dp"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/optionsLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scrollbars="none">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/tvLyricsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lyrics"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/scrollLyrics"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="15dp"
+                    android:fillViewport="true"
+                    app:layout_constraintTop_toBottomOf="@id/tvLyricsTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvLyricsContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Con hẻm nhỏ 10 mét vuông 4 người sống..."
+                            android:textSize="25sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/textColorSecondary"
+                            android:paddingTop="8dp" />
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <ImageButton
+                        android:id="@+id/btnShareLyrics"
+                        android:layout_width="@dimen/icon_size_small"
+                        android:layout_height="@dimen/icon_size_small"
+                        android:layout_marginEnd="15dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/icon_share"
+                        android:contentDescription="Share"
+                        android:scaleType="fitCenter"
+                        app:tint="@color/textColorSecondary" />
+
+                    <ImageButton
+                        android:id="@+id/btnExpand"
+                        android:layout_width="@dimen/icon_size_small"
+                        android:layout_height="@dimen/icon_size_small"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/icon_expand"
+                        android:contentDescription="Expand"
+                        android:scaleType="fitCenter"
+                        app:tint="@color/textColorSecondary" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- Artist Info Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/artistCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            android:layout_marginBottom="20dp"
+            app:cardElevation="6dp"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@id/lyricsCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/linearLayoutInfo">
+
+                <!-- Artist Image -->
+                <ImageView
+                    android:id="@+id/ivArtistImage"
+                    android:layout_width="match_parent"
+                    app:layout_constraintBottom_toTopOf="@id/linearLayoutInfo"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/tvArtistIntro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giới thiệu về nghệ sĩ"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/textColorTertiary"
+                    android:padding="8dp"
+                    app:layout_constraintTop_toTopOf="@id/ivArtistImage"
+                    app:layout_constraintStart_toStartOf="@id/ivArtistImage"/>
+
+                <!-- Artist Info Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/ivArtistImage">
+
+                    <!-- Name & Followers -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:id="@+id/tvArtistFullName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Thắng"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:layout_weight="1"/>
+
+                        <!-- Follow Button Wrapped in CardView -->
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="0dp"
+                            android:layout_marginStart="8dp">
+
+                            <Button
+                                android:id="@+id/btnFollowArtist"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Đang theo dõi"
+                                android:textColor="@color/textColorPrimary"
+                                android:padding="6dp"
+                                android:background="@android:color/transparent"/>
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+                    <!-- Listener Count -->
+                    <TextView
+                        android:id="@+id/tvListenersCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="624,3 N người nghe hằng tháng"
+                        android:textSize="14sp"
+                        android:textColor="@color/textColorSecondary"/>
+
+                    <!-- Description -->
+                    <TextView
+                        android:id="@+id/tvArtistDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Vũ Đinh Trọng Thắng: singer songwriter Chiêu Phan aka Big Phan"
+                        android:textSize="14sp"
+                        android:textColor="@color/textColorSecondary"
+                        android:paddingTop="8dp"/>
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
