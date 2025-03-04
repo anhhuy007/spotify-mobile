@@ -4,6 +4,9 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:fontFamily">@font/avenir_next</item>
+        <item name="colorPrimaryVariant">#3700B3</item>
+        <item name="colorOnPrimary">@color/background_color</item>
+        <item name="colorOnBackground">@color/text_color</item> <!-- Màu chữ tối -->
     </style>
 
     <style name="Theme.SpotifyClone" parent="Base.Theme.SpotifyClone" />

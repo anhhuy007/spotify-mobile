@@ -29,6 +29,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
 }
 
 dependencies {
@@ -59,4 +60,15 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+
+    // For extracting color
+    implementation("androidx.palette:palette-ktx:1.0.0")
+
+    //shaping image
+    implementation("androidx.compose.material:material:1.7.5")
+
+    //bottom sheet
+    implementation ("com.google.android.material:material:1.11.0")
+
+
 }

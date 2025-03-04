@@ -1,7 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.SpotifyClone" parent="Theme.Material3.DayNight">
+    <style name="Base.ThemeNight.SpotifyClone" parent="Theme.Material3.DayNight">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">#BB86FC</item>
+        <item name="colorPrimaryVariant">#3700B3</item>
+        <item name="colorOnPrimary">@color/background_color</item>
+        <item name="colorOnBackground">@color/text_color</item> <!-- Màu chữ sáng -->
     </style>
 </resources>

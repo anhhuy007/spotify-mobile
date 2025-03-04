@@ -18,4 +18,14 @@
     <string name="login_here">Login here</string>
     <string name="sign_up_free">Sign up free</string>
     <string name="continue_with_google">Continue with Google</string>
+    <string name="album_same_genre_string">Có thể bạn cũng thích</string>
+    <string name="artist_string">Nghệ sĩ</string>
+    <string name="follower_string">5.409 lượt lưu • 36phút</string>
+    <string name="add_button_description">Add to Playlist</string>
+    <string name="download_description">Download</string>
+    <string name="like_description">Like</string>
+    <string name="more_option_description">More Options</string>
+    <string name="shuffle_button_description">Shuffle button</string>
+    <string name="play_button_description">Play</string>
+    <string name="same_genre_album_string">Những album cùng thể loại</string>
 </resources>

@@ -1,23 +1,30 @@
 package com.example.spotifyclone.genre_ids.model;
 
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
 public class Genre {
+    @SerializedName("_id")
     private String _id;
-    private String name;
-    private String description;
-    private String image_url;
-    private Date create_at;
-    private Date updated_at;
 
-    public Genre(String id, String name, String description, String image_url, Date create_at, Date updated_at) {
-        this._id = _id;
-        this.name = name;
-        this.description = description;
-        this.image_url = image_url;
-        this.create_at = create_at;
-        this.updated_at = updated_at;
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("description")
+    private String description;
+
+    @SerializedName("image_url")
+    private String image_url;
+
+    @SerializedName("create_at")
+    private Date create_at; // Đổi tên thành createdAt (camelCase)
+
+    @SerializedName("update_at")
+    private Date update_at; // Đổi tên thành updatedAt (camelCase)
+
+    public Genre() {
+        // Constructor mặc định là cần thiết để Gson hoạt động đúng cách
     }
 
     public String getId() {
@@ -48,23 +55,35 @@ public class Genre {
         return image_url;
     }
 
-    public void setImg_url(String img_url) {
-        this.image_url = img_url;
+    public void setImageUrl(String imageUrl) {
+        this.image_url = imageUrl;
     }
 
-    public Date getCreate_at() {
+    public Date getCreatedAt() {
         return create_at;
     }
 
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
+    public void setCreatedAt(Date createdAt) {
+        this.create_at = createdAt;
     }
 
-    public Date getUpdated_at() {
-        return updated_at;
+    public Date getUpdatedAt() {
+        return update_at;
     }
 
-    public void setUpdated_at(Date updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Date updatedAt) {
+        this.update_at = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "id='" + _id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", imageUrl='" + image_url + '\'' +
+                ", createdAt=" + create_at +
+                ", updatedAt=" + update_at +
+                '}';
     }
 }
