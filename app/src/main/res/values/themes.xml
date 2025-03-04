@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Base application theme -->
     <style name="Theme.SpotifyClone" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryVariant">#3700B3</item>
+        <item name="colorOnPrimary">@color/background_color</item>
 
         <!-- Background colors -->
         <item name="android:colorBackground">@color/colorBackground</item>
@@ -14,12 +15,15 @@
         <!-- Text colors -->
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="colorOnBackground">@color/text_color</item>
 
         <!-- Status bar and navigation -->
         <item name="android:statusBarColor">@android:color/transparent</item>
-
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <!-- Font -->
+        <item name="android:fontFamily">@font/avenir_next</item>
     </style>
 
     <style name="Theme.SpotifyClone.Translucent" parent="Theme.SpotifyClone">
@@ -33,4 +37,5 @@
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>
     </style>
+
 </resources>

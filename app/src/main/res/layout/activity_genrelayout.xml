@@ -1,0 +1,32 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:orientation="vertical">
+    <!--    search bar-->
+    <EditText
+        android:id="@+id/search_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_text"
+        android:padding="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="8dp"
+        android:textColor="@color/text_color"
+        android:fontFamily="@font/avenir_next"
+        android:background="@drawable/search_bar_style"
+        android:drawableLeft="@drawable/search_icon" />
+
+
+    <!--recycler view-->
+    <FrameLayout
+        android:id="@+id/genre_list_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+</LinearLayout>

@@ -9,11 +9,13 @@
     <color name="colorBackground">#121212</color> <!-- Main dark background -->
     <color name="colorBackgroundLight">#181818</color> <!-- Slightly lighter background for depth -->
     <color name="colorCardBackground">#232323</color> <!-- Background color for cards -->
+    <color name="background_color">#000000</color> <!-- Background color from other version -->
+    <color name="bottom_sheet">#222222</color> <!-- Bottom sheet color -->
 
     <!-- Text Colors -->
     <color name="textColorPrimary">#FFFFFF</color> <!-- Primary text color (white) -->
     <color name="textColorSecondary">#B3B3B3</color> <!-- Secondary text color (light gray) -->
     <color name="textColorTertiary">#808080</color> <!-- Tertiary text color (muted gray for descriptions) -->
     <color name="iconTintColor">#E0E0E0</color> <!-- Icon tint for better contrast -->
-
+    <color name="text_color">#FFFFFFFF</color> <!-- Additional text color from other version -->
 </resources>

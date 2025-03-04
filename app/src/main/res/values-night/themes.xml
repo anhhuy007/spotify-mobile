@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.SpotifyClone" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Primary brand color -->
@@ -31,4 +31,13 @@
         <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
         <item name="fullscreenTextColor">@color/light_blue_A400</item>
     </style>
+
+    <style name="Base.ThemeNight.SpotifyClone" parent="Theme.Material3.DayNight">
+        <!-- Customize your dark theme here. -->
+        <item name="colorPrimary">#BB86FC</item>
+        <item name="colorPrimaryVariant">#3700B3</item>
+        <item name="colorOnPrimary">@color/background_color</item>
+        <item name="colorOnBackground">@color/text_color</item>
+    </style>
+
 </resources>

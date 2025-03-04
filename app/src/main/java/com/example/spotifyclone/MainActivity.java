@@ -16,20 +16,29 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.example.spotifyclone.album_ids.ui.AlbumMainCallbacks;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.genre_ids.ui.GenreMainCallbacks;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
-
-public class MainActivity extends AppCompatActivity {
+import android.util.Log;
+import android.widget.EditText;
+import com.example.spotifyclone.album_ids.model.Album;
+import com.example.spotifyclone.album_ids.ui.AlbumDetailFragment;
+import com.example.spotifyclone.album_ids.ui.AlbumFragment;
+import com.example.spotifyclone.genre_ids.model.Genre;
+import com.example.spotifyclone.genre_ids.ui.GenreDetailFragment;
+public class MainActivity extends AppCompatActivity implements GenreMainCallbacks, AlbumMainCallbacks {
     private CardView miniPlayer;
     private ImageView miniPlayerImage;
     private TextView miniPlayerSongName, miniPlayerArtistName;
     private ImageButton miniPlayerPlayPauseButton, miniPlayerNextButton, miniPlayerPreviousButton;
     private MusicPlayerViewModel viewModel;
     private ProgressBar miniPlayerProgress;
+    private EditText search_input; // genre-ids
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +56,21 @@ public class MainActivity extends AppCompatActivity {
                     .replace(R.id.frame_container, new HomeFragment())
                     .commit();
         }
+
+        //genre-ids
+
+        //        // Create GenreFragment
+//        setContentView(R.layout.activity_genrelayout);
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.genre_list_holder, new GenreFragment())
+//                .commit();
+//          Create AlbumFragment
+        setContentView(R.layout.activity_albumlayout);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.album_list_holder, new AlbumFragment())
+                .commit();
+
+
     }
 
     private void initUI() {
@@ -141,4 +165,50 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     };
+
+    // genre-ids branch
+    @Override
+    public void onMsgFromFragToMain(String sender, Genre genre) {
+        if (sender.equals("GENRE_FRAGMENT")) {
+            Log.d("MainActivity", "Genre selected: " + genre.getName());
+            GenreDetailFragment detailFragment = GenreDetailFragment.newInstance(genre);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.genre_list_holder, detailFragment)
+                    .addToBackStack(null) // add to backstack
+                    .commit();
+            // Hide search bar
+            search_input=findViewById(R.id.search_input);
+            search_input.setVisibility(View.GONE);
+
+        }
+        else if(sender.equals("GENRE DETAIL")){
+            getSupportFragmentManager().popBackStack(); // Quay lại Fragment trước đó
+            search_input.setVisibility(View.VISIBLE);
+        }
+
+    }
+    @Override
+    public void onMsgFromFragToMain(String sender, Album album) {
+        if (sender.equals("ALBUM_FRAGMENT")) {
+            Log.d("MainActivity", "Album selected: " + album.getTitle());
+
+            AlbumDetailFragment detailFragment = AlbumDetailFragment.newInstance(album);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.album_list_holder, detailFragment)
+                    .addToBackStack(null) //add to backstack
+                    .commit();
+            // Hide search bar
+            search_input=findViewById(R.id.search_input);
+            search_input.setVisibility(View.GONE);
+
+        }
+        else if(sender.equals("ALBUM DETAIL")){
+            Log.d("Main", "Have been step on there");
+            getSupportFragmentManager().popBackStack(); // Quay lại Fragment trước đó
+            search_input.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+
 }

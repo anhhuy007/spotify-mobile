@@ -1,0 +1,20 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Background Image -->
+    <item>
+        <bitmap
+            android:src="@drawable/start_background"
+            android:gravity="center" />
+    </item>
+
+    <!-- Blurred Overlay -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#FF000000"
+                android:endColor="#A0000000"
+                android:angle="90" />
+        </shape>
+    </item>
+
+</layer-list>
