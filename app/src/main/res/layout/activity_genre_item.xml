@@ -28,7 +28,7 @@
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/genre_display_text"
-                android:textColor="@color/background_color"
+                android:textColor="@color/text_color"
                 android:fontFamily="@font/avenir_next_bold"
                 android:textSize="15sp"
                 android:textStyle="bold"

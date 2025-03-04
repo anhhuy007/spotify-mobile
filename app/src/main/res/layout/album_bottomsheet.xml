@@ -3,12 +3,11 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/rounded_background"
-
     android:orientation="vertical">
 
     <!-- Premium Advertisement -->
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
-        app:tint="@color/background_color"
+        app:tint="@color/text_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <LinearLayout
@@ -26,7 +25,7 @@
             />
         <TextView
             android:id="@+id/song_name"
-            android:textColor="@color/background_color"
+            android:textColor="@color/text_color"
             android:layout_marginStart="10dp"
             android:fontFamily="@font/avenir_next_bold"
             android:layout_gravity="center_vertical"
@@ -38,7 +37,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@color/background_color"/>
 
 
 
@@ -53,7 +52,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_diamond"
-            app:tint="@color/background_color"
+            app:tint="@color/text_color"
             android:layout_marginEnd="8dp"/>
 
         <TextView
@@ -62,7 +61,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/avenir_next"
             android:text="Nghe nhạc không quảng cáo"
-            android:textColor="@color/background_color"
+            android:textColor="@color/text_color"
             android:textSize="16sp"/>
 
         <LinearLayout
@@ -74,7 +73,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                app:tint="@color/background_color"
+                app:tint="@color/text_color"
                 android:src="@drawable/logo_icon"
                 android:layout_marginEnd="8dp"/>
 
@@ -82,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Premium"
-                android:textColor="@color/background_color"
+                android:textColor="@color/text_color"
                 android:textSize="12sp"
                 />
         </LinearLayout>
@@ -101,16 +100,15 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-
             android:src="@drawable/ic_love"
-            app:tint="@color/background_color"
+            app:tint="@color/text_color"
             android:layout_marginEnd="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thêm vào Bài hát ưa thích"
-            android:textColor="@color/background_color"
+            android:textColor="@color/text_color"
             android:textSize="16sp"/>
 
     </LinearLayout>
@@ -128,14 +126,14 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_add"
-            app:tint="@color/background_color"
+            app:tint="@color/text_color"
             android:layout_marginEnd="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thêm vào danh sách phát"
-            android:textColor="@color/background_color"
+            android:textColor="@color/text_color"
             android:textSize="16sp"/>
 
     </LinearLayout>
@@ -153,14 +151,14 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_remove"
-            app:tint="@color/background_color"
+            app:tint="@color/text_color"
             android:layout_marginEnd="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ẩn bài hát"
-            android:textColor="@color/background_color"
+            android:textColor="@color/text_color"
             android:textSize="16sp"/>
 
     </LinearLayout>
@@ -179,14 +177,14 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_share"
-            app:tint="@color/background_color"
+            app:tint="@color/text_color"
             android:layout_marginEnd="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Chia sẻ"
-            android:textColor="@color/background_color"
+            android:textColor="@color/text_color"
             android:textSize="16sp"/>
 
 

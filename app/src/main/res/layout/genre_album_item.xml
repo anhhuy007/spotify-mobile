@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="200dp"
     android:layout_height="wrap_content"
-    android:background="@android:color/black"
+    android:background="@color/background_color"
     android:padding="16dp">
 
     <ImageView
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         app:layout_constraintHorizontal_chainStyle="packed"
-        android:textColor="@android:color/white"
+        android:textColor="@color/text_color"
         android:fontFamily="@font/avenir_next_bold"
         android:textSize="15sp"
         app:layout_constraintHorizontal_bias="0.0"
@@ -41,7 +41,7 @@
         android:layout_marginTop="4dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@android:color/white"
+        android:textColor="@color/text_color"
         android:fontFamily="@font/avenir_next"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"

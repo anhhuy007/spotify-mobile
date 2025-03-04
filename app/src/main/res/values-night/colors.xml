@@ -2,4 +2,5 @@
 <resources>
     <color name="text_color">#FFFFFFFF</color>
     <color name="background_color">#000000</color>
+    <color name="bottom_sheet">#222222</color>
 </resources>

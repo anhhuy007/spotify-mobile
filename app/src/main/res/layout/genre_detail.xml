@@ -17,6 +17,8 @@
             android:id="@+id/genre_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent"
 
             >
             <!--    back button-->
@@ -35,6 +37,9 @@
                 android:id="@+id/imageConstraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardElevation="0dp"
+
+
                 >
 
                 <androidx.cardview.widget.CardView
@@ -73,9 +78,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:textColor="@color/background_color"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
+                    android:textColor="@color/text_color"
+                    android:fontFamily="@font/avenir_next_bold"
+                    android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/image" />
@@ -83,11 +88,12 @@
                 <TextView
                     android:id="@+id/genre_description"
                     android:layout_width="0dp"
+                    android:fontFamily="@font/avenir_next"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="12dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:textColor="#B3B3B3"
+                    android:textColor="@color/text_color"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -110,8 +116,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="10dp"
                 android:text="@string/same_genre_album_string"
-                android:textColor="@color/background_color"
-                android:textSize="20sp"
+                android:textColor="@color/text_color"
+                android:textSize="17sp"
                 android:fontFamily="@font/avenir_next_bold"
                 android:layout_gravity="center_vertical"
                 app:layout_constraintEnd_toEndOf="parent"

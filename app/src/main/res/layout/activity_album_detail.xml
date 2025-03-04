@@ -15,6 +15,7 @@
         <!--        album detail-->
         <androidx.cardview.widget.CardView
             android:id="@+id/album_info"
+            app:cardElevation="0dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

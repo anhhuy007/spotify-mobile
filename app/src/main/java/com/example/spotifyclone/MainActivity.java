@@ -26,9 +26,8 @@ public class MainActivity extends FragmentActivity implements GenreMainCallbacks
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES); // Bật Dark Mode
 
-//
+
 //        // Create GenreFragment
 //        setContentView(R.layout.activity_genrelayout);
 //        getSupportFragmentManager().beginTransaction()

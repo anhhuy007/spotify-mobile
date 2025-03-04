@@ -1,6 +1,7 @@
 package com.example.spotifyclone.genre_ids.ui;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -72,10 +73,15 @@ public class GenreDetailFragment extends Fragment {
         backButton=view.findViewById(R.id.backButton);
 
         //         extract color from picture
-        DominantColorExtractor.getDominantColor(getContext(),getArguments().getString("image_url") , color -> {
+        int nightModeFlags = getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean isDarkMode = (nightModeFlags == Configuration.UI_MODE_NIGHT_YES);
+
+        int secondColor = isDarkMode ? Color.BLACK : Color.WHITE; // Đổi màu theo theme
+
+        DominantColorExtractor.getDominantColor(getContext(), getArguments().getString("image_url"), color -> {
             GradientDrawable gradient = new GradientDrawable(
                     GradientDrawable.Orientation.TOP_BOTTOM,
-                    new int[]{color, Color.BLACK}
+                    new int[]{color, secondColor} // Dùng màu tùy theo theme
             );
 
             gradient.setCornerRadius(0f);
@@ -84,7 +90,6 @@ public class GenreDetailFragment extends Fragment {
             ConstraintLayout imageConstraintLayout = view.findViewById(R.id.imageConstraintLayout);
             imageConstraintLayout.setBackground(gradient);
         });
-
 
         if (getArguments() != null) {
             Glide.with(this).load(getArguments().getString("image_url")).into(genreImage);
