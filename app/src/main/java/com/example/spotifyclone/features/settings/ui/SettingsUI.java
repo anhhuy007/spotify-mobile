@@ -125,7 +125,7 @@ public class SettingsUI extends AppCompatActivity {
 
         Glide.with(SettingsUI.this)
                 .load(Constants.userAvatar)
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.loading)
                 .into(ava);
 
         if (Constants.isPremium) {

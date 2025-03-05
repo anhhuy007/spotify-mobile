@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import com.example.spotifyclone.features.artist.adapter.ArtistSimilarAdapter;
 import com.example.spotifyclone.features.artist.adapter.SongArtistAdapter;
 import com.example.spotifyclone.features.artist.viewModel.ArtistListViewModel;
 import com.example.spotifyclone.features.artist.viewModel.ArtistOverallViewModel;
+import com.google.android.material.button.MaterialButton;
 
 public class ArtistUI extends AppCompatActivity {
     private RecyclerView rv_popular_songs,rv_albums,rv_playlists,rv_similar_artists;
@@ -32,6 +34,7 @@ public class ArtistUI extends AppCompatActivity {
     private ImageView img_artist_artist_detal,img_artist_cover,img_playlist_artist_detail,img_album_artist_detail;
 
     private ConstraintLayout artist_detail_info_container;
+    private MaterialButton btnSeeSongs, btnHideSongs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,17 +101,17 @@ public class ArtistUI extends AppCompatActivity {
             img_album_artist_detail = findViewById(R.id.img_album_artist_detail);
             Glide.with(ArtistUI.this)
                     .load(data.getAvatarUrl())
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.loading)
                     .into(img_album_artist_detail);
             img_artist_cover = findViewById(R.id.img_artist_cover);
             Glide.with(ArtistUI.this)
                     .load(data.getAvatarUrl())
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.loading)
                     .into(img_artist_cover);
             img_artist_artist_detal = findViewById(R.id.img_artist_artist_detail);
             Glide.with(ArtistUI.this)
                     .load(data.getAvatarUrl())
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.loading)
                     .into(img_artist_artist_detal);
 
             artist_detail_info_container = findViewById(R.id.artist_detail_info_container);
@@ -129,12 +132,38 @@ public class ArtistUI extends AppCompatActivity {
             img_playlist_artist_detail = findViewById(R.id.img_playlist_artist_detail);
             Glide.with(ArtistUI.this)
                     .load(data.getAvatarUrl())
-                    .placeholder(R.drawable.ic_launcher_background)
+                    .placeholder(R.drawable.loading)
                     .into(img_playlist_artist_detail);
             tv_playlist_title_artist_detail.setText(data.getName());
 
         });
         playlistArtist.fetchArtistDetails();
+        btnSeeSongs = findViewById(R.id.btn_see_all_songs);
+        btnHideSongs = findViewById(R.id.btn_hide_songs);
+
+        // Set up See More/Hide functionality
+        btnSeeSongs.setOnClickListener(v -> {
+            ViewGroup.LayoutParams params = rv_popular_songs.getLayoutParams();
+//            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            params.height = (int) (650 * getResources().getDisplayMetrics().density);
+
+            rv_popular_songs.setLayoutParams(params);
+
+            btnSeeSongs.setVisibility(View.GONE);
+            btnHideSongs.setVisibility(View.VISIBLE);
+        });
+
+        btnHideSongs.setOnClickListener(v -> {
+            ViewGroup.LayoutParams params = rv_popular_songs.getLayoutParams();
+            // Hardcoded height of 280dp converted to pixels
+            params.height = (int) (300 * getResources().getDisplayMetrics().density);
+            rv_popular_songs.setLayoutParams(params);
+
+            btnSeeSongs.setVisibility(View.VISIBLE);
+            btnHideSongs.setVisibility(View.GONE);
+        });
 
     }
 }
+
+

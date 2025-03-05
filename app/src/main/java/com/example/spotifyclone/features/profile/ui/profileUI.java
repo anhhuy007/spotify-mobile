@@ -76,7 +76,7 @@ public class profileUI extends AppCompatActivity {
 
                     Glide.with(profileUI.this)
                             .load(data.getAvatarUrl())
-                            .placeholder(R.drawable.ic_launcher_background)
+                            .placeholder(R.drawable.loading)
                             .into(userAva);
                 } else {
                     Toast.makeText(profileUI.this, "Failed to load profile", Toast.LENGTH_SHORT).show();

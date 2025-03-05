@@ -42,7 +42,7 @@ public class ArtistPlaylistAdapter extends RecyclerView.Adapter<ArtistPlaylistAd
         holder.tv_playlist_title.setText(item.getName());
         Glide.with(context)
                 .load(item.getAvatarUrl())
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.loading)
                 .into(holder.img_playlist);
 
     }

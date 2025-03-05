@@ -77,7 +77,7 @@ public class ArtistOverallUI extends AppCompatActivity {
     private void loadImage(ImageView imageView, String url) {
         Glide.with(this)
                 .load(url)
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.loading)
                 .into(imageView);
     }
 }

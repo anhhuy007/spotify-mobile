@@ -41,7 +41,7 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
         holder.tv_playlist_title.setText(item.getName());
         Glide.with(context)
                 .load(item.getAvatarUrl())
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.loading)
                 .into(holder.artist_logo);
 
     }

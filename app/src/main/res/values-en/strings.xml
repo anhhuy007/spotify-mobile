@@ -51,6 +51,8 @@
     <string name="playlist_based_on_artist">Playlist Based on Artist</string>
     <string name="fans_also_like">Fans Also Like</string>
     <string name="participant_text">Featuring </string>
+    <string name="hide">Hide</string>
+
 
 
 </resources>

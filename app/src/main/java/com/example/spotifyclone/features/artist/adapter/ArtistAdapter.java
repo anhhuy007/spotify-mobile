@@ -2,6 +2,8 @@ package com.example.spotifyclone.features.artist.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,6 +20,7 @@ import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.artist.model.artistDetail;
 import com.example.spotifyclone.features.artist.ui.ArtistOverallUI;
 import com.example.spotifyclone.features.artist.ui.ArtistUI;
+import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.List;
 
@@ -42,7 +46,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         holder.textView.setText(item.getName());
         Glide.with(context)
                 .load(item.getAvatarUrl())
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.loading)
                 .into(holder.imageView);
         holder.artistItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +56,17 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
                 context.startActivity(intent);
 
             }
+        });
+        // extract color from picture
+        DominantColorExtractor.getDominantColor(context, item.getAvatarUrl(), color -> {
+            GradientDrawable gradient = new GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    new int[]{color, Color.BLACK}
+            );
+
+            gradient.setCornerRadius(0f);
+
+            holder.artist_item_container.setBackground(gradient);
         });
     }
 
@@ -65,11 +80,14 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         CardView artistItem;
         ImageView imageView;
 
+        ConstraintLayout artist_item_container;
+
         public ViewHolder(View itemView) {
             super(itemView);
             artistItem = itemView.findViewById(R.id.artist_item);
             textView = itemView.findViewById(R.id.artist_name);
             imageView = itemView.findViewById(R.id.artist_image);
+            artist_item_container = itemView.findViewById(R.id.artist_item_container);
         }
     }
 }

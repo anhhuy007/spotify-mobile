@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -14,12 +15,14 @@
         app:cardCornerRadius="10dp"
         app:cardBackgroundColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/artist_item">
+        android:id="@+id/artist_item"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/gradient_bg">
+            android:id="@+id/artist_item_container"
+            android:background="@color/blue">
 
             <TextView
                 android:id="@+id/artist_name"
@@ -47,7 +50,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:src="@drawable/loading"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

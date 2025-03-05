@@ -9,7 +9,7 @@
         android:id="@+id/img_album_cover"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/loading"
         android:scaleType="centerCrop" />
 
     <LinearLayout

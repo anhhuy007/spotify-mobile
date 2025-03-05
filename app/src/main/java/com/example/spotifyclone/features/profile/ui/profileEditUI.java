@@ -50,7 +50,7 @@ public class profileEditUI extends AppCompatActivity {
 
         Glide.with(this)
                 .load(getIntent().getStringExtra("USER_AVATAR"))
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.loading)
                 .into(avatar);
 
         Retrofit retrofit = profileRetrofit.getClient();

@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background" />
+            android:src="@drawable/loading" />
 
         <TextView
             android:id="@+id/tv_playlist_title"
@@ -30,7 +30,7 @@
             android:text="This Is Noo Phước Thịnh"
             android:textColor="@color/black"
             android:textSize="14sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/avenir_next_bold"
             android:maxLines="2"
             android:ellipsize="end" />
     </LinearLayout>

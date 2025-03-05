@@ -42,7 +42,7 @@ public class AlbumArtistAdapter extends RecyclerView.Adapter<AlbumArtistAdapter.
         holder.tv_album_info.setText(item.getDescription());
         Glide.with(context)
                 .load(item.getAvatarUrl())
-                .placeholder(R.drawable.ic_launcher_background)
+                .placeholder(R.drawable.loading)
                 .into(holder.img_album_cover);
 
     }
