@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:paddingBottom="16dp">
+
+    <!-- Song Header -->
+    <LinearLayout
+        android:id="@+id/dialog_song_options_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/image_dialog_song_options"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/loading"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerCrop"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:justificationMode="inter_word">
+
+            <TextView
+                android:id="@+id/name_dialog_song_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cause I Love You"
+                android:textColor="@color/black"
+                android:fontFamily="@font/avenir_next_bold"
+                android:gravity="center_vertical"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/artist_dialog_song_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Noo Phước Thịnh"
+                android:textColor="@color/gray"
+                android:fontFamily="@font/avenir_next_bold"
+                android:gravity="center_vertical"
+                android:textSize="14sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Menu Options -->
+    <LinearLayout
+        android:id="@+id/dialog_song_options_menu_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/dialog_song_options_liked"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/bookmark_heart_24px"
+                app:tint="@color/black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_next_bold"
+                android:gravity="center_vertical"
+                android:text="Thêm vào Bài hát đã thích"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_song_options_playlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/add_circle_24px"
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thêm vào danh sách phát"
+                android:textColor="@color/black"
+                android:fontFamily="@font/avenir_next_bold"
+                android:gravity="center_vertical"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_song_options_premium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/diamond_24px"
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nghe nhạc không quảng cáo"
+                android:textColor="@color/black"
+                android:fontFamily="@font/avenir_next_bold"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Premium"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/avenir_next_bold"
+                android:textSize="14sp"
+                android:gravity="end"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_song_options_queue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/playlist_add_24px"
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thêm vào Danh sách chờ"
+                android:textColor="@color/black"
+                android:fontFamily="@font/avenir_next_bold"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_song_options_album"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/album_24px"
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chuyển đến album"
+                android:textColor="@color/black"
+                android:fontFamily="@font/avenir_next_bold"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_song_options_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/share_24px"
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chia sẻ"
+                android:textColor="@color/black"
+                android:fontFamily="@font/avenir_next_bold"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_song_options_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/podcasts_24px"
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chuyển đến radio theo bài hát"
+                android:fontFamily="@font/avenir_next_bold"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_song_options_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/queue_music_24px"
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Xem thông tin ghi công của bài hát"
+                android:textColor="@color/black"
+                android:fontFamily="@font/avenir_next_bold"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_song_options_credits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/code_24px"
+                android:layout_marginEnd="16dp"
+                app:tint="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Xem thông tin ghi công của bài hát"
+                android:textColor="@color/black"
+                android:fontFamily="@font/avenir_next_bold"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

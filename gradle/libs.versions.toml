@@ -14,6 +14,7 @@ activity = "1.10.0"
 constraintlayout = "2.2.0"
 playServicesAuth = "21.3.0"
 retrofit = "2.9.0"
+preference = "1.2.1"
 
 [libraries]
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
@@ -30,8 +31,12 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+
+preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

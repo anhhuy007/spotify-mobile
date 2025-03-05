@@ -1,5 +1,6 @@
 package com.example.spotifyclone;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -7,6 +8,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
+
+import com.example.spotifyclone.features.artist.ui.ArtistListUI;
+import com.example.spotifyclone.features.artist.ui.ArtistUI;
+import com.example.spotifyclone.features.profile.ui.profileUI;
+import com.example.spotifyclone.features.settings.ui.SettingsUI;
+import com.example.spotifyclone.shared.utils.Constants;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -72,6 +81,25 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
 //                .commit();
 
 
+        //        Button btnArtistList = findViewById(R.id.button);
+//        btnArtistList.setOnClickListener(v -> {
+//            Intent intent = new Intent(MainActivity.this, ArtistListUI.class);
+//            startActivity(intent);
+
+//        Button btnProfile = findViewById(R.id.button1);
+//        btnProfile.setOnClickListener(v -> {
+//            Intent intent = new Intent(MainActivity.this, profileUI.class);
+//            intent.putExtra("USER_ID", Constants.userID);
+//            startActivity(intent);
+//        });
+//
+//        Button btnSetting = findViewById(R.id.button2);
+//        btnSetting.setOnClickListener(v -> {
+//            Intent intent = new Intent(MainActivity.this, SettingsUI.class);
+//            intent.putExtra("USER_ID", Constants.userID);
+//            startActivity(intent);
+//        });
+
     }
 
     private void initUI() {
@@ -109,7 +137,12 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
             } else {
                 Toast.makeText(MainActivity.this, "No song is currently playing", Toast.LENGTH_SHORT).show();
             }
+
         });
+
+
+
+
     }
 
     private void observeViewModel() {
@@ -210,6 +243,5 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
         }
 
     }
-
 
 }

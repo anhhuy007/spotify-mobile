@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId = "com.example.spotifyclone"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -92,5 +92,15 @@ dependencies {
     //bottom sheet
     implementation ("com.google.android.material:material:1.11.0")
 
-
+    implementation(libs.preference)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.palette:palette-ktx:1.0.0")
+    implementation("com.google.android.material:material:1.10.0")
 }
