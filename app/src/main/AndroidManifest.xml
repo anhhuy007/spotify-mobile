@@ -16,7 +16,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Base.Theme.SpotifyClone"
+        android:theme="@style/Theme.SpotifyClone"
 
         tools:targetApi="31">
 <!--        <activity-->
@@ -26,7 +26,7 @@
         <activity
             android:name=".features.player.ui.SongLyrics"
             android:exported="false" />
-        <activity android:name=".features.player.ui.SongDetailActivity" />
+<!--        <activity android:name=".features.player.ui.SongDetailActivity" />-->
         <activity
             android:name=".MainActivity"
             android:exported="true"

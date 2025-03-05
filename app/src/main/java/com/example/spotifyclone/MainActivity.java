@@ -21,6 +21,7 @@ import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.genre_ids.ui.GenreFragment;
 import com.example.spotifyclone.genre_ids.ui.GenreMainCallbacks;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
@@ -43,32 +44,32 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initUI();
-        initViewModel();
-        setupListeners();
-        observeViewModel();
-
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_container, new HomeFragment())
-                    .commit();
-        }
+//        setContentView(R.layout.activity_main);
+//        initUI();
+//        initViewModel();
+//        setupListeners();
+//        observeViewModel();
+//
+//        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+//        bottomNav.setOnNavigationItemSelectedListener(navListener);
+//        if (savedInstanceState == null) {
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.frame_container, new HomeFragment())
+//                    .commit();
+//        }
 
         //genre-ids
 
-        //        // Create GenreFragment
-//        setContentView(R.layout.activity_genrelayout);
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.genre_list_holder, new GenreFragment())
-//                .commit();
-//          Create AlbumFragment
-        setContentView(R.layout.activity_albumlayout);
+                // Create GenreFragment
+        setContentView(R.layout.activity_genrelayout);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.album_list_holder, new AlbumFragment())
+                .replace(R.id.genre_list_holder, new GenreFragment())
                 .commit();
+//          Create AlbumFragment
+//        setContentView(R.layout.activity_albumlayout);
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.album_list_holder, new AlbumFragment())
+//                .commit();
 
 
     }

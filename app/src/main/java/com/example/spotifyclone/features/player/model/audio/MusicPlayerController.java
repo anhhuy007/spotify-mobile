@@ -48,7 +48,7 @@ public class MusicPlayerController {
         this.shuffleMode = ShuffleMode.SHUFFLE_OFF;
         this.playList = new PlayList(List.of(), ShuffleMode.SHUFFLE_OFF);
         this.isReleased = false;
-        this.songService = RetrofitClient.getClient().create(SongService.class);
+        this.songService = RetrofitClient.getClient(context).create(SongService.class);
         setupInternalPlaybackListener();
     }
 
