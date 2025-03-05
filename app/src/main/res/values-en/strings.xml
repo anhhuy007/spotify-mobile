@@ -83,5 +83,17 @@
     <string name="play_button_description">Play</string>
     <string name="same_genre_album_string">Những album cùng thể loại</string>
 
+    <string name="add_to_liked_songs">Add to Liked Songs</string>
+    <string name="add_to_playlist">Add to Playlist</string>
+    <string name="listen_without_ads">Listen without ads</string>
+    <string name="premium">Premium</string>
+    <string name="add_to_queue">Add to Queue</string>
+    <string name="go_to_album">Go to Album</string>
+    <string name="share">Share</string>
+    <string name="go_to_radio">Go to Radio</string>
+    <string name="view_song_credits">View song credits</string>
+    <string name="show_spotify_code">Show Spotify Code</string>
+
+
 
 </resources>

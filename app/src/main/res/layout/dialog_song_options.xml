@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_next_bold"
                 android:gravity="center_vertical"
-                android:text="Thêm vào Bài hát đã thích"
+                android:text="@string/add_to_liked_songs"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -102,7 +102,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Thêm vào danh sách phát"
+                android:text="@string/add_to_playlist"
                 android:textColor="@color/black"
                 android:fontFamily="@font/avenir_next_bold"
                 android:gravity="center_vertical"
@@ -127,7 +127,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nghe nhạc không quảng cáo"
+                android:text="@string/listen_without_ads"
                 android:textColor="@color/black"
                 android:fontFamily="@font/avenir_next_bold"
                 android:textSize="16sp"/>
@@ -161,7 +161,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Thêm vào Danh sách chờ"
+                android:text="@string/add_to_queue"
                 android:textColor="@color/black"
                 android:fontFamily="@font/avenir_next_bold"
                 android:textSize="16sp"/>
@@ -185,7 +185,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Chuyển đến album"
+                android:text="@string/go_to_album"
                 android:textColor="@color/black"
                 android:fontFamily="@font/avenir_next_bold"
                 android:textSize="16sp"/>
@@ -209,7 +209,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Chia sẻ"
+                android:text="@string/share"
                 android:textColor="@color/black"
                 android:fontFamily="@font/avenir_next_bold"
                 android:textSize="16sp"/>
@@ -233,7 +233,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Chuyển đến radio theo bài hát"
+                android:text="@string/go_to_radio"
                 android:fontFamily="@font/avenir_next_bold"
                 android:textColor="@color/black"
                 android:textSize="16sp"/>
@@ -257,10 +257,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Xem thông tin ghi công của bài hát"
-                android:textColor="@color/black"
                 android:fontFamily="@font/avenir_next_bold"
-                android:textSize="16sp"/>
+                android:text="@string/view_song_credits"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -281,7 +281,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Xem thông tin ghi công của bài hát"
+                android:text="@string/show_spotify_code"
                 android:textColor="@color/black"
                 android:fontFamily="@font/avenir_next_bold"
                 android:textSize="16sp"/>

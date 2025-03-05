@@ -85,5 +85,15 @@
     <string name="fans_also_like">Fan cũng thích</string>
     <string name="participant_text">Có sự tham gia của </string>
 
+    <string name="add_to_liked_songs">Thêm vào Bài hát đã thích</string>
+    <string name="add_to_playlist">Thêm vào danh sách phát</string>
+    <string name="listen_without_ads">Nghe nhạc không quảng cáo</string>
+    <string name="premium">Premium</string>
+    <string name="add_to_queue">Thêm vào Danh sách chờ</string>
+    <string name="go_to_album">Chuyển đến album</string>
+    <string name="share">Chia sẻ</string>
+    <string name="go_to_radio">Chuyển đến radio theo bài hát</string>
+    <string name="view_song_credits">Xem thông tin ghi công của bài hát</string>
+    <string name="show_spotify_code">Hiển thị mã Spotify</string>
 
 </resources>
