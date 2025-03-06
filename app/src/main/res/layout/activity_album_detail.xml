@@ -26,7 +26,7 @@
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:background="@drawable/icon_back_button"
+                android:background="@drawable/ic_backbutton"
                 android:padding="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -115,6 +115,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:layout_marginTop="20dp"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -135,7 +136,7 @@
                             android:layout_height="55dp"
                             android:background="?android:attr/selectableItemBackgroundBorderless"
                             android:contentDescription="@string/like_description"
-                            android:src="@drawable/icon_album_story"
+                            android:src="@drawable/ic_album_story"
                             app:tint="@color/text_color"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="5dp"/>
@@ -189,7 +190,7 @@
                             android:layout_height="55dp"
                             android:background="?android:attr/selectableItemBackgroundBorderless"
                             android:contentDescription="@string/shuffle_button_description"
-                            android:src="@drawable/shuffle_button"
+                            android:src="@drawable/ic_shuffle"
                             android:layout_gravity="center_vertical"
                              />
 
@@ -218,6 +219,7 @@
             android:id="@+id/song_recyclerview"
             android:layout_width="match_parent"
             android:orientation="horizontal"
+            android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"/>
 
@@ -226,7 +228,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
             android:textSize="20sp"
             android:textColor="@color/text_color"
@@ -237,6 +239,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             >
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/artist_image"
@@ -266,14 +269,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
             android:textColor="@color/text_color"
             android:textSize="20sp"
             android:fontFamily="@font/avenir_next_bold"
             />
     <!--        Danh sach album cua nghe si-->
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="10dp"
             android:id="@+id/artist_album"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -284,7 +287,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
             android:textSize="20sp"
             android:text="@string/album_same_genre_string"
@@ -295,6 +298,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/related_album"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"/>

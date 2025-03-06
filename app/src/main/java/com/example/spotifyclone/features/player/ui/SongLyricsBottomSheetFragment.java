@@ -34,7 +34,7 @@ public class SongLyricsBottomSheetFragment extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_song_lyrics);
+        setContentView(R.layout.bottom_sheet_fragment_lyric);
 
         // Get the song from intent
         song = (Song) getIntent().getSerializableExtra(EXTRA_SONG);
