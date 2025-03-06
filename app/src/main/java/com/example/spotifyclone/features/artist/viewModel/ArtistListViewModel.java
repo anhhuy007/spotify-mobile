@@ -9,9 +9,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.spotifyclone.features.artist.model.apiArtistService;
-import com.example.spotifyclone.features.artist.model.artistDetail;
-import com.example.spotifyclone.features.artist.model.artistRetrofit;
+import com.example.spotifyclone.features.artist.network.apiArtistService;
+import com.example.spotifyclone.features.artist.model.ArtistDetail;
+import com.example.spotifyclone.features.artist.network.artistRetrofit;
 
 import java.util.List;
 
@@ -22,14 +22,14 @@ import retrofit2.Retrofit;
 
 public class ArtistListViewModel extends AndroidViewModel {
     private final Context context;
-    private final MutableLiveData<List<artistDetail>> artists = new MutableLiveData<>();
+    private final MutableLiveData<List<ArtistDetail>> artists = new MutableLiveData<>();
 
     public ArtistListViewModel(@NonNull Application application) {
         super(application);
         this.context = application.getApplicationContext();
     }
 
-    public LiveData<List<artistDetail>> getArtists() {
+    public LiveData<List<ArtistDetail>> getArtists() {
         return artists;
     }
 
@@ -38,10 +38,10 @@ public class ArtistListViewModel extends AndroidViewModel {
         Retrofit retrofit = artistRetrofit.getClient();
         apiArtistService apiService = retrofit.create(apiArtistService.class);
 
-        Call<List<artistDetail>> call = apiService.getListArtist();
-        call.enqueue(new Callback<List<artistDetail>>() {
+        Call<List<ArtistDetail>> call = apiService.getListArtist();
+        call.enqueue(new Callback<List<ArtistDetail>>() {
             @Override
-            public void onResponse(Call<List<artistDetail>> call, Response<List<artistDetail>> response) {
+            public void onResponse(Call<List<ArtistDetail>> call, Response<List<ArtistDetail>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     artists.setValue(response.body());
                 } else {
@@ -50,7 +50,7 @@ public class ArtistListViewModel extends AndroidViewModel {
             }
 
             @Override
-            public void onFailure(Call<List<artistDetail>> call, Throwable t) {
+            public void onFailure(Call<List<ArtistDetail>> call, Throwable t) {
                 Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

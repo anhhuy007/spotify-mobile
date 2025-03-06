@@ -1,7 +1,6 @@
 package com.example.spotifyclone.features.artist.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,21 +8,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.artist.model.artistDetail;
-import com.example.spotifyclone.features.artist.ui.ArtistOverallUI;
+import com.example.spotifyclone.features.artist.model.ArtistDetail;
 
 import java.util.List;
 
 public class AlbumArtistAdapter extends RecyclerView.Adapter<AlbumArtistAdapter.ViewHolder> {
     private Context context;
-    private List<artistDetail> artistList;
+    private List<ArtistDetail> artistList;
 
-    public AlbumArtistAdapter(Context context, List<artistDetail> artistList) {
+    public AlbumArtistAdapter(Context context, List<ArtistDetail> artistList) {
         this.context = context;
         this.artistList = artistList;
     }
@@ -37,7 +34,7 @@ public class AlbumArtistAdapter extends RecyclerView.Adapter<AlbumArtistAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        artistDetail item = artistList.get(position);
+        ArtistDetail item = artistList.get(position);
         holder.tv_album_title.setText(item.getName());
         holder.tv_album_info.setText(item.getDescription());
         Glide.with(context)

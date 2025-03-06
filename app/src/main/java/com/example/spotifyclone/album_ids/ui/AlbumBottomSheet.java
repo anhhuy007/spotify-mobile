@@ -8,10 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.MultiTransformation;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.album_ids.model.Song;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -33,7 +29,7 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.album_bottomsheet, container, false);
+        View view= inflater.inflate(R.layout.bottom_sheet_fragment_album, container, false);
         TextView song_name=view.findViewById(R.id.song_name);
         ImageView song_image=view.findViewById(R.id.song_cover);
 

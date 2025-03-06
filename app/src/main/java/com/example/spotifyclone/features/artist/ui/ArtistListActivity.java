@@ -2,7 +2,6 @@ package com.example.spotifyclone.features.artist.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +13,7 @@ import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.artist.adapter.ArtistAdapter;
 import com.example.spotifyclone.features.artist.viewModel.ArtistListViewModel;
 
-public class ArtistListUI extends AppCompatActivity {
+public class ArtistListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Context context;
     private ImageButton btnBack;
@@ -24,7 +23,7 @@ public class ArtistListUI extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.artist_list);
+        setContentView(R.layout.activity_artist_list);
 
         // Initialize context and views
         context = this;

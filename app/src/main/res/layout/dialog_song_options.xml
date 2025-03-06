@@ -71,7 +71,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/bookmark_heart_24px"
+                android:src="@drawable/icon_bookmark_heart_24px"
                 app:tint="@color/black" />
 
             <TextView
@@ -95,7 +95,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/add_circle_24px"
+                android:src="@drawable/icon_add_circle_24px"
                 android:layout_marginEnd="16dp"
                 app:tint="@color/black"/>
 
@@ -120,7 +120,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/diamond_24px"
+                android:src="@drawable/icon_diamond_24px"
                 android:layout_marginEnd="16dp"
                 app:tint="@color/black"/>
 
@@ -154,7 +154,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/playlist_add_24px"
+                android:src="@drawable/icon_playlist_add_24px"
                 android:layout_marginEnd="16dp"
                 app:tint="@color/black"/>
 
@@ -178,7 +178,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/album_24px"
+                android:src="@drawable/icon_album_24px"
                 android:layout_marginEnd="16dp"
                 app:tint="@color/black"/>
 
@@ -274,7 +274,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/code_24px"
+                android:src="@drawable/icon_code_24px"
                 android:layout_marginEnd="16dp"
                 app:tint="@color/black"/>
 

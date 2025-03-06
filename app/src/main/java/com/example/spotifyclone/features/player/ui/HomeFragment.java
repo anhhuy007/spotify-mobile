@@ -1,4 +1,4 @@
-package com.example.spotifyclone;
+package com.example.spotifyclone.features.player.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,12 +15,11 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.spotifyclone.features.player.model.song.Song;
-import com.example.spotifyclone.features.player.network.SongService;
-import com.example.spotifyclone.features.player.ui.SongAdapter;
-import com.example.spotifyclone.features.player.ui.SongItemType;
-import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
+import com.example.spotifyclone.features.player.model.song.Song;
+import com.example.spotifyclone.features.player.adapter.SongAdapter;
+import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 
 import java.util.ArrayList;
 

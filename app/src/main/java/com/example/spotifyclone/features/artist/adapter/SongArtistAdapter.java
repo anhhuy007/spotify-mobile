@@ -1,7 +1,6 @@
 package com.example.spotifyclone.features.artist.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,23 +9,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.artist.model.artistDetail;
-import com.example.spotifyclone.features.artist.ui.ArtistOverallUI;
-import com.example.spotifyclone.features.artist.ui.ArtistUI;
+import com.example.spotifyclone.features.artist.model.ArtistDetail;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
 
 public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.ViewHolder> {
     private Context context;
-    private List<artistDetail> artistList;
+    private List<ArtistDetail> artistList;
 
-    public SongArtistAdapter(Context context, List<artistDetail> artistList) {
+    public SongArtistAdapter(Context context, List<ArtistDetail> artistList) {
         this.context = context;
         this.artistList = artistList;
     }
@@ -40,7 +36,7 @@ public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        artistDetail item = artistList.get(position);
+        ArtistDetail item = artistList.get(position);
         holder.tv_song_number.setText(Integer.toString(position+1) );
         holder.tv_song_title.setText(item.getName());
         holder.tv_song_plays.setText(item.getDescription());

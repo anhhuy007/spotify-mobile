@@ -21,7 +21,7 @@ import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 
-public class SongLyrics extends AppCompatActivity {
+public class SongLyricsBottomSheetFragment extends AppCompatActivity {
     public static final String EXTRA_SONG = "extra_song";
     private Song song;
     private MusicPlayerViewModel viewModel;
@@ -167,7 +167,7 @@ public class SongLyrics extends AppCompatActivity {
     }
 
     public static void startActivity(View view, Song song) {
-        Intent intent = new Intent(view.getContext(), SongLyrics.class);
+        Intent intent = new Intent(view.getContext(), SongLyricsBottomSheetFragment.class);
         intent.putExtra(EXTRA_SONG, song);
         view.getContext().startActivity(intent);
     }

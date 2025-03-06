@@ -1,6 +1,6 @@
 package com.example.spotifyclone.features.artist.model;
 
-public class artistDetail {
+public class ArtistDetail {
     private String id;
     private String name;
     private String description;

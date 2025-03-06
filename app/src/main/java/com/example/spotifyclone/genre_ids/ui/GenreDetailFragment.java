@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 
+import com.example.spotifyclone.genre_ids.adapter.AlbumAdapter;
 import com.example.spotifyclone.genre_ids.model.Genre;
 import com.example.spotifyclone.genre_ids.viewmodel.GenreViewModel;
 import com.example.spotifyclone.genre_ids.viewmodel.GenreViewModelFactory;
@@ -61,7 +62,7 @@ public class GenreDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.genre_detail, container, false);
+        return inflater.inflate(R.layout.activity_genre_detail, container, false);
     }
 
     @Override

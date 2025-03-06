@@ -2,10 +2,8 @@ package com.example.spotifyclone.features.artist.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,10 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.artist.model.artistDetail;
 import com.example.spotifyclone.features.artist.viewModel.ArtistOverallViewModel;
 
-public class ArtistOverallUI extends AppCompatActivity {
+public class ArtistOverallActivity extends AppCompatActivity {
 
     private TextView artistName, artistDescription, postAuthor,tv_monthly_listeners;
     private ImageView artistImage, artistLogo;
@@ -28,7 +25,7 @@ public class ArtistOverallUI extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.artist_detail);
+        setContentView(R.layout.activity_artist_detail);
 
         context = this;
         initViews();

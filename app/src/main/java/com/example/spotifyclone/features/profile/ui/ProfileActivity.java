@@ -14,22 +14,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.profile.model.apiProfileService;
-import com.example.spotifyclone.features.profile.model.profile;
-import com.example.spotifyclone.features.profile.model.profileRetrofit;
+import com.example.spotifyclone.features.profile.network.apiProfileService;
+import com.example.spotifyclone.features.profile.model.Profile;
+import com.example.spotifyclone.features.profile.network.profileRetrofit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class profileUI extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     private TextView userName, followDisc;
     private ImageView userAva;
     private ImageButton btnBack;
     private Button btnEdit;
-    private profile data;
+    private Profile data;
 
     private final ActivityResultLauncher<Intent> editProfileLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -65,27 +65,27 @@ public class profileUI extends AppCompatActivity {
             return;
         }
 
-        Call<profile> call = apiService.getUserProfile(userId);
-        call.enqueue(new Callback<profile>() {
+        Call<Profile> call = apiService.getUserProfile(userId);
+        call.enqueue(new Callback<Profile>() {
             @Override
-            public void onResponse(Call<profile> call, Response<profile> response) {
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     data = response.body();
                     userName.setText(data.getName());
                     followDisc.setText(data.getFollower() +" "+getString(R.string.fler)+ " • "+ getString(R.string.fl)+" "+ data.getFollow());
 
-                    Glide.with(profileUI.this)
+                    Glide.with(ProfileActivity.this)
                             .load(data.getAvatarUrl())
                             .placeholder(R.drawable.loading)
                             .into(userAva);
                 } else {
-                    Toast.makeText(profileUI.this, "Failed to load profile", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, "Failed to load profile", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<profile> call, Throwable t) {
-                Toast.makeText(profileUI.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(Call<Profile> call, Throwable t) {
+                Toast.makeText(ProfileActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -96,7 +96,7 @@ public class profileUI extends AppCompatActivity {
             return;
         }
 
-        Intent intent = new Intent(this, profileEditUI.class);
+        Intent intent = new Intent(this, EditProfileActivity.class);
         intent.putExtra("USER_ID", data.getId());
         intent.putExtra("USER_NAME", data.getName());
         intent.putExtra("USER_PASSWORD", data.getPassword());

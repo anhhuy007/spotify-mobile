@@ -55,6 +55,6 @@
         android:id="@+id/btn_more_options"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/baseline_more_vert_24"
+        android:src="@drawable/icon_baseline_more_vert_24"
         android:background="?attr/selectableItemBackgroundBorderless" />
 </LinearLayout>

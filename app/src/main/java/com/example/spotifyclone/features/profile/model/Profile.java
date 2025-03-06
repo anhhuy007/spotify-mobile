@@ -1,6 +1,6 @@
 package com.example.spotifyclone.features.profile.model;
 
-public class profile {
+public class Profile {
     private String id;
     private String name;
     private String password;
@@ -9,7 +9,7 @@ public class profile {
     private String avatarUrl;
     private String createdAt;
 
-    public profile(String id, String name, String avatarUrl, String password) {
+    public Profile(String id, String name, String avatarUrl, String password) {
         this.id = id;
         this.name = name;
         this.avatarUrl = avatarUrl;

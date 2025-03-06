@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="70dp"
         android:layout_marginBottom="50dp"
-        android:src="@drawable/horizontal_logo" />
+        android:src="@drawable/logo_horizontal" />
 
     <com.google.android.material.textfield.TextInputLayout
         app:boxStrokeColor="#1DB954"
@@ -78,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/border_background"
+        android:background="@drawable/background_border"
         android:backgroundTint="@android:color/white"
         android:drawableLeft="@drawable/google"
         android:padding="10dp"
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/border_background"
+        android:background="@drawable/background_border"
         android:padding="10dp"
         android:text="@string/Back"
         android:textColor="@android:color/black"

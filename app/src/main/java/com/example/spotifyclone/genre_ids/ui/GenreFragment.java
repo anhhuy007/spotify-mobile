@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.genre_ids.adapter.GenreAdapter;
 import com.example.spotifyclone.genre_ids.viewmodel.GenreViewModel;
 import com.example.spotifyclone.genre_ids.viewmodel.GenreViewModelFactory;
-import com.example.spotifyclone.shared.network.RetrofitClient;
 
 import java.util.ArrayList;
 

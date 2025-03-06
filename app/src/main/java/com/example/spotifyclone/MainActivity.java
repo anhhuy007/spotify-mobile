@@ -1,6 +1,5 @@
 package com.example.spotifyclone;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -8,13 +7,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Button;
-
-import com.example.spotifyclone.features.artist.ui.ArtistListUI;
-import com.example.spotifyclone.features.artist.ui.ArtistUI;
-import com.example.spotifyclone.features.profile.ui.profileUI;
-import com.example.spotifyclone.features.settings.ui.SettingsUI;
-import com.example.spotifyclone.shared.utils.Constants;
 
 
 import androidx.annotation.NonNull;
@@ -28,9 +20,9 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import com.example.spotifyclone.album_ids.ui.AlbumMainCallbacks;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
+import com.example.spotifyclone.features.player.ui.HomeFragment;
 import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
-import com.example.spotifyclone.genre_ids.ui.GenreFragment;
 import com.example.spotifyclone.genre_ids.ui.GenreMainCallbacks;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
@@ -38,7 +30,6 @@ import android.util.Log;
 import android.widget.EditText;
 import com.example.spotifyclone.album_ids.model.Album;
 import com.example.spotifyclone.album_ids.ui.AlbumDetailFragment;
-import com.example.spotifyclone.album_ids.ui.AlbumFragment;
 import com.example.spotifyclone.genre_ids.model.Genre;
 import com.example.spotifyclone.genre_ids.ui.GenreDetailFragment;
 public class MainActivity extends AppCompatActivity implements GenreMainCallbacks, AlbumMainCallbacks {
@@ -53,27 +44,25 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//        initUI();
-//        initViewModel();
-//        setupListeners();
-//        observeViewModel();
-//
-//        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
-//        bottomNav.setOnNavigationItemSelectedListener(navListener);
-//        if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.frame_container, new HomeFragment())
-//                    .commit();
-//        }
+        setContentView(R.layout.activity_main);
+        initUI();
+        initViewModel();
+        setupListeners();
+        observeViewModel();
 
-        //genre-ids
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame_container, new HomeFragment())
+                    .commit();
+        }
 
                 // Create GenreFragment
-        setContentView(R.layout.activity_genrelayout);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.genre_list_holder, new GenreFragment())
-                .commit();
+//        setContentView(R.layout.activity_genrelayout);
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.genre_list_holder, new GenreFragment())
+//                .commit();
 //          Create AlbumFragment
 //        setContentView(R.layout.activity_albumlayout);
 //        getSupportFragmentManager().beginTransaction()
@@ -99,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
 //            intent.putExtra("USER_ID", Constants.userID);
 //            startActivity(intent);
 //        });
-
     }
 
     private void initUI() {

@@ -1,4 +1,4 @@
-package com.example.spotifyclone.features.player.ui;
+package com.example.spotifyclone.features.player.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
+import com.example.spotifyclone.features.player.ui.SongItemType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 

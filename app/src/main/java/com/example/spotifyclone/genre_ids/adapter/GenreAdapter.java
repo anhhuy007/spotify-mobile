@@ -1,4 +1,4 @@
-package com.example.spotifyclone.genre_ids.ui;
+package com.example.spotifyclone.genre_ids.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +21,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.genre_ids.model.Genre;
+import com.example.spotifyclone.genre_ids.ui.OnGenreItemClickListener;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.List;

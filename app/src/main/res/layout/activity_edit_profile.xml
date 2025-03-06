@@ -73,7 +73,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@drawable/ic_edit"
-        android:background="@drawable/bg_edit_icon"
+        android:background="@drawable/icon_bg_edit"
         android:padding="4dp"
         android:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="@id/avatar"

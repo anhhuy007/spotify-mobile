@@ -11,9 +11,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-//    private static final String BASE_URL = "https://67bc7931ed4861e07b3ab138.mockapi.io/";
+    private static final String BASE_URL = "https://67bc7931ed4861e07b3ab138.mockapi.io/";
     //genre-ids
-    private static final String BASE_URL="http://10.0.2.2:3000/";
+//    private static final String BASE_URL="http://10.0.2.2:3000/";
 
     private static Retrofit retrofit = null;
 

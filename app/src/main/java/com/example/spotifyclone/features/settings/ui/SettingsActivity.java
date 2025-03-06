@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -31,12 +30,12 @@ import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.profile.ui.profileUI;
+import com.example.spotifyclone.features.profile.ui.ProfileActivity;
 import com.example.spotifyclone.shared.utils.Constants;
 
 import java.util.Locale;
 
-public class SettingsUI extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     private Switch switchTheme, switchLang, switchNoti;
     private LinearLayout accountInfoContainer, logoutContainer,freeAccountContainer,premiumAccountContainer;
@@ -123,7 +122,7 @@ public class SettingsUI extends AppCompatActivity {
 
         userName.setText(Constants.userName);
 
-        Glide.with(SettingsUI.this)
+        Glide.with(SettingsActivity.this)
                 .load(Constants.userAvatar)
                 .placeholder(R.drawable.loading)
                 .into(ava);
@@ -165,7 +164,7 @@ public class SettingsUI extends AppCompatActivity {
 
         // Account info navigation
         accountInfoContainer.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingsUI.this, profileUI.class);
+            Intent intent = new Intent(SettingsActivity.this, ProfileActivity.class);
             intent.putExtra("USER_ID", com.example.spotifyclone.shared.utils.Constants.userID);
             startActivity(intent);
         });
@@ -322,7 +321,7 @@ public class SettingsUI extends AppCompatActivity {
 
         Toast.makeText(this, R.string.logout_success, Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(SettingsUI.this, profileUI.class);
+        Intent intent = new Intent(SettingsActivity.this, ProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

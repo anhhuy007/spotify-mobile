@@ -1,4 +1,4 @@
-package com.example.spotifyclone.features.player.ui.upcomingSongs;
+package com.example.spotifyclone.features.player.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

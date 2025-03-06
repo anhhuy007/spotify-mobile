@@ -26,7 +26,7 @@
                 android:layout_height="40dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:background="@drawable/back_button"
+                android:background="@drawable/icon_back_button"
                 android:padding="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -135,7 +135,7 @@
                             android:layout_height="55dp"
                             android:background="?android:attr/selectableItemBackgroundBorderless"
                             android:contentDescription="@string/like_description"
-                            android:src="@drawable/album_story"
+                            android:src="@drawable/icon_album_story"
                             app:tint="@color/text_color"
                             android:layout_marginStart="16dp"
                             android:layout_marginEnd="5dp"/>

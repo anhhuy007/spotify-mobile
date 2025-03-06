@@ -17,18 +17,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.artist.model.artistDetail;
-import com.example.spotifyclone.features.artist.ui.ArtistOverallUI;
-import com.example.spotifyclone.features.artist.ui.ArtistUI;
+import com.example.spotifyclone.features.artist.model.ArtistDetail;
+import com.example.spotifyclone.features.artist.ui.ArtistActivity;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
     private Context context;
-    private List<artistDetail> artistList;
+    private List<ArtistDetail> artistList;
 
-    public ArtistAdapter(Context context, List<artistDetail> artistList) {
+    public ArtistAdapter(Context context, List<ArtistDetail> artistList) {
         this.context = context;
         this.artistList = artistList;
     }
@@ -36,13 +35,13 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.artist_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_artist, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        artistDetail item = artistList.get(position);
+        ArtistDetail item = artistList.get(position);
         holder.textView.setText(item.getName());
         Glide.with(context)
                 .load(item.getAvatarUrl())
@@ -51,7 +50,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         holder.artistItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ArtistUI.class);
+                Intent intent = new Intent(context, ArtistActivity.class);
                 intent.putExtra("ARTIST_ID", item.getId());
                 context.startActivity(intent);
 

@@ -1,4 +1,4 @@
-package com.example.spotifyclone.genre_ids.ui;
+package com.example.spotifyclone.genre_ids.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -29,7 +29,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
     @NonNull
     @Override
     public AlbumAdapter.AlbumViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.genre_album_item, parent , false);
+        View view= LayoutInflater.from(context).inflate(R.layout.item_genre_album, parent , false);
         return new AlbumViewHolder(view);
     }
 

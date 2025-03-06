@@ -1,9 +1,9 @@
-package com.example.spotifyclone.features.profile.model;
+package com.example.spotifyclone.features.artist.network;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class profileRetrofit {
+public class artistRetrofit {
     private static final String BASE_URL = "https://67ad482a3f5a4e1477dd41d1.mockapi.io/andoird/";
     private static Retrofit retrofit;
 
