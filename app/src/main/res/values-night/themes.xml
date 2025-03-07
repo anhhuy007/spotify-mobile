@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.SpotifyClone" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color -->
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -17,6 +17,7 @@
 
         <!-- Status bar and navigation -->
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
     </style>
 
@@ -33,12 +34,9 @@
     </style>
 
     <style name="Base.ThemeNight.SpotifyClone" parent="Theme.Material3.DayNight">
-        <!-- Customize your dark theme here. -->
         <item name="colorPrimary">#BB86FC</item>
         <item name="colorPrimaryVariant">#3700B3</item>
         <item name="colorOnPrimary">@color/background_color</item>
         <item name="colorOnBackground">@color/text_color</item>
     </style>
-
-
 </resources>

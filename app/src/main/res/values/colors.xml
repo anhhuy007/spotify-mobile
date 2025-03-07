@@ -27,8 +27,12 @@
     <color name="bottom_sheet">#DDDDDD</color>
 
     <color name="black">#FF000000</color>
+    <color name="blackAlpha">#88000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#595959</color>
     <color name="lightGrey">#E0E0E0</color>
     <color name="blue">#2196F3</color>
+
+
+
 </resources>

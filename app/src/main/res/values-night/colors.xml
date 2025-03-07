@@ -20,6 +20,8 @@
     <color name="text_color">#FFFFFFFF</color> <!-- Additional text color from other version -->
 
     <color name="black">#FFFFFFFF</color>
+    <color name="blackAlpha">#88FFFFFF</color>
+
     <color name="white">#FF000000</color>
     <color name="gray">#949494</color>
     <color name="lightGrey">#E0E0E0</color>

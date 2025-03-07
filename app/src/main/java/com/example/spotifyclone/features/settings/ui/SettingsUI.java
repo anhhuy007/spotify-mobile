@@ -51,11 +51,27 @@ public class SettingsUI extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // Apply saved settings before inflating layout
         SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);
-        boolean isDarkMode = prefs.getBoolean("darkMode", false);
-        if (isDarkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//        boolean isDarkMode = prefs.getBoolean("darkMode", false);
+//        if (isDarkMode) {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+//        } else {
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+//        }
+
+        boolean isDarkMode;
+        if (prefs.contains("darkMode")) {
+            isDarkMode = prefs.getBoolean("darkMode", false);
+            AppCompatDelegate.setDefaultNightMode(isDarkMode ?
+                    AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
         } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+            if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                isDarkMode = true;
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                isDarkMode= false;
+            }
         }
 
         boolean isEnglish = prefs.getBoolean("isEnglish", false);
@@ -200,7 +216,6 @@ public class SettingsUI extends AppCompatActivity {
     }
 
     private void requestNotificationPermission() {
-        // For Android 13 (API 33) and higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                     != PackageManager.PERMISSION_GRANTED) {
