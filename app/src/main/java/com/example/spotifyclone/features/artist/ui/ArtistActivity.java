@@ -2,16 +2,22 @@ package com.example.spotifyclone.features.artist.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,21 +30,22 @@ import com.example.spotifyclone.features.artist.adapter.ArtistSimilarAdapter;
 import com.example.spotifyclone.features.artist.adapter.SongArtistAdapter;
 import com.example.spotifyclone.features.artist.viewModel.ArtistListViewModel;
 import com.example.spotifyclone.features.artist.viewModel.ArtistOverallViewModel;
+import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.button.MaterialButton;
 
 public class ArtistActivity extends AppCompatActivity {
-    private RecyclerView rv_popular_songs,rv_albums,rv_playlists,rv_similar_artists;
+    private RecyclerView rv_popular_songs, rv_albums, rv_playlists, rv_similar_artists;
     private Context context;
     private ImageButton btnBack;
-    private TextView tv_artist_name,tv_artist_info,tv_monthly_listeners,participant_artist_detail,artist_name,tv_playlist_title_artist_detail;
-    private ImageView img_artist_artist_detal,img_artist_cover,img_playlist_artist_detail,img_album_artist_detail;
-
+    private TextView tv_artist_name, tv_artist_info, tv_monthly_listeners, participant_artist_detail, artist_name, tv_playlist_title_artist_detail;
+    private ImageView img_artist_artist_detail, img_artist_cover, img_playlist_artist_detail, img_album_artist_detail,btn_artist_detail_ui_background;
+    private ScrollView scrollView;
     private ConstraintLayout artist_detail_info_container;
     private MaterialButton btnSeeSongs, btnHideSongs;
+    private RelativeLayout navbar_artist_UI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist_detail_ui);
         context = this;
@@ -48,6 +55,7 @@ public class ArtistActivity extends AppCompatActivity {
             return;
         }
 
+        // Initialize views
         rv_popular_songs = findViewById(R.id.rv_popular_songs);
         rv_popular_songs.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -59,17 +67,27 @@ public class ArtistActivity extends AppCompatActivity {
 
         rv_similar_artists = findViewById(R.id.rv_similar_artists);
         rv_similar_artists.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        tv_monthly_listeners = findViewById(R.id.tv_monthly_listeners);
-        tv_monthly_listeners.setText("100000000 "+getString(R.string.monthly_listeners));
 
+        tv_monthly_listeners = findViewById(R.id.tv_monthly_listeners);
+        tv_monthly_listeners.setText("100000000 " + getString(R.string.monthly_listeners));
+
+        artist_name = findViewById(R.id.artist_name);
+        tv_artist_name = findViewById(R.id.tv_artist_name);
+        img_artist_cover = findViewById(R.id.img_artist_cover);
+        scrollView = findViewById(R.id.artist_detail_scrollview);
+        navbar_artist_UI = findViewById(R.id.navbar_artist_UI);
 
         btnBack = findViewById(R.id.btn_artist_detail_ui_back);
+        btn_artist_detail_ui_background = findViewById(R.id.btn_artist_detail_ui_background);
+        img_album_artist_detail = findViewById(R.id.img_album_artist_detail);
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
 
         ArtistListViewModel artistListViewModel = new ViewModelProvider(this).get(ArtistListViewModel.class);
         artistListViewModel.getArtists().observe(this, artists -> {
@@ -90,29 +108,28 @@ public class ArtistActivity extends AppCompatActivity {
                 new ArtistOverallViewModel.Factory(getApplication(), artistId))
                 .get(ArtistOverallViewModel.class);
         artistViewModel.getArtist().observe(this, data -> {
-            tv_artist_name = findViewById(R.id.tv_artist_name);
             tv_artist_name.setText(data.getName());
-            artist_name = findViewById(R.id.artist_name);
             artist_name.setText(data.getName());
             tv_artist_info = findViewById(R.id.tv_artist_info);
             tv_artist_info.setText(data.getDescription());
             participant_artist_detail = findViewById(R.id.participant_artist_detail);
-            participant_artist_detail.setText(getString(R.string.participant_text)+data.getName());
-            img_album_artist_detail = findViewById(R.id.img_album_artist_detail);
+            participant_artist_detail.setText(getString(R.string.participant_text) + data.getName());
+
             Glide.with(ArtistActivity.this)
                     .load(data.getAvatarUrl())
                     .placeholder(R.drawable.loading)
                     .into(img_album_artist_detail);
-            img_artist_cover = findViewById(R.id.img_artist_cover);
+
             Glide.with(ArtistActivity.this)
                     .load(data.getAvatarUrl())
                     .placeholder(R.drawable.loading)
                     .into(img_artist_cover);
-            img_artist_artist_detal = findViewById(R.id.img_artist_artist_detail);
+
+            img_artist_artist_detail = findViewById(R.id.img_artist_artist_detail);
             Glide.with(ArtistActivity.this)
                     .load(data.getAvatarUrl())
                     .placeholder(R.drawable.loading)
-                    .into(img_artist_artist_detal);
+                    .into(img_artist_artist_detail);
 
             artist_detail_info_container = findViewById(R.id.artist_detail_info_container);
             artist_detail_info_container.setOnClickListener(v -> {
@@ -120,9 +137,12 @@ public class ArtistActivity extends AppCompatActivity {
                 intent.putExtra("ARTIST_ID", data.getId());
                 startActivity(intent);
             });
+
+            DominantColorExtractor.getDominantColor(context, data.getAvatarUrl(), color -> {
+                navbar_artist_UI.setBackgroundColor(color);
+            });
         });
         artistViewModel.fetchArtistDetails();
-
 
         ArtistOverallViewModel playlistArtist = new ViewModelProvider(this,
                 new ArtistOverallViewModel.Factory(getApplication(), artistId))
@@ -135,18 +155,16 @@ public class ArtistActivity extends AppCompatActivity {
                     .placeholder(R.drawable.loading)
                     .into(img_playlist_artist_detail);
             tv_playlist_title_artist_detail.setText(data.getName());
-
         });
         playlistArtist.fetchArtistDetails();
+
         btnSeeSongs = findViewById(R.id.btn_see_all_songs);
         btnHideSongs = findViewById(R.id.btn_hide_songs);
 
         // Set up See More/Hide functionality
         btnSeeSongs.setOnClickListener(v -> {
             ViewGroup.LayoutParams params = rv_popular_songs.getLayoutParams();
-//            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             params.height = (int) (650 * getResources().getDisplayMetrics().density);
-
             rv_popular_songs.setLayoutParams(params);
 
             btnSeeSongs.setVisibility(View.GONE);
@@ -163,7 +181,38 @@ public class ArtistActivity extends AppCompatActivity {
             btnHideSongs.setVisibility(View.GONE);
         });
 
+
+
+
+        // Set up scroll listener for fading in the top bar artist name
+        setupScrollListener();
+    }
+
+    private void setupScrollListener() {
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                // Calculate the scroll position
+                int scrollY = scrollView.getScrollY();
+
+                // Calculate the threshold when the main artist name text reaches near the top
+                // 112dp transparent view + a portion of the artist name height (we want the fade to start before it's completely at the top)
+                float nameHeight = tv_artist_name.getHeight();
+                float threshold = (40 * getResources().getDisplayMetrics().density) + (nameHeight * 0.7f);
+
+                // Calculate alpha based on scroll position
+                float alpha = 0f;
+                float alpha2 = 0.5f;
+                if (scrollY > threshold) {
+                    alpha = Math.min(1f, (scrollY - threshold) / (nameHeight * 0.3f));
+                    alpha2 = Math.max(0f, 0.5f - (scrollY - threshold) / (nameHeight * 0.3f));
+
+                }
+
+                navbar_artist_UI.setAlpha(alpha);
+                artist_name.setAlpha(alpha);
+                btn_artist_detail_ui_background.setAlpha(alpha2);
+            }
+        });
     }
 }
-
-
