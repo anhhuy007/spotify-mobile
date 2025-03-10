@@ -144,10 +144,10 @@ public class SongLyricsBottomSheetFragment extends AppCompatActivity {
 
     private void updatePlayButton(boolean isPlaying) {
         if (isPlaying) {
-            btnPlay.setImageResource(R.drawable.icon_pause_circle);
+            btnPlay.setImageResource(R.drawable.ic_pause_circle);
             btnPlay.setTag("pause");
         } else {
-            btnPlay.setImageResource(R.drawable.icon_play_circle);
+            btnPlay.setImageResource(R.drawable.ic_play_circle);
             btnPlay.setTag("play");
         }
     }

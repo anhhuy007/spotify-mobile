@@ -5,6 +5,8 @@ import android.content.Context;
 import com.example.spotifyclone.features.authentication.network.AuthInterceptor;
 import com.example.spotifyclone.features.authentication.network.AuthService;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -13,9 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 //    private static final String BASE_URL = "https://67bc7931ed4861e07b3ab138.mockapi.io/";
     //genre-ids
-    private static final String BASE_URL="http://10.0.2.2:3000/";
-//    private static final String BASE_URL="http://192.168.1.188:3000/";
-//    private static final String BASE_URL="http://127.0.0.1:3000/";
+//    private static final String BASE_URL="http://10.0.2.2:3000/";
+    private static final String BASE_URL="http://127.0.0.1:3000/";
 
     private static Retrofit retrofit = null;
 
@@ -29,6 +30,9 @@ public class RetrofitClient {
             AuthService authService = basicRetrofit.create(AuthService.class);
 
             OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .readTimeout(20, TimeUnit.SECONDS)
+                    .writeTimeout(20, TimeUnit.SECONDS)
                     .addInterceptor(new AuthInterceptor(context, authService))
                     .build();
 

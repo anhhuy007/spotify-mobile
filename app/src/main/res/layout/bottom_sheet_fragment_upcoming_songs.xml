@@ -86,7 +86,7 @@
             android:layout_height="32dp"
             android:scaleType="fitCenter"
             android:background="@android:color/transparent"
-            android:src="@drawable/icon_play_circle"
+            android:src="@drawable/ic_play_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

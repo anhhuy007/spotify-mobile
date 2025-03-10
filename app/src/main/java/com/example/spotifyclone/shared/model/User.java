@@ -14,6 +14,8 @@ public class User {
     private String theme;
     private String createdAt;
     private String updatedAt;
+    private String googleId;
+    private String dob;
 
     // Getters and setters
     public String getId() {
@@ -86,5 +88,21 @@ public class User {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 }

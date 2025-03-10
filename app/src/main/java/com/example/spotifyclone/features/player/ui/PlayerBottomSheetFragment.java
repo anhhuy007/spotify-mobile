@@ -196,9 +196,9 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         viewModel.getShuffleMode().observe(getViewLifecycleOwner(), shuffleMode -> {
             if (shuffleMode != null) {
                 if (shuffleMode == ShuffleMode.SHUFFLE_OFF) {
-                    btnShuffle.setImageResource(R.drawable.icon_shuffle_off);
+                    btnShuffle.setImageResource(R.drawable.ic_shuffle_off);
                 } else {
-                    btnShuffle.setImageResource(R.drawable.icon_shuffle_on);
+                    btnShuffle.setImageResource(R.drawable.ic_shuffle_on);
                 }
             }
         });
@@ -206,9 +206,9 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         viewModel.getRepeatMode().observe(getViewLifecycleOwner(), repeatMode -> {
             if (repeatMode != null) {
                 if (repeatMode == RepeatMode.REPEAT_OFF) {
-                    btnRepeat.setImageResource(R.drawable.icon_repeat_off);
+                    btnRepeat.setImageResource(R.drawable.ic_repeat_off);
                 } else if (repeatMode == RepeatMode.REPEAT_INFINITE) {
-                    btnRepeat.setImageResource(R.drawable.icon_repeat_on);
+                    btnRepeat.setImageResource(R.drawable.ic_repeat_on);
                 }
             }
         });
@@ -235,10 +235,10 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void updatePlayButton(boolean isPlaying) {
         if (isPlaying) {
-            btnPlay.setImageResource(R.drawable.icon_pause_circle);
+            btnPlay.setImageResource(R.drawable.ic_pause_circle);
             btnPlay.setTag("pause");
         } else {
-            btnPlay.setImageResource(R.drawable.icon_play_circle);
+            btnPlay.setImageResource(R.drawable.ic_play_circle);
             btnPlay.setTag("play");
         }
     }

@@ -89,13 +89,11 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void setupListeners() {
         btnBack.setOnClickListener(v -> dismiss());
-
         btnPlay.setOnClickListener(v -> {
             if (song != null) {
                 viewModel.togglePlayPause(song);
             }
         });
-
         progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -107,12 +105,10 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
                     }
                 }
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 isUserSeeking = true;
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 Long totalDuration = viewModel.getDuration().getValue();
@@ -133,13 +129,11 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
                 updateUI();
             }
         });
-
         viewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
             if (playbackState != null) {
                 updatePlayButton(playbackState == PlaybackState.PLAYING);
             }
         });
-
         viewModel.getCurrentDuration().observe(getViewLifecycleOwner(), currentDuration -> {
             viewModel.getDuration().observe(getViewLifecycleOwner(), duration -> {
                 if (!isUserSeeking) {
@@ -162,10 +156,10 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void updatePlayButton(boolean isPlaying) {
         if (isPlaying) {
-            btnPlay.setImageResource(R.drawable.icon_pause_circle);
+            btnPlay.setImageResource(R.drawable.ic_pause_circle);
             btnPlay.setTag("pause");
         } else {
-            btnPlay.setImageResource(R.drawable.icon_play_circle);
+            btnPlay.setImageResource(R.drawable.ic_play_circle);
             btnPlay.setTag("play");
         }
     }
