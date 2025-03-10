@@ -17,21 +17,23 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.example.spotifyclone.album_ids.ui.AlbumMainCallbacks;
+import com.example.spotifyclone.album.inter.AlbumMainCallbacks;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.ui.HomeFragment;
 import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
-import com.example.spotifyclone.genre_ids.ui.GenreMainCallbacks;
+import com.example.spotifyclone.genre.inter.GenreMainCallbacks;
+import com.example.spotifyclone.genre.ui.GenreFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 import android.util.Log;
 import android.widget.EditText;
-import com.example.spotifyclone.album_ids.model.Album;
-import com.example.spotifyclone.album_ids.ui.AlbumDetailFragment;
-import com.example.spotifyclone.genre_ids.model.Genre;
-import com.example.spotifyclone.genre_ids.ui.GenreDetailFragment;
+import com.example.spotifyclone.album.model.Album;
+import com.example.spotifyclone.album.ui.AlbumDetailFragment;
+import com.example.spotifyclone.album.ui.AlbumFragment;
+import com.example.spotifyclone.genre.model.Genre;
+import com.example.spotifyclone.genre.ui.GenreDetailFragment;
 public class MainActivity extends AppCompatActivity implements GenreMainCallbacks, AlbumMainCallbacks {
     private CardView miniPlayer;
     private ImageView miniPlayerImage;
@@ -125,7 +127,12 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
             } else {
                 Toast.makeText(MainActivity.this, "No song is currently playing", Toast.LENGTH_SHORT).show();
             }
+
         });
+
+
+
+
     }
 
     private void observeViewModel() {
@@ -139,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
                 }
             });
         });
+
     }
 
     private void updatePlaybackState(PlaybackState state) {
@@ -198,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
 
         }
         else if(sender.equals("GENRE DETAIL")){
-            getSupportFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStack(); // Quay lại Fragment trước đó
             search_input.setVisibility(View.VISIBLE);
         }
 

@@ -19,7 +19,7 @@
         android:layout_marginTop="16dp"
         android:drawablePadding="8dp"
         android:background="@drawable/search_bar_style"
-        android:drawableLeft="@drawable/search_icon" />
+        android:drawableLeft="@drawable/ic_search" />
 
 
     <!--recycler view-->

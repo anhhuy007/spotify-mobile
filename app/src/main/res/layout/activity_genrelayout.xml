@@ -19,7 +19,7 @@
         android:textColor="@color/text_color"
         android:fontFamily="@font/avenir_next"
         android:background="@drawable/search_bar_style"
-        android:drawableLeft="@drawable/search_icon" />
+        android:drawableLeft="@drawable/ic_search" />
 
 
     <!--recycler view-->

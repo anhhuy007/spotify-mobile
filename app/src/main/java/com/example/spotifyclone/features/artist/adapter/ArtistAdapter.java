@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -58,9 +59,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         });
         // extract color from picture
         DominantColorExtractor.getDominantColor(context, item.getAvatarUrl(), color -> {
+            int baseColor = ContextCompat.getColor(context, R.color.white);
             GradientDrawable gradient = new GradientDrawable(
                     GradientDrawable.Orientation.TOP_BOTTOM,
-                    new int[]{color, Color.BLACK}
+                    new int[]{color, baseColor}
             );
 
             gradient.setCornerRadius(0f);
