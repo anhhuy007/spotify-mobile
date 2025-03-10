@@ -19,4 +19,8 @@ public class ProfileViewModel extends ViewModel {
     public LiveData<User> getUserLiveData() {
         return userLiveData;
     }
+
+    public void logout() {
+        authRepository.logout();
+    }
 }

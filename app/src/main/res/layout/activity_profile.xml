@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/avenir_next_bold"
             android:text="John Doe"
             android:textColor="@color/black"
             android:textSize="24sp"

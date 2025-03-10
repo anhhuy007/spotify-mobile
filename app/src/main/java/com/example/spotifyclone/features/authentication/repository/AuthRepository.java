@@ -2,12 +2,17 @@ package com.example.spotifyclone.features.authentication.repository;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.example.spotifyclone.features.authentication.model.CheckUserExistCallBack;
+import com.example.spotifyclone.features.authentication.model.CheckUsernameExistResponse;
 import com.example.spotifyclone.features.authentication.model.LoginResponse;
 import com.example.spotifyclone.shared.model.APIResponse;
 import com.example.spotifyclone.features.authentication.network.AuthService;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.network.RetrofitClient;
 import com.google.gson.Gson;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,6 +60,76 @@ public class AuthRepository {
             @Override
             public void onFailure(Call<APIResponse<LoginResponse>> call, Throwable t) {
                 callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void googleLogin(String idToken, AuthCallback callback) {
+        authService.googleLogin(idToken).enqueue(new Callback<APIResponse<LoginResponse>>() {
+            @Override
+            public void onResponse(Call<APIResponse<LoginResponse>> call, Response<APIResponse<LoginResponse>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    LoginResponse loginResponse = response.body().getData();
+
+                    // Save user and tokens
+                    saveUser(loginResponse.getUser());
+                    saveTokens(loginResponse.getTokens().getAccessToken(), loginResponse.getTokens().getRefreshToken());
+                    setIsLoggedIn(true);
+
+                    callback.onSuccess(loginResponse.getUser());
+                } else {
+                    callback.onFailure("Invalid email or password");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<LoginResponse>> call, Throwable t) {
+                callback.onFailure(t.getMessage());
+            }
+        });
+    }
+
+    public void signup(String username, String email, String password, String dob, String avatarUrl, AuthCallback authCallback) {
+        authService.signup(username, email, password, dob, avatarUrl).enqueue(new Callback<APIResponse<User>>() {
+            @Override
+            public void onResponse(Call<APIResponse<User>> call, Response<APIResponse<User>> response) {
+                Log.d("DEBUG", "Response: " + response);
+                Log.d("DEBUG", "BODY: " + response.body());
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    User user = response.body().getData();
+                    authCallback.onSuccess(user);
+                    Log.d("DEBUG", "User signed up successfully");
+                } else {
+                    authCallback.onFailure("An error occurred");
+                    Log.e("ERROR", "Failed to sign up user: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<User>> call, Throwable t) {
+                authCallback.onFailure(t.getMessage());
+                Log.e("FAILURE", "Failed to sign up user: " + t.getMessage());
+            }
+        });
+    }
+
+    public void checkUsernameExist(String username, CheckUserExistCallBack callBack) {
+        authService.checkUserNameExist(username).enqueue(new Callback<APIResponse<CheckUsernameExistResponse>>() {
+            @Override
+            public void onResponse(Call<APIResponse<CheckUsernameExistResponse>> call, Response<APIResponse<CheckUsernameExistResponse>> response) {
+                Log.d("DEBUG", "Response: " + response);
+                Log.d("DEBUG", "BODY: " + response.body());
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    callBack.onUserExist(response.body().getData().getExisted());
+                } else {
+                    callBack.onFailure("An error occurred");
+                    Log.e("ERROR", "Failed to check username exist: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<CheckUsernameExistResponse>> call, Throwable t) {
+                callBack.onFailure(t.getMessage());
             }
         });
     }
@@ -118,14 +193,13 @@ public class AuthRepository {
         editor.remove(KEY_USER);
         editor.remove(KEY_ACCESS_TOKEN);
         editor.remove(KEY_REFRESH_TOKEN);
+        editor.remove(KEY_IS_LOGGED_IN);
         editor.apply();
     }
 
-    /**
-     * Authentication callback interface
-     */
     public interface AuthCallback {
         void onSuccess(User user);
+
         void onFailure(String error);
     }
 }

@@ -6,11 +6,9 @@ import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.spotifyclone.features.authentication.ui.LoginActivity;
+import com.example.spotifyclone.features.authentication.ui.SignupActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(v -> {
             // Open the login activity
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        });
+
+        btnSignup.setOnClickListener(v -> {
+            // Open the signup activity
+            startActivity(new Intent(MainActivity.this, SignupActivity.class));
         });
 
     }

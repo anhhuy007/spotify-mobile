@@ -41,6 +41,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         profileViewModel = new ViewModelProvider(this, new ProfileVMFactory(this)).get(ProfileViewModel.class);
         profileViewModel.getUserLiveData().observe(this, user -> {
+
+            if (user == null) {
+                finish();
+                return;
+            }
+
             txtName.setText(user.getUsername());
             txtEmail.setText(user.getEmail());
             txtIsPremium.setText(user.isPremium() ? "Premium" : "Free");
@@ -51,6 +57,12 @@ public class ProfileActivity extends AppCompatActivity {
                     .load(user.getAvatarUrl())
                     .placeholder(R.drawable.profile_placeholder)
                     .into(profileImage);
+        });
+
+        btnLogout.setOnClickListener(v -> {
+            // Logout user
+            profileViewModel.logout();
+            finish();
         });
 
     }

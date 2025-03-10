@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:gravity="center"
-    android:padding="24dp">
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:theme="@style/Theme.SpotifyClone">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -15,11 +15,11 @@
         android:src="@drawable/horizontal_logo" />
 
     <com.google.android.material.textfield.TextInputLayout
-        app:boxStrokeColor="#1DB954"
-        app:hintTextColor="#1DB954"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        app:boxStrokeColor="#1DB954"
+        app:hintTextColor="#1DB954">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailInput"
@@ -31,12 +31,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        app:boxStrokeColor="#1DB954"
-        app:hintTextColor="#1DB954"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:boxStrokeColor="#1DB954"
         app:endIconMode="password_toggle"
-        android:layout_marginBottom="16dp">
+        app:hintTextColor="#1DB954">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordInput"
@@ -74,7 +74,7 @@
         android:text="OR"
         android:textColor="@android:color/black" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/googleLoginBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -85,19 +85,21 @@
         android:padding="10dp"
         android:text="@string/sign_in_with_google"
         android:textColor="@android:color/black"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:backgroundTint="@color/spotify_green" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/backButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/border_background"
+        android:backgroundTint="@android:color/white"
         android:padding="10dp"
         android:text="@string/Back"
         android:textColor="@android:color/black"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:backgroundTint="@color/spotify_green" />
 
     <ProgressBar
         android:id="@+id/progressBar"

@@ -12,19 +12,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.spotifyclone.MainActivity;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.authentication.network.AuthService;
-import com.example.spotifyclone.features.authentication.network.TokenManager;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthVMFactory;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthViewModel;
 import com.example.spotifyclone.features.profile.ui.ProfileActivity;
-import com.example.spotifyclone.shared.network.RetrofitClient;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.auth_login);
+        setContentView(R.layout.activity_login);
 
         var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.client_id))
@@ -72,10 +66,9 @@ public class LoginActivity extends AppCompatActivity {
             loginUser();
         });
 
-        if (authViewModel.getIsLoggedIn().getValue() != null && authViewModel.getIsLoggedIn().getValue()) {
-            startActivity(new Intent(this, ProfileActivity.class));
-            finish();
-        }
+        forgotPasswordText.setOnClickListener(v -> {
+            startActivity(new Intent(this, ForgotPasswordActivity.class));
+        });
 
         observeViewModel();
     }
@@ -104,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void observeViewModel() {
-        authViewModel.getIsLoggedIn().observe(this, result -> {
+        authViewModel.getIsSuccess().observe(this, result -> {
             progressBar.setVisibility(View.GONE);
 
             if (result) {
@@ -134,9 +127,10 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 var account = task.getResult();
                 firebaseAuthWithGoogle(account.getIdToken());
-                Toast.makeText(this, "Login as " + account.getDisplayName(), Toast.LENGTH_SHORT).show();
-                // Signed in successfully, show authenticated UI.
-                // updateUI(account);
+
+                // pass token id to server to login with google account
+                authViewModel.googleLogin(account.getIdToken());
+
             } catch (Exception e) {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.

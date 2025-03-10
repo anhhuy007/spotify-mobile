@@ -6,16 +6,17 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.example.spotifyclone.features.authentication.model.CheckUserExistCallBack;
 import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.shared.model.User;
-
 
 public class AuthViewModel extends ViewModel {
     private final AuthRepository authRepo;
 
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> isLoggedIn = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>();
     private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
 
 
@@ -23,11 +24,10 @@ public class AuthViewModel extends ViewModel {
         this.authRepo = new AuthRepository(context);
 
         if (authRepo.isLoggedIn()) {
-            isLoggedIn.setValue(true);
+            isSuccess.setValue(true);
             userLiveData.setValue(authRepo.getUser());
-        }
-        else {
-            isLoggedIn.setValue(false);
+        } else {
+            isSuccess.setValue(false);
         }
 
     }
@@ -39,7 +39,7 @@ public class AuthViewModel extends ViewModel {
             @Override
             public void onSuccess(User user) {
                 isLoading.setValue(false);
-                isLoggedIn.setValue(true);
+                isSuccess.setValue(true);
                 userLiveData.setValue(user);
             }
 
@@ -51,10 +51,47 @@ public class AuthViewModel extends ViewModel {
         });
     }
 
-   public void logout() {
-        authRepo.logout();
-        isLoggedIn.setValue(false);
-        userLiveData.setValue(null);
+    public void googleLogin(String idToken) {
+        isLoading.setValue(true);
+        authRepo.googleLogin(idToken, new AuthRepository.AuthCallback() {
+            @Override
+            public void onSuccess(User user) {
+                isLoading.setValue(false);
+                isSuccess.setValue(true);
+                userLiveData.setValue(user);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                isLoading.setValue(false);
+                errorMessage.setValue(error);
+            }
+        });
+    }
+
+    public void signup(String username, String email, String password, String dob, String avatarUrl) {
+        Log.d("DEBUG", "signup: " + username + " " + email + " " + password + " " + avatarUrl);
+
+        isLoading.setValue(true);
+        authRepo.signup(username, email, password, dob, avatarUrl, new AuthRepository.AuthCallback() {
+            @Override
+            public void onSuccess(User user) {
+                isLoading.setValue(false);
+                isSuccess.setValue(true);
+                userLiveData.setValue(user);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                isLoading.setValue(false);
+                errorMessage.setValue(error);
+            }
+        });
+
+    }
+
+    public void checkUsernameAvailability(String username, CheckUserExistCallBack callBack) {
+        authRepo.checkUsernameExist(username, callBack);
     }
 
     public LiveData<Boolean> getIsLoading() {
@@ -65,7 +102,7 @@ public class AuthViewModel extends ViewModel {
         return errorMessage;
     }
 
-    public LiveData<Boolean> getIsLoggedIn() {
-        return isLoggedIn;
+    public LiveData<Boolean> getIsSuccess() {
+        return isSuccess;
     }
 }
