@@ -30,16 +30,9 @@ public class AlbumViewModel extends ViewModel {
         Log.d("Album viewmodel", "constructor");
         this.albumService=albumService;
     }
-//    public AlbumViewModel(@NonNull Application application)//receive application context
-//    {
-//        super(application);
-//        Context context=application.getApplicationContext();
-//        albumService= RetrofitClient.getClient(context).create(AlbumService.class);
-//
-//    }
     public void fetchAlbumsByIds(){
         isLoading.setValue(true);
-        albumService.getAlbums().enqueue(new Callback<APIResponse<List<Album>>>() { // Load genre data
+        albumService.getAlbums().enqueue(new Callback<APIResponse<List<Album>>>() {
             @Override
             public void onResponse(Call<APIResponse<List<Album>>> call, Response<APIResponse<List<Album>>> response) {
                 isLoading.setValue(false);

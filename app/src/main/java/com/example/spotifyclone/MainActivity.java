@@ -45,19 +45,19 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initUI();
-        initViewModel();
-        setupListeners();
-        observeViewModel();
-
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_container, new HomeFragment())
-                    .commit();
-        }
+//        setContentView(R.layout.activity_main);
+//        initUI();
+//        initViewModel();
+//        setupListeners();
+//        observeViewModel();
+//
+//        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+//        bottomNav.setOnNavigationItemSelectedListener(navListener);
+//        if (savedInstanceState == null) {
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.frame_container, new HomeFragment())
+//                    .commit();
+//        }
 
         //genre-ids
 
@@ -67,10 +67,10 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
 //                .replace(R.id.genre_list_holder, new GenreFragment())
 //                .commit();
 //          Create AlbumFragment
-//        setContentView(R.layout.activity_albumlayout);
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.album_list_holder, new AlbumFragment())
-//                .commit();
+        setContentView(R.layout.activity_albumlayout);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.album_list_holder, new AlbumFragment())
+                .commit();
 
 
     }
@@ -192,8 +192,6 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
     @Override
     public void onMsgFromFragToMain(String sender, Album album) {
         if (sender.equals("ALBUM_FRAGMENT")) {
-            Log.d("MainActivity", "Album selected: " + album.getTitle());
-
             AlbumDetailFragment detailFragment = AlbumDetailFragment.newInstance(album);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.album_list_holder, detailFragment)
@@ -205,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
 
         }
         else if(sender.equals("ALBUM DETAIL")){
-            Log.d("Main", "Have been step on there");
             getSupportFragmentManager().popBackStack(); // Quay lại Fragment trước đó
             search_input.setVisibility(View.VISIBLE);
         }

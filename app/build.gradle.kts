@@ -103,4 +103,12 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("com.google.android.material:material:1.10.0")
+
+    // coordinatorlayoyt
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0") 
+
+
 }

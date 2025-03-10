@@ -6,7 +6,7 @@ public class Song {
     private String _id;
     private String title;
     private List<String> singer_ids; //array of singer name
-    private List <String> author_ids;
+    private List<String> author_ids;
     private List<String >genre_ids; //array of genre name
     private String lyrics;
     private Boolean is_premium;
