@@ -2,6 +2,6 @@
     <solid android:color="@android:color/transparent" />
     <stroke
         android:width="2dp"
-        android:color="?attr/colorOnBackground" />
+        android:color="@color/spotify_green" />
     <corners android:radius="40dp" />
 </shape>

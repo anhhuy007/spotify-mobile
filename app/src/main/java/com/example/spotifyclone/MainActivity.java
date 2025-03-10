@@ -8,7 +8,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -27,13 +26,16 @@ import com.example.spotifyclone.genre.inter.GenreMainCallbacks;
 import com.example.spotifyclone.genre.ui.GenreFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
+
 import android.util.Log;
 import android.widget.EditText;
+
 import com.example.spotifyclone.album.model.Album;
 import com.example.spotifyclone.album.ui.AlbumDetailFragment;
 import com.example.spotifyclone.album.ui.AlbumFragment;
 import com.example.spotifyclone.genre.model.Genre;
 import com.example.spotifyclone.genre.ui.GenreDetailFragment;
+
 public class MainActivity extends AppCompatActivity implements GenreMainCallbacks, AlbumMainCallbacks {
     private CardView miniPlayer;
     private ImageView miniPlayerImage;
@@ -59,37 +61,6 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
                     .replace(R.id.frame_container, new HomeFragment())
                     .commit();
         }
-
-                // Create GenreFragment
-//        setContentView(R.layout.activity_genrelayout);
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.genre_list_holder, new GenreFragment())
-//                .commit();
-//          Create AlbumFragment
-//        setContentView(R.layout.activity_albumlayout);
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.album_list_holder, new AlbumFragment())
-//                .commit();
-
-
-        //        Button btnArtistList = findViewById(R.id.button);
-//        btnArtistList.setOnClickListener(v -> {
-//            Intent intent = new Intent(MainActivity.this, ArtistListUI.class);
-//            startActivity(intent);
-
-//        Button btnProfile = findViewById(R.id.button1);
-//        btnProfile.setOnClickListener(v -> {
-//            Intent intent = new Intent(MainActivity.this, profileUI.class);
-//            intent.putExtra("USER_ID", Constants.userID);
-//            startActivity(intent);
-//        });
-//
-//        Button btnSetting = findViewById(R.id.button2);
-//        btnSetting.setOnClickListener(v -> {
-//            Intent intent = new Intent(MainActivity.this, SettingsUI.class);
-//            intent.putExtra("USER_ID", Constants.userID);
-//            startActivity(intent);
-//        });
     }
 
     private void initUI() {
@@ -127,12 +98,7 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
             } else {
                 Toast.makeText(MainActivity.this, "No song is currently playing", Toast.LENGTH_SHORT).show();
             }
-
         });
-
-
-
-
     }
 
     private void observeViewModel() {
@@ -201,16 +167,16 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
                     .addToBackStack(null) // add to backstack
                     .commit();
             // Hide search bar
-            search_input=findViewById(R.id.search_input);
+            search_input = findViewById(R.id.search_input);
             search_input.setVisibility(View.GONE);
 
-        }
-        else if(sender.equals("GENRE DETAIL")){
+        } else if (sender.equals("GENRE DETAIL")) {
             getSupportFragmentManager().popBackStack(); // Quay lại Fragment trước đó
             search_input.setVisibility(View.VISIBLE);
         }
 
     }
+
     @Override
     public void onMsgFromFragToMain(String sender, Album album) {
         if (sender.equals("ALBUM_FRAGMENT")) {
@@ -222,16 +188,13 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
                     .addToBackStack(null) //add to backstack
                     .commit();
             // Hide search bar
-            search_input=findViewById(R.id.search_input);
+            search_input = findViewById(R.id.search_input);
             search_input.setVisibility(View.GONE);
 
-        }
-        else if(sender.equals("ALBUM DETAIL")){
+        } else if (sender.equals("ALBUM DETAIL")) {
             Log.d("Main", "Have been step on there");
             getSupportFragmentManager().popBackStack(); // Quay lại Fragment trước đó
             search_input.setVisibility(View.VISIBLE);
         }
-
     }
-
 }
