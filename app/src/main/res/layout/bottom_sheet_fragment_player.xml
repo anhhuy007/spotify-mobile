@@ -24,7 +24,7 @@
             android:layout_marginTop="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Go back"
-            android:src="@drawable/icon_arrow_down"
+            android:src="@drawable/ic_arrow_down"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,7 +49,7 @@
             android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Options"
-            android:src="@drawable/icon_more_vert"
+            android:src="@drawable/ic_more_vert"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -121,7 +121,7 @@
             android:layout_marginEnd="24dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Add to playlist"
-            android:src="@drawable/icon_add_circle"
+            android:src="@drawable/ic_add_circle"
             app:layout_constraintBottom_toBottomOf="@+id/tvArtistName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvSongTitle"
@@ -183,7 +183,7 @@
                 android:layout_marginEnd="20dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Shuffle"
-                android:src="@drawable/icon_shuffle_off"
+                android:src="@drawable/ic_shuffle_off"
                 android:scaleType="fitCenter" />
 
             <ImageButton
@@ -193,7 +193,7 @@
                 android:layout_marginEnd="30dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Previous"
-                android:src="@drawable/icon_skip_prev"
+                android:src="@drawable/ic_skip_prev"
                 android:scaleType="fitCenter"/>
 
             <androidx.cardview.widget.CardView
@@ -208,7 +208,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="Play/Pause"
-                    android:src="@drawable/icon_play_circle"
+                    android:src="@drawable/ic_play_circle"
                     android:scaleType="fitCenter"
                     android:background="@android:color/transparent"/>
             </androidx.cardview.widget.CardView>
@@ -220,7 +220,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:layout_marginEnd="30dp"
                 android:contentDescription="Next"
-                android:src="@drawable/icon_skip_next"
+                android:src="@drawable/ic_skip_next"
                 android:scaleType="fitCenter"/>
 
             <ImageButton
@@ -229,7 +229,7 @@
                 android:layout_height="@dimen/icon_size_small"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Repeat"
-                android:src="@drawable/icon_repeat_off"
+                android:src="@drawable/ic_repeat_off"
                 android:scaleType="fitCenter"/>
         </LinearLayout>
 
@@ -250,7 +250,7 @@
                 android:layout_height="@dimen/icon_size_small"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Left Icon"
-                android:src="@drawable/icon_multimedia"
+                android:src="@drawable/ic_multimedia"
                 android:scaleType="fitCenter"/>
 
             <View
@@ -265,7 +265,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:layout_marginEnd="30dp"
                 android:contentDescription="Share"
-                android:src="@drawable/icon_share"
+                android:src="@drawable/ic_share"
                 android:scaleType="fitCenter"/>
 
             <ImageButton
@@ -274,7 +274,7 @@
                 android:layout_height="@dimen/icon_size_small"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Playlist"
-                android:src="@drawable/icon_playlist"
+                android:src="@drawable/ic_playlist"
                 android:scaleType="fitCenter"/>
         </LinearLayout>
         <!-- Lyrics Card -->
@@ -347,7 +347,7 @@
                         android:layout_height="@dimen/icon_size_small"
                         android:layout_marginEnd="15dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/icon_share"
+                        android:src="@drawable/ic_share"
                         android:contentDescription="Share"
                         android:scaleType="fitCenter"
                         app:tint="@color/textColorSecondary" />
@@ -357,7 +357,7 @@
                         android:layout_width="@dimen/icon_size_small"
                         android:layout_height="@dimen/icon_size_small"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:src="@drawable/icon_expand"
+                        android:src="@drawable/ic_expand"
                         android:contentDescription="Expand"
                         android:scaleType="fitCenter"
                         app:tint="@color/textColorSecondary" />

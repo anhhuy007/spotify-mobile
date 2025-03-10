@@ -17,7 +17,7 @@
 
         android:background="?android:attr/selectableItemBackground"
         android:padding="8dp"
-        android:src="@drawable/icon_back_btn" />
+        android:src="@drawable/ic_back_btn" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -34,7 +34,7 @@ public class SongLyricsBottomSheetFragment extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_song_lyrics);
+        setContentView(R.layout.bottom_sheet_fragment_lyric);
 
         // Get the song from intent
         song = (Song) getIntent().getSerializableExtra(EXTRA_SONG);
@@ -144,10 +144,10 @@ public class SongLyricsBottomSheetFragment extends AppCompatActivity {
 
     private void updatePlayButton(boolean isPlaying) {
         if (isPlaying) {
-            btnPlay.setImageResource(R.drawable.icon_pause_circle);
+            btnPlay.setImageResource(R.drawable.ic_pause_circle);
             btnPlay.setTag("pause");
         } else {
-            btnPlay.setImageResource(R.drawable.icon_play_circle);
+            btnPlay.setImageResource(R.drawable.ic_play_circle);
             btnPlay.setTag("play");
         }
     }

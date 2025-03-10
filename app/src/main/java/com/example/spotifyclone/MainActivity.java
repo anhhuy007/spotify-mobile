@@ -125,12 +125,7 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
             } else {
                 Toast.makeText(MainActivity.this, "No song is currently playing", Toast.LENGTH_SHORT).show();
             }
-
         });
-
-
-
-
     }
 
     private void observeViewModel() {
@@ -144,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
                 }
             });
         });
-
     }
 
     private void updatePlaybackState(PlaybackState state) {
@@ -204,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
 
         }
         else if(sender.equals("GENRE DETAIL")){
-            getSupportFragmentManager().popBackStack(); // Quay lại Fragment trước đó
+            getSupportFragmentManager().popBackStack();
             search_input.setVisibility(View.VISIBLE);
         }
 

@@ -52,8 +52,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             layoutParams.height = layoutHeight;
         }
         view.setLayoutParams(layoutParams);
-
-        //
         return new AlbumAdapter.ViewHolder(view, listener);
     }
 

@@ -24,7 +24,7 @@
 
             android:padding="8dp"
             android:background="?android:attr/selectableItemBackground"
-            android:src="@drawable/icon_back_btn" />
+            android:src="@drawable/ic_back_btn" />
 
 
 
