@@ -62,7 +62,7 @@
         android:src="@drawable/back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
-        app:tint="@color/gray_800" />
+        app:tint="@color/black" />
 
     <ImageView
         android:id="@+id/btnClose"
@@ -75,7 +75,7 @@
         android:src="@drawable/close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
-        app:tint="@color/gray_800" />
+        app:tint="@color/black" />
 
     <!-- Main Content -->
     <TextView
@@ -114,8 +114,13 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="32dp"
         android:hint="Username"
-        app:boxBackgroundColor="@color/white"
+        app:boxBackgroundColor="@color/inputEditTextBg"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusTopStart="16dp"
         app:boxStrokeColor="@color/spotify_green"
+        app:boxStrokeWidth="0dp"
         app:endIconMode="clear_text"
         app:helperText="Username must be unique"
         app:helperTextTextColor="@color/gray_600"
@@ -155,7 +160,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Suggested usernames:"
-        android:textColor="@color/gray_800"
+        android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/usernameInputLayout"
@@ -177,25 +182,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="music_lover123"
-            app:chipBackgroundColor="@color/gray_200" />
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@color/inputEditTextBg" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="melody_master"
-            app:chipBackgroundColor="@color/gray_200" />
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@color/inputEditTextBg" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="rhythm_fan2023"
-            app:chipBackgroundColor="@color/gray_200" />
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@color/inputEditTextBg" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="tune_explorer"
-            app:chipBackgroundColor="@color/gray_200" />
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@color/inputEditTextBg" />
     </com.google.android.material.chip.ChipGroup>
 
     <!-- Loading Progress Bar   -->
@@ -219,7 +228,6 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/spotify_green"
-        android:fontFamily="@font/avenir_next_bold"
         android:text="Complete Sign Up"
         android:textAllCaps="false"
         android:textColor="@color/white"

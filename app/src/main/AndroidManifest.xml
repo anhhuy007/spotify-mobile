@@ -34,7 +34,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".features.authentication.ui.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.SpotifyClone">
             <intent-filter>
@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".features.authentication.ui.LoginActivity" />
+        <activity android:name=".MainActivity" />
 
         <activity
             android:name=".features.artist.ui.ArtistOverallActivity"

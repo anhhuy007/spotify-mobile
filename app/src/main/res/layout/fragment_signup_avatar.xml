@@ -61,7 +61,7 @@
         android:src="@drawable/back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
-        app:tint="@color/gray_800" />
+        app:tint="@color/black" />
 
     <ImageView
         android:id="@+id/btnClose"
@@ -74,7 +74,7 @@
         android:src="@drawable/close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
-        app:tint="@color/gray_800" />
+        app:tint="@color/black" />
 
     <!-- Main Content -->
     <TextView
@@ -142,7 +142,6 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/spotify_green"
-        android:fontFamily="@font/avenir_next_bold"
         android:text="@string/choose_from_gallery"
         android:textAllCaps="false"
         android:textColor="@color/white"
@@ -157,10 +156,9 @@
         android:layout_height="56dp"
         android:layout_marginTop="12dp"
         android:backgroundTint="@color/white"
-        android:fontFamily="@font/avenir_next_bold"
         android:text="@string/take_a_photo"
         android:textAllCaps="false"
-        android:textColor="@color/gray_800"
+        android:textColor="@color/black"
         app:cornerRadius="28dp"
         app:layout_constraintEnd_toEndOf="@id/btnChooseImage"
         app:layout_constraintStart_toStartOf="@id/btnChooseImage"
@@ -175,8 +173,8 @@
         android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackground"
         android:padding="8dp"
-        android:text="Skip for now"
-        android:textColor="@color/gray_600"
+        android:text="@string/skip_for_now"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnTakePhoto" />
@@ -196,6 +194,7 @@
         app:cornerRadius="28dp"
         app:icon="@drawable/forward"
         app:iconGravity="textEnd"
+        app:iconSize="25dp"
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

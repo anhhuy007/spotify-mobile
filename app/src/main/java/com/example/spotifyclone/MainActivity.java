@@ -17,13 +17,15 @@ import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.spotifyclone.album.inter.AlbumMainCallbacks;
+import com.example.spotifyclone.features.library.ui.LibraryFragment;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.ui.HomeFragment;
 import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.features.premium.ui.PremiumFragment;
+import com.example.spotifyclone.features.search.ui.SearchFragment;
 import com.example.spotifyclone.genre.inter.GenreMainCallbacks;
-import com.example.spotifyclone.genre.ui.GenreFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +34,6 @@ import android.widget.EditText;
 
 import com.example.spotifyclone.album.model.Album;
 import com.example.spotifyclone.album.ui.AlbumDetailFragment;
-import com.example.spotifyclone.album.ui.AlbumFragment;
 import com.example.spotifyclone.genre.model.Genre;
 import com.example.spotifyclone.genre.ui.GenreDetailFragment;
 

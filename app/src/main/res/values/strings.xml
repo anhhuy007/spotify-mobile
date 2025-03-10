@@ -109,4 +109,8 @@
     <string name="_continue">Continue</string>
     <string name="profile_setup">Profile Setup</string>
     <string name="create_a_username">Create a username</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? <u>Sign up</u></string>
+    <string name="log_in_underline"><u>Login</u></string>
+    <string name="skip_for_now"><u>Skip for now</u></string>
+    <string name="didn_t_receive_a_code_resend">Didn\'t receive a code? <u>Resend</u></string>
 </resources>

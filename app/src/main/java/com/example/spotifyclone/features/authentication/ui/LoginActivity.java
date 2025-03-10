@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.spotifyclone.MainActivity;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthVMFactory;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthViewModel;
@@ -31,11 +32,9 @@ public class LoginActivity extends AppCompatActivity {
 
     //    ui elements
     private EditText emailInput, passwordInput;
-    private Button loginButton, googleLoginBtn, backButton;
+    private Button loginButton, googleLoginBtn;
     private ProgressBar progressBar;
-    private TextView forgotPasswordText;
-
-    private Boolean passwordVisible = false;
+    private TextView forgotPasswordText, signUpText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +57,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivityForResult(signInIntent, 1);
         });
 
-        backButton.setOnClickListener(v -> {
-            finish();
-        });
-
         loginButton.setOnClickListener(v -> {
             loginUser();
         });
@@ -70,16 +65,20 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(this, ForgotPasswordActivity.class));
         });
 
+        signUpText.setOnClickListener(v -> {
+            startActivity(new Intent(this, SignupActivity.class));
+        });
+
         observeViewModel();
     }
 
     private void initializeViews() {
-        emailInput = findViewById(R.id.emailInput);
-        passwordInput = findViewById(R.id.passwordInput);
-        loginButton = findViewById(R.id.loginButton);
-        googleLoginBtn = findViewById(R.id.googleLoginBtn);
-        backButton = findViewById(R.id.backButton);
-        forgotPasswordText = findViewById(R.id.forgotPasswordText);
+        emailInput = findViewById(R.id.etEmail);
+        passwordInput = findViewById(R.id.etPassword);
+        loginButton = findViewById(R.id.btnLogin);
+        googleLoginBtn = findViewById(R.id.btnGoogleSignIn);
+        forgotPasswordText = findViewById(R.id.tvForgotPassword);
+        signUpText = findViewById(R.id.tvSignUp);
         progressBar = findViewById(R.id.progressBar);
     }
 
@@ -102,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if (result) {
                 Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this, ProfileActivity.class));
+                startActivity(new Intent(this, MainActivity.class));
                 finish();
             }
         });

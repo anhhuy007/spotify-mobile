@@ -26,7 +26,7 @@
         android:src="@drawable/back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/statusBarBackground"
-        app:tint="@color/gray_800" />
+        app:tint="@color/black" />
 
     <!-- Main Content -->
     <TextView
@@ -203,7 +203,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Didn't receive a code? Resend"
+        android:text="@string/didn_t_receive_a_code_resend"
         android:textColor="@color/spotify_green"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"

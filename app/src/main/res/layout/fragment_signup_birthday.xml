@@ -63,7 +63,7 @@
         android:src="@drawable/back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
-        app:tint="@color/gray_800" />
+        app:tint="@color/black" />
 
     <ImageView
         android:id="@+id/btnClose"
@@ -76,7 +76,7 @@
         android:src="@drawable/close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
-        app:tint="@color/gray_800" />
+        app:tint="@color/black" />
 
     <!-- Main Content -->
     <TextView
@@ -168,6 +168,7 @@
         app:cornerRadius="28dp"
         app:icon="@drawable/forward"
         app:iconGravity="textEnd"
+        app:iconSize="25dp"
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
