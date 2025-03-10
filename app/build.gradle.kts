@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -28,79 +29,56 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-
     }
-    buildFeatures {
-        viewBinding = true
-    }
-
 }
 
 dependencies {
-
     implementation(libs.appcompat)
+    implementation(libs.appcompat.v161)
     implementation(libs.material)
+    implementation(libs.material.v1100)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation("com.google.android.material:material:1.12.0")
-    implementation ("androidx.appcompat:appcompat:1.6.1")
-    implementation("androidx.media3:media3-exoplayer:1.5.1")
-    implementation("androidx.media3:media3-exoplayer-dash:1.5.1")
-    implementation("androidx.media3:media3-ui:1.5.1")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
-    implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
-    implementation ("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
-    implementation ("io.reactivex.rxjava2:rxjava:2.2.9")
-    implementation ("com.squareup.picasso:picasso:2.71828")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("androidx.recyclerview:recyclerview:1.2.1")
-    implementation ("androidx.core:core-ktx:1.12.0")
-    implementation ("androidx.appcompat:appcompat:1.6.1")
-    implementation ("com.google.android.material:material:1.10.0")
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.exoplayer.dash)
+    implementation(libs.media3.ui)
+    implementation(libs.converter.gson)
+    implementation(libs.converter.gson.v210)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+    implementation(libs.logging.interceptor.v500alpha2)
+    implementation(libs.adapter.rxjava2)
+    implementation(libs.rxjava)
+    implementation(libs.recyclerview)
+    implementation(libs.recyclerview.v132)
+    implementation(libs.core.ktx)
+    implementation(libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.glide)
+    implementation(libs.glide.v4151)
+    implementation(libs.picasso)
+    implementation(libs.circleimageview)
+    annotationProcessor(libs.compiler)
+    annotationProcessor(libs.compiler.v4120)
 
-    // For recycler view
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation ("com.google.code.gson:gson:2.9.0")
-    implementation ("com.squareup.retrofit2:retrofit:2.1.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.1.0")
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
-
+    // Firebase & authentication
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
-    implementation(libs.play.services.auth)
     implementation(libs.firebase.auth)
-    implementation(libs.facebook.android.sdk)
     implementation(libs.google.firebase.auth)
+    implementation(libs.play.services.auth)
+
+    // Facebook SDK
+    implementation(libs.facebook.android.sdk)
     implementation(libs.facebook.android.sdk.v1300)
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
-    implementation ("com.squareup.picasso:picasso:2.71828")
 
-
-    // For extracting color
-    implementation("androidx.palette:palette-ktx:1.0.0")
-
-    //shaping image
-    implementation("androidx.compose.material:material:1.7.5")
-
-    //bottom sheet
-    implementation ("com.google.android.material:material:1.11.0")
-
+    // UI & utilities
+    implementation(libs.palette.ktx)
     implementation(libs.preference)
+    implementation(libs.androidx.material)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.palette:palette-ktx:1.0.0")
-    implementation("com.google.android.material:material:1.10.0")
 }
