@@ -2,7 +2,6 @@ package com.example.spotifyclone.features.artist.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.artist.model.ArtistDetail;
+import com.example.spotifyclone.features.artist.model.Artist;
 import com.example.spotifyclone.features.artist.ui.ArtistActivity;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
@@ -26,9 +25,9 @@ import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
     private Context context;
-    private List<ArtistDetail> artistList;
+    private List<Artist> artistList;
 
-    public ArtistAdapter(Context context, List<ArtistDetail> artistList) {
+    public ArtistAdapter(Context context, List<Artist> artistList) {
         this.context = context;
         this.artistList = artistList;
     }
@@ -42,7 +41,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ArtistDetail item = artistList.get(position);
+        Artist item = artistList.get(position);
         holder.textView.setText(item.getName());
         Glide.with(context)
                 .load(item.getAvatarUrl())

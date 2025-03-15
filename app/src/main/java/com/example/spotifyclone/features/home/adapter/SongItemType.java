@@ -1,4 +1,4 @@
-package com.example.spotifyclone.features.player.ui;
+package com.example.spotifyclone.features.home.adapter;
 
 public enum SongItemType {
     HORIZONTAL,

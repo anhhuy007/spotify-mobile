@@ -73,7 +73,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="16dp"
             android:paddingBottom="12dp"
-            android:textColor="@color/white"
+            android:textColor="@color/textColorPrimary"
             android:textColorHint="@color/gray"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -110,7 +110,7 @@
             android:paddingTop="12dp"
             android:paddingEnd="16dp"
             android:paddingBottom="12dp"
-            android:textColor="@color/white"
+            android:textColor="@color/textColorPrimary"
             android:textColorHint="@color/gray"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -220,11 +220,11 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     private void updateUI() {
         if (song != null) {
             tvSongTitle.setText(song.getTitle());
-            tvArtistName.setText(song.getAuthor_ids().toString());
+            tvArtistName.setText(song.getSingers().toString());
             tvLyricsTitle.setText(song.getTitle());
             tvLyricsContent.setText(song.getLyrics());
-            if (song.getImage_url() != null && !song.getImage_url().isEmpty()) {
-                Picasso.get().load(song.getImage_url()).into(ivSongCover);
+            if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
+                Picasso.get().load(song.getImageUrl()).into(ivSongCover);
             }
             tvPlaylistInfo.setText("Now Playing");
             tvCurrentTime.setText("0:00");

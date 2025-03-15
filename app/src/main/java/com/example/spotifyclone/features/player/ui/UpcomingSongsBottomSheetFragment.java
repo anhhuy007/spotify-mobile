@@ -178,8 +178,8 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
     private void updateUI() {
         if (currentSong != null) {
             tvCurrentSongTitle.setText(currentSong.getTitle());
-            tvCurrentSongArtist.setText(currentSong.getAuthor_ids() != null && currentSong.getAuthor_ids().length > 0 ? currentSong.getAuthor_ids()[0] : "Unknown Artist");
-            Picasso.get().load(currentSong.getImage_url()).into(ivCurrentSongImage);
+            tvCurrentSongArtist.setText(currentSong.getSingers() != null && currentSong.getSingers().size() > 0 ? currentSong.getSingers().get(0) : "Unknown Artist");
+            Picasso.get().load(currentSong.getImageUrl()).into(ivCurrentSongImage);
         }
     }
 
