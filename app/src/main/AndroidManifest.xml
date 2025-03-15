@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -34,7 +34,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".features.authentication.ui.LoginActivity"
+            android:name=".SearchActivity"
             android:exported="true"
             android:theme="@style/Theme.SpotifyClone">
             <intent-filter>
@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MainActivity" />
+<!--        <activity android:name=".MainActivity" />-->
 
         <activity
             android:name=".features.artist.ui.ArtistOverallActivity"

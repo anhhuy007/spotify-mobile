@@ -16,8 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.example.spotifyclone.album.inter.AlbumMainCallbacks;
-import com.example.spotifyclone.album.ui.AlbumFragment;
+import com.example.spotifyclone.features.album.inter.AlbumMainCallbacks;
+import com.example.spotifyclone.features.album.ui.AlbumFragment;
 import com.example.spotifyclone.features.library.ui.LibraryFragment;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
@@ -25,18 +25,23 @@ import com.example.spotifyclone.features.player.ui.HomeFragment;
 import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.features.premium.ui.PremiumFragment;
+import com.example.spotifyclone.features.search.model.SearchResult;
+import com.example.spotifyclone.features.search.network.SearchService;
 import com.example.spotifyclone.features.search.ui.SearchFragment;
-import com.example.spotifyclone.genre.inter.GenreMainCallbacks;
+import com.example.spotifyclone.features.genre.inter.GenreMainCallbacks;
+import com.example.spotifyclone.features.search.viewmodel.SearchViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
 import android.util.Log;
 import android.widget.EditText;
 
-import com.example.spotifyclone.album.model.Album;
-import com.example.spotifyclone.album.ui.AlbumDetailFragment;
-import com.example.spotifyclone.genre.model.Genre;
-import com.example.spotifyclone.genre.ui.GenreDetailFragment;
+import com.example.spotifyclone.features.album.model.Album;
+import com.example.spotifyclone.features.album.ui.AlbumDetailFragment;
+import com.example.spotifyclone.features.genre.model.Genre;
+import com.example.spotifyclone.features.genre.ui.GenreDetailFragment;
+
+import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity implements GenreMainCallbacks, AlbumMainCallbacks {
     private CardView miniPlayer;
@@ -50,19 +55,33 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initUI();
-        initViewModel();
-        setupListeners();
-        observeViewModel();
+//        setContentView(R.layout.activity_main);
+//        initUI();
+//        initViewModel();
+//        setupListeners();
+//        observeViewModel();
+//
+//        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+//        bottomNav.setOnNavigationItemSelectedListener(navListener);
+//        if (savedInstanceState == null) {
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.frame_container, new HomeFragment())
+//                    .commit();
+//        }
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
-        bottomNav.setOnNavigationItemSelectedListener(navListener);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame_container, new HomeFragment())
-                    .commit();
-        }
+        //        // Create GenreFragment
+//        setContentView(R.layout.activity_genrelayout);
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.genre_list_holder, new GenreFragment())
+//                .commit();
+//          Create AlbumFragment
+//        setContentView(R.layout.activity_albumlayout);
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.album_list_holder, new AlbumFragment())
+//                .commit();
+
+
+
 
     }
 
