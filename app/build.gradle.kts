@@ -54,12 +54,12 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.gson)
     implementation(libs.retrofit)
-    implementation(libs.glide)
-    implementation(libs.glide.v4151)
+//    implementation(libs.glide)
+//    implementation(libs.glide.v4151)
     implementation(libs.picasso)
     implementation(libs.circleimageview)
-    annotationProcessor(libs.compiler)
-    annotationProcessor(libs.compiler.v4120)
+//    annotationProcessor(libs.compiler)
+//    annotationProcessor(libs.compiler.v4120)
 
     // Firebase & authentication
     implementation(platform(libs.firebase.bom))
@@ -85,8 +85,8 @@ dependencies {
     // coordinatorlayoyt
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
     implementation("com.google.android.material:material:1.11.0")
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    implementation ("com.github.bumptech.glide:glide:4.15.1")
+//    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
 
 
 

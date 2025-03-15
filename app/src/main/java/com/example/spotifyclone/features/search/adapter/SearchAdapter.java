@@ -95,7 +95,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
             Log.d("search", item.getImage_url());
             Glide.with(context)
-                    .load("https://res.cloudinary.com/dndmj9oid/image/upload/v1739845714/Leave_Before_You_Love_Me_with_Jonas_Brothers_downloaded_from_SpotiSongDownloader.com__meyjxp.jpg")
+                    .load(item.getImage_url())
                     .into(search);
             itemView.setTag(item);
         }
