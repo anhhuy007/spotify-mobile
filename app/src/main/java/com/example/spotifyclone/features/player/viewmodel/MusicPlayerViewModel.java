@@ -50,7 +50,7 @@ public class MusicPlayerViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
     // Handler for updating progress and current duration on UI
-    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper. getMainLooper());
     private final Runnable updateProgressRunnable = new Runnable() {
         @Override
         public void run() {

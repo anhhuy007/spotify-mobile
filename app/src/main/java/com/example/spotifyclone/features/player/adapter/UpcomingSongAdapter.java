@@ -83,14 +83,14 @@ public class UpcomingSongAdapter extends RecyclerView.Adapter<UpcomingSongAdapte
                 tvSongTitle.setText(song.getTitle());
 
                 String artistName = "Unknown Artist";
-                if (song.getAuthor_ids() != null && song.getAuthor_ids().length > 0) {
-                    artistName = song.getAuthor_ids()[0];
+                if (song.getSingers() != null && song.getSingers().size() > 0) {
+//                    artistName = song.getAuthor_ids()[0];
                 }
                 tvArtist.setText(artistName);
 
-                if (song.getImage_url() != null && !song.getImage_url().isEmpty()) {
+                if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                     Picasso.get()
-                            .load(song.getImage_url())
+                            .load(song.getImageUrl())
                             .into(imgSong);
                 } else {
 //                    imgSong.setImageResource(R.drawable.placeholder_album);

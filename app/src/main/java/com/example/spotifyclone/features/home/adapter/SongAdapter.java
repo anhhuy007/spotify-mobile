@@ -1,4 +1,4 @@
-package com.example.spotifyclone.features.player.adapter;
+package com.example.spotifyclone.features.home.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
-import com.example.spotifyclone.features.player.ui.SongItemType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
@@ -102,7 +101,7 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tvSongTitle.setText(song.getTitle());
 
             // Get artist name from singer IDs if available
-            if (song.getSinger_ids() != null && song.getSinger_ids().length > 0) {
+            if (song.getSingers() != null && song.getSingers().size() > 0) {
                 // In a real app, you would fetch artist name from a repository using singer_ids
                 tvArtistName.setText("Artist");
             } else {
@@ -110,8 +109,8 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
 
             // Load image with Picasso
-            if (song.getImage_url() != null && !song.getImage_url().isEmpty()) {
-                Picasso.get().load(song.getImage_url()).into(ivSongCover);
+            if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
+                Picasso.get().load(song.getImageUrl()).into(ivSongCover);
             } else {
                 // Set a placeholder if no image available
 //                ivSongCover.setImageResource(R.drawable.placeholder_album);
@@ -148,7 +147,7 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tvSongTitle.setText(song.getTitle());
 
             // Get artist name from singer IDs if available
-            if (song.getSinger_ids() != null && song.getSinger_ids().length > 0) {
+            if (song.getSingers() != null && song.getSingers().size() > 0) {
                 // In a real app, you would fetch artist name from a repository using singer_ids
                 tvArtistName.setText("Artist");
             } else {
@@ -156,12 +155,12 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
 
             // Load song cover image
-            if (song.getImage_url() != null && !song.getImage_url().isEmpty()) {
+            if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                 // Load as song cover
-                Picasso.get().load(song.getImage_url()).into(ivSongCover);
+                Picasso.get().load(song.getImageUrl()).into(ivSongCover);
 
                 // Also load as background image (blurred or darkened by overlay)
-                Picasso.get().load(song.getImage_url()).into(ivBackgroundImage);
+                Picasso.get().load(song.getImageUrl()).into(ivBackgroundImage);
             } else {
                  /*Set placeholders if no image available
                 ivSongCover.setImageResource(R.drawable.placeholder_album);
@@ -169,7 +168,7 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
 
             // Update play button based on playback state
-            if (playbackState == PlaybackState.PLAYING && currentSong != null && currentSong.get_id().equals(song.get_id())) {
+            if (playbackState == PlaybackState.PLAYING && currentSong != null && currentSong.getId().equals(song.getId())) {
                 fabPlay.setImageResource(android.R.drawable.ic_media_pause);
             } else {
                 fabPlay.setImageResource(android.R.drawable.ic_media_play);

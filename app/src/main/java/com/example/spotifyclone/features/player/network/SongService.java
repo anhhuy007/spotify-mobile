@@ -20,4 +20,10 @@ public interface SongService {
     @GET("songs")
     Call<APIResponse<List<Song>>> getSongsByArtist(@Query("artistId") String artistId);
 
+    @GET("songs/popular")
+    Call<APIResponse<List<Song>>> getPopularSongs();
+
+    @GET("songs/top")
+    Call<APIResponse<List<Song>>> getTopSongs();
 }
+

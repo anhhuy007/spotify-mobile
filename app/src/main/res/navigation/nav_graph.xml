@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.spotifyclone.features.home.ui.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.example.spotifyclone.features.search.ui.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/nav_library"
+        android:name="com.example.spotifyclone.features.library.ui.LibraryFragment"
+        android:label="Library"
+        tools:layout="@layout/fragment_library" />
+
+    <fragment
+        android:id="@+id/nav_premium"
+        android:name="com.example.spotifyclone.features.premium.ui.PremiumFragment"
+        android:label="Premium"
+        tools:layout="@layout/fragment_premium" />
+
+    <!-- Additional fragment outside bottom navigation -->
+    <fragment
+        android:id="@+id/nav_album_detail"
+        android:name="com.example.spotifyclone.album.ui.AlbumDetailFragment"
+        android:label="Album Detail"
+        tools:layout="@layout/activity_album_detail">
+
+        <argument
+            android:name="cover_url"
+            app:argType="string" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="day_create"
+            app:argType="string" />
+        <argument
+            android:name="artists_name"
+            app:argType="string[]" />
+        <argument
+            android:name="artist_url"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

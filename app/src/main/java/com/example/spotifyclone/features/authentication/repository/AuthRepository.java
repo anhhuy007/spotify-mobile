@@ -130,6 +130,7 @@ public class AuthRepository {
             @Override
             public void onFailure(Call<APIResponse<CheckUsernameExistResponse>> call, Throwable t) {
                 callBack.onFailure(t.getMessage());
+                Log.d("DEBUG", "Failure: " + t.getMessage());
             }
         });
     }

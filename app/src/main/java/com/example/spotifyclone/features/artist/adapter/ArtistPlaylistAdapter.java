@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.artist.model.ArtistDetail;
+import com.example.spotifyclone.features.artist.model.Artist;
 
 import java.util.List;
 
 public class ArtistPlaylistAdapter extends RecyclerView.Adapter<ArtistPlaylistAdapter.ViewHolder> {
     private Context context;
-    private List<ArtistDetail> artistList;
+    private List<Artist> artistList;
 
-    public ArtistPlaylistAdapter(Context context, List<ArtistDetail> artistList) {
+    public ArtistPlaylistAdapter(Context context, List<Artist> artistList) {
         this.context = context;
         this.artistList = artistList;
     }
@@ -35,7 +35,7 @@ public class ArtistPlaylistAdapter extends RecyclerView.Adapter<ArtistPlaylistAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ArtistDetail item = artistList.get(position);
+        Artist item = artistList.get(position);
         holder.tv_playlist_title.setText(item.getName());
         Glide.with(context)
                 .load(item.getAvatarUrl())
