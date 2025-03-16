@@ -49,6 +49,7 @@
         <activity android:name=".features.artist.ui.ArtistOverallActivity" android:exported="false"/>
         <activity android:name=".features.artist.ui.ArtistListActivity" android:exported="false"/>
         <activity android:name=".features.artist.ui.ArtistActivity" android:exported="false"/>
+        <activity android:name=".features.artist.ui.DiscographyActivity" android:exported="false"/>
         <activity android:name=".features.profile.ui.ProfileActivity" android:exported="false"/>
         <activity android:name=".features.profile.ui.EditProfileActivity" android:exported="false"/>
         <activity android:name=".features.settings.ui.SettingsActivity" android:exported="false"/>

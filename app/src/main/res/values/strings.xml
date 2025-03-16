@@ -93,5 +93,11 @@
     <string name="go_to_radio">Chuyển đến radio theo bài hát</string>
     <string name="view_song_credits">Xem thông tin ghi công của bài hát</string>
     <string name="show_spotify_code">Hiển thị mã Spotify</string>
+    <string name="single">Đĩa đơn</string>
 
+
+    <string name="release">Bản phát hành</string>
+    <string name="single1">Đĩa đơn và Đĩa mở rộng</string>
+    <string name="compilation">Tuyển tập</string>
+    <string name="available_on">Có ở</string>
 </resources>

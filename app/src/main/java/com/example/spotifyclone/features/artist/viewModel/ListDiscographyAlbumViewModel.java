@@ -11,71 +11,89 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.spotifyclone.features.artist.model.ItemDiscographyAlbum;
 import com.example.spotifyclone.features.artist.network.apiArtistService;
-import com.example.spotifyclone.features.artist.model.Item;
 import com.example.spotifyclone.features.artist.network.artistRetrofit;
 import com.example.spotifyclone.shared.model.APIResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class ArtistOverallViewModel extends AndroidViewModel {
-    private final Context context;
-    private final MutableLiveData<Item> artist = new MutableLiveData<>();
-    private final String artistId;
 
-    private ArtistOverallViewModel(@NonNull Application application, String artistId) {
+
+public class ListDiscographyAlbumViewModel extends AndroidViewModel {
+    private final Context context;
+    private final MutableLiveData<List<ItemDiscographyAlbum>> listDiscography = new MutableLiveData<>();
+    private final String artistId;
+    private int type;
+
+    public ListDiscographyAlbumViewModel(@NonNull Application application, String artistId, int type) {
         super(application);
         this.context = application.getApplicationContext();
         this.artistId = artistId;
+        this.type = type;
     }
 
     public static class Factory implements ViewModelProvider.Factory {
         private final Application application;
         private final String artistId;
+        private int type;
 
-        public Factory(Application application, String artistId) {
+        public Factory(Application application, String artistId, int type) {
             this.application = application;
             this.artistId = artistId;
+            this.type = type;
         }
 
         @NonNull
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            if (modelClass.isAssignableFrom(ArtistOverallViewModel.class)) {
-                return (T) new ArtistOverallViewModel(application, artistId);
+            if (modelClass.isAssignableFrom(ListDiscographyAlbumViewModel.class)) {
+                return (T) new ListDiscographyAlbumViewModel(application, artistId,type);
             }
             throw new IllegalArgumentException("Unknown ViewModel class");
         }
     }
 
-    public LiveData<Item> getArtist() {
-        return artist;
+    public LiveData<List<ItemDiscographyAlbum>> getListDiscography() {
+        return listDiscography;
     }
 
-    public void fetchArtistDetails() {
+    public void fetchItems() {
 
         Retrofit retrofit = artistRetrofit.getClient();
         apiArtistService apiService = retrofit.create(apiArtistService.class);
 
 
-        apiService.getArtistDetail(artistId).enqueue(new Callback<APIResponse<Item>>() {
+        Call<APIResponse<List<ItemDiscographyAlbum>>> call;
+
+        switch (type) {
+            case 1:
+                call = apiService.getListDiscographyAlbum(artistId);
+                break;
+            default:
+                call = apiService.getListDiscographyCollection(artistId);
+        }
+
+
+        call.enqueue((new Callback<APIResponse<List<ItemDiscographyAlbum>>>() {
             @Override
-            public void onResponse(Call<APIResponse<Item>> call, Response<APIResponse<Item>> response) {
+            public void onResponse(Call<APIResponse<List<ItemDiscographyAlbum>>> call, Response<APIResponse<List<ItemDiscographyAlbum>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    artist.setValue(response.body().getData());
+                    listDiscography.setValue(response.body().getData());
                 } else {
-                    Toast.makeText(context, "Failed to load artist data", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Failed to load data", Toast.LENGTH_SHORT).show();
                 }
             }
 
-
             @Override
-            public void onFailure(Call<APIResponse<Item>> call, Throwable t) {
+            public void onFailure(Call<APIResponse<List<ItemDiscographyAlbum>>> call, Throwable t) {
                 Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
-        });
+        }));
     }
 }

@@ -2,8 +2,6 @@ package com.example.spotifyclone.features.artist.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,10 +25,15 @@ import com.example.spotifyclone.features.artist.adapter.AlbumArtistAdapter;
 import com.example.spotifyclone.features.artist.adapter.ArtistPlaylistAdapter;
 import com.example.spotifyclone.features.artist.adapter.ArtistSimilarAdapter;
 import com.example.spotifyclone.features.artist.adapter.SongArtistAdapter;
-import com.example.spotifyclone.features.artist.viewModel.ArtistListViewModel;
 import com.example.spotifyclone.features.artist.viewModel.ArtistOverallViewModel;
+import com.example.spotifyclone.features.artist.viewModel.FansAlsoLikeViewModel;
+import com.example.spotifyclone.features.artist.viewModel.ListDiscographyAlbumViewModel;
+import com.example.spotifyclone.features.artist.viewModel.ListDiscographyEPViewModel;
+import com.example.spotifyclone.features.artist.viewModel.PopularViewModel;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.button.MaterialButton;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ArtistActivity extends AppCompatActivity {
     private RecyclerView rv_popular_songs, rv_albums, rv_playlists, rv_similar_artists;
@@ -41,7 +43,7 @@ public class ArtistActivity extends AppCompatActivity {
     private ImageView img_artist_artist_detail, img_artist_cover, img_playlist_artist_detail, img_album_artist_detail,btn_artist_detail_ui_background;
     private ScrollView scrollView;
     private ConstraintLayout artist_detail_info_container;
-    private MaterialButton btnSeeSongs, btnHideSongs;
+    private MaterialButton btnSeeSongs, btnHideSongs, btn_see_view_discography;
     private RelativeLayout navbar_artist_UI;
 
     @Override
@@ -49,6 +51,7 @@ public class ArtistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist_detail_ui);
         context = this;
+
         String artistId = getIntent().getStringExtra("ARTIST_ID");
         if (artistId == null || artistId.isEmpty()) {
             Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
@@ -80,6 +83,7 @@ public class ArtistActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btn_artist_detail_ui_back);
         btn_artist_detail_ui_background = findViewById(R.id.btn_artist_detail_ui_background);
         img_album_artist_detail = findViewById(R.id.img_album_artist_detail);
+        btn_see_view_discography = findViewById(R.id.btn_see_view_discography);
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,21 +92,67 @@ public class ArtistActivity extends AppCompatActivity {
             }
         });
 
+        btn_see_view_discography.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ArtistActivity.this, DiscographyActivity.class);
+                intent.putExtra("ARTIST_ID", artistId);
+                startActivity(intent);
+            }
+        });
 
-        ArtistListViewModel artistListViewModel = new ViewModelProvider(this).get(ArtistListViewModel.class);
-        artistListViewModel.getArtists().observe(this, artists -> {
+        AtomicInteger sizeHide = new AtomicInteger();
+
+        PopularViewModel artistListViewModel =  new ViewModelProvider(this,
+                new PopularViewModel.Factory(getApplication(), artistId))
+                .get(PopularViewModel.class);
+        artistListViewModel.getListDiscography().observe(this, artists -> {
             if (artists != null) {
                 SongArtistAdapter rvPopularSongsAdapter = new SongArtistAdapter(context, artists);
                 rv_popular_songs.setAdapter(rvPopularSongsAdapter);
+
+                ViewGroup.LayoutParams params = rv_popular_songs.getLayoutParams();
+                params.height = (int) (64 * getResources().getDisplayMetrics().density*artists.size()*11/20);
+                rv_popular_songs.setLayoutParams(params);
+                sizeHide.set(artists.size());
+            }
+        });
+        artistListViewModel.fetchItems();
+
+
+        ListDiscographyEPViewModel artistListViewModel2 = new ViewModelProvider(this,
+                new ListDiscographyEPViewModel.Factory(getApplication(), artistId,1))
+                .get(ListDiscographyEPViewModel.class);
+        artistListViewModel2.getListDiscography().observe(this, artists -> {
+            if (artists != null) {
                 AlbumArtistAdapter rvAlbumsAdapter = new AlbumArtistAdapter(context, artists);
                 rv_albums.setAdapter(rvAlbumsAdapter);
+            }
+        });
+        artistListViewModel2.fetchItems();
+
+        ListDiscographyAlbumViewModel artistListViewModel3 = new ViewModelProvider(this,
+                new ListDiscographyAlbumViewModel.Factory(getApplication(), artistId,1))
+                .get(ListDiscographyAlbumViewModel.class);
+        artistListViewModel3.getListDiscography().observe(this, artists -> {
+            if (artists != null) {
                 ArtistPlaylistAdapter rvPlaylistsAdapter = new ArtistPlaylistAdapter(context, artists);
                 rv_playlists.setAdapter(rvPlaylistsAdapter);
+            }
+        });
+        artistListViewModel3.fetchItems();
+
+        FansAlsoLikeViewModel artistListViewModel4 =new ViewModelProvider(this,
+                new FansAlsoLikeViewModel.Factory(getApplication(), artistId))
+                .get(FansAlsoLikeViewModel.class);
+        artistListViewModel4.getListDiscography().observe(this, artists -> {
+            if (artists != null) {
+
                 ArtistSimilarAdapter rvSimilarArtistsAdapter = new ArtistSimilarAdapter(context, artists);
                 rv_similar_artists.setAdapter(rvSimilarArtistsAdapter);
             }
         });
-        artistListViewModel.fetchItems();
+        artistListViewModel4.fetchItems();
 
         ArtistOverallViewModel artistViewModel = new ViewModelProvider(this,
                 new ArtistOverallViewModel.Factory(getApplication(), artistId))
@@ -164,7 +214,7 @@ public class ArtistActivity extends AppCompatActivity {
         // Set up See More/Hide functionality
         btnSeeSongs.setOnClickListener(v -> {
             ViewGroup.LayoutParams params = rv_popular_songs.getLayoutParams();
-            params.height = (int) (650 * getResources().getDisplayMetrics().density);
+            params.height = (int) (64 * getResources().getDisplayMetrics().density*sizeHide.get());
             rv_popular_songs.setLayoutParams(params);
 
             btnSeeSongs.setVisibility(View.GONE);
@@ -173,8 +223,7 @@ public class ArtistActivity extends AppCompatActivity {
 
         btnHideSongs.setOnClickListener(v -> {
             ViewGroup.LayoutParams params = rv_popular_songs.getLayoutParams();
-            // Hardcoded height of 280dp converted to pixels
-            params.height = (int) (300 * getResources().getDisplayMetrics().density);
+            params.height = (int) (64 * getResources().getDisplayMetrics().density*sizeHide.get()*11/20);
             rv_popular_songs.setLayoutParams(params);
 
             btnSeeSongs.setVisibility(View.VISIBLE);

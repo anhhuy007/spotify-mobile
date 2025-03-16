@@ -93,7 +93,12 @@
     <string name="go_to_radio">Go to Radio</string>
     <string name="view_song_credits">View song credits</string>
     <string name="show_spotify_code">Show Spotify Code</string>
+    <string name="single">Single</string>
 
+    <string name="release">Release</string>
+    <string name="single1">Single &amp; EP</string>
+    <string name="compilation">Compilation</string>
+    <string name="available_on">Available on</string>
 
 
 </resources>
