@@ -7,12 +7,22 @@ public class Song implements Serializable {
     private String _id;
     private String title;
     private String lyrics;
-    private boolean is_premium;
+    private Boolean is_premium;
     private int like_count;
     private String mp3_url;
     private String image_url;
     private String create_at;
     private List<String> singers;
+
+    private List<String> genre_ids; // add
+
+    public List<String> getGenre_ids() { //add
+        return genre_ids;
+    }
+
+    public void setGenre_ids(List<String> genre_ids) { //add
+        this.genre_ids = genre_ids;
+    }
 
     // Constructor
     public Song(String _id, String title, String lyrics, boolean is_premium, int like_count,

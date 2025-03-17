@@ -8,9 +8,10 @@ import androidx.lifecycle.ViewModel;
 
 
 import com.example.spotifyclone.features.album.model.Album;
-import com.example.spotifyclone.features.album.model.Song;
 import com.example.spotifyclone.features.album.network.AlbumService;
+import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.shared.model.APIResponse;
+import com.example.spotifyclone.shared.model.PaginatedResponse;
 
 import java.util.List;
 
@@ -20,7 +21,8 @@ import retrofit2.Response;
 
 public class AlbumViewModel extends ViewModel {
     private final AlbumService albumService;
-    private final MutableLiveData<List<Album>> albums=new MutableLiveData<>();
+    private final MutableLiveData<List<Album>> popular_albums=new MutableLiveData<>();
+    private final MutableLiveData<List<Album>> artist_albums=new MutableLiveData<>();
     private final MutableLiveData<List<Song>> album_songs=new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading=new MutableLiveData<>();
     private final MutableLiveData<String > errorMessage=new MutableLiveData<>();
@@ -32,23 +34,64 @@ public class AlbumViewModel extends ViewModel {
     }
     public void fetchAlbumsByIds(){
         isLoading.setValue(true);
-        albumService.getAlbums().enqueue(new Callback<APIResponse<List<Album>>>() {
+        albumService.getAlbums().enqueue(new Callback<APIResponse<PaginatedResponse<Album>>>() {
             @Override
-            public void onResponse(Call<APIResponse<List<Album>>> call, Response<APIResponse<List<Album>>> response) {
+            public void onResponse(Call<APIResponse<PaginatedResponse<Album>>> call, Response<APIResponse<PaginatedResponse<Album>>> response) {
                 isLoading.setValue(false);
-                Log.d("AlbumViewModel", "onResponse: " + response.body().getData());
-
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    albums.setValue(response.body().getData());
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().isSuccess()) {
+                        popular_albums.setValue(response.body().getData().getItems());
+                    } else {
+                        errorMessage.setValue("Failed to load albums");
+                    }
                 } else {
-                    errorMessage.setValue("Failed to load albums");
+                    if (response.errorBody() != null) {
+                        try {
+                            Log.e("AlbumViewModel", "Response Error: " + response.errorBody().string());
+                        } catch (Exception e) {
+                            Log.e("AlbumViewModel", "Lỗi khi đọc errorBody", e);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<PaginatedResponse<Album>>> call, Throwable t) {
+                isLoading.setValue(false);
+                errorMessage.setValue(t.getMessage());
+                Log.e("AlbumViewModel", "onFailure: API không gọi được - " + t.getMessage(), t);
+            }
+        });
+    }
+    public void fetchAlbumsByArtists(List<String> artistNames){
+        isLoading.setValue(true);
+        albumService.getArtistAlbums(artistNames).enqueue(new Callback<APIResponse<PaginatedResponse<Album>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<PaginatedResponse<Album>>> call, Response<APIResponse<PaginatedResponse<Album>>> response) {
+                isLoading.setValue(true);
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().isSuccess()) {
+                        artist_albums.setValue(response.body().getData().getItems());
+                    } else {
+                        errorMessage.setValue("Failed to load albums");
+                    }
+                }
+                else{
+                    try {
+                        Log.e("AlbumViewModel", "Response Error: " + response.errorBody().string());
+
+                    }
+                    catch (Exception e)
+                    {
+                        Log.e("AlbumViewModel", "Lỗi khi đọc errorBody", e);
+                    }
                 }
             }
             @Override
-            public void onFailure(Call<APIResponse<List<Album>>> call, Throwable t) {
+            public void onFailure(Call<APIResponse<PaginatedResponse<Album>>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG_ALBUM", "onFailure: " + t.getMessage());
+                Log.e("AlbumViewModel", "onFailure: API không gọi được - " + t.getMessage(), t);
             }
         });
     }
@@ -56,22 +99,35 @@ public class AlbumViewModel extends ViewModel {
     public void fetchAlbumSongs(String album_id)//return list of album_songs
     {
         isLoading.setValue(true);
-        albumService.getSongs(album_id).enqueue(new Callback<APIResponse<List<Song>>>() { // Load genre data
+        Log.d("AlbumViewModel", "fetch album song"+album_id);
+
+        albumService.getSongs(album_id).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() { // Load genre data
             @Override
-            public void onResponse(Call<APIResponse<List<Song>>> call, Response<APIResponse<List<Song>>> response) {
-                isLoading.setValue(false);
-                Log.d("fetchpopular", "onResponse: " + response.body().getData());
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    album_songs.setValue(response.body().getData());
-                } else {
-                    errorMessage.setValue("Failed to load albums");
+            public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+                try {
+                    isLoading.setValue(false);
+                    if (response.isSuccessful()) {
+                        Log.d("AlbumViewModel", "Response successful");
+                        if (response.body().getData().getItems() != null) {
+                            if (response.body().isSuccess()) {
+                                album_songs.setValue(response.body().getData().getItems());
+                            } else {
+                                Log.d("AlbumViewModel", "API success flag false");
+                            }
+                        } else {
+                            Log.d("AlbumViewModel", "Response body is null");
+                        }
+                    } else {
+                        Log.d("AlbumViewModel", "Response not successful: " + response.code());
+                    }
+                } catch (Exception e) {
+                    errorMessage.setValue("Error processing response: " + e.getMessage());
                 }
             }
             @Override
-            public void onFailure(Call<APIResponse<List<Song>>> call, Throwable t) {
+            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -81,7 +137,10 @@ public class AlbumViewModel extends ViewModel {
     }
 
     public LiveData<List<Album>> getAlbums(){
-        return albums;
+        return popular_albums;
+    }
+    public LiveData<List<Album>> getArtistAlbums(){
+        return artist_albums;
     }
     public LiveData<Boolean> getIsLoading() {
         return isLoading;

@@ -27,12 +27,12 @@ public class Genre {
         // Constructor mặc định là cần thiết để Gson hoạt động đúng cách
     }
 
-    public String getId() {
+    public String get_id() {
         return _id;
     }
 
-    public void setId(String id) {
-        this._id = id;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getName() {
@@ -51,39 +51,27 @@ public class Genre {
         this.description = description;
     }
 
-    public String getImg_url() {
+    public String getImage_url() {
         return image_url;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.image_url = imageUrl;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
-    public Date getCreatedAt() {
+    public Date getCreate_at() {
         return create_at;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.create_at = createdAt;
+    public void setCreate_at(Date create_at) {
+        this.create_at = create_at;
     }
 
-    public Date getUpdatedAt() {
+    public Date getUpdate_at() {
         return update_at;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.update_at = updatedAt;
-    }
-
-    @Override
-    public String toString() {
-        return "Genre{" +
-                "id='" + _id + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", imageUrl='" + image_url + '\'' +
-                ", createdAt=" + create_at +
-                ", updatedAt=" + update_at +
-                '}';
+    public void setUpdate_at(Date update_at) {
+        this.update_at = update_at;
     }
 }

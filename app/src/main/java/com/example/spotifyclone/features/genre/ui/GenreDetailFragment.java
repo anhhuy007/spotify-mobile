@@ -54,7 +54,7 @@ public class GenreDetailFragment extends Fragment {
     public static GenreDetailFragment newInstance(Genre genre) {
         GenreDetailFragment fragment = new GenreDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("image_url", genre.getImg_url());
+        bundle.putString("image_url", genre.getImage_url());
         bundle.putString("description", genre.getDescription());
         bundle.putString("name", genre.getName());
         fragment.setArguments(bundle);

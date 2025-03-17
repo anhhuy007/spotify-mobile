@@ -10,7 +10,10 @@ import com.example.spotifyclone.features.genre.model.Album;
 import com.example.spotifyclone.features.genre.model.Genre;
 import com.example.spotifyclone.features.genre.network.GenreService;
 import com.example.spotifyclone.shared.model.APIResponse;
+import com.example.spotifyclone.shared.model.PaginatedResponse;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,24 +35,55 @@ public class GenreViewModel extends ViewModel {
     public void fetchGenresByIds(){
         isLoading.setValue(true);
 
-        genreService.getGenres().enqueue(new Callback<APIResponse<List<Genre>>>() { // Load genre data
+        Log.d("GenreViewModel", "fetchGenresByids");
+
+        genreService.getGenres().enqueue(new Callback<APIResponse<PaginatedResponse<Genre>>>() { // Load genre data
 
             @Override
-            public void onResponse(Call<APIResponse<List<Genre>>> call, Response<APIResponse<List<Genre>>> response) {
-                isLoading.setValue(false);
+            public void onResponse(Call<APIResponse<PaginatedResponse<Genre>>> call, Response<APIResponse<PaginatedResponse<Genre>>> response) {
                 Log.d("GenreViewModel", "onResponse: " + response.code());
 
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    genres.setValue(response.body().getData());
+                isLoading.setValue(false);
+
+                if (response.isSuccessful()) {
+                    // Log the raw response body
+                    try {
+                        String rawJson = response.body().toString();
+                        Log.d("GenreViewModel", "Raw JSON: " + rawJson);
+                    } catch (Exception e) {
+                        Log.e("GenreViewModel", "Error reading raw response", e);
+                    }
+
+                    APIResponse<PaginatedResponse<Genre>> body = response.body();
+                    if (body != null) {
+                        Log.d("GenreViewModel", "Response Body: " + new Gson().toJson(body));
+                        if (body.isSuccess()) {
+                            PaginatedResponse<Genre> data = body.getData();
+                            if (data != null && data.getItems() != null) {
+                                genres.setValue(data.getItems());
+                                Log.d("GenreViewModel", "Set genres: " + data.getItems().size());
+                            } else {
+                                Log.e("GenreViewModel", "Data or items is null");
+                            }
+                        } else {
+                            Log.e("GenreViewModel", "API returned failure: " + body.getMessage());
+                        }
+                    } else {
+                        Log.e("GenreViewModel", "Response body is null");
+                    }
                 } else {
-                    errorMessage.setValue("Failed to load genres");
+                    try {
+                        Log.e("GenreViewModel", "API error: " + response.errorBody().string());
+                    } catch (IOException e) {
+                        Log.e("GenreViewModel", "Error reading error body", e);
+                    }
                 }
             }
             @Override
-            public void onFailure(Call<APIResponse<List<Genre>>> call, Throwable t) {
+            public void onFailure(Call<APIResponse<PaginatedResponse<Genre>>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.d("DEBUG_GENRE", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -73,7 +107,7 @@ public class GenreViewModel extends ViewModel {
             public void onFailure(Call<APIResponse<List<Album>>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.d("DEBUG_Genre", "onFailure: " + t.getMessage());
             }
         });
     }

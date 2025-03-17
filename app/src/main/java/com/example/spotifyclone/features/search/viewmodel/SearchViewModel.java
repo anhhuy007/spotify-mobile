@@ -24,24 +24,23 @@ public class SearchViewModel extends ViewModel {
     public SearchViewModel(SearchService searchService) {
         this.searchService = searchService;
     }
-//    public MutableLiveData<List<SearchItem>> getSearchItems() {
-//        return searchItems;
-//    }
+
     public MutableLiveData<SearchResult> getSearchResult()
     {
         return searchResult;
     }
 
-    public MutableLiveData<Boolean> getIsLoading() {
+    public LiveData<Boolean> getIsLoading() {
         return isLoading;
     }
 
-    public MutableLiveData<String> getErrorMessage() {
+    public LiveData<String> getErrorMessage() {
         return errorMessage;
     }
 
 
-    public void fetchSearchResults(String query, String genre, String type, int page, int limit) {
+    public void fetchSearchResults(String query, String genre, String type, int
+            page, int limit) {
         isLoading.setValue(true);
         Log.d("SearchViewModel", query+page+limit);
 

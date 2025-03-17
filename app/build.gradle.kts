@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs")
+
+
+
 }
 
 android {
@@ -30,6 +34,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+
 }
 
 dependencies {
@@ -86,13 +92,15 @@ dependencies {
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
     implementation("com.google.android.material:material:1.11.0")
     implementation ("com.github.bumptech.glide:glide:4.15.1")
-//    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
 
 
 
 
     // navigation fragment
+
     implementation ("androidx.navigation:navigation-fragment:2.7.0")
     implementation ("androidx.navigation:navigation-ui:2.7.0")
+
 
 }

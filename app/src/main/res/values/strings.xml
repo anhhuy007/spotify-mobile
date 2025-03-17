@@ -114,4 +114,5 @@
     <string name="skip_for_now"><u>Skip for now</u></string>
     <string name="didn_t_receive_a_code_resend">Didn\'t receive a code? <u>Resend</u></string>
     <string name="Search_all">Duyệt tìm tất cả</string>
+    <string name="noSearchResult">Không tìm thấy kết quả nào</string>
 </resources>

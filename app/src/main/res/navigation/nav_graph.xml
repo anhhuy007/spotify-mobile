@@ -15,7 +15,14 @@
         android:id="@+id/nav_search"
         android:name="com.example.spotifyclone.features.search.ui.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_nav_search_to_searchSuggestFragment"
+            app:destination="@id/searchSuggestFragment" />
+        <action
+            android:id="@+id/action_nav_search_to_genreDetailFragment"
+            app:destination="@id/genreDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_library"
@@ -32,28 +39,80 @@
     <!-- Additional fragment outside bottom navigation -->
     <fragment
         android:id="@+id/nav_album_detail"
-        android:name="com.example.spotifyclone.album.ui.AlbumDetailFragment"
+        android:name="com.example.spotifyclone.features.album.ui.AlbumDetailFragment"
         android:label="Album Detail"
         tools:layout="@layout/activity_album_detail">
 
         <argument
-            android:name="cover_url"
-            app:argType="string" />
+            android:name="_id"
+            app:argType="string"
+            app:nullable="false" />
         <argument
-            android:name="name"
-            app:argType="string" />
+            android:name="title"
+            app:argType="string"
+            app:nullable="false" />
         <argument
-            android:name="id"
-            app:argType="string" />
-        <argument
-            android:name="day_create"
-            app:argType="string" />
-        <argument
-            android:name="artists_name"
+            android:name="artist"
             app:argType="string[]" />
         <argument
+            android:name="release_date"
+            app:argType="long" />
+        <argument
+            android:name="cover_url"
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="create_at"
+            app:argType="long" />
+        <argument
+            android:name="like_count"
+            app:argType="integer" />
+        <argument
+            android:name="updatedAt"
+            app:argType="long" />
+        <argument
             android:name="artist_url"
-            app:argType="string" />
+            app:argType="string"
+             />
+
     </fragment>
+    <fragment
+        android:id="@+id/albumFragment"
+        android:name="com.example.spotifyclone.features.album.ui.AlbumFragment"
+        android:label="AlbumFragment"
+        tools:layout="@layout/activity_layoutlist">
+        <action
+            android:id="@+id/action_albumFragment_to_nav_album_detail"
+            app:destination="@id/nav_album_detail" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/genreDetailFragment"
+        android:name="com.example.spotifyclone.features.genre.ui.GenreDetailFragment"
+        android:label="GenreDetailFragment"
+        tools:layout="@layout/activity_genre_detail"
+        />
+    <fragment
+        android:id="@+id/searchSuggestFragment"
+        android:name="com.example.spotifyclone.features.search.ui.SearchSuggestFragment"
+        android:label="SearchSuggestFragment"
+        tools:layout="@layout/fragment_search_suggest">
+        <action
+            android:id="@+id/action_searchSuggestFragment_to_searchAllResultFragment"
+            app:destination="@id/searchAllResultFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchAllResultFragment"
+        android:name="com.example.spotifyclone.features.search.ui.SearchAllResultFragment"
+        android:label="SearchAllResultFragment"
+        tools:layout="@layout/fragment_search_allresult">
+        <argument
+            android:name="search"
+            app:argType="string"
+             />
+    </fragment>
+
+
 
 </navigation>

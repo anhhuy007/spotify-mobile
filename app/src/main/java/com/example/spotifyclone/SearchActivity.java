@@ -46,10 +46,10 @@ public class SearchActivity extends AppCompatActivity implements SearchMainCallb
         // Create GenreFragment
         setContentView(R.layout.activity_albumlayout);
         Log.d("searchactivity", "on");
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.album_list_holder, SearchSuggestFragment.newInstance("instance"))
-                .commit();
-        Log.d("searchactivity", "after");
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.album_list_holder, SearchSuggestFragment.newInstance("instance"))
+//                .commit();
+//        Log.d("searchactivity", "after");
 
 
     }

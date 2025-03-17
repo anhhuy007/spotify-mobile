@@ -34,7 +34,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".SearchActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.SpotifyClone">
             <intent-filter>

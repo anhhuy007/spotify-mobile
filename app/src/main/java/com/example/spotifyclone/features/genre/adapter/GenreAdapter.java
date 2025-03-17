@@ -87,14 +87,14 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
 
             int radius = 20;
             Glide.with(context)
-                    .load(genre.getImg_url())
+                    .load(genre.getImage_url())
                     .apply(new RequestOptions().transform(
                             new MultiTransformation<>(new CenterCrop(), new RoundedCorners(radius))
                     ))
                     .into(imageView);
 
             //         extract color from picture
-            DominantColorExtractor.getDominantColor(context, genre.getImg_url(), color -> {
+            DominantColorExtractor.getDominantColor(context, genre.getImage_url(), color -> {
                 if (color == 0) {
                     Log.e("ColorExtractor", "Không thể lấy màu từ ảnh!");
                     return;

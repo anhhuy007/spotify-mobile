@@ -23,6 +23,7 @@ import com.example.spotifyclone.features.search.inter.OnSearchItemClickListener;
 import com.example.spotifyclone.features.search.model.SearchItem;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
@@ -57,7 +58,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     }
 
     public void setData(List<SearchItem> items) {
-        this.items = items;
+        if (items == null) {
+            // Handle null data
+            this.items = new ArrayList<>();
+        } else {
+            this.items = items;
+        }
+
+
         notifyDataSetChanged();
     }
 
