@@ -147,7 +147,7 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
         if (song != null) {
             tvTitle.setText(song.getTitle());
             tvArtist.setText(song.getSingers().toString());
-            tvLyrics.setText(song.getLyrics());
+            tvLyrics.setText(song.getLyrics().replace("\\n", "\n"));
             tvCurrentTime.setText("0:00");
             tvTotalTime.setText("0:00");
             progressBar.setProgress(0);

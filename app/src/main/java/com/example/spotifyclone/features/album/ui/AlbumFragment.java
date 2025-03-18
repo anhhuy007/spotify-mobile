@@ -1,4 +1,4 @@
-package com.example.spotifyclone.album.ui;
+package com.example.spotifyclone.features.album.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.album.adapter.AlbumAdapter;
-import com.example.spotifyclone.album.inter.AlbumMainCallbacks;
-import com.example.spotifyclone.album.viewmodel.AlbumViewModel;
-import com.example.spotifyclone.album.viewmodel.AlbumViewModelFactory;
+import com.example.spotifyclone.features.album.adapter.AlbumAdapter;
+import com.example.spotifyclone.features.album.inter.AlbumMainCallbacks;
+import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
+import com.example.spotifyclone.features.album.viewmodel.AlbumViewModelFactory;
 
 import java.util.ArrayList;
 

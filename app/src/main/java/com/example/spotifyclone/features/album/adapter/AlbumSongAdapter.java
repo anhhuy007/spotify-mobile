@@ -1,4 +1,4 @@
-package com.example.spotifyclone.album.adapter;
+package com.example.spotifyclone.features.album.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.album.model.Song;
-import com.example.spotifyclone.album.ui.AlbumBottomSheet;
+import com.example.spotifyclone.features.album.model.Song;
+import com.example.spotifyclone.features.album.ui.AlbumBottomSheet;
 
 import java.util.List;
 

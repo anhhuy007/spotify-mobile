@@ -101,12 +101,9 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tvSongTitle.setText(song.getTitle());
 
             // Get artist name from singer IDs if available
-            if (song.getSingers() != null && song.getSingers().size() > 0) {
-                // In a real app, you would fetch artist name from a repository using singer_ids
-                tvArtistName.setText("Artist");
-            } else {
-                tvArtistName.setText("Unknown Artist");
-            }
+            tvArtistName.setText(
+                    song.getSingers() != null && !song.getSingers().isEmpty() ? song.getSingers() : "Unknown Artist"
+            );
 
             // Load image with Picasso
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
@@ -147,12 +144,10 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tvSongTitle.setText(song.getTitle());
 
             // Get artist name from singer IDs if available
-            if (song.getSingers() != null && song.getSingers().size() > 0) {
-                // In a real app, you would fetch artist name from a repository using singer_ids
-                tvArtistName.setText("Artist");
-            } else {
-                tvArtistName.setText("Unknown Artist");
-            }
+            tvArtistName.setText(
+                    song.getSingers() != null && !song.getSingers().isEmpty() ? song.getSingers() : "Unknown Artist"
+            );
+
 
             // Load song cover image
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {

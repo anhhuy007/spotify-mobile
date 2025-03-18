@@ -1,6 +1,8 @@
 package com.example.spotifyclone.features.player.ui;
 
 import android.os.Bundle;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -222,7 +224,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             tvSongTitle.setText(song.getTitle());
             tvArtistName.setText(song.getSingers().toString());
             tvLyricsTitle.setText(song.getTitle());
-            tvLyricsContent.setText(song.getLyrics());
+            tvLyricsContent.setText(song.getLyrics().replace("\\n", "\n"));
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                 Picasso.get().load(song.getImageUrl()).into(ivSongCover);
             }

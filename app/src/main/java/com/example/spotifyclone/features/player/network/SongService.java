@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.player.network;
 
+import com.example.spotifyclone.features.artist.model.Artist;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.shared.model.APIResponse;
 
@@ -9,21 +10,19 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import com.example.spotifyclone.shared.model.PaginatedResponse;
 
 public interface SongService {
-    @GET("songs")
+    @GET("song")
     Call<List<Song>> getSongs();
 
-    @GET("songs/{id}")
+    @GET("song/{id}")
     Call<APIResponse<Song>> getSongById(@Path("id") String songId);
 
-    @GET("songs")
+    @GET("song")
     Call<APIResponse<List<Song>>> getSongsByArtist(@Query("artistId") String artistId);
 
-    @GET("songs/popular")
-    Call<APIResponse<List<Song>>> getPopularSongs();
-
-    @GET("songs/top")
-    Call<APIResponse<List<Song>>> getTopSongs();
+    @GET("song/random")
+    Call<APIResponse<PaginatedResponse<Song>>> getRandomSongs(@Query("limit") int limit);
 }
 

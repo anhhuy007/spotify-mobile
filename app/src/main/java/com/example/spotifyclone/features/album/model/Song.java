@@ -1,4 +1,4 @@
-package com.example.spotifyclone.album.model;
+package com.example.spotifyclone.features.album.model;
 
 import java.util.List;
 

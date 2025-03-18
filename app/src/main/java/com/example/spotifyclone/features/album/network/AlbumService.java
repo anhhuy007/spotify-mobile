@@ -1,7 +1,7 @@
-package com.example.spotifyclone.album.network;
+package com.example.spotifyclone.features.album.network;
 
-import com.example.spotifyclone.album.model.Album;
-import com.example.spotifyclone.album.model.Song;
+import com.example.spotifyclone.features.album.model.Album;
+import com.example.spotifyclone.features.album.model.Song;
 import com.example.spotifyclone.shared.model.APIResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,3 +20,4 @@ public interface AlbumService {
     @GET("album/{id}/songs")
     Call<APIResponse<List<Song>>> getSongs(@Path("id") String albumId);
 }
+

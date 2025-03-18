@@ -1,6 +1,7 @@
 package com.example.spotifyclone.features.home.adapter;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.album.model.Album;
+import com.example.spotifyclone.features.album.model.Album;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -68,6 +69,13 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
 
         public void bind(final Album album) {
             tvAlbumTitle.setText(album.getTitle());
+
+            // Debug log artist IDs
+            if (album.getArtistIds() != null) {
+                Log.d("AlbumBind", "Artist IDs: " + album.getArtistIds().toString());
+            } else {
+                Log.d("AlbumBind", "Artist IDs is null");
+            }
 
             if (album.getArtistIds() != null && !album.getArtistIds().isEmpty()) {
                 tvAlbumArtist.setText(TextUtils.join(", ", album.getArtistIds()));

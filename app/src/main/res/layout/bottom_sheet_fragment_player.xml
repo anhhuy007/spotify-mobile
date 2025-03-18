@@ -176,11 +176,12 @@
             app:layout_constraintTop_toBottomOf="@+id/tvCurrentTime"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
+
             <ImageButton
                 android:id="@+id/btnShuffle"
-                android:layout_width="@dimen/icon_size_small"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/icon_size_small"
-                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Shuffle"
                 android:src="@drawable/ic_shuffle_off"
@@ -188,45 +189,39 @@
 
             <ImageButton
                 android:id="@+id/btnPrevious"
-                android:layout_width="@dimen/icon_size_medium"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/icon_size_medium"
-                android:layout_marginEnd="30dp"
+                android:layout_weight="1"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Previous"
                 android:src="@drawable/ic_skip_prev"
                 android:scaleType="fitCenter"/>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="@dimen/icon_size_large"
+            <ImageButton
+                android:id="@+id/btnPlay"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/icon_size_large"
-                app:cardCornerRadius="@dimen/icon_size_large"
-                app:cardElevation="0dp"
-                android:layout_marginEnd="30dp">
-
-                <ImageButton
-                    android:id="@+id/btnPlay"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="Play/Pause"
-                    android:src="@drawable/ic_play_circle"
-                    android:scaleType="fitCenter"
-                    android:background="@android:color/transparent"/>
-            </androidx.cardview.widget.CardView>
+                android:layout_weight="1.5"
+                android:contentDescription="Play/Pause"
+                android:src="@drawable/ic_play_circle"
+                android:scaleType="fitCenter"
+                android:background="@android:color/transparent"/>
 
             <ImageButton
                 android:id="@+id/btnNext"
-                android:layout_width="@dimen/icon_size_medium"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/icon_size_medium"
+                android:layout_weight="1"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:layout_marginEnd="30dp"
                 android:contentDescription="Next"
                 android:src="@drawable/ic_skip_next"
                 android:scaleType="fitCenter"/>
 
             <ImageButton
                 android:id="@+id/btnRepeat"
-                android:layout_width="@dimen/icon_size_small"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/icon_size_small"
+                android:layout_weight="1"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Repeat"
                 android:src="@drawable/ic_repeat_off"
@@ -329,6 +324,8 @@
                             android:text="Con hẻm nhỏ 10 mét vuông 4 người sống..."
                             android:textSize="25sp"
                             android:textStyle="bold"
+                            android:singleLine="false"
+                            android:maxLines="100"
                             android:textColor="@color/textColorSecondary"
                             android:paddingTop="8dp" />
                     </LinearLayout>

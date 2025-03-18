@@ -1,4 +1,4 @@
-package com.example.spotifyclone.album.viewmodel;
+package com.example.spotifyclone.features.album.viewmodel;
 
 import android.content.Context;
 
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.spotifyclone.album.network.AlbumService;
+import com.example.spotifyclone.features.album.network.AlbumService;
 import com.example.spotifyclone.shared.network.RetrofitClient;
 
 

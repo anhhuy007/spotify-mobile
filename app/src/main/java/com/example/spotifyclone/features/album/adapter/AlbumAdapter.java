@@ -1,4 +1,4 @@
-package com.example.spotifyclone.album.adapter;
+package com.example.spotifyclone.features.album.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -18,8 +18,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.album.model.Album;
-import com.example.spotifyclone.album.inter.OnAlbumItemClickListener;
+import com.example.spotifyclone.features.album.model.Album;
+import com.example.spotifyclone.features.album.inter.OnAlbumItemClickListener;
 
 import java.util.List;
 

@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,10 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
-import com.example.spotifyclone.album.model.Album;
+import com.example.spotifyclone.features.album.model.Album;
 import com.example.spotifyclone.features.artist.model.Artist;
-import com.example.spotifyclone.features.authentication.viewmodel.AuthVMFactory;
-import com.example.spotifyclone.features.authentication.viewmodel.AuthViewModel;
 import com.example.spotifyclone.features.home.adapter.AlbumAdapter;
 import com.example.spotifyclone.features.home.adapter.ArtistAdapter;
 import com.example.spotifyclone.features.home.viewmodel.HomeVMFactory;
@@ -56,30 +53,38 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
     }
 
     private void initUI(View view) {
+        int spacing = 20; // dp spacing
+        boolean includeEdge = true;
+
         newSongsRecyclerView = view.findViewById(R.id.rv_top_songs);
         newSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         newSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.VERTICAL, this);
         newSongsRecyclerView.setAdapter(newSongsAdapter);
+        newSongsRecyclerView.setNestedScrollingEnabled(false);
 
         popularSongsRecyclerView = view.findViewById(R.id.rv_popular_songs);
         popularSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         popularSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.HORIZONTAL, this);
         popularSongsRecyclerView.setAdapter(popularSongsAdapter);
+        popularSongsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
         popularAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         popularAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), this);
         popularAlbumsRecyclerView.setAdapter(popularAlbumsAdapter);
+        popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         latestAlbumsRecylerView = view.findViewById(R.id.rv_latest_albums);
         latestAlbumsRecylerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         latestAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), this);
         latestAlbumsRecylerView.setAdapter(latestAlbumsAdapter);
+        latestAlbumsRecylerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         popularArtistsRecyclerView = view.findViewById(R.id.rv_popular_artists);
         popularArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         popularArtistAdapter = new ArtistAdapter(new ArrayList<>(), this);
         popularArtistsRecyclerView.setAdapter(popularArtistAdapter);
+        popularArtistsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
     }
 
     private void setupViewModel() {
@@ -157,7 +162,6 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
     @Override
     public void onAlbumClick(Album album) {
         Bundle args = new Bundle();
-
         Log.d("Album", "Click Album" + album);
 
         args.putString("cover_url", album.getCoverUrl());

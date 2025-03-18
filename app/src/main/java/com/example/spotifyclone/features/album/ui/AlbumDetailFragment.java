@@ -1,4 +1,4 @@
-package com.example.spotifyclone.album.ui;
+package com.example.spotifyclone.features.album.ui;
 
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -32,11 +32,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.album.adapter.AlbumAdapter;
-import com.example.spotifyclone.album.adapter.AlbumSongAdapter;
-import com.example.spotifyclone.album.model.Album;
-import com.example.spotifyclone.album.viewmodel.AlbumViewModel;
-import com.example.spotifyclone.album.viewmodel.AlbumViewModelFactory;
+import com.example.spotifyclone.features.album.adapter.AlbumAdapter;
+import com.example.spotifyclone.features.album.adapter.AlbumSongAdapter;
+import com.example.spotifyclone.features.album.model.Album;
+import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
+import com.example.spotifyclone.features.album.viewmodel.AlbumViewModelFactory;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.ArrayList;

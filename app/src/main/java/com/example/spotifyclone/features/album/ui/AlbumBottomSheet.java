@@ -1,4 +1,4 @@
-package com.example.spotifyclone.album.ui;
+package com.example.spotifyclone.features.album.ui;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.album.model.Song;
+import com.example.spotifyclone.features.album.model.Song;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 

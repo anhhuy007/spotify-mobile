@@ -1,4 +1,4 @@
-package com.example.spotifyclone.album.viewmodel;
+package com.example.spotifyclone.features.album.viewmodel;
 
 import android.util.Log;
 
@@ -7,9 +7,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 
-import com.example.spotifyclone.album.model.Album;
-import com.example.spotifyclone.album.model.Song;
-import com.example.spotifyclone.album.network.AlbumService;
+import com.example.spotifyclone.features.album.model.Album;
+import com.example.spotifyclone.features.album.model.Song;
+import com.example.spotifyclone.features.album.network.AlbumService;
 import com.example.spotifyclone.shared.model.APIResponse;
 
 import java.util.List;
@@ -30,49 +30,61 @@ public class AlbumViewModel extends ViewModel {
         Log.d("Album viewmodel", "constructor");
         this.albumService=albumService;
     }
-    public void fetchAlbumsByIds(){
+    public void fetchAlbumsByIds() {
         isLoading.setValue(true);
         albumService.getAlbums().enqueue(new Callback<APIResponse<List<Album>>>() {
             @Override
             public void onResponse(Call<APIResponse<List<Album>>> call, Response<APIResponse<List<Album>>> response) {
                 isLoading.setValue(false);
-                Log.d("AlbumViewModel", "onResponse: " + response.body().getData());
 
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    albums.setValue(response.body().getData());
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("AlbumViewModel", "onResponse: " + response.body().getData());
+                    if (response.body().isSuccess()) {
+                        albums.setValue(response.body().getData());
+                    } else {
+                        errorMessage.setValue("Failed to load albums");
+                    }
                 } else {
-                    errorMessage.setValue("Failed to load albums");
+                    errorMessage.setValue("Response unsuccessful or body is null");
+                    Log.e("AlbumViewModel", "Response unsuccessful: " + response.code());
                 }
             }
+
             @Override
             public void onFailure(Call<APIResponse<List<Album>>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("AlbumViewModel", "onFailure: " + t.getMessage());
             }
         });
     }
 
-    public void fetchAlbumSongs(String album_id)//return list of album_songs
-    {
+    public void fetchAlbumSongs(String album_id) {
+        Log.d("Album id", "Id: " + album_id);
         isLoading.setValue(true);
-        albumService.getSongs(album_id).enqueue(new Callback<APIResponse<List<Song>>>() { // Load genre data
+        albumService.getSongs(album_id).enqueue(new Callback<APIResponse<List<Song>>>() {
             @Override
             public void onResponse(Call<APIResponse<List<Song>>> call, Response<APIResponse<List<Song>>> response) {
                 isLoading.setValue(false);
-                Log.d("AlbumViewModel", "onResponse: " + response.body().getData());
 
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    album_songs.setValue(response.body().getData());
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d("AlbumViewModel", "onResponse: " + response.body().getData());
+                    if (response.body().isSuccess()) {
+                        album_songs.setValue(response.body().getData());
+                    } else {
+                        errorMessage.setValue("Failed to load songs");
+                    }
                 } else {
-                    errorMessage.setValue("Failed to load albums");
+                    errorMessage.setValue("Response unsuccessful or body is null");
+                    Log.e("AlbumViewModel", "Response unsuccessful: " + response.code());
                 }
             }
+
             @Override
             public void onFailure(Call<APIResponse<List<Song>>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("AlbumViewModel", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -80,7 +92,6 @@ public class AlbumViewModel extends ViewModel {
     public LiveData<List<Song>> getSongs(){
         return album_songs;
     }
-
     public LiveData<List<Album>> getAlbums(){
         return albums;
     }
@@ -90,6 +101,4 @@ public class AlbumViewModel extends ViewModel {
     public LiveData<String> getErrorMessage(){
         return errorMessage;
     }
-
-
 }

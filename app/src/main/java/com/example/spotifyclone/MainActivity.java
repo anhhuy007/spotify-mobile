@@ -11,24 +11,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.spotifyclone.album.inter.AlbumMainCallbacks;
-import com.example.spotifyclone.features.library.ui.LibraryFragment;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
-import com.example.spotifyclone.features.home.ui.HomeFragment;
 import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
-import com.example.spotifyclone.features.premium.ui.PremiumFragment;
-import com.example.spotifyclone.features.search.ui.SearchFragment;
 import com.example.spotifyclone.genre.inter.GenreMainCallbacks;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
@@ -36,8 +29,6 @@ import com.squareup.picasso.Picasso;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.example.spotifyclone.album.model.Album;
-import com.example.spotifyclone.album.ui.AlbumDetailFragment;
 import com.example.spotifyclone.genre.model.Genre;
 import com.example.spotifyclone.genre.ui.GenreDetailFragment;
 
@@ -135,7 +126,9 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
         if (song != null) {
             miniPlayer.setVisibility(View.VISIBLE);
             miniPlayerSongName.setText(song.getTitle() != null ? song.getTitle() : "No Title");
-            miniPlayerArtistName.setText(song.getSingers() != null && song.getSingers().size() > 0 ? song.getSingers().get(0): "Unknown Artist");
+            miniPlayerArtistName.setText(
+                    song.getSingers() != null && !song.getSingers().isEmpty() ? song.getSingers() : "Unknown Artist"
+            );
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                 Picasso.get().load(song.getImageUrl()).into(miniPlayerImage);
             } else {

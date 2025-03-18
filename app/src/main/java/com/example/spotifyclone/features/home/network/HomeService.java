@@ -1,6 +1,6 @@
 package com.example.spotifyclone.features.home.network;
 
-import com.example.spotifyclone.album.model.Album;
+import com.example.spotifyclone.features.album.model.Album;
 import com.example.spotifyclone.features.artist.model.Artist;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.shared.model.APIResponse;
@@ -19,7 +19,7 @@ public interface HomeService {
     @GET("album/popular")
     Call<APIResponse<PaginatedResponse<Album>>> getPopularAlbums();
 
-    @GET("album/latest")
+    @GET("album/new")
     Call<APIResponse<PaginatedResponse<Album>>> getLatestAlbums();
 
     @GET("artist/popular")

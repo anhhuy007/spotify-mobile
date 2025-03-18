@@ -61,8 +61,8 @@ public class Song implements Serializable {
         return create_at;
     }
 
-    public List<String> getSingers() {
-        return singers;
+    public String getSingers() {
+        return String.join(", ", singers);
     }
 
     // Setters
