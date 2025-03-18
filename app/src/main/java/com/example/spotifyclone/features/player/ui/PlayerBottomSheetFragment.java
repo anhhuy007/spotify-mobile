@@ -40,8 +40,8 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     private List<Song> upcomingSongs = new ArrayList<>();
     private MusicPlayerViewModel viewModel;
     private ImageButton btnDown, btnOptions, btnAdd, btnShuffle, btnPrevious, btnPlay, btnNext, btnRepeat, btnMultiMedia, btnPlaylist, btnShare, btnShareLyrics, btnExpand;
-    private TextView tvPlaylistInfo, tvSongTitle, tvArtistName, tvCurrentTime, tvTotalTime, tvLyricsTitle, tvLyricsContent;
-    private ImageView ivSongCover;
+    private TextView tvPlaylistInfo, tvSongTitle, tvArtistName, tvCurrentTime, tvTotalTime, tvLyricsTitle, tvLyricsContent, tvArtistIntro, tvArtistFullName, tvListenersCount, tvArtistDescription;
+    private ImageView ivSongCover, ivArtistImage;
     private SeekBar progressBar;
     private boolean isUserSeeking = false;
     private View rootView;
@@ -108,6 +108,13 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         btnExpand = rootView.findViewById(R.id.btnExpand);
         tvLyricsTitle = rootView.findViewById(R.id.tvLyricsTitle);
         tvLyricsContent = rootView.findViewById(R.id.tvLyricsContent);
+
+        // Artist Info Section
+        ivArtistImage = rootView.findViewById(R.id.ivArtistImage);
+        tvArtistIntro = rootView.findViewById(R.id.tvArtistIntro);
+        tvArtistFullName = rootView.findViewById(R.id.tvArtistFullName);
+        tvListenersCount = rootView.findViewById(R.id.tvListenersCount);
+        tvArtistDescription = rootView.findViewById(R.id.tvArtistDescription);
     }
 
     private void initViewModel() {
@@ -222,9 +229,13 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     private void updateUI() {
         if (song != null) {
             tvSongTitle.setText(song.getTitle());
-            tvArtistName.setText(song.getSingers().toString());
+            tvArtistName.setText(song.getSingersString().toString());
             tvLyricsTitle.setText(song.getTitle());
-            tvLyricsContent.setText(song.getLyrics().replace("\\n", "\n"));
+            String lyrics = song.getLyrics();
+            if (lyrics != null && lyrics.length() > 3) {
+                lyrics = lyrics.substring(3);
+            }
+            tvLyricsContent.setText(lyrics.replace("\\n", "\n"));
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                 Picasso.get().load(song.getImageUrl()).into(ivSongCover);
             }
@@ -232,6 +243,13 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             tvCurrentTime.setText("0:00");
             tvTotalTime.setText("0:00");
             progressBar.setProgress(0);
+
+            // Artist Info Section
+            Log.d("Artist Image", song.getSingerImageUrlAt(0));
+            Picasso.get().load(song.getSingerImageUrlAt(0)).into(ivArtistImage);
+            tvArtistFullName.setText(song.getSingerNameAt(0));
+            tvArtistDescription.setText(song.getSingerBioAt(0));
+            tvListenersCount.setText(String.valueOf(song.getSingerFollowersAt(0)) + " người nghe hằng tháng");
         }
     }
 
@@ -261,14 +279,6 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void showUpcomingSongsBottomSheet() {
         upcomingSongsBottomSheetFragment = UpcomingSongsBottomSheetFragment.newInstance(upcomingSongs, song);
-
-        upcomingSongsBottomSheetFragment.setOnSongActionListener(new UpcomingSongsBottomSheetFragment.OnSongActionListener() {
-            @Override
-            public void onSongSelected(Song song, int position) {
-
-            }
-        });
-
         upcomingSongsBottomSheetFragment.show(getParentFragmentManager(), UpcomingSongsBottomSheetFragment.TAG);
     }
 

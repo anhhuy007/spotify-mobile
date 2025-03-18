@@ -277,10 +277,10 @@
             android:id="@+id/lyricsCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
             android:layout_marginBottom="20dp"
             app:cardElevation="6dp"
             android:layout_margin="16dp"
+            app:cardCornerRadius="12dp"
             app:layout_constraintTop_toBottomOf="@+id/optionsLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -368,26 +368,27 @@
             android:id="@+id/artistCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            android:layout_marginBottom="20dp"
-            app:cardElevation="6dp"
             android:layout_margin="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            android:layout_marginBottom="20dp"
             app:layout_constraintTop_toBottomOf="@id/lyricsCard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/linearLayoutInfo">
+                android:layout_height="match_parent">
 
                 <!-- Artist Image -->
                 <ImageView
                     android:id="@+id/ivArtistImage"
                     android:layout_width="match_parent"
-                    app:layout_constraintBottom_toTopOf="@id/linearLayoutInfo"
-                    android:layout_height="200dp"
-                    android:scaleType="centerCrop" />
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <TextView
                     android:id="@+id/tvArtistIntro"
@@ -396,18 +397,23 @@
                     android:text="Giới thiệu về nghệ sĩ"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/textColorTertiary"
-                    android:padding="8dp"
-                    app:layout_constraintTop_toTopOf="@id/ivArtistImage"
-                    app:layout_constraintStart_toStartOf="@id/ivArtistImage"/>
+                    android:textColor="@android:color/white"
+                    android:padding="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <!-- Artist Info Section -->
                 <LinearLayout
+                    android:id="@+id/artistInfoSection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/ivArtistImage">
+                    android:background="@android:color/black"
+                    app:layout_constraintTop_toBottomOf="@id/ivArtistImage"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                     <!-- Name & Followers -->
                     <LinearLayout
@@ -422,7 +428,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="Thắng"
-                            android:textSize="18sp"
+                            android:textSize="24sp"
                             android:textStyle="bold"
                             android:textColor="@android:color/white"
                             android:layout_weight="1"/>
@@ -433,15 +439,16 @@
                             android:layout_height="wrap_content"
                             app:cardCornerRadius="20dp"
                             app:cardElevation="0dp"
+                            app:cardBackgroundColor="@android:color/white"
                             android:layout_marginStart="8dp">
 
                             <Button
                                 android:id="@+id/btnFollowArtist"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="40dp"
                                 android:text="Đang theo dõi"
-                                android:textColor="@color/textColorPrimary"
-                                android:padding="6dp"
+                                android:textColor="@android:color/black"
+                                android:padding="4dp"
                                 android:background="@android:color/transparent"/>
                         </androidx.cardview.widget.CardView>
 
@@ -452,18 +459,18 @@
                         android:id="@+id/tvListenersCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="624,3 N người nghe hằng tháng"
+                        android:text="642,5 N người nghe hằng tháng"
                         android:textSize="14sp"
-                        android:textColor="@color/textColorSecondary"/>
+                        android:textColor="@android:color/darker_gray"/>
 
                     <!-- Description -->
                     <TextView
                         android:id="@+id/tvArtistDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Vũ Đinh Trọng Thắng: singer songwriter Chiêu Phan aka Big Phan"
+                        android:text="Vũ Đinh Trọng Thắng: singer &amp; songwriter Chiêu Phan aka Big Phan"
                         android:textSize="14sp"
-                        android:textColor="@color/textColorSecondary"
+                        android:textColor="@android:color/darker_gray"
                         android:paddingTop="8dp"/>
                 </LinearLayout>
 

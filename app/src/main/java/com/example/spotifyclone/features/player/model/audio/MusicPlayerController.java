@@ -34,8 +34,8 @@ public class MusicPlayerController {
     private final Object playlistLock = new Object();
     private PlayList playList;
     private volatile boolean isReleased;
-    private static final int REFILL_THRESHOLD = 1;
-    private static final int REFILL_COUNT = 10;
+    private static final int REFILL_THRESHOLD = 5;
+    private static final int REFILL_COUNT = 15;
 
     /**
      * Private constructor to prevent direct instantiation.
@@ -450,5 +450,11 @@ public class MusicPlayerController {
      */
     public boolean isReleased() {
         return isReleased;
+    }
+
+    public void prioritizeSong(Song song) {
+        checkReleased();
+        playList.prioritizeSong(song);
+        play();
     }
 }

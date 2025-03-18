@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
             miniPlayer.setVisibility(View.VISIBLE);
             miniPlayerSongName.setText(song.getTitle() != null ? song.getTitle() : "No Title");
             miniPlayerArtistName.setText(
-                    song.getSingers() != null && !song.getSingers().isEmpty() ? song.getSingers() : "Unknown Artist"
+                    song.getSingersString() != null && !song.getSingersString().isEmpty() ? song.getSingersString() : "Unknown Artist"
             );
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                 Picasso.get().load(song.getImageUrl()).into(miniPlayerImage);

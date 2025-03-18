@@ -1,6 +1,7 @@
 package com.example.spotifyclone.features.player.ui;
 
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,23 +30,18 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment {
+public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment implements UpcomingSongAdapter.OnSongClickListener {
     public static final String TAG = "UpcomingSongsBottomSheetFragment";
     private static final String ARG_UPCOMING_SONGS = "upcoming_songs";
     private static final String ARG_CURRENT_SONG = "current_song";
+
     private Song currentSong;
     private List<Song> songList;
-
-    // View Model
     private MusicPlayerViewModel viewModel;
     private View rootView;
-
-    // Adapter
     private UpcomingSongAdapter adapter;
-    private OnSongActionListener songActionListener;
     private RecyclerView recyclerView;
 
-    // Views
     private TextView tvQueueTitle, tvCurrentSongTitle, tvCurrentSongArtist;
     private ImageButton btnPlay;
     private ImageView ivCurrentSongImage;
@@ -63,7 +59,6 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get song list from arguments
         if (getArguments() != null) {
             songList = (List<Song>) getArguments().getSerializable(ARG_UPCOMING_SONGS);
             currentSong = (Song) getArguments().getSerializable(ARG_CURRENT_SONG);
@@ -73,17 +68,7 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
             songList = new ArrayList<>();
         }
 
-        // Initialize ViewModel
         initViewModel();
-    }
-
-    public void setOnSongActionListener(OnSongActionListener listener) {
-        this.songActionListener = listener;
-    }
-
-
-    public interface OnSongActionListener {
-        void onSongSelected(Song song, int position);
     }
 
     @Nullable
@@ -97,16 +82,24 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int screenHeight = displayMetrics.heightPixels;
+        int initialHeight = (int) (screenHeight * 0.8);
+
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = initialHeight;
+        view.setLayoutParams(layoutParams);
+
         initUI();
         setupListeners();
         observeViewmodel();
         setupRecyclerView();
 
-        // Set expanded state for the bottom sheet
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
+        behavior.setPeekHeight(initialHeight);
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        behavior.setFitToContents(true);
     }
-
 
     private void initUI() {
         recyclerView = rootView.findViewById(R.id.recyclerUpcomingSongs);
@@ -130,24 +123,22 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
 
     private void setupRecyclerView() {
         if (recyclerView == null) {
-            return; // Exit if recyclerView is null
+            return;
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new UpcomingSongAdapter(songList, new UpcomingSongAdapter.OnSongClickListener() {
-            @Override
-            public void onSongClicked(Song song, int position) {
-                if (songActionListener != null) {
-                    songActionListener.onSongSelected(song, position);
-                }
-            }
-        });
-
+        adapter = new UpcomingSongAdapter(songList, this);
         recyclerView.setAdapter(adapter);
     }
 
-    // Method to update the song list
+    @Override
+    public void onSongClicked(Song song, int position) {
+        if (viewModel != null) {
+            viewModel.prioritizeSong(song);
+        }
+    }
+
     public void updateSongList(List<Song> newSongList) {
         if (adapter != null) {
             adapter.setSongs(newSongList);
@@ -179,7 +170,7 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
         if (currentSong != null) {
             tvCurrentSongTitle.setText(currentSong.getTitle());
             tvCurrentSongArtist.setText(
-                    currentSong.getSingers() != null && !currentSong.getSingers().isEmpty() ? currentSong.getSingers() : "Unknown Artist"
+                    currentSong.getSingersString() != null && !currentSong.getSingersString().isEmpty() ? currentSong.getSingersString() : "Unknown Artist"
             );
             Picasso.get().load(currentSong.getImageUrl()).into(ivCurrentSongImage);
         }
@@ -192,5 +183,4 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
             btnPlay.setImageResource(android.R.drawable.ic_media_play);
         }
     }
-
 }

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpcomingSongAdapter extends RecyclerView.Adapter<UpcomingSongAdapter.UpcomingSongViewHolder> {
-    private List<Song> songs;
+    private final List<Song> songs;
     private final OnSongClickListener onSongClickListener;
 
     public interface OnSongClickListener {
@@ -83,7 +83,7 @@ public class UpcomingSongAdapter extends RecyclerView.Adapter<UpcomingSongAdapte
                 tvSongTitle.setText(song.getTitle());
 
                 tvArtist.setText(
-                        song.getSingers() != null && !song.getSingers().isEmpty() ? song.getSingers() : "Unknown Artist"
+                        song.getSingersString() != null && !song.getSingersString().isEmpty() ? song.getSingersString() : "Unknown Artist"
                 );
 
                 if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {

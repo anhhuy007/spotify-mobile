@@ -196,6 +196,11 @@ public class MusicPlayerViewModel extends ViewModel {
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
     }
+    public void prioritizeSong(Song song) {
+        playerController.prioritizeSong(song);
+        playbackState.setValue(PlaybackState.LOADING);
+        handler.post(updateProgressRunnable);
+    }
     public void playPlaylist(PlayList playlist) {
         playerController.playPlaylist(playlist);
         playbackState.setValue(PlaybackState.LOADING);

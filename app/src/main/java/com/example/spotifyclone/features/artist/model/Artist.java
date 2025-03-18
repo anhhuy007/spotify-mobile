@@ -11,4 +11,5 @@ public class Artist {
     public String getName() { return name; }
     public String getDescription() { return bio; }
     public String getAvatarUrl() { return avatar_url; }
+    public  int getFollowers() {return followers; }
 }
