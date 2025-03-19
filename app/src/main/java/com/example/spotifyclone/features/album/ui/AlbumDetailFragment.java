@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.album.ui;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -34,12 +35,15 @@ import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.album.adapter.AlbumAdapter;
 import com.example.spotifyclone.features.album.adapter.AlbumSongAdapter;
+import com.example.spotifyclone.features.album.inter.AlbumMainCallbacks;
 import com.example.spotifyclone.features.album.model.Album;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModelFactory;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class AlbumDetailFragment extends Fragment {
     private ImageView albumImage;
@@ -61,7 +65,7 @@ public class AlbumDetailFragment extends Fragment {
     private String albumTitle;
     private String albumId;
     private String dayCreate;
-    private ArrayList<String> artistNames;
+    private List<String> artistNames;
     private String artistUrl;
 
     @Override
@@ -73,14 +77,24 @@ public class AlbumDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Lấy arguments từ navigation
         if (getArguments() != null) {
             coverUrl = getArguments().getString("cover_url");
-            albumTitle = getArguments().getString("name");
-            albumId = getArguments().getString("id");
-            dayCreate = getArguments().getString("day_create");
-            artistNames = getArguments().getStringArrayList("artists_name");
-            artistUrl = getArguments().getString("artist_url");
+            albumTitle = getArguments().getString("title");
+            albumId = getArguments().getString("_id");
+            dayCreate = getArguments().getString("release_date");
+
+            String[] artist_names_stringarray=getArguments().getStringArray("artist");
+            artistNames = Arrays.asList(artist_names_stringarray);
+            artistUrl=getArguments().getString("artist_url");
+
+            if(artistNames==null){
+                Log.d("AlbumDetailFragment", "Failed to fetch arristname");
+
+            }
+            else {
+                Log.d("AlbumDetailFragment", String.join(" ",artistNames));
+
+            }
         } else {
             Log.e("AlbumDetailFragment", "Arguments is null");
             NavHostFragment.findNavController(this).navigateUp();
@@ -110,22 +124,23 @@ public class AlbumDetailFragment extends Fragment {
     }
 
     private void setupUI() {
-        // Set artist names
-        String artistNamesJoined = (artistNames != null && !artistNames.isEmpty())
-            ? TextUtils.join(", ", artistNames)
-            : "Unknown Artist";
-        
+//        // Set artist names
+//        String artistNamesJoined = (artistNames != null && !artistNames.isEmpty())
+//            ? TextUtils.join(", ", artistNames)
+//            : "Unknown Artist";
+//
         // Load album image
-        artist_name.setText(artistNamesJoined);Glide.with(requireContext())
+        artist_name.setText(String.join(" ,", artistNames));Glide.with(requireContext())
                 .load(coverUrl)
                 .into(albumImage);
 
         // Artist info
-        artist_name2.setText(artistNamesJoined);
+        artist_name2.setText(String.join(" ,", artistNames));
         Glide.with(requireContext())
                 .load(artistUrl)
                 .into(artist_image);
-        artist_album_text.setText("Thêm nữa từ " + artistNamesJoined);
+        artist_album_text.setText("Thêm nữa từ " + String.join(" ,", artistNames));
+
     }
 
     private void setupToolbar(AppCompatActivity activity) {
@@ -196,8 +211,7 @@ public class AlbumDetailFragment extends Fragment {
         args.putString("name", album.getTitle());
         args.putString("id", album.getId());
         args.putString("day_create", album.getReleaseDate().toString());
-
-        args.putStringArrayList("artists_name", new ArrayList<>(album.getArtistIds()));
+        args.putStringArrayList("artists_name", new ArrayList<>(album.getArtists_name()));
         args.putString("artist_url", album.getCoverUrl());
         return args;
     }
@@ -209,17 +223,24 @@ public class AlbumDetailFragment extends Fragment {
         ).get(AlbumViewModel.class);
 
         albumViewModel.getSongs().observe(getViewLifecycleOwner(), songs -> {
+            Log.d("AlbumDetailFragment", "Songs: " + songs);
             songAdapter.setData(songs);
         });
 
         albumViewModel.getAlbums().observe(getViewLifecycleOwner(), albums -> {
-            artist_albumAdapter.setData(albums);
             related_albumAdapter.setData(albums);
         });
+
+        albumViewModel.getArtistAlbums().observe(getViewLifecycleOwner(), albums -> {
+            artist_albumAdapter.setData(albums);
+        });
+
 
         // Fetch data
         albumViewModel.fetchAlbumSongs(albumId);
         albumViewModel.fetchAlbumsByIds();
+        albumViewModel.fetchAlbumsByArtists(artistNames);
+
     }
 
     private void setupScrollListener() {

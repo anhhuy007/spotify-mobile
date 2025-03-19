@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -101,12 +102,6 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
     }
 
     private void observeViewModel() {
-//        musicPlayerViewModel.getTopSongs().observe(getViewLifecycleOwner(), songs -> {
-//            if (songs != null && !songs.isEmpty()) {
-//                topSongsAdapter.setSongs(songs);
-//                popularSongsAdapter.setSongs(songs);
-//            }
-//        });
         musicPlayerViewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
             if (playbackState != null) {
                 musicPlayerViewModel.getCurrentSong().observe(getViewLifecycleOwner(), song -> {
@@ -118,8 +113,8 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
             }
         });
 
-//        musicPlayerViewModel.getError().observe(getViewLifecycleOwner(), errorMessage ->
-//                Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_SHORT).show());
+        musicPlayerViewModel.getError().observe(getViewLifecycleOwner(), errorMessage ->
+                Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_SHORT).show());
 
         homeViewModel.getLatestAlbums().observe(getViewLifecycleOwner(), albums -> {
             if(albums != null) {
@@ -168,7 +163,7 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
         args.putString("name", album.getTitle());
         args.putString("id", album.getId());
         args.putString("day_create", album.getReleaseDate().toString());
-        List<String> artistNamesList = album.getArtistIds() != null ? album.getArtistIds() : new ArrayList<>();
+        List<String> artistNamesList = album.getArtists_name() != null ? album.getArtists_name() : new ArrayList<>();
         String[] artistNamesArray = artistNamesList.toArray(new String[0]);
         args.putStringArray("artists_name", artistNamesArray);
         args.putString("artist_url", album.getCoverUrl());

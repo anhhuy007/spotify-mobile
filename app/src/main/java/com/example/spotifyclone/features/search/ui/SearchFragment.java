@@ -2,13 +2,33 @@ package com.example.spotifyclone.features.search.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.features.album.adapter.AlbumAdapter;
+import com.example.spotifyclone.features.album.model.Album;
+import com.example.spotifyclone.features.album.ui.AlbumFragmentDirections;
+import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
+import com.example.spotifyclone.features.album.viewmodel.AlbumViewModelFactory;
+import com.example.spotifyclone.features.genre.adapter.GenreAdapter;
+import com.example.spotifyclone.features.genre.model.Genre;
+import com.example.spotifyclone.features.genre.viewmodel.GenreViewModel;
+import com.example.spotifyclone.features.genre.viewmodel.GenreViewModelFactory;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +45,14 @@ public class SearchFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RecyclerView recyclerView;
+    private EditText search_input;
+    private GenreAdapter genreAdapter;
+    private GenreViewModel genreViewModel;
+
+    private NavController navController;
+
 
     public SearchFragment() {
         // Required empty public constructor
@@ -63,4 +91,78 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        search_input=view.findViewById(R.id.search_input);
+
+        // setup NavController
+        navController = Navigation.findNavController(view);
+
+        // set up recyclerview, viewmodel
+        setupViewModel();
+        setupRecyclerView(view);
+
+    }
+    private void setupRecyclerView(View view) {
+        recyclerView = view.findViewById(R.id.genre_recyclerview);
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+
+        //Handle click on search bar
+        search_input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("SearchBar", "Search bar clicked!");
+
+                Navigation.findNavController(view).navigate(R.id.action_nav_search_to_searchSuggestFragment);
+            }
+        });
+
+        // Handle clicking on genre
+        genreAdapter = new GenreAdapter(requireContext(), new ArrayList<>(), genre -> {
+            // Chuyển đến genreDetailFragment
+
+        });
+
+
+        recyclerView.setAdapter(genreAdapter);
+    }
+
+    private void navigateToGenreDetail(Genre genre){
+
+
+//        NavDirections action = AlbumFragmentDirections.actionAlbumFragmentToNavAlbumDetail(
+//                album.getId(),
+//                album.getTitle(),
+//                album.getArtists_name().toArray(new String[0]), // List<String> → String[]
+//                album.getReleaseDate() != null ? album.getReleaseDate().getTime() : 0L, // Date → long
+//                album.getCoverUrl(),
+//                album.getCreatedAt() != null ? album.getCreatedAt().getTime() : 0L, // Date → long
+//                album.getLike_count(),
+//                album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
+//                album.getArtist_url().get(0) // Take the first url
+//
+//        );
+
+//        Navigation.findNavController(requireView()).navigate(action);
+
+    }
+
+
+    private void setupViewModel() {
+        GenreViewModel genreViewModel = new ViewModelProvider(
+                this,
+                new GenreViewModelFactory(requireContext())
+        ).get(GenreViewModel.class);
+        genreViewModel.fetchGenresByIds();
+
+        genreViewModel.getGenres().observe(getViewLifecycleOwner(), genres -> {
+            genreAdapter.setData(genres);
+        });
+
+    }
+
+
 }

@@ -1,7 +1,7 @@
 package com.example.spotifyclone.features.player.model.song;
 
 import com.example.spotifyclone.features.artist.model.Artist;
-import com.example.spotifyclone.genre.model.Genre;
+import com.example.spotifyclone.features.genre.model.Genre;
 
 import java.io.Serializable;
 import java.util.List;

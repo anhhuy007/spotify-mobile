@@ -1,4 +1,8 @@
-package com.example.spotifyclone.genre.model;
+//<<<<<<<< HEAD:app/src/main/java/com/example/spotifyclone/features/album/model/Album.java
+//package com.example.spotifyclone.features.album.model;
+//========
+package com.example.spotifyclone.features.genre.model;
+//>>>>>>>> a59271c391b5f03a42a95f674ab937d4935cdfc7:app/src/main/java/com/example/spotifyclone/features/genre/model/Album.java
 
 import com.google.gson.annotations.SerializedName;
 
@@ -12,7 +16,7 @@ public class Album {
     @SerializedName("title")
     private String title;
 
-    @SerializedName("artist_ids")
+    @SerializedName("artists")
     private List<String> artists_name;
 
     @SerializedName("release_date")
@@ -28,7 +32,6 @@ public class Album {
     private Date createdAt;
 
     public Album() {
-        // Constructor mặc định để Gson hoạt động
     }
 
     public String getId() {

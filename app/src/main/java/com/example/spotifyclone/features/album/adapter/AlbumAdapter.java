@@ -91,7 +91,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
         public void bind(Album album, Context context) {
             album_name.setText(album.getTitle());
-            album_artist.setText(String.join(", ",album.getArtistIds()));
+            album_artist.setText(String.join(", ",album.getArtists_name()));
 
             Log.d("Album Adapter", album.getCoverUrl());
             int radius = 20;

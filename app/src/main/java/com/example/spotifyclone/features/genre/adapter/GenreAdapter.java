@@ -1,4 +1,4 @@
-package com.example.spotifyclone.genre.adapter;
+package com.example.spotifyclone.features.genre.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -20,8 +20,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.genre.inter.OnGenreItemClickListener;
-import com.example.spotifyclone.genre.model.Genre;
+import com.example.spotifyclone.features.genre.inter.OnGenreItemClickListener;
+import com.example.spotifyclone.features.genre.model.Genre;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.List;
@@ -87,14 +87,14 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
 
             int radius = 20;
             Glide.with(context)
-                    .load(genre.getImg_url())
+                    .load(genre.getImage_url())
                     .apply(new RequestOptions().transform(
                             new MultiTransformation<>(new CenterCrop(), new RoundedCorners(radius))
                     ))
                     .into(imageView);
 
             //         extract color from picture
-            DominantColorExtractor.getDominantColor(context, genre.getImg_url(), color -> {
+            DominantColorExtractor.getDominantColor(context, genre.getImage_url(), color -> {
                 if (color == 0) {
                     Log.e("ColorExtractor", "Không thể lấy màu từ ảnh!");
                     return;

@@ -21,13 +21,59 @@ public class Album {
     @SerializedName("cover_url")
     private String coverUrl;
 
-    @SerializedName("song_ids")
-    private List<String> songIds;
+//    @SerializedName("song_ids")
+//    private List<String> songIds;
 
     @SerializedName("create_at")
     private Date createdAt;
 
+    @SerializedName("like_count")
+    private int like_count;
+
+    @SerializedName("updatedAt")
+    private Date updatedAt;
+
+    @SerializedName("artist_url")
+    private List<String> artist_url;
+
+
+    public List<String> getArtist_url() {
+        return artist_url;
+    }
+
+    public void setArtist_url(List<String> artist_url) {
+        this.artist_url = artist_url;
+    }
+
+    public List<String> getArtists_name() {
+        return artists_name;
+    }
+
+    public String getArtistsString() {
+        return String.join(",", artists_name);
+    }
+    public void setArtists_name(List<String> artists_name) {
+        this.artists_name = artists_name;
+    }
+
+    public int getLike_count() {
+        return like_count;
+    }
+
+    public void setLike_count(int like_count) {
+        this.like_count = like_count;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public Album() {
+        // Constructor mặc định để Gson hoạt động
     }
 
     public String getId() {
@@ -46,14 +92,6 @@ public class Album {
         this.title = title;
     }
 
-    public List<String> getArtistIds() {
-        return artists_name;
-    }
-
-
-    public void setArtistIds(List<String>artists_name) {
-        this.artists_name = artists_name;
-    }
 
     public Date getReleaseDate() {
         return releaseDate;
@@ -69,14 +107,6 @@ public class Album {
 
     public void setCoverUrl(String coverUrl) {
         this.coverUrl = coverUrl;
-    }
-
-    public List<String> getSongIds() {
-        return songIds;
-    }
-
-    public void setSongIds(List<String> songIds) {
-        this.songIds = songIds;
     }
 
     public Date getCreatedAt() {
@@ -95,7 +125,6 @@ public class Album {
                 ", artistIds=" + artists_name +
                 ", releaseDate=" + releaseDate +
                 ", coverUrl='" + coverUrl + '\'' +
-                ", songIds=" + songIds +
                 ", createdAt=" + createdAt +
                 '}';
     }

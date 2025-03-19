@@ -70,15 +70,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
         public void bind(final Album album) {
             tvAlbumTitle.setText(album.getTitle());
 
-            // Debug log artist IDs
-            if (album.getArtistIds() != null) {
-                Log.d("AlbumBind", "Artist IDs: " + album.getArtistIds().toString());
-            } else {
-                Log.d("AlbumBind", "Artist IDs is null");
-            }
-
-            if (album.getArtistIds() != null && !album.getArtistIds().isEmpty()) {
-                tvAlbumArtist.setText(TextUtils.join(", ", album.getArtistIds()));
+            Log.d("Artist name", album.getArtistsString());
+            if (album.getArtists_name() != null && !album.getArtists_name().isEmpty()) {
+                tvAlbumArtist.setText(album.getArtistsString());
             } else {
                 tvAlbumArtist.setText("Unknown Artist");
             }

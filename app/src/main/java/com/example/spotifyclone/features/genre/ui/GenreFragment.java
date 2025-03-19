@@ -1,4 +1,4 @@
-package com.example.spotifyclone.genre.ui;
+package com.example.spotifyclone.features.genre.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.genre.adapter.GenreAdapter;
-import com.example.spotifyclone.genre.inter.GenreMainCallbacks;
-import com.example.spotifyclone.genre.viewmodel.GenreViewModel;
-import com.example.spotifyclone.genre.viewmodel.GenreViewModelFactory;
+import com.example.spotifyclone.features.genre.adapter.GenreAdapter;
+import com.example.spotifyclone.features.genre.inter.GenreMainCallbacks;
+import com.example.spotifyclone.features.genre.viewmodel.GenreViewModel;
+import com.example.spotifyclone.features.genre.viewmodel.GenreViewModelFactory;
 
 import java.util.ArrayList;
 

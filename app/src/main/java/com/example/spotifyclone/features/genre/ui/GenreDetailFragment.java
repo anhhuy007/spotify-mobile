@@ -1,4 +1,4 @@
-package com.example.spotifyclone.genre.ui;
+package com.example.spotifyclone.features.genre.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -22,11 +22,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 
-import com.example.spotifyclone.genre.adapter.GenreAlbumAdapter;
-import com.example.spotifyclone.genre.inter.GenreMainCallbacks;
-import com.example.spotifyclone.genre.model.Genre;
-import com.example.spotifyclone.genre.viewmodel.GenreViewModel;
-import com.example.spotifyclone.genre.viewmodel.GenreViewModelFactory;
+import com.example.spotifyclone.features.genre.adapter.GenreAlbumAdapter;
+import com.example.spotifyclone.features.genre.inter.GenreMainCallbacks;
+import com.example.spotifyclone.features.genre.model.Genre;
+import com.example.spotifyclone.features.genre.viewmodel.GenreViewModel;
+import com.example.spotifyclone.features.genre.viewmodel.GenreViewModelFactory;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class GenreDetailFragment extends Fragment {
     public static GenreDetailFragment newInstance(Genre genre) {
         GenreDetailFragment fragment = new GenreDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("image_url", genre.getImg_url());
+        bundle.putString("image_url", genre.getImage_url());
         bundle.putString("description", genre.getDescription());
         bundle.putString("name", genre.getName());
         fragment.setArguments(bundle);
