@@ -1,13 +1,16 @@
 package com.example.spotifyclone.features.player.model.song;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.example.spotifyclone.features.artist.model.Artist;
 import com.example.spotifyclone.features.genre.model.Genre;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Song implements Serializable {
+public class Song implements Parcelable {
     private String _id;
     private String title;
     private String lyric;
@@ -33,6 +36,54 @@ public class Song implements Serializable {
         this.authors = authors;
         this.genres = genres;
     }
+
+    // Parcelable implementation
+    protected Song(Parcel in) {
+        _id = in.readString();
+        title = in.readString();
+        lyric = in.readString();
+        is_premium = in.readByte() != 0;
+        like_count = in.readInt();
+        mp3_url = in.readString();
+        image_url = in.readString();
+        singers = new ArrayList<>();
+        in.readList(singers, Artist.class.getClassLoader());
+        authors = new ArrayList<>();
+        in.readList(authors, Artist.class.getClassLoader());
+        genres = new ArrayList<>();
+        in.readList(genres, Genre.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_id);
+        dest.writeString(title);
+        dest.writeString(lyric);
+        dest.writeByte((byte) (is_premium ? 1 : 0));
+        dest.writeInt(like_count);
+        dest.writeString(mp3_url);
+        dest.writeString(image_url);
+        dest.writeList(singers);
+        dest.writeList(authors);
+        dest.writeList(genres);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Song> CREATOR = new Creator<Song>() {
+        @Override
+        public Song createFromParcel(Parcel in) {
+            return new Song(in);
+        }
+
+        @Override
+        public Song[] newArray(int size) {
+            return new Song[size];
+        }
+    };
 
     // Getters
     public String getId() {
@@ -62,8 +113,9 @@ public class Song implements Serializable {
     public String getImageUrl() {
         return image_url;
     }
+
     public List<String> getSingerNames() {
-        return singers != null ? singers.stream().map(Artist::getName).collect(Collectors.toList()) : null;
+        return singers != null ? singers.stream().map(Artist::getName).collect(Collectors.toList()) : new ArrayList<>();
     }
 
     public String getSingersString() {
@@ -71,7 +123,7 @@ public class Song implements Serializable {
     }
 
     public List<String> getAuthorNames() {
-        return authors != null ? authors.stream().map(Artist::getName).collect(Collectors.toList()) : null;
+        return authors != null ? authors.stream().map(Artist::getName).collect(Collectors.toList()) : new ArrayList<>();
     }
 
     public String getAuthorsString() {
@@ -79,12 +131,13 @@ public class Song implements Serializable {
     }
 
     public List<String> getGenreNames() {
-        return genres != null ? genres.stream().map(Genre::getName).collect(Collectors.toList()) : null;
+        return genres != null ? genres.stream().map(Genre::getName).collect(Collectors.toList()) : new ArrayList<>();
     }
 
     public String getGenresString() {
         return genres != null ? genres.stream().map(Genre::getName).collect(Collectors.joining(", ")) : "Unknown";
     }
+
     public String getSingerNameAt(int index) {
         return (singers != null && index >= 0 && index < singers.size()) ? singers.get(index).getName() : "Unknown";
     }
@@ -106,17 +159,16 @@ public class Song implements Serializable {
     }
 
     public int getSingerFollowersAt(int index) {
-        return (authors != null && index >= 0 && index < authors.size()) ? authors.get(index).getFollowers() : null;
+        return (singers != null && index >= 0 && index < singers.size()) ? singers.get(index).getFollowers() : 0;
     }
 
     public int getAuthorFollowersAt(int index) {
-        return (authors != null && index >= 0 && index < authors.size()) ? authors.get(index).getFollowers() : null;
+        return (authors != null && index >= 0 && index < authors.size()) ? authors.get(index).getFollowers() : 0;
     }
 
     public String getSingerBioAt(int index) {
-        return (authors != null && index >= 0 && index < authors.size()) ? authors.get(index).getDescription() : null;
+        return (singers != null && index >= 0 && index < singers.size()) ? singers.get(index).getDescription() : null;
     }
-
 
     // Setters
     public void setId(String _id) {

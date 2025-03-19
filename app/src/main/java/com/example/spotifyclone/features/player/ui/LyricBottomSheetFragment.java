@@ -37,7 +37,7 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
     public static LyricBottomSheetFragment newInstance(Song song) {
         LyricBottomSheetFragment fragment = new LyricBottomSheetFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_SONG, song);
+        args.putParcelable(ARG_SONG, song);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +66,7 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            song = (Song) getArguments().getSerializable(ARG_SONG);
+            song = getArguments().getParcelable(ARG_SONG);
         }
 
         initUI(view);

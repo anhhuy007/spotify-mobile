@@ -1,5 +1,8 @@
 package com.example.spotifyclone.features.player.ui;
 
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -21,10 +24,12 @@ import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.squareup.picasso.Picasso;
 
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -51,7 +56,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     public static PlayerBottomSheetFragment newInstance(Song song) {
         PlayerBottomSheetFragment fragment = new PlayerBottomSheetFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_SONG, song);
+        args.putParcelable(ARG_SONG, song);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,7 +65,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            song = (Song) getArguments().getSerializable(ARG_SONG);
+            song = getArguments().getParcelable(ARG_SONG);
         }
         initViewModel();
     }
@@ -82,6 +87,9 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         // Set expanded state by default
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) view.getParent());
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+        //Set background gradient
+        setupGradientBackground(view, song.getImageUrl());
     }
 
     private void initUI() {
@@ -250,6 +258,8 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             tvArtistFullName.setText(song.getSingerNameAt(0));
             tvArtistDescription.setText(song.getSingerBioAt(0));
             tvListenersCount.setText(String.valueOf(song.getSingerFollowersAt(0)) + " người nghe hằng tháng");
+
+            setupGradientBackground(rootView, song.getImageUrl());
         }
     }
 
@@ -290,5 +300,24 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         if (newSongList != null && !newSongList.equals(upcomingSongs)) {
             upcomingSongs = new ArrayList<>(newSongList);
         }
+    }
+
+    private void setupGradientBackground(View view, String coverUrl) {
+        int nightModeFlags = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean isDarkMode = (nightModeFlags == Configuration.UI_MODE_NIGHT_YES);
+        int secondColor = isDarkMode ? Color.BLACK : Color.WHITE;
+
+        DominantColorExtractor.getDominantColor(requireContext(), coverUrl, color -> {
+            GradientDrawable gradient = new GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    new int[]{color, secondColor}
+            );
+            gradient.setCornerRadius(0f);
+
+            view.findViewById(R.id.root_layout).setBackground(gradient);
+            CardView lyricsCard = view.findViewById(R.id.lyricsCard);
+            if (lyricsCard != null) {
+                lyricsCard.setCardBackgroundColor(color);
+            }        });
     }
 }

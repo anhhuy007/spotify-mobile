@@ -49,8 +49,8 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
     public static UpcomingSongsBottomSheetFragment newInstance(List<Song> upcomingSongs, Song currentSong) {
         UpcomingSongsBottomSheetFragment fragment = new UpcomingSongsBottomSheetFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_UPCOMING_SONGS, new ArrayList<>(upcomingSongs));
-        args.putSerializable(ARG_CURRENT_SONG, currentSong);
+        args.putParcelableArrayList(ARG_UPCOMING_SONGS, new ArrayList<>(upcomingSongs));
+        args.putParcelable(ARG_CURRENT_SONG, currentSong);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,8 +60,8 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            songList = (List<Song>) getArguments().getSerializable(ARG_UPCOMING_SONGS);
-            currentSong = (Song) getArguments().getSerializable(ARG_CURRENT_SONG);
+            songList = getArguments().getParcelableArrayList(ARG_UPCOMING_SONGS);
+            currentSong = getArguments().getParcelable(ARG_CURRENT_SONG);
         }
 
         if (songList == null) {
