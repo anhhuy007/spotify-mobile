@@ -23,6 +23,11 @@
         android:focusable="false"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/genre_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

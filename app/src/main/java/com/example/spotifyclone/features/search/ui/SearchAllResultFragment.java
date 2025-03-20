@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -20,22 +21,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.features.search.adapter.ClassifyAdapter;
 import com.example.spotifyclone.features.search.adapter.SearchAdapter;
+import com.example.spotifyclone.features.search.adapter.SearchAllAdapter;
 import com.example.spotifyclone.features.search.model.SearchItem;
 import com.example.spotifyclone.features.search.viewmodel.SearchViewModel;
 import com.example.spotifyclone.features.search.viewmodel.SearchViewModelFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SearchAllResultFragment extends Fragment {
     private RecyclerView recyclerView;
-    private SearchAdapter searchAdapter;
+    private List<SearchItem> items;
+    private RecyclerView classifyRecyclerView;
+    private SearchAllAdapter searchAdapter;
+
+    private ClassifyAdapter classifyAdapter;
     private SearchViewModel searchViewModel;
     private EditText search_input;
     @Override
     public void onAttach(@NonNull Context context) {
-        Log.d("Search", "onAttach");
         super.onAttach(context);
     }
 
@@ -57,8 +65,8 @@ public class SearchAllResultFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         String searchQuery = SearchAllResultFragmentArgs.fromBundle(getArguments()).getSearch();
 
-        setupViewModel(searchQuery);
         setupRecyclerView(view);
+        setupViewModel(searchQuery);
         search_input=view.findViewById(R.id.search_input);
         search_input.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,18 +75,49 @@ public class SearchAllResultFragment extends Fragment {
             }
         });
 
-
-
     }
-    private void setupRecyclerView(View view) {
-        recyclerView = view.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false));
 
-        searchAdapter = new SearchAdapter(requireContext(), new ArrayList<>(), item  -> {
+    @NonNull
+    @Override
+    public LayoutInflater onGetLayoutInflater(@Nullable Bundle savedInstanceState) {
+        return super.onGetLayoutInflater(savedInstanceState);
+    }
+
+    void setupRecyclerView(View view) {
+        recyclerView = view.findViewById(R.id.recyclerview);
+        classifyRecyclerView=view.findViewById(R.id.genre_recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false));
+        classifyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false)); // Hoặc GridLayoutManager nếu muốn
+
+        searchAdapter = new SearchAllAdapter(requireContext(), new ArrayList<>(), item  -> {
 
         });
+        classifyAdapter = new ClassifyAdapter(requireContext(), new ArrayList<>(), type -> {
+            Log.d("ClassifyAdapter", "Clicked on: " + type);
+
+            if (items == null || items.isEmpty()) {
+                Log.e("ClassifyAdapter", "No items to filter!");
+                return;
+            }
+
+            List<SearchItem> filterSearch = items.stream()
+                    .filter(item -> item.getType().equals(type))
+                    .collect(Collectors.toList());
+
+            if (filterSearch.isEmpty()) {
+                Log.e("ClassifyAdapter", "No items match the filter: " + type);
+            } else {
+                Log.d("ClassifyAdapter", "Filtered items count: " + filterSearch.size());
+            }
+
+            searchAdapter.setData(filterSearch);
+            searchAdapter.notifyDataSetChanged();
+        });
         recyclerView.setAdapter(searchAdapter);
+        classifyRecyclerView.setAdapter(classifyAdapter);
     }
+
+
     public void setupViewModel(String searchQuery){
         searchViewModel=new ViewModelProvider(
                 this,
@@ -86,12 +125,11 @@ public class SearchAllResultFragment extends Fragment {
         ).get(SearchViewModel.class);
         searchViewModel.fetchSearchResults(searchQuery, null, null, 1, 10);
         searchViewModel.getSearchResult().observe(getViewLifecycleOwner(), searchResult -> {
-            searchAdapter.setData(searchResult.getItems());
-
+            items=searchResult.getItems();
+            searchAdapter.setData(items);
         });
+
+        List<String> types = Arrays.asList("artist", "song", "genre", "album");
+        classifyAdapter.setData(types);
     }
-
-
-
-
 }
