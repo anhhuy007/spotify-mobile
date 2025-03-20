@@ -15,7 +15,7 @@
         android:id="@+id/nav_search"
         android:name="com.example.spotifyclone.features.search.ui.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_nav_search_to_searchSuggestFragment"
             app:destination="@id/searchSuggestFragment" />
@@ -72,8 +72,7 @@
             app:argType="long" />
         <argument
             android:name="artist_url"
-            app:argType="string"
-             />
+            app:argType="string" />
 
     </fragment>
     <fragment
@@ -84,15 +83,14 @@
         <action
             android:id="@+id/action_albumFragment_to_nav_album_detail"
             app:destination="@id/nav_album_detail" />
-
-
     </fragment>
+
     <fragment
         android:id="@+id/genreDetailFragment"
         android:name="com.example.spotifyclone.features.genre.ui.GenreDetailFragment"
         android:label="GenreDetailFragment"
-        tools:layout="@layout/activity_genre_detail"
-        />
+        tools:layout="@layout/activity_genre_detail" />
+
     <fragment
         android:id="@+id/searchSuggestFragment"
         android:name="com.example.spotifyclone.features.search.ui.SearchSuggestFragment"
@@ -102,6 +100,7 @@
             android:id="@+id/action_searchSuggestFragment_to_searchAllResultFragment"
             app:destination="@id/searchAllResultFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/searchAllResultFragment"
         android:name="com.example.spotifyclone.features.search.ui.SearchAllResultFragment"
@@ -109,10 +108,31 @@
         tools:layout="@layout/fragment_search_allresult">
         <argument
             android:name="search"
-            app:argType="string"
-             />
+            app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_checkout"
+        android:name="com.example.spotifyclone.features.premium.ui.CheckoutFragment"
+        android:label="CheckoutFragment"
+        tools:layout="@layout/fragment_checkout">
+        <argument
+            android:name="plan"
+            app:argType="string" />
+        <argument
+            android:name="duration"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@id/nav_premium"
+        android:name="com.example.spotifyclone.features.premium.ui.PremiumFragment"
+        android:label="PremiumSubscription"
+        tools:layout="@layout/fragment_premium">
+        <action
+            android:id="@+id/action_nav_premiumfm_to_checkoutfm"
+            app:destination="@id/nav_checkout" />
+    </fragment>
 
 
 </navigation>
