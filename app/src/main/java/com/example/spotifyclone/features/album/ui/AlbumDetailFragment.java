@@ -223,7 +223,7 @@ public class AlbumDetailFragment extends Fragment {
         ).get(AlbumViewModel.class);
 
         albumViewModel.getSongs().observe(getViewLifecycleOwner(), songs -> {
-            Log.d("AlbumDetailFragment", "Songs: " + songs);
+            Log.d("AlbumDetailFragmentSong", "Songs: " + songs);
             songAdapter.setData(songs);
         });
 

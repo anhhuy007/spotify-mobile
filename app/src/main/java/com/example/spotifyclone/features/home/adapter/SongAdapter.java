@@ -101,9 +101,9 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tvSongTitle.setText(song.getTitle());
 
             // Get artist name from singer IDs if available
-            tvArtistName.setText(
-                    song.getSingersString() != null && !song.getSingersString().isEmpty() ? song.getSingersString() : "Unknown Artist"
-            );
+//            tvArtistName.setText(
+//                    song.getSingersString() != null && !song.getSingersString().isEmpty() ? song.getSingersString() : "Unknown Artist"
+//            );
 
             // Load image with Picasso
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
