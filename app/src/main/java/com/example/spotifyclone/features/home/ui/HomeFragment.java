@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,14 +16,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.spotifyclone.MainActivity;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.album.model.Album;
+import com.example.spotifyclone.features.album.ui.AlbumFragmentDirections;
 import com.example.spotifyclone.features.artist.model.Artist;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.home.adapter.AlbumAdapter;
 import com.example.spotifyclone.features.home.adapter.ArtistAdapter;
 import com.example.spotifyclone.features.home.viewmodel.HomeVMFactory;
@@ -30,6 +36,10 @@ import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.home.adapter.SongAdapter;
 import com.example.spotifyclone.features.home.adapter.SongItemType;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.shared.model.User;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +50,10 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
     private AlbumAdapter popularAlbumsAdapter, latestAlbumsAdapter;
     private ArtistAdapter popularArtistAdapter;
     private MusicPlayerViewModel musicPlayerViewModel;
+    private User currentUser;
+    private ImageView userAvatarImage;
+    private TextView userNameText;
+
     private HomeViewModel homeViewModel;
 
     @Nullable
@@ -47,12 +61,27 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        initUser();
         initUI(view);
+        setupListeners();
         setupViewModel();
         observeViewModel();
         return view;
     }
 
+    private void setupListeners() {
+        userAvatarImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) requireActivity()).openDrawer();
+            }
+        });
+    }
+
+    private void initUser() {
+        AuthRepository authRepository = new AuthRepository(getContext());
+        currentUser = authRepository.getUser();
+    }
     private void initUI(View view) {
         int spacing = 20; // dp spacing
         boolean includeEdge = true;
@@ -86,6 +115,12 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
         popularArtistAdapter = new ArtistAdapter(new ArrayList<>(), this);
         popularArtistsRecyclerView.setAdapter(popularArtistAdapter);
         popularArtistsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
+
+        userAvatarImage = view.findViewById(R.id.iv_user_avatar);
+        userNameText = view.findViewById(R.id.tv_user_name);
+
+        Picasso.get().load(currentUser.getAvatarUrl()).into(userAvatarImage);
+        userNameText.setText(currentUser.getUsername());
     }
 
     private void setupViewModel() {
@@ -156,20 +191,39 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
 
     @Override
     public void onAlbumClick(Album album) {
-        Bundle args = new Bundle();
-        Log.d("Album", "Click Album" + album);
+//        Bundle args = new Bundle();
+//        Log.d("Album", "Click Album" + album);
+//
+//        args.putString("cover_url", album.getCoverUrl());
+//        args.putString("name", album.getTitle());
+//        args.putString("id", album.getId());
+//        args.putString("day_create", album.getReleaseDate().toString());
+//        List<String> artistNamesList = album.getArtists_name() != null ? album.getArtists_name() : new ArrayList<>();
+//        String[] artistNamesArray = artistNamesList.toArray(new String[0]);
+//        args.putStringArray("artists_name", artistNamesArray);
+//        args.putString("artist_url", album.getCoverUrl());
 
-        args.putString("cover_url", album.getCoverUrl());
-        args.putString("name", album.getTitle());
-        args.putString("id", album.getId());
-        args.putString("day_create", album.getReleaseDate().toString());
-        List<String> artistNamesList = album.getArtists_name() != null ? album.getArtists_name() : new ArrayList<>();
-        String[] artistNamesArray = artistNamesList.toArray(new String[0]);
-        args.putStringArray("artists_name", artistNamesArray);
-        args.putString("artist_url", album.getCoverUrl());
 
-        NavController navController = Navigation.findNavController(requireView());
-        navController.navigate(R.id.nav_album_detail, args);
+
+//        NavController navController = Navigation.findNavController(requireView());
+//        navController.navigate(R.id.nav_album_detail, args);
+        navigateToAlbumDetail(album);
+    }
+    private void navigateToAlbumDetail(Album album){
+        NavDirections action = HomeFragmentDirections.actionNavHomeToNavAlbumDetail(
+                album.getId(),
+                album.getTitle(),
+                album.getArtists_name().toArray(new String[0]), // List<String> → String[]
+                album.getReleaseDate() != null ? album.getReleaseDate().getTime() : 0L, // Date → long
+                album.getCoverUrl(),
+                album.getCreatedAt() != null ? album.getCreatedAt().getTime() : 0L, // Date → long
+                album.getLike_count(),
+                album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
+                album.getArtist_url().get(0)// Take the first url
+
+        );
+        Navigation.findNavController(requireView()).navigate(action);
+
     }
 
     @Override

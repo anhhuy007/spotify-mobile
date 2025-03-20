@@ -67,8 +67,6 @@ public class AlbumFragment extends Fragment {
         recyclerView.setAdapter(albumAdapter);
     }
     private void navigateToAlbumDetail(Album album){
-
-
         NavDirections action = AlbumFragmentDirections.actionAlbumFragmentToNavAlbumDetail(
                 album.getId(),
                 album.getTitle(),
@@ -80,10 +78,8 @@ public class AlbumFragment extends Fragment {
                 album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
                 album.getArtist_url().get(0) // Take the first url
 
+
         );
-        Log.d("AlbumFragment", "Navigated to albumDetailFragment");
-
-
         Navigation.findNavController(requireView()).navigate(action);
 
     }
