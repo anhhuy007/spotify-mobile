@@ -28,4 +28,6 @@
         <item name="android:textSelectHandle">@color/spotify_green</item>
     </style>
 
+
+
 </resources>

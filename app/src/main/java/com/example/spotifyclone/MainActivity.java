@@ -1,7 +1,9 @@
 package com.example.spotifyclone;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
@@ -20,6 +24,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.home.ui.HomeFragment;
 import com.example.spotifyclone.features.library.ui.LibraryFragment;
 import com.example.spotifyclone.features.player.model.song.Song;
@@ -31,12 +36,12 @@ import com.example.spotifyclone.features.premium.ui.PremiumFragment;
 import com.example.spotifyclone.features.search.ui.SearchFragment;
 import com.example.spotifyclone.shared.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import android.util.Log;
-import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private CardView miniPlayer;
     private ImageView miniPlayerImage;
     private TextView miniPlayerSongName, miniPlayerArtistName;
@@ -47,23 +52,26 @@ public class MainActivity extends AppCompatActivity {
 
     private AlbumViewModel albumViewModel;
     private NavController navController;
-
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+        initUser();
         initUI();
         initViewModel();
         setupListeners();
         observeViewModel();
         setupNavigation();
+    }
 
-        // Album
-//        setContentView(R.layout.activity_albumlayout);
-//        NavHostFragment navHostFragment =
-//                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-//        NavController navController = navHostFragment.getNavController();
+    private void initUser() {
+        AuthRepository authRepository = new AuthRepository(getApplicationContext());
+        currentUser = authRepository.getUser();
     }
 
     @Override
@@ -73,12 +81,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNavigation() {
+        // Setup Bottom Navigation
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
-        NavController navController = navHostFragment.getNavController();
-
+        navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(navView, navController);
+
+        // Setup Navigation Drawer
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    // Method to open drawer from fragments
+    public void openDrawer() {
+        if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation drawer item clicks
+        int id = item.getItemId();
+        if (id == R.id.nav_profile) {
+            // TODO: Handle navigation to profile
+            // Could use Navigation Component to navigate to profileFragment
+             navController.navigate(R.id.profileFragment);
+        } else if (id == R.id.nav_settings) {
+            // TODO: Handle navigation to settings
+             navController.navigate(R.id.settingsFragment);
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void initUI() {
@@ -91,6 +136,18 @@ public class MainActivity extends AppCompatActivity {
         miniPlayerPreviousButton = findViewById(R.id.mini_player_prev);
         miniPlayer.setVisibility(View.GONE);
         miniPlayerProgress = findViewById(R.id.mini_player_progress);
+
+        // Nav header in side bar
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+
+        ImageView userAvatar =  headerView.findViewById(R.id.drawer_header_avatar);
+        TextView userName = headerView.findViewById(R.id.drawer_header_username);
+        TextView userEmail = headerView.findViewById(R.id.drawer_header_email);
+
+        Picasso.get().load(currentUser.getAvatarUrl()).into(userAvatar);
+        userName.setText(currentUser.getUsername());
+        userEmail.setText(currentUser.getEmail());
     }
 
     private void initViewModel() {
@@ -130,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         });
-
     }
 
     private void updatePlaybackState(PlaybackState state) {
@@ -155,24 +211,4 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-    private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
-//        Fragment selectedFragment = null;
-//        int itemId = item.getItemId();
-//        if (itemId == R.id.nav_home) {
-//            selectedFragment = new HomeFragment();
-//        } else if (itemId == R.id.nav_search) {
-//            selectedFragment = new SearchFragment();
-//        } else if (itemId == R.id.nav_library) {
-//            selectedFragment = new LibraryFragment();
-//        } else if (itemId == R.id.nav_premium) {
-//            selectedFragment = new PremiumFragment();
-//        }
-//        if (selectedFragment != null) {
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.frame_container, selectedFragment)
-//                    .commit();
-//        }
-        return true;
-    };
 }
