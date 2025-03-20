@@ -61,8 +61,8 @@ public class AlbumFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupRecyclerView(view);
         setupViewModel();
+        setupRecyclerView(view);
     }
 
     private void setupRecyclerView(View view) {
@@ -85,9 +85,7 @@ public class AlbumFragment extends Fragment {
                 new AlbumViewModelFactory(requireContext())
         ).get(AlbumViewModel.class);
         albumViewModel.fetchAlbumsByIds();
-
         albumViewModel.getAlbums().observe(getViewLifecycleOwner(), albums -> {
-            Log.d("AlbumFragment", "Albums updated: " + albums);
             albumAdapter.setData(albums);
         });
     }

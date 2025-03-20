@@ -1,48 +1,42 @@
-<androidx.core.widget.NestedScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
-    android:fillViewport="true">
+    android:background="@color/background_color">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/albumlayout">
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        >
 
-        <!--        album detail-->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/album_info"
-            app:cardElevation="0dp"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <!--    back button-->
-            <Button
-                android:id="@+id/backButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/ic_backbutton"
-                android:padding="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_height="400dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:fitsSystemWindows="true"
+            app:collapsedTitleTextColor="@color/text_color"
+            app:expandedTitleTextColor="@color/text_color"
+            app:expandedTitleGravity="bottom|center_horizontal"
+            >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/imageConstraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="parallax">
+
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/image"
                     app:cardBackgroundColor="@android:color/transparent"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="match_parent"
                     app:cardElevation="0dp"
-                    app:layout_constraintHeight_percent="0.7"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -56,9 +50,10 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:scaleType="centerCrop"
+
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHeight_percent="0.8"
+                            app:layout_constraintHeight_percent="0.6"
                             app:layout_constraintDimensionRatio="1:1"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -66,243 +61,249 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/album_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:fontFamily="@font/avenir_next"
-                    android:textColor="@color/text_color"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/image" />
-
-                <TextView
-                    android:id="@+id/artist_name"
-                    android:layout_width="0dp"
-                    android:fontFamily="@font/avenir_next"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:textColor="@color/text_color"
-                    android:textSize="16sp"
-
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/album_name" />
-
-                <TextView
-                    android:id="@+id/information"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@string/follower_string"
-                    android:fontFamily="@font/avenir_next"
-                    android:textColor="@color/text_color"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/artist_name" />
-
-                <LinearLayout
-                    android:id="@+id/actionButtonsLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/information">
-
-                    <!-- Group 3 nút bên trái -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:orientation="horizontal"
-                        android:layout_weight="1">  <!-- Đẩy phần còn lại về phải -->
-
-                        <ImageButton
-                            android:id="@+id/story"
-                            android:layout_width="48dp"
-                            android:layout_height="55dp"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/like_description"
-                            android:src="@drawable/ic_album_story"
-                            app:tint="@color/text_color"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="5dp"/>
-
-                        <ImageButton
-                            android:id="@+id/addButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/add_button_description"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_add"
-                            app:tint="@color/text_color"
-                            android:layout_marginEnd="5dp"/> <!-- Khoảng cách 5dp -->
-
-                        <ImageButton
-                            android:id="@+id/downloadButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/download_description"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_download"
-                            app:tint="@color/text_color"
-                            android:layout_marginEnd="5dp"
-                            />
-
-                        <ImageButton
-                            android:id="@+id/optionsButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/more_option_description"
-                            android:src="@drawable/ic_more"
-                            app:tint="@color/text_color"/>
-<!--                            app:tint="#B3B3B3" />-->
-                    </LinearLayout>
-
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end">  <!-- Dàn về bên trái -->
-
-                        <ImageButton
-                            android:id="@+id/shuffle_button"
-                            android:layout_width="55dp"
-                            android:layout_height="55dp"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/shuffle_button_description"
-                            android:src="@drawable/ic_shuffle"
-                            android:layout_gravity="center_vertical"
-                             />
-
-                        <ImageButton
-                            android:id="@+id/play_button"
-                            android:layout_width="50dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center_vertical"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="@string/play_button_description"
-                            android:padding="0dp"
-                            android:src="@drawable/play_button" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.cardview.widget.CardView>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
 
-        <!-- Danh sách bài hát -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:background="@color/background_color"
-            android:id="@+id/song_recyclerview"
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
+                 />
 
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="16dp"
-            android:textSize="20sp"
-            android:textColor="@color/text_color"
-            android:text="@string/artist_string"
-            android:fontFamily="@font/avenir_next_bold"
-            />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_color"
+        android:fillViewport="true"
+        android:descendantFocusability="blocksDescendants"
+        android:id="@+id/nestedScrollview"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            >
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/artist_image"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/ic_launcher_foreground"
-                app:shapeAppearanceOverlay="@style/CircleImageView"/>
+            android:orientation="vertical"
+            android:id="@+id/albumlayout">
             <TextView
-                android:id="@+id/artist"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/text_color"
+                android:id="@+id/artist_name"
+                android:layout_width="wrap_content"
                 android:fontFamily="@font/avenir_next"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
+                android:textColor="@color/text_color"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:id="@+id/information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/follower_string"
+                android:fontFamily="@font/avenir_next"
+                android:textColor="@color/text_color"
                 android:textSize="14sp"
-               />
+                 />
 
 
+            <LinearLayout
+                android:id="@+id/actionButtonsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/information">
+
+                <!-- Group 3 nút bên trái -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">  <!-- Đẩy phần còn lại về phải -->
+
+                    <ImageButton
+                        android:id="@+id/story"
+                        android:layout_width="48dp"
+                        android:layout_height="55dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/like_description"
+                        android:src="@drawable/ic_album_story"
+                        app:tint="@color/text_color"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="5dp"/>
+
+                    <ImageButton
+                        android:id="@+id/addButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/add_button_description"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_add"
+                        app:tint="@color/text_color"
+                        android:layout_marginEnd="5dp"/> <!-- Khoảng cách 5dp -->
+
+                    <ImageButton
+                        android:id="@+id/downloadButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/download_description"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_download"
+                        app:tint="@color/text_color"
+                        android:layout_marginEnd="5dp"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/optionsButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/more_option_description"
+                        android:src="@drawable/ic_more"
+                        app:tint="@color/text_color"/>
+                    <!--                            app:tint="#B3B3B3" />-->
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end">  <!-- Dàn về bên trái -->
+
+                    <ImageButton
+                        android:id="@+id/shuffle_button"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/shuffle_button_description"
+                        android:src="@drawable/ic_shuffle"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/play_button"
+                        android:layout_width="50dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/play_button_description"
+                        android:padding="0dp"
+                        android:src="@drawable/play_button" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <!-- Danh sách bài hát -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:background="@color/background_color"
+                android:id="@+id/song_recyclerview"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="20sp"
+                android:textColor="@color/text_color"
+                android:text="@string/artist_string"
+                android:fontFamily="@font/avenir_next_bold"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                >
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/artist_image"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:shapeAppearanceOverlay="@style/CircleImageView"/>
+                <TextView
+                    android:id="@+id/artist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/text_color"
+                    android:fontFamily="@font/avenir_next"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:textSize="14sp"
+                    />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/artist_album_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/text_color"
+                android:textSize="20sp"
+                android:fontFamily="@font/avenir_next_bold"
+                />
+            <!--        Danh sach album cua nghe si-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="10dp"
+                android:id="@+id/artist_album"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="20sp"
+                android:text="@string/album_same_genre_string"
+                android:fontFamily="@font/avenir_next_bold"
+                android:textColor="@color/text_color"
+                />
+            <!--        Danh sach album lien quan-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/related_album"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/artist_album_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/text_color"
-            android:textSize="20sp"
-            android:fontFamily="@font/avenir_next_bold"
-            />
-    <!--        Danh sach album cua nghe si-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="10dp"
-            android:id="@+id/artist_album"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="16dp"
-            android:textSize="20sp"
-            android:text="@string/album_same_genre_string"
-            android:fontFamily="@font/avenir_next_bold"
-            android:textColor="@color/text_color"
-            />
-<!--        Danh sach album lien quan-->
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/related_album"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
-
-
-
-    </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

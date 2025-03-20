@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.spotifyclone.album.inter.AlbumMainCallbacks;
+import com.example.spotifyclone.album.ui.AlbumFragment;
 import com.example.spotifyclone.features.library.ui.LibraryFragment;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements GenreMainCallback
                     .replace(R.id.frame_container, new HomeFragment())
                     .commit();
         }
+
     }
 
     private void initUI() {

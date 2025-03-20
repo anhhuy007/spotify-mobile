@@ -5,4 +5,6 @@ import com.example.spotifyclone.album.model.Album;
 
 public interface OnAlbumItemClickListener {
      void OnItemClick(Album album);
+
+
 }
