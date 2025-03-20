@@ -3,10 +3,13 @@ package com.example.spotifyclone.features.premium.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.spotifyclone.R;
 
@@ -61,6 +64,39 @@ public class PremiumFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_premium, container, false);
+        View view = inflater.inflate(R.layout.fragment_premium, container, false);
+
+        Button btnPremiumMini = view.findViewById(R.id.btn_get_premium_mini);
+        Button btnPremiumIndividual = view.findViewById(R.id.btn_try_individual);
+        Button btnPremiumStudent = view.findViewById(R.id.btn_try_student);
+
+        btnPremiumMini.setOnClickListener(v -> navigateToCheckoutPage("mini"));
+        btnPremiumIndividual.setOnClickListener(v -> navigateToCheckoutPage("individual"));
+        btnPremiumStudent.setOnClickListener(v -> navigateToCheckoutPage("student"));
+
+        return view;
+    }
+
+    private void navigateToCheckoutPage(String plan) {
+        // Navigate to checkout page
+        Bundle bundle = new Bundle();
+
+        switch(plan) {
+            case "mini":
+                bundle.putString("plan", "mini");
+                bundle.putInt("duration", 1); // 1 month
+                break;
+            case "individual":
+                bundle.putString("plan", "individual");
+                bundle.putInt("duration", 3); // 3 months
+                break;
+            case "student":
+                bundle.putString("plan", "student");
+                bundle.putInt("duration", 6); // 6 months
+                break;
+        }
+
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.action_nav_premiumfm_to_checkoutfm, bundle);
     }
 }

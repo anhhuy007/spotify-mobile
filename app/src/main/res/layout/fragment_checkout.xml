@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/colorPrimaryDark"
     android:fillViewport="true">
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="#212121"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp">
 
@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Subscription Summary"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -61,7 +61,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Premium Individual"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/black"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -70,7 +70,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="₫0 for 3 months, then ₫59,000/month"
-                            android:textColor="#9E9E9E"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Today's charge"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/black"
                         android:textSize="14sp" />
 
                     <TextView
@@ -100,7 +100,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="₫0.00"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="After 3 months"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/black"
                         android:textSize="14sp" />
 
                     <TextView
@@ -124,7 +124,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="₫59,000/month"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -135,7 +135,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/white"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp">
 
@@ -149,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Payment Details"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textColorSecondary"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -157,7 +157,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Complete your payment securely."
-                    android:textColor="#666666"
+                    android:textColor="@color/textColorSecondary"
                     android:textSize="14sp" />
 
                 <!-- Amount -->
@@ -166,19 +166,38 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="Amount"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textColorSecondary"
                     android:textSize="16sp" />
 
-                <EditText
-                    android:id="@+id/et_amount"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/edit_text_border"
-                    android:enabled="false"
-                    android:padding="12dp"
-                    android:text="$ 0.00"
-                    android:textColor="@android:color/black" />
+                    android:textColorHint="@color/gray"
+                    app:boxBackgroundColor="@color/inputEditTextBg"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintEnabled="false"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:padding="12dp"
+                        android:text="$ 0.00"
+                        android:layout_marginTop="8dp"
+                        android:hint="@string/email_or_username"
+                        android:textColor="@color/textColorSecondary"
+                        android:textColorHint="@color/gray"
+                        android:textSize="16sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Payment Method -->
                 <TextView
@@ -186,7 +205,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="Payment Method"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textColorSecondary"
                     android:textSize="16sp" />
 
                 <RadioGroup
@@ -195,104 +214,36 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp">
 
-                    <!-- PayPal Option -->
-                    <LinearLayout
+                    <RadioButton
+                        android:id="@+id/rb_paypal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:checked="true"
+                        android:drawableStart="@drawable/ic_paypal"
+                        android:drawablePadding="8dp"
+                        android:text="PayPal"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="16sp" />
 
-                        <RadioButton
-                            android:id="@+id/rb_paypal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="48dp"
-                                android:layout_height="32dp"
-                                android:src="@drawable/ic_paypal" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="PayPal"
-                                android:textColor="@android:color/black"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- Momo Option -->
-                    <LinearLayout
+                    <RadioButton
+                        android:id="@+id/rb_momo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:drawableStart="@drawable/ic_momo"
+                        android:drawablePadding="8dp"
+                        android:text="Momo"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="16sp" />
 
-                        <RadioButton
-                            android:id="@+id/rb_momo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="48dp"
-                                android:layout_height="32dp"
-                                android:src="@drawable/ic_momo" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Momo"
-                                android:textColor="@android:color/black"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- Credit Card Option -->
-                    <LinearLayout
+                    <RadioButton
+                        android:id="@+id/rb_credit_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/rb_credit_card"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="48dp"
-                                android:layout_height="32dp"
-                                android:src="@drawable/ic_credit_card" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Credit Card"
-                                android:textColor="@android:color/black"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-
+                        android:drawableStart="@drawable/ic_credit_card"
+                        android:drawablePadding="8dp"
+                        android:text="Credit Card"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="16sp" />
                 </RadioGroup>
 
                 <!-- Pay Button -->
@@ -305,7 +256,7 @@
                     android:layout_marginEnd="32dp"
                     android:text="Pay ₫0.00"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     app:backgroundTint="@color/spotify_green"
                     app:cornerRadius="28dp" />

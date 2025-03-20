@@ -112,23 +112,26 @@
     </fragment>
 
     <fragment
-        android:id="@+id/CheckoutFragment"
+        android:id="@+id/nav_checkout"
         android:name="com.example.spotifyclone.features.premium.ui.CheckoutFragment"
         android:label="CheckoutFragment"
-        tools:layout="@layout/fragment_checkout" >
+        tools:layout="@layout/fragment_checkout">
         <argument
             android:name="plan"
             app:argType="string" />
+        <argument
+            android:name="duration"
+            app:argType="integer" />
     </fragment>
 
     <fragment
         android:id="@id/nav_premium"
         android:name="com.example.spotifyclone.features.premium.ui.PremiumFragment"
         android:label="PremiumSubscription"
-        tools:layout="@layout/fragment_premium" >
+        tools:layout="@layout/fragment_premium">
         <action
             android:id="@+id/action_nav_premiumfm_to_checkoutfm"
-            app:destination="@id/CheckoutFragment" />
+            app:destination="@id/nav_checkout" />
     </fragment>
 
 

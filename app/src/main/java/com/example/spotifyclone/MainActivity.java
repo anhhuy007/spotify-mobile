@@ -34,7 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     private CardView miniPlayer;
     private ImageView miniPlayerImage;
     private TextView miniPlayerSongName, miniPlayerArtistName;
@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity{
 
     private AlbumViewModel albumViewModel;
     private NavController navController;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,20 +63,13 @@ public class MainActivity extends AppCompatActivity{
 //        NavHostFragment navHostFragment =
 //                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
 //        NavController navController = navHostFragment.getNavController();
-
-
-
-
-
     }
+
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
-
-
-
 
 
     private void setupNavigation() {
@@ -154,7 +145,7 @@ public class MainActivity extends AppCompatActivity{
         if (song != null) {
             miniPlayer.setVisibility(View.VISIBLE);
             miniPlayerSongName.setText(song.getTitle() != null ? song.getTitle() : "No Title");
-            miniPlayerArtistName.setText(song.getSingers() != null && song.getSingers().size() > 0 ? song.getSingers().get(0): "Unknown Artist");
+            miniPlayerArtistName.setText(song.getSingers() != null && song.getSingers().size() > 0 ? song.getSingers().get(0) : "Unknown Artist");
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                 Picasso.get().load(song.getImageUrl()).into(miniPlayerImage);
             } else {
