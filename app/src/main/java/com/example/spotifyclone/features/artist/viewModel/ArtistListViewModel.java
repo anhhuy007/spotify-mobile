@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.spotifyclone.features.artist.network.apiArtistService;
-import com.example.spotifyclone.features.artist.model.ArtistDetail;
+import com.example.spotifyclone.features.artist.model.Artist;
 import com.example.spotifyclone.features.artist.network.artistRetrofit;
 
 import java.util.List;
@@ -22,14 +22,14 @@ import retrofit2.Retrofit;
 
 public class ArtistListViewModel extends AndroidViewModel {
     private final Context context;
-    private final MutableLiveData<List<ArtistDetail>> artists = new MutableLiveData<>();
+    private final MutableLiveData<List<Artist>> artists = new MutableLiveData<>();
 
     public ArtistListViewModel(@NonNull Application application) {
         super(application);
         this.context = application.getApplicationContext();
     }
 
-    public LiveData<List<ArtistDetail>> getArtists() {
+    public LiveData<List<Artist>> getArtists() {
         return artists;
     }
 
@@ -38,10 +38,10 @@ public class ArtistListViewModel extends AndroidViewModel {
         Retrofit retrofit = artistRetrofit.getClient();
         apiArtistService apiService = retrofit.create(apiArtistService.class);
 
-        Call<List<ArtistDetail>> call = apiService.getListArtist();
-        call.enqueue(new Callback<List<ArtistDetail>>() {
+        Call<List<Artist>> call = apiService.getListArtist();
+        call.enqueue(new Callback<List<Artist>>() {
             @Override
-            public void onResponse(Call<List<ArtistDetail>> call, Response<List<ArtistDetail>> response) {
+            public void onResponse(Call<List<Artist>> call, Response<List<Artist>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     artists.setValue(response.body());
                 } else {
@@ -50,7 +50,7 @@ public class ArtistListViewModel extends AndroidViewModel {
             }
 
             @Override
-            public void onFailure(Call<List<ArtistDetail>> call, Throwable t) {
+            public void onFailure(Call<List<Artist>> call, Throwable t) {
                 Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

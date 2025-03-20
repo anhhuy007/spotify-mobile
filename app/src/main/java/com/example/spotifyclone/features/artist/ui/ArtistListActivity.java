@@ -13,7 +13,7 @@ import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.artist.adapter.ArtistAdapter;
 import com.example.spotifyclone.features.artist.viewModel.ArtistListViewModel;
 
-public class ArtistListActivity extends AppCompatActivity {
+public class  ArtistListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Context context;
     private ImageButton btnBack;

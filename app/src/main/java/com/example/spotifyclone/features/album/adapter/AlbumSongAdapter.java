@@ -1,4 +1,4 @@
-package com.example.spotifyclone.album.adapter;
+package com.example.spotifyclone.features.album.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.album.model.Song;
-import com.example.spotifyclone.album.ui.AlbumBottomSheet;
+import com.example.spotifyclone.features.album.ui.AlbumBottomSheet;
+import com.example.spotifyclone.features.player.model.song.Song;
 
 import java.util.List;
 
@@ -82,7 +82,7 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             SongViewHolder songHolder = (SongViewHolder) holder;
             Song song = songs.get(position);
             songHolder.song_name.setText(song.getTitle());
-            String songs_artist = String.join(", ", song.getSinger_ids());
+            String songs_artist = String.join(", ", song.getSingersString());
             songHolder.song_artist.setText(songs_artist);
             songHolder.more_icon.setOnClickListener(v -> {
                 if (context instanceof FragmentActivity) {
@@ -92,7 +92,7 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
 
             Glide.with(context)
-                    .load(song.getImg_url())
+                    .load(song.getImageUrl())
                     .into(songHolder.song_image);
 
         } else if (holder instanceof LoadMoreViewHolder) {

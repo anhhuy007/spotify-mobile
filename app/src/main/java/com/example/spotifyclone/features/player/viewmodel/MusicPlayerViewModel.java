@@ -50,7 +50,7 @@ public class MusicPlayerViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
     // Handler for updating progress and current duration on UI
-    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler handler = new Handler(Looper. getMainLooper());
     private final Runnable updateProgressRunnable = new Runnable() {
         @Override
         public void run() {
@@ -193,6 +193,11 @@ public class MusicPlayerViewModel extends ViewModel {
     }
     public void playSong(Song song) {
         playerController.playSong(song);
+        playbackState.setValue(PlaybackState.LOADING);
+        handler.post(updateProgressRunnable);
+    }
+    public void prioritizeSong(Song song) {
+        playerController.prioritizeSong(song);
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
     }

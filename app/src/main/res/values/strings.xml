@@ -39,7 +39,7 @@
     <string name="light_mode">Chế độ sáng</string>
     <string name="fler">người theo dõi</string>
     <string name="fl">Đang theo dõi</string>
-    <string name="edit" >Chỉnh sửa</string>
+    <string name="edit">Chỉnh sửa</string>
     <string name="noActivity">Không có hoạt động nào gần đây</string>
     <string name="setting">CÀI ĐẶT</string>
     <string name="account">Tài khoản</string>
@@ -113,4 +113,6 @@
     <string name="log_in_underline"><u>Login</u></string>
     <string name="skip_for_now"><u>Skip for now</u></string>
     <string name="didn_t_receive_a_code_resend">Didn\'t receive a code? <u>Resend</u></string>
+    <string name="Search_all">Duyệt tìm tất cả</string>
+    <string name="noSearchResult">Không tìm thấy kết quả nào</string>
 </resources>

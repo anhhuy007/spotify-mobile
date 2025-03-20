@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -213,6 +214,7 @@ public class UsernameFragment extends Fragment {
     private void checkUsernameAvailability(String username) {
         usernameInputLayout.setHelperTextColor(getContext().getColorStateList(R.color.gray_600));
         usernameInputLayout.setHelperText("Checking availability...");
+        Log.d("DEBUG", "Check username availability");
         handler.postDelayed(() -> {
             authViewModel.checkUsernameAvailability(username, new CheckUserExistCallBack() {
                 @Override

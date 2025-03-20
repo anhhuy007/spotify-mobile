@@ -7,6 +7,8 @@
 
     <!-- Light Theme colors -->
     <color name="colorBackground">#FFFFFF</color> <!-- White background -->
+    <color name="secondaryBackground">#212121</color> <!-- Secondary text color (light gray) -->
+
     <color name="textColorPrimary">#191414</color> <!-- Primary text color (dark black) -->
     <color name="textColorSecondary">#666666</color> <!-- Secondary text color (light gray) -->
 

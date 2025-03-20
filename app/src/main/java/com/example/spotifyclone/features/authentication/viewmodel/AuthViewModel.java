@@ -24,6 +24,9 @@ public class AuthViewModel extends ViewModel {
         this.authRepo = new AuthRepository(context);
 
         if (authRepo.isLoggedIn()) {
+            Log.d("DEBUG", "AuthViewModel: User already logged in");
+            Log.d("DEBUG", "AuthViewModel: " + authRepo.getUser());
+
             isSuccess.setValue(true);
             userLiveData.setValue(authRepo.getUser());
         } else {
