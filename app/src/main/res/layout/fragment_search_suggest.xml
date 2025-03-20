@@ -20,7 +20,9 @@
         android:textSize="12sp"
         android:hint="@string/search_text"
         android:padding="2dp"
-        android:textColor="@color/text_color" />
+        android:textColor="@color/text_color"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
 
 
     <androidx.core.widget.NestedScrollView
@@ -45,12 +47,14 @@
                 android:id="@+id/noResult"
                 android:text="@string/noSearchResult"
                 android:layout_width="wrap_content"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"/>
 
             <Button
                 android:id="@+id/allresult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="Xem tất cả các kết quả tìm kiếm ở đây"/>
         </LinearLayout>
 

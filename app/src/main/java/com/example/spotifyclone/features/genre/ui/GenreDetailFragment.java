@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,20 +39,23 @@ public class GenreDetailFragment extends Fragment {
     private RecyclerView same_genre;
 
     private GenreAlbumAdapter albumAdapter;
-    private GenreMainCallbacks callback;
+//    private GenreMainCallbacks callback;
     private Button backButton;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof GenreMainCallbacks) {
-            callback = (GenreMainCallbacks) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement MainCallbacks");
-        }
+        Log.d("Genredetail", "onAttach");
+//        if (context instanceof GenreMainCallbacks) {
+//            callback = (GenreMainCallbacks) context;
+//        } else {
+//            throw new RuntimeException(context.toString() + " must implement MainCallbacks");
+//        }
     }
 
     public static GenreDetailFragment newInstance(Genre genre) {
+        Log.d("Genredetail", "newInstance");
+
         GenreDetailFragment fragment = new GenreDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString("image_url", genre.getImage_url());
@@ -69,6 +73,9 @@ public class GenreDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        // Initialize views
+        Log.d("Genredetail", "onViewCreated"+GenreDetailFragmentArgs.fromBundle(getArguments()).getImageUrl());
+
         genreImage = view.findViewById(R.id.genre_image);
         genreDescription = view.findViewById(R.id.genre_description);
         genreName = view.findViewById(R.id.genre_name);
@@ -80,7 +87,8 @@ public class GenreDetailFragment extends Fragment {
 
         int secondColor = isDarkMode ? Color.BLACK : Color.WHITE; // Đổi màu theo theme
 
-        DominantColorExtractor.getDominantColor(getContext(), getArguments().getString("image_url"), color -> {
+//        DominantColorExtractor.getDominantColor(getContext(), getArguments().getString("image_url"), color -> {
+        DominantColorExtractor.getDominantColor(getContext(), GenreDetailFragmentArgs.fromBundle(getArguments()).getImageUrl(), color -> {
             GradientDrawable gradient = new GradientDrawable(
                     GradientDrawable.Orientation.TOP_BOTTOM,
                     new int[]{color, secondColor} // Dùng màu tùy theo theme
@@ -94,23 +102,24 @@ public class GenreDetailFragment extends Fragment {
         });
 
         if (getArguments() != null) {
-            Glide.with(this).load(getArguments().getString("image_url")).into(genreImage);
-            genreDescription.setText(getArguments().getString("description", "No description available"));
-            genreName.setText(getArguments().getString("name", "Unknown Genre"));
+            Glide.with(this).load(GenreDetailFragmentArgs.fromBundle(getArguments()).getImageUrl()).into(genreImage);
+            genreDescription.setText(GenreDetailFragmentArgs.fromBundle(getArguments()).getDescription());
+//            genreName.setText(getArguments().getString("name", "Unknown Genre"));
+            genreName.setText(GenreDetailFragmentArgs.fromBundle(getArguments()).getName());
         }
 
         setupViewModel();
         setupRecyclerView(view);
 
         // Handle back button
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(callback!=null){
-                    callback.onMsgFromFragToMain("GENRE DETAIL", null);
-                }
-            }
-        });
+//        backButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(callback!=null){
+//                    callback.onMsgFromFragToMain("GENRE DETAIL", null);
+//                }
+//            }
+//        });
 
     }
 
@@ -127,8 +136,10 @@ public class GenreDetailFragment extends Fragment {
                 this,
                 new GenreViewModelFactory(requireContext())
         ).get(GenreViewModel.class);
+        Log.d("Genredetail", "setupVIewmodel");
 
         genreViewModel.getGenreAlbums().observe(getViewLifecycleOwner(), albums -> {
+            Log.d("Genredetail", albums.get(0).getCoverUrl());
             albumAdapter.setData(albums);
         });
 

@@ -67,8 +67,6 @@ public class AlbumFragment extends Fragment {
         recyclerView.setAdapter(albumAdapter);
     }
     private void navigateToAlbumDetail(Album album){
-
-
         NavDirections action = AlbumFragmentDirections.actionAlbumFragmentToNavAlbumDetail(
                 album.getId(),
                 album.getTitle(),
