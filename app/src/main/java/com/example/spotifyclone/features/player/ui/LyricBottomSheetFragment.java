@@ -37,7 +37,7 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
     public static LyricBottomSheetFragment newInstance(Song song) {
         LyricBottomSheetFragment fragment = new LyricBottomSheetFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_SONG, song);
+//        args.putParcelable(ARG_SONG, song);
         fragment.setArguments(args);
         return fragment;
     }

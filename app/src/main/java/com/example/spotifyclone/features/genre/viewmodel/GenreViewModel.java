@@ -90,21 +90,21 @@ public class GenreViewModel extends ViewModel {
 
     public void fetchGenreAlbumsByIds(){
         isLoading.setValue(true);
-        genreService.getGenreAlbums().enqueue(new Callback<APIResponse<List<Album>>>() { // Load genre data
+        genreService.getGenreAlbums().enqueue(new Callback<APIResponse<PaginatedResponse<Album>>>() { // Load genre data
 
             @Override
-            public void onResponse(Call<APIResponse<List<Album>>> call, Response<APIResponse<List<Album>>> response) {
+            public void onResponse(Call<APIResponse<PaginatedResponse<Album>>> call, Response<APIResponse<PaginatedResponse<Album>>> response) {
                 isLoading.setValue(false);
                 Log.d("GenreViewModel", "onResponse: " + response.code());
 
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    albums.setValue(response.body().getData());
+                    albums.setValue(response.body().getData().getItems());
                 } else {
                     errorMessage.setValue("Failed to load genres");
                 }
             }
             @Override
-            public void onFailure(Call<APIResponse<List<Album>>> call, Throwable t) {
+            public void onFailure(Call<APIResponse<PaginatedResponse<Album>>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
                 Log.d("DEBUG_Genre", "onFailure: " + t.getMessage());

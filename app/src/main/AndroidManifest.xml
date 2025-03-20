@@ -21,20 +21,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <activity
-            android:name=".features.player.ui.SongLyricsBottomSheetFragment"
-            android:exported="false" />
+
 
         <activity
-            android:name=".features.authentication.ui.ForgotPasswordActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".features.home.ui.HomeActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".MainActivity"
+            android:name=".features.authentication.ui.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.SpotifyClone">
             <intent-filter>
@@ -43,7 +33,7 @@
             </intent-filter>
         </activity>
 
-<!--        <activity android:name=".MainActivity" />-->
+        <activity android:name=".MainActivity" />
 
         <activity
             android:name=".features.artist.ui.ArtistOverallActivity"

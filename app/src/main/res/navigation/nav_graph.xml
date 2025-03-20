@@ -9,7 +9,11 @@
         android:id="@+id/nav_home"
         android:name="com.example.spotifyclone.features.home.ui.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_album_detail"
+            app:destination="@id/nav_album_detail" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_search"
@@ -91,8 +95,32 @@
         android:id="@+id/genreDetailFragment"
         android:name="com.example.spotifyclone.features.genre.ui.GenreDetailFragment"
         android:label="GenreDetailFragment"
-        tools:layout="@layout/activity_genre_detail"
-        />
+        tools:layout="@layout/activity_genre_detail">
+        <argument
+            android:name="_id"
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="name"
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="image_url"
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="create_at"
+            app:argType="long" />
+        <argument
+            android:name="update_at"
+            app:argType="long" />
+
+    </fragment>
+
+
     <fragment
         android:id="@+id/searchSuggestFragment"
         android:name="com.example.spotifyclone.features.search.ui.SearchSuggestFragment"
@@ -101,6 +129,9 @@
         <action
             android:id="@+id/action_searchSuggestFragment_to_searchAllResultFragment"
             app:destination="@id/searchAllResultFragment" />
+        <action
+            android:id="@+id/action_searchSuggestFragment_to_nav_album_detail"
+            app:destination="@id/nav_album_detail" />
     </fragment>
     <fragment
         android:id="@+id/searchAllResultFragment"
@@ -111,12 +142,13 @@
             android:name="search"
             app:argType="string"
              />
+        <action
+            android:id="@+id/action_searchAllResultFragment_to_searchSuggestFragment"
+            app:destination="@id/searchSuggestFragment" />
+        <action
+            android:id="@+id/action_searchAllResultFragment_to_nav_album_detail"
+            app:destination="@id/nav_album_detail" />
     </fragment>
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.example.spotifyclone.features.profile.ui.ProfileFragment"
-        android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/settingsFragment"

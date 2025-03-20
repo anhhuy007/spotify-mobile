@@ -115,7 +115,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d("SearchBar", "Search bar clicked!");
-
                 Navigation.findNavController(view).navigate(R.id.action_nav_search_to_searchSuggestFragment);
             }
         });
@@ -123,6 +122,8 @@ public class SearchFragment extends Fragment {
         // Handle clicking on genre
         genreAdapter = new GenreAdapter(requireContext(), new ArrayList<>(), genre -> {
             // Chuyển đến genreDetailFragment
+            Log.d("Search", "to genre");
+            navigateToGenreDetail(genre);
 
         });
 
@@ -131,22 +132,17 @@ public class SearchFragment extends Fragment {
     }
 
     private void navigateToGenreDetail(Genre genre){
+        SearchFragmentDirections.ActionNavSearchToGenreDetailFragment action=
+                SearchFragmentDirections.actionNavSearchToGenreDetailFragment(
+                        genre.get_id(),
+                        genre.getName(),
+                        genre.getDescription(),
+                        genre.getImage_url(),
+                        genre.getCreate_at().getTime(),
+                        genre.getCreate_at().getTime()
+                );
 
-
-//        NavDirections action = AlbumFragmentDirections.actionAlbumFragmentToNavAlbumDetail(
-//                album.getId(),
-//                album.getTitle(),
-//                album.getArtists_name().toArray(new String[0]), // List<String> → String[]
-//                album.getReleaseDate() != null ? album.getReleaseDate().getTime() : 0L, // Date → long
-//                album.getCoverUrl(),
-//                album.getCreatedAt() != null ? album.getCreatedAt().getTime() : 0L, // Date → long
-//                album.getLike_count(),
-//                album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
-//                album.getArtist_url().get(0) // Take the first url
-//
-//        );
-
-//        Navigation.findNavController(requireView()).navigate(action);
+        Navigation.findNavController(requireView()).navigate(action);
 
     }
 
