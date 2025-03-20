@@ -37,7 +37,7 @@ public class GenreAlbumAdapter extends RecyclerView.Adapter<GenreAlbumAdapter.Al
     public void onBindViewHolder(@NonNull AlbumViewHolder holder, int position) {//gan data cho UI
         Album album= albums.get(position);
         holder.album_name.setText(album.getTitle());
-        String songs_artist = String.join(", ", album.getArtistIds());
+        String songs_artist = String.join(", ", album.getArtists_name());
         holder.album_artist.setText(songs_artist);
         //Log.d("Song",song.getImg_url());
         Glide.with(context)

@@ -19,6 +19,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.features.album.adapter.AlbumSongAdapter;
 import com.example.spotifyclone.features.search.inter.OnSearchItemClickListener;
 import com.example.spotifyclone.features.search.model.SearchItem;
 import com.squareup.picasso.Picasso;
@@ -26,35 +27,31 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.BaseViewHolder> {
     private List<SearchItem> items;
     private final Context context;
     private final OnSearchItemClickListener listener;
 
-    public SearchAdapter(Context context, List<SearchItem> items, OnSearchItemClickListener listener) {
-        this.context = context;
+    private static final int TYPE_SONG = 0;
+    private static final int TYPE_ALBUM = 1;
+    private static final int TYPE_ARTIST = 2;
+    private static final int TYPE_GENRE = 3;
+
+    public SearchAdapter(Context context, List<SearchItem> items,  OnSearchItemClickListener listener) {
         this.items = items;
+        this.context = context;
         this.listener = listener;
-
-    }
-
-    @NonNull
-    @Override
-    public SearchAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_search, parent, false);
-
-        return new SearchAdapter.ViewHolder(view, listener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchAdapter.ViewHolder holder, int position) {
-        holder.bind(items.get(position), context);
-    }
-
-    @Override
-    public int getItemCount() {
-        return items.size();
+    public int getItemViewType(int position) {
+        SearchItem item = items.get(position);
+        switch (item.getType()) {
+            case "song": return TYPE_SONG;
+            case "album": return TYPE_ALBUM;
+            case "artist": return TYPE_ARTIST;
+            default: return TYPE_GENRE;
+        }
     }
 
     public void setData(List<SearchItem> items) {
@@ -69,46 +66,163 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // declare UI item
+
+    @NonNull
+    @Override
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view;
+
+        if (viewType == TYPE_SONG) {
+            view = inflater.inflate(R.layout.item_search_song, parent, false);
+            return new SongViewHolder(view, listener);
+        } else if (viewType == TYPE_ALBUM) {
+            view = inflater.inflate(R.layout.item_search_album, parent, false);
+            return new AlbumViewHolder(view, listener);
+        } else if (viewType == TYPE_ARTIST) {
+            view = inflater.inflate(R.layout.item_search_artist, parent, false);
+            return new ArtistViewHolder(view, listener);
+        } else {
+            view = inflater.inflate(R.layout.item_search_genre, parent, false);
+            return new GenreViewHolder(view, listener);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+        holder.bind(items.get(position), context);
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    // ======= Tạo lớp cha cho ViewHolder =======
+    public static abstract class BaseViewHolder extends RecyclerView.ViewHolder {
+        public BaseViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        public abstract void bind(SearchItem item, Context context);
+    }
+
+    // ======= Các ViewHolder con kế thừa BaseViewHolder =======
+    public static class SongViewHolder extends BaseViewHolder {
         private final ImageView search;
         private final TextView search_name;
         private final TextView search_type;
 
-
-
-        public ViewHolder(@NonNull View itemView, OnSearchItemClickListener listener) {
+        public SongViewHolder(@NonNull View itemView, OnSearchItemClickListener listener) {
             super(itemView);
-            search=itemView.findViewById(R.id.search);
-            search_name=itemView.findViewById(R.id.search_name);
-            search_type=itemView.findViewById(R.id.search_type);
-//            itemView.setOnClickListener(v -> {
-//                SearchItem item = (SearchItem) v.getTag();
-//                if (listener != null && item != null) {
-//                    listener.OnItemClick(item);
-//                }
-//            });
+            search = itemView.findViewById(R.id.search);
+            search_name = itemView.findViewById(R.id.search_name);
+            search_type = itemView.findViewById(R.id.search_type);
+            itemView.setOnClickListener(v -> {
+                SearchItem item = (SearchItem) v.getTag();
+                if (listener != null && item != null) {
+                    listener.OnItemClick(item);
+                }
+            });
         }
 
+        @Override
         public void bind(SearchItem item, Context context) {
             search_name.setText(item.getName());
-            search_type.setText(item.getType()+" + "+ String.join(" ,",item.getArtists_name()));
-            RequestOptions options=new RequestOptions();
-
-            switch (item.getType()) {
-                case "artist":
-                    options = options.transform(new CircleCrop()); // Ảnh tròn
-                    break;
+            if (item.getArtists_name() != null) {
+                search_type.setText(item.getType() + " + " + String.join(", ", item.getArtists_name()));
             }
-
-            Log.d("search", item.getImage_url());
-            Glide.with(context)
-                    .load(item.getImage_url())
-                    .into(search);
+            Glide.with(context).load(item.getImage_url()).into(search);
             itemView.setTag(item);
         }
+    }
 
+    public static class AlbumViewHolder extends BaseViewHolder {
+        private final ImageView search;
+        private final TextView search_name;
+        private final TextView search_type;
 
-    }}
+        public AlbumViewHolder(@NonNull View itemView, OnSearchItemClickListener listener) {
+            super(itemView);
+            search = itemView.findViewById(R.id.search);
+            search_name = itemView.findViewById(R.id.search_name);
+            search_type = itemView.findViewById(R.id.search_type);
+            itemView.setOnClickListener(v -> {
+                SearchItem item = (SearchItem) v.getTag();
+                if (listener != null && item != null) {
+                    listener.OnItemClick(item);
+                }
+            });
+        }
+
+        @Override
+        public void bind(SearchItem item, Context context) {
+            search_name.setText(item.getName());
+            if (item.getArtists_name() != null) {
+                search_type.setText(item.getType() + " + " + String.join(", ", item.getArtists_name()));
+            }
+            Glide.with(context).load(item.getImage_url()).into(search);
+            itemView.setTag(item);
+        }
+    }
+
+    public static class ArtistViewHolder extends BaseViewHolder {
+        private final ImageView search;
+        private final TextView search_name;
+        private final TextView search_type;
+
+        public ArtistViewHolder(@NonNull View itemView, OnSearchItemClickListener listener) {
+            super(itemView);
+            search = itemView.findViewById(R.id.search);
+            search_name = itemView.findViewById(R.id.search_name);
+            search_type = itemView.findViewById(R.id.search_type);
+            itemView.setOnClickListener(v -> {
+                SearchItem item = (SearchItem) v.getTag();
+                if (listener != null && item != null) {
+                    listener.OnItemClick(item);
+                }
+            });
+        }
+
+        @Override
+        public void bind(SearchItem item, Context context) {
+            search_name.setText(item.getName());
+            if (item.getArtists_name() != null) {
+                search_type.setText(item.getType() + " + " + String.join(", ", item.getArtists_name()));
+            }
+            Glide.with(context).load(item.getImage_url()).apply(new RequestOptions().transform(new CircleCrop())).into(search);
+            itemView.setTag(item);
+        }
+    }
+
+    public static class GenreViewHolder extends BaseViewHolder {
+        private final ImageView search;
+        private final TextView search_name;
+        private final TextView search_type;
+
+        public GenreViewHolder(@NonNull View itemView, OnSearchItemClickListener listener) {
+            super(itemView);
+            search = itemView.findViewById(R.id.search);
+            search_name = itemView.findViewById(R.id.search_name);
+            search_type = itemView.findViewById(R.id.search_type);
+            itemView.setOnClickListener(v -> {
+                SearchItem item = (SearchItem) v.getTag();
+                if (listener != null && item != null) {
+                    listener.OnItemClick(item);
+                }
+            });
+        }
+
+        @Override
+        public void bind(SearchItem item, Context context) {
+            search_name.setText(item.getName());
+            if (item.getArtists_name() != null) {
+                search_type.setText(item.getType() + " + " + String.join(", ", item.getArtists_name()));
+            }
+            Glide.with(context).load(item.getImage_url()).into(search);
+            itemView.setTag(item);
+        }
+    }
+}
 
 

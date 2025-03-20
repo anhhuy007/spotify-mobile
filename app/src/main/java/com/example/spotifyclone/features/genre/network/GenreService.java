@@ -17,6 +17,6 @@ public interface GenreService {
     @GET("genre")
     Call <APIResponse<PaginatedResponse<Genre>>> getGenres();
 
-    @GET("albums")
-    Call <APIResponse<List<Album>>> getGenreAlbums();
+    @GET("album/popular")
+    Call <APIResponse<PaginatedResponse<Album>>> getGenreAlbums();
 }

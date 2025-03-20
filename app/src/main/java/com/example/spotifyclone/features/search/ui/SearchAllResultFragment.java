@@ -15,6 +15,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +32,7 @@ public class SearchAllResultFragment extends Fragment {
     private RecyclerView recyclerView;
     private SearchAdapter searchAdapter;
     private SearchViewModel searchViewModel;
+    private EditText search_input;
     @Override
     public void onAttach(@NonNull Context context) {
         Log.d("Search", "onAttach");
@@ -48,17 +50,23 @@ public class SearchAllResultFragment extends Fragment {
     }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("Search", "onCreateView");
         View view= inflater.inflate(R.layout.fragment_search_allresult, container, false);
         return view;
     }
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
-        Log.d("SearchAll", "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         String searchQuery = SearchAllResultFragmentArgs.fromBundle(getArguments()).getSearch();
-        Log.d("SearchALl", searchQuery);
+
         setupViewModel(searchQuery);
         setupRecyclerView(view);
+        search_input=view.findViewById(R.id.search_input);
+        search_input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(SearchAllResultFragmentDirections.actionSearchAllResultFragmentToSearchSuggestFragment());
+            }
+        });
+
 
 
     }
@@ -76,15 +84,11 @@ public class SearchAllResultFragment extends Fragment {
                 this,
                 new SearchViewModelFactory(requireContext())
         ).get(SearchViewModel.class);
-        Log.d("SearchALl","setupViewModel"+ searchQuery);
         searchViewModel.fetchSearchResults(searchQuery, null, null, 1, 10);
         searchViewModel.getSearchResult().observe(getViewLifecycleOwner(), searchResult -> {
-            Log.d("SearchAllDebug", "Received search result: " + searchResult);
             searchAdapter.setData(searchResult.getItems());
 
         });
-
-
     }
 
 
