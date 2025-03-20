@@ -74,7 +74,7 @@ public class GenreDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Initialize views
-        Log.d("Genredetail", "onViewCreated"+GenreDetailFragmentArgs.fromBundle(getArguments()).getImageUrl());
+        Log.d("Genredetail", "onViewCreated"+ GenreDetailFragmentArgs.fromBundle(getArguments()).getImageUrl());
 
         genreImage = view.findViewById(R.id.genre_image);
         genreDescription = view.findViewById(R.id.genre_description);
