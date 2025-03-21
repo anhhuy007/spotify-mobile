@@ -25,8 +25,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-
-
 public class PopularViewModel extends AndroidViewModel {
     private final Context context;
     private final MutableLiveData<List<PopularSong>> listDiscography = new MutableLiveData<>();

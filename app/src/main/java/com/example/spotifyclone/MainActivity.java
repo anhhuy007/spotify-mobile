@@ -494,6 +494,7 @@ import com.example.spotifyclone.features.artist.ui.ArtistListActivity;
 import com.example.spotifyclone.features.profile.model.Profile;
 import com.example.spotifyclone.features.profile.ui.ProfileActivity;
 import com.example.spotifyclone.features.settings.ui.SettingsActivity;
+import com.example.spotifyclone.features.topproduct.ui.TopAlbumActivity;
 import com.example.spotifyclone.genre.inter.GenreMainCallbacks;
 import com.example.spotifyclone.shared.utils.Constants;
 
@@ -520,7 +521,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnSetting = findViewById(R.id.button2);
         btnSetting.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            Intent intent = new Intent(MainActivity.this, TopAlbumActivity.class);
             startActivity(intent);
         });
 

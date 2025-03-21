@@ -53,6 +53,9 @@
         <activity android:name=".features.profile.ui.ProfileActivity" android:exported="false"/>
         <activity android:name=".features.profile.ui.EditProfileActivity" android:exported="false"/>
         <activity android:name=".features.settings.ui.SettingsActivity" android:exported="false"/>
+        <activity android:name=".features.topproduct.ui.TopAlbumActivity" android:exported="false"/>
+        <activity android:name=".features.topproduct.ui.TopSongActivity" android:exported="false"/>
+        <activity android:name=".features.topproduct.ui.TopArtistActivity" android:exported="false"/>
 
 
     </application>
