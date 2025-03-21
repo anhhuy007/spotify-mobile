@@ -18,13 +18,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchViewModel extends ViewModel {
+public class SearchClassifyViewModel extends ViewModel {
     private final SearchService searchService;
     private final MutableLiveData<List<SearchItem>> items=new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading=new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage=new MutableLiveData<>();
 
-    public SearchViewModel(SearchService searchService) {
+    public SearchClassifyViewModel(SearchService searchService) {
         this.searchService = searchService;
     }
 
@@ -45,8 +45,7 @@ public class SearchViewModel extends ViewModel {
     }
 
 
-
-    public void fetchSearchResults(String query, String genre, String type, int page, int limit) {
+    public void fetchSearchResults(String query, String genre, String type,int page, int limit) {
         isLoading.setValue(true);
 
         searchService.getSearchResults(query, genre, type, page, limit).enqueue(new Callback<APIResponse<PaginatedResponse<SearchItem>>>() {
@@ -54,22 +53,16 @@ public class SearchViewModel extends ViewModel {
             public void onResponse(Call<APIResponse<PaginatedResponse<SearchItem>>> call, Response<APIResponse<PaginatedResponse<SearchItem>>> response) {
                 isLoading.setValue(false);
                 if (response.isSuccessful() && response.body() != null) {
+//                    Log.d("SearchViewModel", "onResponse: " + response.body().getData().getItems().get(0).getName());
+
                     List<SearchItem> newItems = response.body().getData().getItems();
 
-                    // If it's page 1, replace the entire dataset (new filter or initial load)
-                    if (page == 1) {
-                        items.setValue(new ArrayList<>(newItems));
-                        Log.d("SearchViewModel", "Setting new filtered data, items count: " + newItems.size());
-                    } else {
-                        // For pagination (page > 1), append to existing list
-                        List<SearchItem> currentItems = items.getValue();
-                        if (currentItems == null) {
-                            currentItems = new ArrayList<>();
-                        }
-                        currentItems.addAll(newItems);
-                        items.setValue(new ArrayList<>(currentItems)); // Creating new list to ensure LiveData triggers update
-                        Log.d("SearchViewModel", "Appending data, total items now: " + currentItems.size());
+                    List<SearchItem> currentItems = items.getValue(); // Lấy danh sách hiện tại
+                    if (currentItems == null) {
+                        currentItems = new ArrayList<>();
                     }
+                    currentItems.addAll(newItems); // Thêm dữ liệu mới vào danh sách cũ
+                    items.setValue(currentItems); // Cập nhật danh sách
                 } else {
                     errorMessage.setValue("Failed to load search results");
                 }
@@ -78,11 +71,12 @@ public class SearchViewModel extends ViewModel {
             @Override
             public void onFailure(Call<APIResponse<PaginatedResponse<SearchItem>>> call, Throwable t) {
                 isLoading.setValue(false);
-                errorMessage.setValue("Network error: " + t.getMessage());
+                errorMessage.setValue(t.getMessage());
+                Log.d("DEBUG_SEARCH", "onFailure: " + t.getMessage());
+
             }
         });
+
     }
 
 }
-
-

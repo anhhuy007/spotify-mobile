@@ -71,9 +71,7 @@ public class ClassifyAdapter extends RecyclerView.Adapter<ClassifyAdapter.ViewHo
 
         public void bind(String type, OnClassifyItemClickListener listener) {
             textType.setText(type);
-
             itemView.setOnClickListener(v -> {
-                Log.d("ClassifyAdapter", "Item clicked: " + type);
                 if (listener != null) {
                     listener.OnItemClick(type);
                 } else {

@@ -25,6 +25,7 @@ public class SearchAllAdapter extends RecyclerView.Adapter<SearchAllAdapter.Base
     private final Context context;
     private final OnSearchItemClickListener listener;
 
+
     private static final int TYPE_SONG = 0;
     private static final int TYPE_ALBUM = 1;
     private static final int TYPE_ARTIST = 2;
@@ -54,8 +55,6 @@ public class SearchAllAdapter extends RecyclerView.Adapter<SearchAllAdapter.Base
         } else {
             this.items = items;
         }
-
-
         notifyDataSetChanged();
     }
 
@@ -90,6 +89,10 @@ public class SearchAllAdapter extends RecyclerView.Adapter<SearchAllAdapter.Base
     public int getItemCount() {
         return items.size();
     }
+    public List<SearchItem>getCurrentData(){
+        return items;
+    }
+
 
     // ======= Tạo lớp cha cho ViewHolder =======
     public static abstract class BaseViewHolder extends RecyclerView.ViewHolder {
@@ -216,5 +219,7 @@ public class SearchAllAdapter extends RecyclerView.Adapter<SearchAllAdapter.Base
             itemView.setTag(item);
         }
     }
+
+
 
 }

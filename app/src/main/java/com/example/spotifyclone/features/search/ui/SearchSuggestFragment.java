@@ -143,10 +143,8 @@ public class SearchSuggestFragment extends Fragment {
                 this,
                 new SearchViewModelFactory(requireContext())
         ).get(SearchViewModel.class);
-//        searchViewModel.fetchSearchResults("love", null, null, 1, 10);
-        searchViewModel.getSearchResult().observe(getViewLifecycleOwner(), searchResult -> {
-//            Log.d("SearchDebug", "Received search result: " + searchResult);
-            if (searchResult == null) {
+        searchViewModel.getItems().observe(getViewLifecycleOwner(), items -> {
+            if (items == null) {
                 Log.d("SearchDebug", "Search result is NULL!");
                 recyclerView.setVisibility(View.GONE);
                 noResultText.setVisibility(View.VISIBLE);
@@ -154,7 +152,7 @@ public class SearchSuggestFragment extends Fragment {
                 return;
             }
 
-            List<SearchItem> items = searchResult.getItems();
+//            List<SearchItem> items = searchResult.getItems();
             if (items != null && !items.isEmpty()) {
                 Log.d("SearchDebug", "Number of items: " + items.size());
                 searchAdapter.setData(items);
