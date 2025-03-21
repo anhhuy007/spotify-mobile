@@ -22,15 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.artist.adapter.AlbumArtistAdapter;
-import com.example.spotifyclone.features.artist.adapter.ArtistPlaylistAdapter;
-import com.example.spotifyclone.features.artist.adapter.ArtistSimilarAdapter;
-import com.example.spotifyclone.features.artist.adapter.SongArtistAdapter;
-import com.example.spotifyclone.features.artist.viewModel.ArtistOverallViewModel;
-import com.example.spotifyclone.features.artist.viewModel.FansAlsoLikeViewModel;
-import com.example.spotifyclone.features.artist.viewModel.ListDiscographyAlbumViewModel;
-import com.example.spotifyclone.features.artist.viewModel.ListDiscographyEPViewModel;
-import com.example.spotifyclone.features.artist.viewModel.PopularViewModel;
 import com.example.spotifyclone.features.topproduct.apdaper.AlsoLikeAdapter;
 import com.example.spotifyclone.features.topproduct.apdaper.TopAlbumAdapter;
 import com.example.spotifyclone.features.topproduct.viewModel.AlsoLikeViewModel;

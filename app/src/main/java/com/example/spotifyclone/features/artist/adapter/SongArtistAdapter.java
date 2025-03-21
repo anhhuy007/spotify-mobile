@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.artist.model.Item;
 import com.example.spotifyclone.features.artist.model.PopularSong;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
