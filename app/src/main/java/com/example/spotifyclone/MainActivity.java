@@ -1,5 +1,7 @@
 package com.example.spotifyclone;
 
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -37,7 +41,9 @@ import com.example.spotifyclone.features.search.ui.SearchFragment;
 import com.example.spotifyclone.shared.model.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
+import android.Manifest;
 
 import android.util.Log;
 
@@ -56,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private User currentUser;
 
+    private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 101;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupListeners();
         observeViewModel();
         setupNavigation();
+        checkNotificationPermission();
     }
 
     private void initUser() {
@@ -111,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //             navController.navigate(R.id.profileFragment);
         } else if (id == R.id.nav_settings) {
             // TODO: Handle navigation to settings
-             navController.navigate(R.id.settingsFragment);
+            navController.navigate(R.id.settingsFragment);
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -141,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
 
-        ImageView userAvatar =  headerView.findViewById(R.id.drawer_header_avatar);
+        ImageView userAvatar = headerView.findViewById(R.id.drawer_header_avatar);
         TextView userName = headerView.findViewById(R.id.drawer_header_username);
         TextView userEmail = headerView.findViewById(R.id.drawer_header_email);
 
@@ -208,6 +217,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Picasso.get().load(song.getImageUrl()).into(miniPlayerImage);
             } else {
                 miniPlayerImage.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
+            }
+        }
+    }
+
+    private void checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        NOTIFICATION_PERMISSION_REQUEST_CODE);
+            } else {
+                retrieveFCMToken();
+            }
+        } else {
+            retrieveFCMToken();
+        }
+    }
+
+    private void retrieveFCMToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w("FCM", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+                    String token = task.getResult();
+                    Log.d("FCM", "FCM Token: " + token);
+                    sendTokenToServer(token);
+                });
+    }
+
+    private void sendTokenToServer(String token) {
+        // Implement API call to send token to your backend
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("FCM", "Notification permission granted");
+                retrieveFCMToken();
+            } else {
+                Log.w("FCM", "Notification permission denied");
             }
         }
     }

@@ -20,11 +20,13 @@ import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthVMFactory;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthViewModel;
 import com.example.spotifyclone.features.profile.ui.ProfileActivity;
+import com.example.spotifyclone.shared.utils.MyFirebaseMessagingService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -100,6 +102,20 @@ public class LoginActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
 
             if (result) {
+                // add new FCM token to server
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(task -> {
+                            if (!task.isSuccessful()) {
+                                Log.w("FCM", "Fetching FCM registration token failed", task.getException());
+                                return;
+                            }
+                            String token = task.getResult();
+                            Log.d("FCM", "FCM Token: " + token);
+
+                            MyFirebaseMessagingService messagingService = new MyFirebaseMessagingService();
+                            messagingService.sendTokenToServer(this, token);
+                        });
+
                 Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, MainActivity.class));
                 finish();

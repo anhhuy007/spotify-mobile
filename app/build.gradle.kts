@@ -57,12 +57,8 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.gson)
     implementation(libs.retrofit)
-//    implementation(libs.glide)
-//    implementation(libs.glide.v4151)
     implementation(libs.picasso)
     implementation(libs.circleimageview)
-//    annotationProcessor(libs.compiler)
-//    annotationProcessor(libs.compiler.v4120)
 
     // Firebase & authentication
     implementation(platform(libs.firebase.bom))
@@ -97,4 +93,8 @@ dependencies {
     implementation ("com.google.android.material:material:1.11.0")
     implementation ("androidx.drawerlayout:drawerlayout:1.1.1")
     implementation ("com.google.android.material:material:1.10.0")
+
+    // push notification FCM
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.core)
 }
