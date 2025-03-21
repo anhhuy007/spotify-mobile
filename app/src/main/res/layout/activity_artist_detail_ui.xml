@@ -6,8 +6,6 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -41,8 +39,8 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp">
 
-                        <ImageView
 
+                        <ImageView
                             android:id="@+id/btn_artist_detail_ui_background"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -162,35 +160,39 @@
                                     android:fontFamily="@font/avenir_next_bold"
                                     android:layout_gravity="center_vertical"/>
 
-                                <ImageButton
-                                    android:layout_marginLeft="10dp"
-                                    android:id="@+id/btn_more_options_artist_detail"
-                                    android:layout_width="36dp"
-                                    android:layout_height="36dp"
-                                    android:src="@drawable/icon_baseline_more_vert_24"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="?attr/selectableItemBackgroundBorderless" />
+                        <ImageButton
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/btn_more_options_artist_detail"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:src="@drawable/ic_baseline_more_vert_24"
+                            android:layout_gravity="center_vertical"
+                            android:background="?attr/selectableItemBackgroundBorderless" />
 
                                 <View
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1" />
 
-                                <ImageButton
-                                    android:id="@+id/btn_shuffle_artist_detail"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/icon_baseline_shuffle_24" />
 
-                                <ImageButton
-                                    android:id="@+id/btn_play_artist_detail"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/icon_baseline_play_circle_filled_24" />
+
+                        <ImageButton
+                            android:id="@+id/btn_shuffle_artist_detail"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/ic_baseline_shuffle_24" />
+
+
+
+                        <ImageButton
+                            android:id="@+id/btn_play_artist_detail"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center_vertical"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:src="@drawable/ic_baseline_play_circle_filled_24" />
 
                             </LinearLayout>
 

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpcomingSongAdapter extends RecyclerView.Adapter<UpcomingSongAdapter.UpcomingSongViewHolder> {
-    private List<Song> songs;
+    private final List<Song> songs;
     private final OnSongClickListener onSongClickListener;
 
     public interface OnSongClickListener {
@@ -82,15 +82,13 @@ public class UpcomingSongAdapter extends RecyclerView.Adapter<UpcomingSongAdapte
             if (song != null) {
                 tvSongTitle.setText(song.getTitle());
 
-                String artistName = "Unknown Artist";
-                if (song.getAuthor_ids() != null && song.getAuthor_ids().length > 0) {
-                    artistName = song.getAuthor_ids()[0];
-                }
-                tvArtist.setText(artistName);
+                tvArtist.setText(
+                        song.getSingersString() != null && !song.getSingersString().isEmpty() ? song.getSingersString() : "Unknown Artist"
+                );
 
-                if (song.getImage_url() != null && !song.getImage_url().isEmpty()) {
+                if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                     Picasso.get()
-                            .load(song.getImage_url())
+                            .load(song.getImageUrl())
                             .into(imgSong);
                 } else {
 //                    imgSong.setImageResource(R.drawable.placeholder_album);

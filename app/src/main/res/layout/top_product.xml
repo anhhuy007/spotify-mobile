@@ -163,7 +163,7 @@
                                     android:id="@+id/btn_more_options_artist_detail_top"
                                     android:layout_width="36dp"
                                     android:layout_height="36dp"
-                                    android:src="@drawable/icon_baseline_more_vert_24"
+                                    android:src="@drawable/ic_baseline_more_vert_24"
                                     android:layout_gravity="center_vertical"
                                     android:background="?attr/selectableItemBackgroundBorderless" />
 
@@ -178,7 +178,7 @@
                                     android:layout_height="48dp"
                                     android:layout_gravity="center_vertical"
                                     android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/icon_baseline_shuffle_24" />
+                                    android:src="@drawable/ic_baseline_shuffle_24" />
 
                                 <ImageButton
                                     android:id="@+id/btn_play_artist_detail_top"
@@ -186,7 +186,7 @@
                                     android:layout_height="48dp"
                                     android:layout_gravity="center_vertical"
                                     android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/icon_baseline_play_circle_filled_24" />
+                                    android:src="@drawable/ic_baseline_play_circle_filled_24" />
 
                             </LinearLayout>
 

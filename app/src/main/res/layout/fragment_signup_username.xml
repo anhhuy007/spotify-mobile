@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- Status Bar Background -->
+    <View
+        android:id="@+id/statusBarBackground"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/spotify_green"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Progress Bar Section -->
+    <TextView
+        android:id="@+id/tvProgressLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Profile Setup"
+        android:textColor="@color/gray_600"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/statusBarBackground" />
+
+    <TextView
+        android:id="@+id/tvStepCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Step 4 of 4"
+        android:textColor="@color/gray_600"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvProgressLabel" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:progress="100"
+        android:progressDrawable="@drawable/progress_drawable"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvProgressLabel" />
+
+    <!-- Navigation Buttons -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
+        app:tint="@color/black" />
+
+    <ImageView
+        android:id="@+id/btnClose"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Close"
+        android:src="@drawable/close"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
+        app:tint="@color/black" />
+
+    <!-- Main Content -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/avenir_next_bold"
+        android:text="@string/create_a_username"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnBack" />
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Your username is how other Spotify users can find and follow you"
+        android:textColor="@color/gray_600"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+    <!-- Username Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/usernameInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="32dp"
+        android:hint="Username"
+        app:boxBackgroundColor="@color/inputEditTextBg"
+        app:boxCornerRadiusBottomEnd="16dp"
+        app:boxCornerRadiusBottomStart="16dp"
+        app:boxCornerRadiusTopEnd="16dp"
+        app:boxCornerRadiusTopStart="16dp"
+        app:boxStrokeColor="@color/spotify_green"
+        app:boxStrokeWidth="0dp"
+        app:endIconMode="clear_text"
+        app:helperText="Username must be unique"
+        app:helperTextTextColor="@color/gray_600"
+        app:hintTextColor="@color/spotify_green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usernameInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Username Availability Indicator -->
+    <TextView
+        android:id="@+id/tvUsernameAvailability"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="8dp"
+        android:text="This username is available"
+        android:textColor="@color/spotify_green"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:drawableTint="@color/spotify_green"
+        app:layout_constraintEnd_toEndOf="@id/usernameInputLayout"
+        app:layout_constraintStart_toStartOf="@id/usernameInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/usernameInputLayout" />
+
+    <!-- Suggested Usernames -->
+    <TextView
+        android:id="@+id/tvSuggestionsLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Suggested usernames:"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/usernameInputLayout"
+        app:layout_constraintStart_toStartOf="@id/usernameInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/tvUsernameAvailability" />
+
+    <!-- Suggestion Chips -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/suggestedUsernamesChipGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:chipSpacingHorizontal="8dp"
+        app:layout_constraintEnd_toEndOf="@id/usernameInputLayout"
+        app:layout_constraintStart_toStartOf="@id/usernameInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/tvSuggestionsLabel">
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="music_lover123"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@color/inputEditTextBg" />
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="melody_master"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@color/inputEditTextBg" />
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="rhythm_fan2023"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@color/inputEditTextBg" />
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tune_explorer"
+            android:textColor="@color/black"
+            app:chipBackgroundColor="@color/inputEditTextBg" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Loading Progress Bar   -->
+    <ProgressBar
+        android:id="@+id/progressBarLoading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnCompleteSignup"
+        app:layout_constraintEnd_toEndOf="@id/usernameInputLayout"
+        app:layout_constraintStart_toStartOf="@id/usernameInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/suggestedUsernamesChipGroup" />
+
+    <!-- Complete Sign Up Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCompleteSignup"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/spotify_green"
+        android:text="Complete Sign Up"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:cornerRadius="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,8 @@ import android.content.Context;
 import com.example.spotifyclone.features.authentication.network.AuthInterceptor;
 import com.example.spotifyclone.features.authentication.network.AuthService;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -28,6 +30,9 @@ public class RetrofitClient {
             AuthService authService = basicRetrofit.create(AuthService.class);
 
             OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .readTimeout(20, TimeUnit.SECONDS)
+                    .writeTimeout(20, TimeUnit.SECONDS)
                     .addInterceptor(new AuthInterceptor(context, authService))
                     .build();
 

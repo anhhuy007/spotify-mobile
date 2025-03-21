@@ -58,9 +58,8 @@ public class AudioPlayer implements AutoCloseable {
             if (exoPlayer.isPlaying()) {
                 exoPlayer.stop();
             }
-
             currentSong = song;
-            MediaItem mediaItem = MediaItem.fromUri(Uri.parse(song.getMp3_url()));
+            MediaItem mediaItem = MediaItem.fromUri(Uri.parse(song.getMp3Url()));
             exoPlayer.setMediaItem(mediaItem);
             exoPlayer.prepare();
             exoPlayer.play();

@@ -4,6 +4,7 @@
     <color name="colorPrimary">#1DB954</color> <!-- Signature green color -->
     <color name="colorPrimaryDark">#191414</color> <!-- Spotify's dark background -->
     <color name="colorAccent">#1DB954</color> <!-- Accent color (same green as primary) -->
+    <color name="inputEditTextBg">#282828</color>
 
     <!-- Dark Theme Colors -->
     <color name="colorBackground">#121212</color> <!-- Main dark background -->

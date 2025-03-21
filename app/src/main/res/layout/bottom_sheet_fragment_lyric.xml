@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    android:layout_margin="20dp"
     android:id="@+id/main"
     android:background="@color/colorBackground">
 
@@ -14,7 +14,7 @@
         android:layout_height="@dimen/icon_size_small"
         android:scaleType="fitCenter"
         android:background="@android:color/transparent"
-        android:src="@drawable/icon_arrow_down"
+        android:src="@drawable/ic_arrow_down"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="16dp"
@@ -52,7 +52,7 @@
         android:layout_height="@dimen/icon_size_small"
         android:scaleType="fitCenter"
         android:background="@android:color/transparent"
-        android:src="@drawable/icon_flag"
+        android:src="@drawable/ic_flag"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="16dp"
@@ -88,6 +88,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:progressBackgroundTint="@color/textColorPrimary"
         android:backgroundTint="@color/textColorPrimary"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,8 +99,10 @@
     <TextView
         android:id="@+id/tvCurrentTime"
         android:layout_width="wrap_content"
-        android:textColor="@color/textColorPrimary"
         android:layout_height="wrap_content"
+        android:textColor="@color/textColorPrimary"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintStart_toStartOf="@+id/progressBar"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"/>
 
@@ -107,28 +111,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/textColorPrimary"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="@+id/progressBar"
         app:layout_constraintTop_toBottomOf="@+id/progressBar"/>
 
-    <androidx.cardview.widget.CardView
+    <ImageButton
+        android:id="@+id/btnPlay"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        app:cardCornerRadius="32dp"
         android:layout_marginVertical="20dp"
-        app:cardElevation="0dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Play/Pause"
+        android:src="@drawable/ic_play_circle"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvCurrentTime"
-        >
+        app:layout_constraintCircleRadius="32dp"/>
 
-        <ImageButton
-            android:id="@+id/btnPlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="Play/Pause"
-            android:src="@drawable/icon_play_circle"
-            android:scaleType="fitCenter"
-            android:background="@android:color/transparent"/>
-    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

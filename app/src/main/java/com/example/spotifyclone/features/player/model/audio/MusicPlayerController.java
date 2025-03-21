@@ -19,6 +19,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import com.example.spotifyclone.shared.model.PaginatedResponse;
+import com.example.spotifyclone.shared.model.APIResponse;
 
 public class MusicPlayerController {
     private static final String TAG = "MusicPlayerController";
@@ -32,8 +34,8 @@ public class MusicPlayerController {
     private final Object playlistLock = new Object();
     private PlayList playList;
     private volatile boolean isReleased;
-    private static final int REFILL_THRESHOLD = 1;
-    private static final int REFILL_COUNT = 1;
+    private static final int REFILL_THRESHOLD = 5;
+    private static final int REFILL_COUNT = 15;
 
     /**
      * Private constructor to prevent direct instantiation.
@@ -369,50 +371,33 @@ public class MusicPlayerController {
      */
     private void fetchMoreSongsAndPlayNext() {
         Log.d(TAG, "Fetching more songs: " + REFILL_COUNT);
-        try {
-            Call<List<Song>> call = songService.getSongs();
-            call.enqueue(new Callback<List<Song>>() {
-                @Override
-                public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
-                    try {
-                        if (response.isSuccessful()) {
-                            List<Song> songs = response.body();
-                            Gson gson = new Gson();
-                            String jsonResponse = gson.toJson(songs);
-                            Log.d("API_RESPONSE", "Received response: " + jsonResponse);
-
-                            if (songs != null && !songs.isEmpty()) {
-                                // Insert songs into playlist
-                                synchronized (playlistLock) {
-                                    playList.addSongs(songs);
-                                    playList.printPlaylist();
-                                    playNextSong();
-                                }
-                            } else {
-                                Log.w(TAG, "No songs found in API response");
-                            }
-                        } else {
-                            if (response.errorBody() != null) {
-                                Log.e(TAG, "API Error: " + response.errorBody().string());
-                            } else {
-                                Log.e(TAG, "Unknown API Error");
-                            }
+        songService.getRandomSongs(REFILL_COUNT).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+                Log.d("DEBUG", "onFailure: "+ response.body());
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    List<Song> songs = response.body().getData().getItems();
+                    if (songs != null && !songs.isEmpty()) {
+                        synchronized (playlistLock) {
+                            playList.addSongs(songs);
+                            playList.printPlaylist();
+                            playNextSong();
                         }
-                    } catch (Exception e) {
-                        Log.e(TAG, "Error parsing API response", e);
+                    } else {
+                        Log.w(TAG, "No songs found in API response");
                     }
-                }
+                    Log.d("DEBUG","Popular Songs" + response.body());
+                } else {
+                    Log.d("DEBUG", "onFailure: "+ response.message());
 
-                @Override
-                public void onFailure(Call<List<Song>> call, Throwable t) {
-                    Log.e(TAG, "API call failed", t);
                 }
-            });
-        }
-        catch (Exception e) {
-            Log.e(TAG, "Exception when fetching songs", e);
-        }
+            }
+            @Override
+            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+                Log.d("DEBUG", "onFailure: " + t.getMessage());            }
+        });
     }
+
 
     /**
      * Releases resources and marks this instance as released.
@@ -465,5 +450,11 @@ public class MusicPlayerController {
      */
     public boolean isReleased() {
         return isReleased;
+    }
+
+    public void prioritizeSong(Song song) {
+        checkReleased();
+        playList.prioritizeSong(song);
+        play();
     }
 }

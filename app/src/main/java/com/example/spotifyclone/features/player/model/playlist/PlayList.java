@@ -4,6 +4,7 @@ import android.util.Log;
 import com.example.spotifyclone.features.player.model.song.Song;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class PlayList {
@@ -120,5 +121,32 @@ public class PlayList {
 
     public List<Song> getUpcomingSongs() {
         return songList.subList(currentIndex + 1, songList.size());
+    }
+
+    public void prioritizeSong(Song song) {
+        if (song == null || songList.isEmpty()) {
+            return;
+        }
+
+        if (song.equals(getCurrentSong())) {
+            return;
+        }
+
+        currentIndex++;
+        if (currentIndex >= songList.size()) {
+            currentIndex = songList.size() - 1;
+        }
+
+        songList.add(currentIndex, song);
+
+        for (int i = currentIndex + 1; i < songList.size(); i++) {
+            if (songList.get(i).getTitle().equalsIgnoreCase(song.getTitle())) {
+                songList.remove(i);
+                i--;
+            }
+        }
+
+        Log.d(TAG, "Prioritized song: " + song.getTitle() + " at index " + currentIndex);
+        printPlaylist();
     }
 }

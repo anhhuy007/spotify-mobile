@@ -8,7 +8,7 @@
                     <size android:width="50dp" android:height="50dp"/>
                 </shape>
             </item>
-            <item android:drawable="@drawable/icon_baseline_light_mode_24" android:gravity="center"/>
+            <item android:drawable="@drawable/ic_baseline_light_mode_24" android:gravity="center"/>
         </layer-list>
     </item>
     <item>
@@ -19,7 +19,7 @@
                     <size android:width="50dp" android:height="50dp"/>
                 </shape>
             </item>
-            <item android:drawable="@drawable/icon_baseline_dark_mode_24" android:gravity="center"/>
+            <item android:drawable="@drawable/ic_baseline_dark_mode_24" android:gravity="center"/>
         </layer-list>
     </item>
 </selector>

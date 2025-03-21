@@ -39,7 +39,7 @@
     <string name="light_mode">Chế độ sáng</string>
     <string name="fler">người theo dõi</string>
     <string name="fl">Đang theo dõi</string>
-    <string name="edit" >Chỉnh sửa</string>
+    <string name="edit">Chỉnh sửa</string>
     <string name="noActivity">Không có hoạt động nào gần đây</string>
     <string name="setting">CÀI ĐẶT</string>
     <string name="account">Tài khoản</string>
@@ -101,4 +101,25 @@
     <string name="compilation">Tuyển tập</string>
     <string name="available_on">Có ở</string>
     <string name="you_may_also_like">Có thể bạn cũng thích</string>
+    <string name="email_password"><![CDATA[Step 1: Enter Email & Password]]></string>
+    <string name="next">Next</string>
+    <string name="email">Email</string>
+    <string name="choose_username">Step 2: Choose Your Username</string>
+    <string name="username">Username</string>
+    <string name="add_a_profile_picture">Add a profile picture</string>
+    <string name="help_you_friends_recognize_you">Help you friends recognize you</string>
+    <string name="choose_from_gallery">Choose from gallery</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="take_photo">Take photo</string>
+    <string name="when_s_your_birthday">When\'s your birthday?</string>
+    <string name="your_birthday_won_t_be_shown_publicly_we_use_it_to_personalize_your_experience">Your birthday won\'t be shown publicly. We use it to personalize your experience.</string>
+    <string name="_continue">Continue</string>
+    <string name="profile_setup">Profile Setup</string>
+    <string name="create_a_username">Create a username</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? <u>Sign up</u></string>
+    <string name="log_in_underline"><u>Login</u></string>
+    <string name="skip_for_now"><u>Skip for now</u></string>
+    <string name="didn_t_receive_a_code_resend">Didn\'t receive a code? <u>Resend</u></string>
+    <string name="Search_all">Duyệt tìm tất cả</string>
+    <string name="noSearchResult">Không tìm thấy kết quả nào</string>
 </resources>
