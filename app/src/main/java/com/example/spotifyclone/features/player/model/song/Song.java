@@ -22,6 +22,33 @@ public class Song implements Parcelable {
     private List<Artist> authors;
     private List<Genre> genres;
 
+    @Override
+    public String toString() {
+        return "Song{" +
+                "id='" + _id + '\'' +
+                ", title='" + title + '\'' +
+                ", lyric='" + (lyric != null ? lyric.substring(0, Math.min(lyric.length(), 30)) + "..." : "No Lyrics") + '\'' +
+                ", is_premium=" + is_premium +
+                ", like_count=" + like_count +
+                ", mp3_url='" + mp3_url + '\'' +
+                ", image_url='" + image_url + '\'' +
+                ", singers=" + getArtistNames(singers) +
+                ", authors=" + getArtistNames(authors) +
+                ", genres=" + getGenreNames(genres) +
+                '}';
+    }
+
+    private String getArtistNames(List<Artist> artists) {
+        if (artists == null || artists.isEmpty()) return "None";
+        return artists.stream().map(Artist::getName).collect(Collectors.joining(", "));
+    }
+
+    private String getGenreNames(List<Genre> genres) {
+        if (genres == null || genres.isEmpty()) return "None";
+        return genres.stream().map(Genre::getName).collect(Collectors.joining(", "));
+    }
+
+
     // Constructor
     public Song(String _id, String title, String lyrics, boolean is_premium, int like_count,
                 String mp3_url, String image_url, List<Artist> authors, List<Artist> singers, List<Genre> genres) {
@@ -197,5 +224,9 @@ public class Song implements Parcelable {
 
     public void setImageUrl(String image_url) {
         this.image_url = image_url;
+    }
+
+    public String getSingerIdAt(int index) {
+        return (authors != null && index >= 0 && index < authors.size()) ? authors.get(index).getId() : null;
     }
 }

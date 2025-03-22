@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
@@ -55,7 +56,6 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
     private TextView userNameText;
 
     private HomeViewModel homeViewModel;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -167,10 +167,11 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
             }
         });
         homeViewModel.getPopularSongs().observe(getViewLifecycleOwner(), songs -> {
-            if(songs != null) {
+            if (songs != null) {
                 popularSongsAdapter.setSongs(songs);
             }
         });
+
         homeViewModel.getPopularArtists().observe(getViewLifecycleOwner(), artists -> {
             if(artists != null){
                 popularArtistAdapter.setArtists(artists);
@@ -225,9 +226,10 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
         Navigation.findNavController(requireView()).navigate(action);
 
     }
-
     @Override
     public void onArtistClick(Artist artist) {
-
+        NavDirections action = HomeFragmentDirections.actionNavHomeToArtistFragment(artist.getId());
+        Navigation.findNavController(requireView()).navigate(action);
     }
 }
+

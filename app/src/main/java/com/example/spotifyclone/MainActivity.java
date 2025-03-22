@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MusicPlayerViewModel viewModel;
     private ProgressBar miniPlayerProgress;
     private EditText search_input; // genre-ids
-
     private AlbumViewModel albumViewModel;
     private NavController navController;
     private DrawerLayout drawerLayout;
@@ -72,12 +71,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initUser() {
         AuthRepository authRepository = new AuthRepository(getApplicationContext());
         currentUser = authRepository.getUser();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return navController.navigateUp() || super.onSupportNavigateUp();
     }
 
     private void setupNavigation() {
@@ -116,15 +109,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+//
+//    @Override
+//    public void onBackPressed() {
+//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            drawerLayout.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
     private void initUI() {
         miniPlayer = findViewById(R.id.mini_player);

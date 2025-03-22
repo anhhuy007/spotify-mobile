@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_album_detail"
             app:destination="@id/nav_album_detail" />
+        <action
+            android:id="@+id/action_nav_home_to_artistFragment"
+            app:destination="@id/artistFragment" />
     </fragment>
 
     <fragment
@@ -156,6 +159,26 @@
         android:label="Settings"
         tools:layout="@layout/fragment_settings" />
 
+    <fragment
+        android:id="@+id/artistFragment"
+        android:name="com.example.spotifyclone.features.artist.ui.ArtistFragment"
+        android:label="Artist"
+        tools:layout="@layout/fragment_artist" >
 
+        <argument
+            android:name="artistId"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/playerBottomSheetFragment"
+        android:name="com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment"
+        android:label="Player"
+        tools:layout="@layout/bottom_sheet_fragment_player">
+        <action
+            android:id="@+id/action_playerBottomSheet_to_artistFragment"
+            app:destination="@id/artistFragment" />
+    </dialog>
 
 </navigation>

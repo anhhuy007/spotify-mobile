@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
+import com.example.spotifyclone.features.home.ui.HomeFragmentDirections;
 import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
@@ -33,6 +34,9 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +55,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     private boolean isUserSeeking = false;
     private View rootView;
     private UpcomingSongsBottomSheetFragment upcomingSongsBottomSheetFragment;
+    private CardView artistCard;
 
 
     public static PlayerBottomSheetFragment newInstance(Song song) {
@@ -118,6 +123,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         tvLyricsContent = rootView.findViewById(R.id.tvLyricsContent);
 
         // Artist Info Section
+        artistCard = rootView.findViewById(R.id.artistCard);
         ivArtistImage = rootView.findViewById(R.id.ivArtistImage);
         tvArtistIntro = rootView.findViewById(R.id.tvArtistIntro);
         tvArtistFullName = rootView.findViewById(R.id.tvArtistFullName);
@@ -185,6 +191,16 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
 
         btnPlaylist.setOnClickListener(v -> {
             showUpcomingSongsBottomSheet();
+        });
+
+        artistCard.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+
+            Bundle args = new Bundle();
+            args.putString("artistId", song.getSingerIdAt(0));
+            navController.navigate(R.id.artistFragment, args);
+
+            dismiss();
         });
     }
 
