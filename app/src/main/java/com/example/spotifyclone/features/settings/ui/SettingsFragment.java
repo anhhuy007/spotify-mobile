@@ -33,8 +33,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.spotifyclone.MainActivity;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.profile.ui.ProfileActivity;
 import com.example.spotifyclone.shared.utils.Constants;
 
 import java.util.Locale;
@@ -202,7 +202,7 @@ public class SettingsFragment extends Fragment {
 
         // Account info navigation
         accountInfoContainer.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), ProfileActivity.class);
+            Intent intent = new Intent(requireActivity(), MainActivity.class);
             intent.putExtra("USER_ID", Constants.userID);
             startActivity(intent);
         });
@@ -353,7 +353,7 @@ public class SettingsFragment extends Fragment {
 
         Toast.makeText(requireContext(), R.string.logout_success, Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(requireActivity(), ProfileActivity.class);
+        Intent intent = new Intent(requireActivity(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         requireActivity().finish();

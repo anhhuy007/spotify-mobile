@@ -19,7 +19,6 @@ import com.example.spotifyclone.MainActivity;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthVMFactory;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthViewModel;
-import com.example.spotifyclone.features.profile.ui.ProfileActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;

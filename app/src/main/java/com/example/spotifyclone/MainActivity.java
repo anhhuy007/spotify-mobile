@@ -111,7 +111,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              navController.navigate(R.id.profileFragment);
         } else if (id == R.id.nav_settings) {
             // TODO: Handle navigation to settings
-             navController.navigate(R.id.settingsFragment);
+//             navController.navigate(R.id.settingsFragment);
+             navController.navigate(R.id.artistListFragment);
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;

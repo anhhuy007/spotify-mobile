@@ -123,5 +123,6 @@
     <string name="Search_all">Duyệt tìm tất cả</string>
     <string name="noSearchResult">Không tìm thấy kết quả nào</string>
 
-
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
 </resources>
