@@ -204,8 +204,11 @@ public class HomeFragment extends Fragment implements AlbumAdapter.OnAlbumClickL
 
     @Override
     public void onArtistClick(Artist artist) {
-        NavDirections action = HomeFragmentDirections.actionNavHomeToArtistFragment(artist.getId());
-        Navigation.findNavController(requireView()).navigate(action);
+        Bundle args = new Bundle();
+        args.putString("ARTIST_ID", artist.getId());
+
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        navController.navigate(R.id.action_homeFragment_to_artistDetailFragment, args);
     }
 }
 

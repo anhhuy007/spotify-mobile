@@ -1,8 +1,8 @@
 package com.example.spotifyclone.features.artist.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,23 +13,30 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.artist.model.Artist;
-import com.example.spotifyclone.features.artist.ui.ArtistActivity;
+import com.example.spotifyclone.features.artist.model.Item;
+import com.example.spotifyclone.features.artist.ui.ArtistOverallFragment;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
     private Context context;
-    private List<Artist> artistList;
+    private List<Item> artistList;
+    private View rootView;
 
-    public ArtistAdapter(Context context, List<Artist> artistList) {
+    public ArtistAdapter(Context context, List<Item> artistList) {
         this.context = context;
         this.artistList = artistList;
+    }
+
+    public void setRootView(View rootView) {
+        this.rootView = rootView;
     }
 
     @NonNull
@@ -41,22 +48,28 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Artist item = artistList.get(position);
+        Item item = artistList.get(position);
         holder.textView.setText(item.getName());
         Glide.with(context)
                 .load(item.getAvatarUrl())
                 .placeholder(R.drawable.loading)
                 .into(holder.imageView);
-        holder.artistItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ArtistActivity.class);
-                intent.putExtra("ARTIST_ID", item.getId());
-                context.startActivity(intent);
 
+        holder.artistItem.setOnClickListener(v -> {
+            if (rootView != null) {
+                // Create bundle with artist data
+                Bundle args = new Bundle();
+                args.putString("ARTIST_ID", item.getId());
+
+                // Navigate using the Navigation Component
+                Navigation.findNavController(rootView)
+                        .navigate(R.id.action_artistListFragment_to_artistFragment, args);
             }
         });
-        // extract color from picture
+
+
+
+        // Extract color from picture
         DominantColorExtractor.getDominantColor(context, item.getAvatarUrl(), color -> {
             int baseColor = ContextCompat.getColor(context, R.color.white);
             GradientDrawable gradient = new GradientDrawable(
@@ -79,7 +92,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
         TextView textView;
         CardView artistItem;
         ImageView imageView;
-
         ConstraintLayout artist_item_container;
 
         public ViewHolder(View itemView) {

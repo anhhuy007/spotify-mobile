@@ -40,6 +40,7 @@ public class MusicPlayerViewModel extends ViewModel {
     private final MutableLiveData<List<Song>> upcomingSongs = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<Song> currentSong = new MutableLiveData<>();
     private final MutableLiveData<String> currentAlbumId = new MutableLiveData<>();
+    private final MutableLiveData<String> currentArtistId = new MutableLiveData<>();
     private final MutableLiveData<PlayList> currentPlaylist = new MutableLiveData<>(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
     private final MutableLiveData<PlaybackState> playbackState = new MutableLiveData<>(PlaybackState.STOPPED);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -53,7 +54,7 @@ public class MusicPlayerViewModel extends ViewModel {
     public enum PlaybackSourceType {
         NONE,
         ALBUM,
-        PLAYLIST
+        ARTIST, PLAYLIST
     }
 
 
@@ -205,6 +206,37 @@ public class MusicPlayerViewModel extends ViewModel {
             playAlbum(albumId, albumName);
         }
     }
+    public void playAlbum(String albumId, String albumName) {
+        // Clear current playlist info
+        currentPlaylist.setValue(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
+        currentArtistId.setValue(null);
+
+        // Set current album info
+        currentAlbumId.setValue(albumId);
+        currentPlaybackSourceType.setValue(PlaybackSourceType.ALBUM);
+        currentName.setValue(albumName);
+        // Start playback
+        playerController.playAlbum(albumId);
+        playbackState.setValue(PlaybackState.LOADING);
+        handler.post(updateProgressRunnable);
+    }
+
+    public void playAlbumSong(String albumId, String albumName, Song song) {
+        // Clear current playlist info and
+        currentPlaylist.setValue(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
+        currentArtistId.setValue(null);
+
+        // Set current album info
+        currentAlbumId.setValue(albumId);
+        currentPlaybackSourceType.setValue(PlaybackSourceType.ALBUM);
+        currentName.setValue(albumName);
+
+        // Start playback
+        playerController.playAlbumSong(albumId, song);
+        playbackState.setValue(PlaybackState.LOADING);
+        handler.post(updateProgressRunnable);
+    }
+
 
     public void togglePlayPausePlaylist(PlayList playlist) {
         PlaybackState currentState = playbackState.getValue();
@@ -239,28 +271,50 @@ public class MusicPlayerViewModel extends ViewModel {
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
     }
-    public void playAlbum(String albumId, String albumName) {
+    public void togglePlayPauseArtist(String artistId, String artistName) {
+        Log.d("Artist Click", "test" + artistId + artistName);
+        PlaybackState currentState = playbackState.getValue();
+        if (currentArtistId.getValue() != null &&
+                currentArtistId.getValue().equals(artistId) &&
+                currentPlaybackSourceType.getValue() == PlaybackSourceType.ARTIST) {
+            if (currentState == PlaybackState.PLAYING) {
+                pausePlayback();
+            } else if (currentState == PlaybackState.PAUSED || currentState == PlaybackState.SEEKING) {
+                continuePlayback();
+            } else {
+                playArtist(artistId, artistName);
+            }
+        } else {
+            playArtist(artistId, artistName);
+        }
+    }
+    public void playArtist(String artistId, String artistName) {
         // Clear current playlist info
         currentPlaylist.setValue(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
+        currentAlbumId.setValue(null);
+
         // Set current album info
-        currentAlbumId.setValue(albumId);
-        currentPlaybackSourceType.setValue(PlaybackSourceType.ALBUM);
-        currentName.setValue(albumName);
+        currentArtistId.setValue(artistId);
+        currentPlaybackSourceType.setValue(PlaybackSourceType.ARTIST);
+        currentName.setValue(artistName);
+
         // Start playback
-        playerController.playAlbum(albumId);
+        playerController.playArtist(artistId);
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
     }
-
-    public void playAlbumSong(String albumId, String albumName, Song song) {
-        // Clear current playlist info and
+    public void playArtistSong(String artistId, String artistName, String songId) {
+        // Clear current playlist info
         currentPlaylist.setValue(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
+        currentAlbumId.setValue(null);
+
         // Set current album info
-        currentAlbumId.setValue(albumId);
-        currentPlaybackSourceType.setValue(PlaybackSourceType.ALBUM);
-        currentName.setValue(albumName);
+        currentArtistId.setValue(artistId);
+        currentPlaybackSourceType.setValue(PlaybackSourceType.ARTIST);
+        currentName.setValue(artistName);
+
         // Start playback
-        playerController.playAlbumSong(albumId, song);
+        playerController.playArtistSong(artistId, songId);
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
     }

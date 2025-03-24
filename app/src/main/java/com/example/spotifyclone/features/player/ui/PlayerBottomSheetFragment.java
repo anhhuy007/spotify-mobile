@@ -37,6 +37,7 @@ import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     private View rootView;
     private UpcomingSongsBottomSheetFragment upcomingSongsBottomSheetFragment;
     private CardView artistCard;
+    private NavController navController;
 
 
     public static PlayerBottomSheetFragment newInstance(Song song) {
@@ -85,6 +87,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navController = NavHostFragment.findNavController(this);
         initUI();
         setupListeners();
         observeViewModel();
@@ -195,14 +198,14 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         });
 
         artistCard.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-
             Bundle args = new Bundle();
-            args.putString("artistId", song.getSingerIdAt(0));
-            navController.navigate(R.id.artistFragment, args);
+            args.putString("ARTIST_ID", song.getSingerIdAt(0));
 
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            navController.navigate(R.id.artistFragment, args);
             dismiss();
         });
+
     }
 
     private void observeViewModel() {
@@ -249,18 +252,19 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
 
         viewModel.getUpcomingSongs().observe(getViewLifecycleOwner(), this::updateUpcomingSongsList);
         viewModel.getPlayType().observe(getViewLifecycleOwner(), type -> {
-            String playTypeText;
+                    String playTypeText;
 
-            if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
-                playTypeText = "ĐANG PHÁT TỪ ALBUM";
-            } else if (type == MusicPlayerViewModel.PlaybackSourceType.NONE) {
-                playTypeText = "ĐANG PHÁT CÁC BÀI HÁT ĐƯỢC ĐỀ XUẤT CHO BẠN";
-            } else {
-                playTypeText = "ĐANG PHÁT";
-            }
-
-            tvPlayType.setText(playTypeText);
-        });
+                    if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
+                        playTypeText = "ĐANG PHÁT TỪ ALBUM";
+                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.NONE) {
+                        playTypeText = "ĐANG PHÁT CÁC BÀI HÁT ĐƯỢC ĐỀ XUẤT CHO BẠN";
+                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.ARTIST) {
+                        playTypeText = "ĐANG PHÁT TỪ NGHỆ SĨ";
+                    } else {
+                        playTypeText = "ĐANG PHÁT";
+                    }
+                    tvPlayType.setText(playTypeText);
+                });
 
 
         viewModel.getPlayName().observe(getViewLifecycleOwner(), name -> {

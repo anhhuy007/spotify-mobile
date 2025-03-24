@@ -23,4 +23,11 @@ public class Profile {
     public int getFollow() { return follow; }
     public String getAvatarUrl() { return avatarUrl; }
     public String getCreatedAt() { return createdAt; }
+
+    public void setId(String id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setPassword(String password) { this.password = password; }
+    public void setFollower(int follower) { this.follower = follower; }
+    public void setFollow(int follow) { this.follow = follow; }
+    public void setAvatarUrl(String avatarUrl) { this.avatarUrl = avatarUrl; }
 }

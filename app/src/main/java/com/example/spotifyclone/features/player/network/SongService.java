@@ -27,5 +27,8 @@ public interface SongService {
 
     @GET("album/{id}/songs")
     Call<APIResponse<PaginatedResponse<Song>>> getAlbumSongs(@Path("id") String albumId);
+
+    @GET("artist/{id}/songs")
+    Call<APIResponse<PaginatedResponse<Song>>> getArtistSongs(@Path("id") String artistId);
 }
 

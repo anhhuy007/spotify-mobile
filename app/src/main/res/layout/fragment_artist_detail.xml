@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:background="@color/gray">
+        <ImageButton
+            android:id="@+id/back_button_overall"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+
+
+            android:padding="8dp"
+
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_back_btn" />
+
+
+
+        <TextView
+            android:id="@+id/artist_name_overall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="SOOBIN"
+            android:layout_marginEnd="48dp"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+
+
+    </LinearLayout>
+
+
+
+
+    <ImageView
+        android:id="@+id/artist_image_overall"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:layout_margin="20dp"
+        android:src="@drawable/loading" />
+
+    <!-- Monthly Listeners -->
+    <TextView
+        android:id="@+id/monthly_listeners_overall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.528.502"
+        android:textSize="32sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp" />
+
+    <TextView
+        android:id="@+id/monthly_listeners_label_overall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/monthly_listeners"
+        android:textSize="14sp"
+        android:textColor="#B3B3B3"
+        android:layout_marginStart="16dp" />
+
+    <TextView
+        android:id="@+id/artist_description_overall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SOOBIN is a singer and songwriter of various genres..."
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:lineSpacingExtra="4dp"
+        android:layout_margin="16dp" />
+
+    <!-- Ảnh đại diện và tên người đăng -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_round"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="20dp"
+            android:layout_marginHorizontal="18dp">
+
+            <ImageView
+                android:id="@+id/artist_logo_overall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/loading"
+                android:background="@color/black"
+                android:scaleType="centerCrop"/>
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/post_author_overall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng bởi SOOBIN"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:id="@+id/instagram_icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_instagram"
+                android:layout_marginHorizontal="14dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="4dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Instagram"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:id="@+id/facebook_icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginHorizontal="14dp"
+
+                android:src="@drawable/ic_facebook"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="4dp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Facebook"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- Wikipedia -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+
+            android:paddingVertical="8dp">
+
+            <ImageView
+                android:id="@+id/wiki_icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginHorizontal="14dp"
+
+                android:src="@drawable/ic_wiki"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="4dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wikipedia"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

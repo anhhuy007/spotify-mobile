@@ -29,8 +29,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.spotifyclone.MainActivity;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.profile.ui.ProfileActivity;
 import com.example.spotifyclone.shared.utils.Constants;
 
 import java.util.Locale;
@@ -180,7 +180,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Account info navigation
         accountInfoContainer.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingsActivity.this, ProfileActivity.class);
+            Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
             intent.putExtra("USER_ID", com.example.spotifyclone.shared.utils.Constants.userID);
             startActivity(intent);
         });
@@ -336,7 +336,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Toast.makeText(this, R.string.logout_success, Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(SettingsActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

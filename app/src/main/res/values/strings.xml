@@ -93,7 +93,14 @@
     <string name="go_to_radio">Chuyển đến radio theo bài hát</string>
     <string name="view_song_credits">Xem thông tin ghi công của bài hát</string>
     <string name="show_spotify_code">Hiển thị mã Spotify</string>
+    <string name="single">Đĩa đơn</string>
 
+
+    <string name="release">Bản phát hành</string>
+    <string name="single1">Đĩa đơn và Đĩa mở rộng</string>
+    <string name="compilation">Tuyển tập</string>
+    <string name="available_on">Có ở</string>
+    <string name="you_may_also_like">Có thể bạn cũng thích</string>
     <string name="email_password"><![CDATA[Step 1: Enter Email & Password]]></string>
     <string name="next">Next</string>
     <string name="email">Email</string>
@@ -115,4 +122,6 @@
     <string name="didn_t_receive_a_code_resend">Didn\'t receive a code? <u>Resend</u></string>
     <string name="Search_all">Duyệt tìm tất cả</string>
     <string name="noSearchResult">Không tìm thấy kết quả nào</string>
+    <string name="old_password">Mật khẩu cũ</string>
+    <string name="new_password">Mật khẩu mới</string>
 </resources>

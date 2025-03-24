@@ -43,6 +43,7 @@ import com.example.spotifyclone.features.album.inter.AlbumMainCallbacks;
 import com.example.spotifyclone.features.album.model.Album;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModelFactory;
+import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
@@ -110,7 +111,8 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
             return;
         }
 
-        initViews(view);
+        initViews(view);        setupViewModel();
+
         setupUI();
         setupViewModel();
         setupRecyclerView(view);
@@ -180,7 +182,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == android.R.id.home) {
-                    // Sử dụng Navigation Component để quay lại
                     NavHostFragment.findNavController(AlbumDetailFragment.this).navigateUp();
                     return true;
                 }
@@ -268,6 +269,22 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
                 return app.getAppViewModelStore();
             }
         }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
+
+        viewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
+            if (playbackState != null) {
+                updatePlayButton(playbackState == PlaybackState.PLAYING);
+            }
+        });
+    }
+
+    private void updatePlayButton(boolean isPlaying) {
+        if (isPlaying) {
+            playButton.setImageResource(R.drawable.play_button);
+            playButton.setTag("pause");
+        } else {
+            playButton.setImageResource(R.drawable.play_button);
+            playButton.setTag("play");
+        }
     }
 
     private void setupScrollListener() {

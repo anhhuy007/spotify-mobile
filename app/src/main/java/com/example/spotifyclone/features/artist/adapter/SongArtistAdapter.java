@@ -13,20 +13,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.artist.model.Artist;
+import com.example.spotifyclone.features.artist.model.PopularSong;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.List;
 
 public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.ViewHolder> {
     private Context context;
-    private List<Artist> artistList;
-
-    public SongArtistAdapter(Context context, List<Artist> artistList) {
-        this.context = context;
-        this.artistList = artistList;
+    private List<PopularSong> artistList;
+    private OnSongClickListener listener;
+    public interface OnSongClickListener {
+        void onSongClick(PopularSong song);
     }
 
+
+    public SongArtistAdapter(Context context, List<PopularSong> artistList, OnSongClickListener listener) {
+        this.context = context;
+        this.artistList = artistList;
+        this.listener = listener;
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,7 +41,7 @@ public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Artist item = artistList.get(position);
+        PopularSong item = artistList.get(position);
         holder.tv_song_number.setText(Integer.toString(position+1) );
         holder.tv_song_title.setText(item.getName());
         holder.tv_song_plays.setText(item.getDescription());
@@ -45,6 +50,12 @@ public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.Vi
                 .placeholder(R.drawable.loading)
                 .into(holder.img_song_cover);
 
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onSongClick(item);
+            }
+        });
 
         holder.btn_more_options.setOnClickListener(new View.OnClickListener() {
             @Override

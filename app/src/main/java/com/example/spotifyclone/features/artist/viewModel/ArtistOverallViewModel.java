@@ -12,8 +12,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.spotifyclone.features.artist.network.apiArtistService;
-import com.example.spotifyclone.features.artist.model.Artist;
+import com.example.spotifyclone.features.artist.model.Item;
 import com.example.spotifyclone.features.artist.network.artistRetrofit;
+import com.example.spotifyclone.shared.model.APIResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,7 +23,7 @@ import retrofit2.Retrofit;
 
 public class ArtistOverallViewModel extends AndroidViewModel {
     private final Context context;
-    private final MutableLiveData<Artist> artist = new MutableLiveData<>();
+    private final MutableLiveData<Item> artist = new MutableLiveData<>();
     private final String artistId;
 
     private ArtistOverallViewModel(@NonNull Application application, String artistId) {
@@ -50,7 +51,7 @@ public class ArtistOverallViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<Artist> getArtist() {
+    public LiveData<Item> getArtist() {
         return artist;
     }
 
@@ -59,19 +60,20 @@ public class ArtistOverallViewModel extends AndroidViewModel {
         Retrofit retrofit = artistRetrofit.getClient();
         apiArtistService apiService = retrofit.create(apiArtistService.class);
 
-        Call<Artist> call = apiService.getArtistDetail(artistId);
-        call.enqueue(new Callback<Artist>() {
+
+        apiService.getArtistDetail(artistId).enqueue(new Callback<APIResponse<Item>>() {
             @Override
-            public void onResponse(Call<Artist> call, Response<Artist> response) {
+            public void onResponse(Call<APIResponse<Item>> call, Response<APIResponse<Item>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    artist.setValue(response.body());
+                    artist.setValue(response.body().getData());
                 } else {
                     Toast.makeText(context, "Failed to load artist data", Toast.LENGTH_SHORT).show();
                 }
             }
 
+
             @Override
-            public void onFailure(Call<Artist> call, Throwable t) {
+            public void onFailure(Call<APIResponse<Item>> call, Throwable t) {
                 Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
