@@ -29,14 +29,15 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<List<Song>> popularSongs = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<List<Artist>> popularArtist = new MutableLiveData<>(new ArrayList<>());
     private final HomeService homeService;
-    private final MutableLiveData<String > errorMessage=new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
-    public HomeViewModel(Context context){
+    public HomeViewModel(Context context) {
         homeService = RetrofitClient.getClient(context).create(HomeService.class);
         fetchData();
     }
-    void fetchData(){
-            // Call api to fetch data here
+
+    void fetchData() {
+        // Call api to fetch data here
         // Fetch songs
         fetchNewSongs();
         fetchPopularSongs();
@@ -44,51 +45,43 @@ public class HomeViewModel extends ViewModel {
         // Fetch albums
         fetchPopularAlbums();
         fetchLatestAlbums();
-        
+
         // Fetch artists
         fetchPopularArtists();
     }
 
-        private void fetchPopularArtists() {
-            homeService.getPopularArtists().enqueue(new Callback<APIResponse<PaginatedResponse<Artist>>>() {
-                @Override
-                public void onResponse(Call<APIResponse<PaginatedResponse<Artist>>> call, Response<APIResponse<PaginatedResponse<Artist>>> response) {
-                    Log.d("DEBUG", "onFailure: " + response.body());
-                    if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                        popularArtist.setValue(response.body().getData().getItems());
-                        Log.d("DEBUG", "Popular Songs" + response.body());
-                    } else {
-                        errorMessage.setValue("Failed to load albums");
-                        Log.d("DEBUG", "onFailure: " + response.message());
-                    }
+    private void fetchPopularArtists() {
+        homeService.getPopularArtists().enqueue(new Callback<APIResponse<PaginatedResponse<Artist>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<PaginatedResponse<Artist>>> call, Response<APIResponse<PaginatedResponse<Artist>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    popularArtist.setValue(response.body().getData().getItems());
+                } else {
+                    errorMessage.setValue("Failed to load albums");
                 }
+            }
 
-                @Override
-                public void onFailure(Call<APIResponse<PaginatedResponse<Artist>>> call, Throwable t) {
-                    errorMessage.setValue(t.getMessage());
-                    Log.d("DEBUG", "onFailure: " + t.getMessage());
-                }
-            });
-        }
+            @Override
+            public void onFailure(Call<APIResponse<PaginatedResponse<Artist>>> call, Throwable t) {
+                errorMessage.setValue(t.getMessage());
+            }
+        });
+    }
 
     private void fetchLatestAlbums() {
         homeService.getLatestAlbums().enqueue(new Callback<APIResponse<PaginatedResponse<Album>>>() {
             @Override
             public void onResponse(Call<APIResponse<PaginatedResponse<Album>>> call, Response<APIResponse<PaginatedResponse<Album>>> response) {
-                Log.d("DEBUG", "onFailure: "+ response.body());
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     latestAlbums.setValue(response.body().getData().getItems());
-                    Log.d("DEBUG","Popular Songs" + response.body());
                 } else {
                     errorMessage.setValue("Failed to load albums");
-                    Log.d("DEBUG", "onFailure: "+ response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponse<PaginatedResponse<Album>>> call, Throwable t) {
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -97,20 +90,16 @@ public class HomeViewModel extends ViewModel {
         homeService.getPopularAlbums().enqueue(new Callback<APIResponse<PaginatedResponse<Album>>>() {
             @Override
             public void onResponse(Call<APIResponse<PaginatedResponse<Album>>> call, Response<APIResponse<PaginatedResponse<Album>>> response) {
-                Log.d("DEBUG", "onFailure: "+ response.body());
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     popularAlbums.setValue(response.body().getData().getItems());
-                    Log.d("DEBUG","Popular Songs" + response.body());
                 } else {
                     errorMessage.setValue("Failed to load albums");
-                    Log.d("DEBUG", "onFailure: "+ response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponse<PaginatedResponse<Album>>> call, Throwable t) {
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -119,21 +108,17 @@ public class HomeViewModel extends ViewModel {
         homeService.getPopularSongs().enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
             @Override
             public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
-                Log.d("DEBUG", "onFailure: "+ response.body());
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     popularSongs.setValue(response.body().getData().getItems());
-                    Log.d("DEBUG","Popular Songs" + response.body());
                 } else {
                     errorMessage.setValue("Failed to load albums");
-                    Log.d("DEBUG", "onFailure: "+ response.message());
-
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());            }
+            }
         });
     }
 
@@ -141,21 +126,17 @@ public class HomeViewModel extends ViewModel {
         homeService.getNewSongs().enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
             @Override
             public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
-                Log.d("DEBUG", "onFailure: "+ response.body());
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     newSongs.setValue(response.body().getData().getItems());
-                    Log.d("DEBUG","Popular Songs" + response.body());
                 } else {
                     errorMessage.setValue("Failed to load albums");
-                    Log.d("DEBUG", "onFailure: "+ response.message());
-
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());            }
+            }
         });
     }
 

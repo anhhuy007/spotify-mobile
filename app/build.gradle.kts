@@ -57,12 +57,8 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.gson)
     implementation(libs.retrofit)
-//    implementation(libs.glide)
-//    implementation(libs.glide.v4151)
     implementation(libs.picasso)
     implementation(libs.circleimageview)
-//    annotationProcessor(libs.compiler)
-//    annotationProcessor(libs.compiler.v4120)
 
     // Firebase & authentication
     implementation(platform(libs.firebase.bom))
@@ -86,27 +82,19 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     // coordinatorlayoyt
-    implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+    implementation(libs.androidx.coordinatorlayout)
+    implementation(libs.material.v1110)
+    implementation (libs.glide.v4151)
+    annotationProcessor (libs.compiler)
 
     // navigation fragment
-    implementation ("androidx.navigation:navigation-fragment:2.7.0")
-    implementation ("androidx.navigation:navigation-ui:2.7.0")
-    implementation ("com.google.android.material:material:1.11.0")
-    implementation ("androidx.drawerlayout:drawerlayout:1.1.1")
-    implementation ("com.google.android.material:material:1.10.0")
+    implementation (libs.androidx.navigation.fragment)
+    implementation (libs.androidx.navigation.ui)
+    implementation (libs.material)
+    implementation (libs.androidx.drawerlayout)
+    implementation (libs.material)
 
-
-//    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-//    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-//    implementation("com.github.bumptech.glide:glide:4.12.0")
-//    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
-//    implementation("androidx.recyclerview:recyclerview:1.2.1")
-//    implementation("androidx.palette:palette-ktx:1.0.0")
-//    implementation("com.google.android.material:material:1.10.0")
-
-
-
+    // push notification FCM
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.core)
 }
