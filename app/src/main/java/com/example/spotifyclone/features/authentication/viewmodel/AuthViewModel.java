@@ -24,9 +24,6 @@ public class AuthViewModel extends ViewModel {
         this.authRepo = new AuthRepository(context);
 
         if (authRepo.isLoggedIn()) {
-            Log.d("DEBUG", "AuthViewModel: User already logged in");
-            Log.d("DEBUG", "AuthViewModel: " + authRepo.getUser());
-
             isSuccess.setValue(true);
             userLiveData.setValue(authRepo.getUser());
         } else {
@@ -37,7 +34,6 @@ public class AuthViewModel extends ViewModel {
 
     public void login(String email, String password) {
         isLoading.setValue(true);
-        Log.d("DEBUG", "login: " + email + " " + password);
         authRepo.login(email, password, new AuthRepository.AuthCallback() {
             @Override
             public void onSuccess(User user) {
@@ -73,8 +69,6 @@ public class AuthViewModel extends ViewModel {
     }
 
     public void signup(String username, String email, String password, String dob, String avatarUrl) {
-        Log.d("DEBUG", "signup: " + username + " " + email + " " + password + " " + avatarUrl);
-
         isLoading.setValue(true);
         authRepo.signup(username, email, password, dob, avatarUrl, new AuthRepository.AuthCallback() {
             @Override

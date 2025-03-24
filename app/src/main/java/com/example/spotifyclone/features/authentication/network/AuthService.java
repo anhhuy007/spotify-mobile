@@ -42,7 +42,7 @@ public interface AuthService {
     );
 
     @FormUrlEncoded
-    @POST("auth/refresh")
+    @POST("auth/refresh-token")
     Call<APIResponse<Tokens>> refreshToken(@Field("refreshToken") String refreshToken);
 
     @POST("auth/logout")

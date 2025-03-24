@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 
 public interface ApiService {
     @FormUrlEncoded
-    @POST
+    @POST("user/update-fcm-token")
     Call<APIResponse<User>> updateFCMToken(
             @Field("fcmToken") String fcmToken
     );

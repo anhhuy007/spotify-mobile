@@ -18,7 +18,6 @@ public interface ProfileService {
             @Part MultipartBody.Part image
     );
 
-
     @GET("user/profile/hello")
     Call<APIResponse<Object>> hello();
 }

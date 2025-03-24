@@ -28,6 +28,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.spotifyclone.features.authentication.network.TokenManager;
 import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.home.ui.HomeFragment;
 import com.example.spotifyclone.features.library.ui.LibraryFragment;
@@ -76,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         observeViewModel();
         setupNavigation();
         checkNotificationPermission();
+
+        // Test token
+        TokenManager tokenManager = new TokenManager(this);
+        Log.d("TOKEN", tokenManager.getAccessToken());
+        Log.d("TOKEN", tokenManager.getRefreshToken());
     }
 
     private void initUser() {
