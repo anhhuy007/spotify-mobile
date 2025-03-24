@@ -31,13 +31,14 @@
             android:id="@+id/mini_player"
             android:layout_width="match_parent"
             android:layout_height="62dp"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            app:layout_constraintBottom_toTopOf="@id/bottom_nav">
+            android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="8dp">

@@ -5,10 +5,13 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import com.example.spotifyclone.features.search.model.SearchResult;
+
+import com.example.spotifyclone.features.search.model.SearchItem;
 import com.example.spotifyclone.features.search.network.SearchService;
 import com.example.spotifyclone.shared.model.APIResponse;
+import com.example.spotifyclone.shared.model.PaginatedResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -17,7 +20,7 @@ import retrofit2.Response;
 
 public class SearchViewModel extends ViewModel {
     private final SearchService searchService;
-    private final MutableLiveData<SearchResult> searchResult= new MutableLiveData<>();
+    private final MutableLiveData<List<SearchItem>> items=new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading=new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage=new MutableLiveData<>();
 
@@ -25,9 +28,8 @@ public class SearchViewModel extends ViewModel {
         this.searchService = searchService;
     }
 
-    public MutableLiveData<SearchResult> getSearchResult()
-    {
-        return searchResult;
+    public MutableLiveData<List<SearchItem>> getItems() {
+        return items;
     }
 
     public LiveData<Boolean> getIsLoading() {
@@ -38,33 +40,49 @@ public class SearchViewModel extends ViewModel {
         return errorMessage;
     }
 
+    public void clearData() {
+        items.setValue(new ArrayList<>()); // Xóa toàn bộ dữ liệu cũ
+    }
 
-    public void fetchSearchResults(String query, String genre, String type, int
-            page, int limit) {
+
+
+    public void fetchSearchResults(String query, String genre, String type, int page, int limit) {
         isLoading.setValue(true);
 
-        searchService.getSearchResults(query, genre, type, page, limit).enqueue(new Callback<APIResponse<SearchResult>>() {
+        searchService.getSearchResults(query, genre, type, page, limit).enqueue(new Callback<APIResponse<PaginatedResponse<SearchItem>>>() {
             @Override
-            public void onResponse(Call<APIResponse<SearchResult>> call, Response<APIResponse<SearchResult>> response) {
+            public void onResponse(Call<APIResponse<PaginatedResponse<SearchItem>>> call, Response<APIResponse<PaginatedResponse<SearchItem>>> response) {
                 isLoading.setValue(false);
                 if (response.isSuccessful() && response.body() != null) {
-//                    Log.d("SearchViewModel", "onResponse: " + response.body().getData().getItems().get(0).getName());
-                    searchResult.setValue(response.body().getData());
+                    List<SearchItem> newItems = response.body().getData().getItems();
+
+                    // If it's page 1, replace the entire dataset (new filter or initial load)
+                    if (page == 1) {
+                        items.setValue(new ArrayList<>(newItems));
+                        Log.d("SearchViewModel", "Setting new filtered data, items count: " + newItems.size());
+                    } else {
+                        // For pagination (page > 1), append to existing list
+                        List<SearchItem> currentItems = items.getValue();
+                        if (currentItems == null) {
+                            currentItems = new ArrayList<>();
+                        }
+                        currentItems.addAll(newItems);
+                        items.setValue(new ArrayList<>(currentItems)); // Creating new list to ensure LiveData triggers update
+                        Log.d("SearchViewModel", "Appending data, total items now: " + currentItems.size());
+                    }
                 } else {
                     errorMessage.setValue("Failed to load search results");
                 }
             }
 
             @Override
-            public void onFailure(Call<APIResponse<SearchResult>> call, Throwable t) {
+            public void onFailure(Call<APIResponse<PaginatedResponse<SearchItem>>> call, Throwable t) {
                 isLoading.setValue(false);
-                errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG_SEARCH", "onFailure: " + t.getMessage());
-
+                errorMessage.setValue("Network error: " + t.getMessage());
             }
         });
-
     }
+
 }
 
 

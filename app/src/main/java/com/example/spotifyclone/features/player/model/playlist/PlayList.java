@@ -10,7 +10,7 @@ import java.util.List;
 public class PlayList {
 
     private static final String TAG = "PlayList";
-    public final List<Song> songList;
+    public List<Song> songList;
     private int currentIndex;
 
     public PlayList(List<Song> songs, ShuffleMode shuffleMode) {
@@ -148,5 +148,18 @@ public class PlayList {
 
         Log.d(TAG, "Prioritized song: " + song.getTitle() + " at index " + currentIndex);
         printPlaylist();
+    }
+    public void addFirstSong(Song song) {
+        if (songList == null) {
+            songList = new ArrayList<>();
+        }
+        songList.removeIf(s -> s.getId().equals(song.getId()));
+        songList.add(0, song);
+
+    }
+
+    public void clear() {
+        songList.clear();
+        currentIndex = 0;
     }
 }

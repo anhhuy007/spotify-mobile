@@ -74,12 +74,12 @@ public class GenreDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Initialize views
-        Log.d("Genredetail", "onViewCreated"+GenreDetailFragmentArgs.fromBundle(getArguments()).getImageUrl());
+        Log.d("Genredetail", "onViewCreated"+ GenreDetailFragmentArgs.fromBundle(getArguments()).getImageUrl());
 
         genreImage = view.findViewById(R.id.genre_image);
         genreDescription = view.findViewById(R.id.genre_description);
         genreName = view.findViewById(R.id.genre_name);
-        backButton=view.findViewById(R.id.backButton);
+//        backButton=view.findViewById(R.id.backButton);
 
         //         extract color from picture
         int nightModeFlags = getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;

@@ -49,7 +49,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     private List<Song> upcomingSongs = new ArrayList<>();
     private MusicPlayerViewModel viewModel;
     private ImageButton btnDown, btnOptions, btnAdd, btnShuffle, btnPrevious, btnPlay, btnNext, btnRepeat, btnMultiMedia, btnPlaylist, btnShare, btnShareLyrics, btnExpand;
-    private TextView tvPlaylistInfo, tvSongTitle, tvArtistName, tvCurrentTime, tvTotalTime, tvLyricsTitle, tvLyricsContent, tvArtistIntro, tvArtistFullName, tvListenersCount, tvArtistDescription;
+    private TextView tvPlayType, tvPlayName, tvSongTitle, tvArtistName, tvCurrentTime, tvTotalTime, tvLyricsTitle, tvLyricsContent, tvArtistIntro, tvArtistFullName, tvListenersCount, tvArtistDescription;
     private ImageView ivSongCover, ivArtistImage;
     private SeekBar progressBar;
     private boolean isUserSeeking = false;
@@ -99,7 +99,8 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void initUI() {
         btnDown = rootView.findViewById(R.id.btnDown);
-        tvPlaylistInfo = rootView.findViewById(R.id.tvPlaylistInfo);
+        tvPlayName = rootView.findViewById(R.id.tvPlayName);
+        tvPlayType = rootView.findViewById(R.id.tvPlayType);
         btnOptions = rootView.findViewById(R.id.btnOptions);
         ivSongCover = rootView.findViewById(R.id.ivSongCover);
         tvSongTitle = rootView.findViewById(R.id.tvSongTitle);
@@ -148,7 +149,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         btnAdd.setOnClickListener(v -> { });
         btnPlay.setOnClickListener(v -> {
             if (song != null) {
-                viewModel.togglePlayPause(song);
+                viewModel.togglePlayPause();
             }
         });
         btnPrevious.setOnClickListener(v -> viewModel.playPrevious());
@@ -247,6 +248,29 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         });
 
         viewModel.getUpcomingSongs().observe(getViewLifecycleOwner(), this::updateUpcomingSongsList);
+        viewModel.getPlayType().observe(getViewLifecycleOwner(), type -> {
+            String playTypeText;
+
+            if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
+                playTypeText = "ĐANG PHÁT TỪ ALBUM";
+            } else if (type == MusicPlayerViewModel.PlaybackSourceType.NONE) {
+                playTypeText = "ĐANG PHÁT CÁC BÀI HÁT ĐƯỢC ĐỀ XUẤT CHO BẠN";
+            } else {
+                playTypeText = "ĐANG PHÁT";
+            }
+
+            tvPlayType.setText(playTypeText);
+        });
+
+
+        viewModel.getPlayName().observe(getViewLifecycleOwner(), name -> {
+            if (name != null && !name.isEmpty()) {
+                tvPlayName.setText(name);
+                tvPlayName.setVisibility(View.VISIBLE);
+            } else {
+                tvPlayName.setVisibility(View.GONE);
+            }
+        });
 
     }
 
@@ -263,7 +287,6 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                 Picasso.get().load(song.getImageUrl()).into(ivSongCover);
             }
-            tvPlaylistInfo.setText("Now Playing");
             tvCurrentTime.setText("0:00");
             tvTotalTime.setText("0:00");
             progressBar.setProgress(0);

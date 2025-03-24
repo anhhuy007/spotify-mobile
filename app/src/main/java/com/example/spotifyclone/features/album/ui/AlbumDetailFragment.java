@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +27,8 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,19 +36,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.album.adapter.AlbumAdapter;
 import com.example.spotifyclone.features.album.adapter.AlbumSongAdapter;
 import com.example.spotifyclone.features.album.inter.AlbumMainCallbacks;
 import com.example.spotifyclone.features.album.model.Album;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModelFactory;
+import com.example.spotifyclone.features.player.model.song.Song;
+import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class AlbumDetailFragment extends Fragment {
+public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.OnItemClickListener {
     private ImageView albumImage;
     private TextView artist_name;
     private RecyclerView recyclerView;
@@ -56,6 +62,9 @@ public class AlbumDetailFragment extends Fragment {
     private TextView artist_name2;
     private TextView artist_album_text;
     private AlbumAdapter artist_albumAdapter;
+    private MusicPlayerViewModel viewModel;
+    private ImageButton playButton;
+
     private AlbumAdapter related_albumAdapter;
     private Toolbar toolbar;
     private NestedScrollView nestedScrollView;
@@ -106,8 +115,15 @@ public class AlbumDetailFragment extends Fragment {
         setupViewModel();
         setupRecyclerView(view);
         setupToolbar((AppCompatActivity) requireActivity());
+        setupListeners();
         setupScrollListener();
         setupGradientBackground(view);
+    }
+
+    private void setupListeners() {
+        playButton.setOnClickListener(v-> {
+            viewModel.togglePlayPauseAlbum(albumId, albumTitle);
+        });
     }
 
     private void initViews(View view) {
@@ -121,6 +137,8 @@ public class AlbumDetailFragment extends Fragment {
         artist_album_text = view.findViewById(R.id.artist_album_text);
 
         nestedScrollView = view.findViewById(R.id.nestedScrollview);
+
+        playButton = view.findViewById(R.id.play_button);
     }
 
     private void setupUI() {
@@ -141,6 +159,7 @@ public class AlbumDetailFragment extends Fragment {
                 .into(artist_image);
         artist_album_text.setText("Thêm nữa từ " + String.join(" ,", artistNames));
 
+
     }
 
     private void setupToolbar(AppCompatActivity activity) {
@@ -156,7 +175,6 @@ public class AlbumDetailFragment extends Fragment {
         activity.addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                // Không cần thêm menu items
             }
 
             @Override
@@ -177,6 +195,7 @@ public class AlbumDetailFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         songAdapter = new AlbumSongAdapter(requireContext(), new ArrayList<>(), 3);
         recyclerView.setAdapter(songAdapter);
+        songAdapter.setOnItemClickListener(this);
 
         // Album of the same artist
         artist_album = view.findViewById(R.id.artist_album);
@@ -241,6 +260,14 @@ public class AlbumDetailFragment extends Fragment {
         albumViewModel.fetchAlbumsByIds();
         albumViewModel.fetchAlbumsByArtists(artistNames);
 
+        SpotifyCloneApplication app = SpotifyCloneApplication.getInstance();
+        viewModel = new ViewModelProvider(new ViewModelStoreOwner() {
+            @NonNull
+            @Override
+            public ViewModelStore getViewModelStore() {
+                return app.getAppViewModelStore();
+            }
+        }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
     }
 
     private void setupScrollListener() {
@@ -272,5 +299,11 @@ public class AlbumDetailFragment extends Fragment {
 
             view.findViewById(R.id.imageConstraintLayout).setBackground(gradient);
         });
+    }
+
+    @Override
+    public void onItemClick(Song song) {
+        Log.d("AlbumClick", "Song" + song.toString() + "Album" + albumId);
+        viewModel.playAlbumSong(albumId, albumTitle, song);
     }
 }

@@ -1,6 +1,9 @@
 package com.example.spotifyclone.features.player.ui;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -21,6 +25,7 @@ import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
@@ -73,6 +78,7 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
         setupListeners();
         observeViewModel();
         updateUI();
+
     }
 
     private void initUI(View view) {
@@ -91,7 +97,7 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
         btnBack.setOnClickListener(v -> dismiss());
         btnPlay.setOnClickListener(v -> {
             if (song != null) {
-                viewModel.togglePlayPause(song);
+                viewModel.togglePlayPause();
             }
         });
         progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -127,6 +133,7 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
             if (currentSong != null) {
                 song = currentSong;
                 updateUI();
+                setupGradientBackground(getView(), song.getImageUrl());
             }
         });
         viewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
@@ -155,6 +162,7 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
             tvCurrentTime.setText("0:00");
             tvTotalTime.setText("0:00");
             progressBar.setProgress(0);
+            setupGradientBackground(getView(), song.getImageUrl());
         }
     }
 
@@ -180,5 +188,21 @@ public class LyricBottomSheetFragment extends BottomSheetDialogFragment {
         long minutes = seconds / 60;
         seconds %= 60;
         return String.format("%d:%02d", minutes, seconds);
+    }
+
+    private void setupGradientBackground(View view, String coverUrl) {
+        int nightModeFlags = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean isDarkMode = (nightModeFlags == Configuration.UI_MODE_NIGHT_YES);
+        int secondColor = isDarkMode ? Color.BLACK : Color.WHITE;
+
+        DominantColorExtractor.getDominantColor(requireContext(), coverUrl, color -> {
+            GradientDrawable gradient = new GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    new int[]{color, secondColor}
+            );
+            gradient.setCornerRadius(0f);
+
+            view.findViewById(R.id.root_layout).setBackground(gradient);
+        });
     }
 }

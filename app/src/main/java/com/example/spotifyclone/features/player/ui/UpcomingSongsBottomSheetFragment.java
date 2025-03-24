@@ -1,6 +1,13 @@
 package com.example.spotifyclone.features.player.ui;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +49,7 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
     private UpcomingSongAdapter adapter;
     private RecyclerView recyclerView;
 
-    private TextView tvQueueTitle, tvCurrentSongTitle, tvCurrentSongArtist;
+    private TextView tvQueueTitle, tvCurrentSongTitle, tvCurrentSongArtist, tvNowPlaying;
     private ImageButton btnPlay;
     private ImageView ivCurrentSongImage;
 
@@ -107,6 +114,7 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
         tvCurrentSongTitle = rootView.findViewById(R.id.tvCurrentSongTitle);
         tvCurrentSongArtist = rootView.findViewById(R.id.tvCurrentArtist);
         ivCurrentSongImage = rootView.findViewById(R.id.imgCurrentSong);
+        tvNowPlaying = rootView.findViewById(R.id.tvNowPlaying);
         btnPlay = rootView.findViewById(R.id.btnPlay);
     }
 
@@ -148,7 +156,7 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
     public void setupListeners() {
         btnPlay.setOnClickListener(v -> {
             if (currentSong != null) {
-                viewModel.togglePlayPause(currentSong);
+                viewModel.togglePlayPause();
             }
         });
     }
@@ -164,6 +172,20 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
         });
 
         viewModel.getUpcomingSongs().observe(this, this::updateSongList);
+        viewModel.getPlayName().observe(this, name -> {
+            if (name != null) {
+                SpannableStringBuilder spannable = new SpannableStringBuilder("Đang phát ");
+                SpannableString boldName = new SpannableString(name);
+                boldName.setSpan(new StyleSpan(Typeface.BOLD), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                boldName.setSpan(new ForegroundColorSpan(Color.WHITE), 0, name.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                spannable.append(boldName);
+                tvNowPlaying.setText(spannable);
+            } else {
+                tvNowPlaying.setText("Đang phát các bài hát được đề xuất cho bạn");
+            }
+        });
+
     }
 
     private void updateUI() {

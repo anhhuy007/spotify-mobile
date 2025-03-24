@@ -1,5 +1,8 @@
 package com.example.spotifyclone;
 
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +38,7 @@ import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.features.premium.ui.PremiumFragment;
 import com.example.spotifyclone.features.search.ui.SearchFragment;
 import com.example.spotifyclone.shared.model.User;
+import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
@@ -110,14 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 //
-//    @Override
-//    public void onBackPressed() {
-//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//            drawerLayout.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
 
     private void initUI() {
         miniPlayer = findViewById(R.id.mini_player);
@@ -202,6 +198,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 miniPlayerImage.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
             }
+
+            setupGradientBackground(miniPlayer, song.getImageUrl());
         }
+    }
+
+    private void setupGradientBackground(View view, String coverUrl) {
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean isDarkMode = (nightModeFlags == Configuration.UI_MODE_NIGHT_YES);
+        int secondColor = isDarkMode ? Color.BLACK : Color.WHITE;
+
+        DominantColorExtractor.getDominantColor(this, coverUrl, color -> {
+            GradientDrawable gradient = new GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    new int[]{color, secondColor}
+            );
+            float cornerRadius = 16f;
+            gradient.setCornerRadius(cornerRadius);
+
+            view.findViewById(R.id.mini_player).setBackground(gradient);
+        });
     }
 }
