@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageButton
+        android:id="@+id/close_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:src="@drawable/ic_close"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="@color/background_color"/>
+
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đặt tên cho danh sách phát của bạn"
+        android:textColor="@color/text_color"
+        android:textSize="18sp"
+        android:layout_marginTop="24dp"/>
+
+    <EditText
+        android:id="@+id/playlist_name_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Chăm Em Một Đời"
+        android:textColorHint="#9E9E9E"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:padding="8dp"
+        android:layout_marginTop="16dp"
+        />
+
+    <Button
+        android:id="@+id/create_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tạo"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:backgroundTint="#1ED760"
+        android:paddingHorizontal="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_gravity="center_horizontal"/>
+
+
+</LinearLayout>

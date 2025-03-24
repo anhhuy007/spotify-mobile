@@ -6,10 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +23,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.album.adapter.AlbumSongAdapter;
+import com.example.spotifyclone.features.album.ui.AlbumBottomSheet;
+import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.search.inter.OnSearchItemClickListener;
 import com.example.spotifyclone.features.search.model.SearchItem;
 import com.squareup.picasso.Picasso;
@@ -112,12 +117,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.BaseViewHo
         private final ImageView search;
         private final TextView search_name;
         private final TextView search_type;
+        private final ImageButton moreOptionsButton;
 
         public SongViewHolder(@NonNull View itemView, OnSearchItemClickListener listener) {
             super(itemView);
             search = itemView.findViewById(R.id.search);
             search_name = itemView.findViewById(R.id.search_name);
             search_type = itemView.findViewById(R.id.search_type);
+            moreOptionsButton=itemView.findViewById(R.id.moreOptionsButton);
             itemView.setOnClickListener(v -> {
                 SearchItem item = (SearchItem) v.getTag();
                 if (listener != null && item != null) {
@@ -133,6 +140,17 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.BaseViewHo
                 search_type.setText(item.getType() + " + " + String.join(", ", item.getArtists_name()));
             }
             Glide.with(context).load(item.getImage_url()).into(search);
+            moreOptionsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (context instanceof FragmentActivity) {
+//                        AlbumBottomSheet bottomSheet = AlbumBottomSheet.newInstance(item.getImage_url(), item.getName(), item.getArtists_name());
+//                        bottomSheet.show(((FragmentActivity) context).getSupportFragmentManager(), "BottomSheet");
+
+                    }
+
+                }
+            });
             itemView.setTag(item);
         }
     }

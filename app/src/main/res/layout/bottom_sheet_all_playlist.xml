@@ -1,0 +1,79 @@
+<!-- bottom_sheet_song_option.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_gray_background"
+
+    >
+
+    <!-- Tiêu đề -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/gray"
+        android:padding="5dp">
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Thêm vào danh sách phát"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/text_color" />
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- Nút "Danh sách phát mới" (tùy chọn) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/newPlaylistButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Danh sách phát mới"
+                android:textColor="@color/background_color"
+                android:backgroundTint="@color/text_color"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp"
+                app:cornerRadius="20dp"
+            />
+
+            <!-- Các mục danh sách phát (dùng RecyclerView hoặc LinearLayout) -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/playlist_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="16dp"/>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+    <!-- Nút "Xong" -->
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Xong"
+        android:textColor="@color/background_color"
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"
+        app:cornerRadius="20dp"
+        />
+
+</LinearLayout>

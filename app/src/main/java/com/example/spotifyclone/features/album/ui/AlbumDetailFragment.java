@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +40,7 @@ import com.example.spotifyclone.features.album.inter.AlbumMainCallbacks;
 import com.example.spotifyclone.features.album.model.Album;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModelFactory;
+import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.ArrayList;
@@ -67,6 +69,7 @@ public class AlbumDetailFragment extends Fragment {
     private String dayCreate;
     private List<String> artistNames;
     private String artistUrl;
+    private List<Song> albumSong;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -175,7 +178,19 @@ public class AlbumDetailFragment extends Fragment {
         // Song of album
         recyclerView = view.findViewById(R.id.song_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        songAdapter = new AlbumSongAdapter(requireContext(), new ArrayList<>(), 3);
+//        songAdapter = new AlbumSongAdapter(requireContext(), new ArrayList<>(), 3);
+        // Khởi tạo adapter và truyền sự kiện click
+        songAdapter = new AlbumSongAdapter(getContext(), albumSong, 5, (songId, songImage, songTitle,  authorNames, view1) -> {
+            AlbumDetailFragmentDirections.ActionNavAlbumDetailToAlbumBottomSheet action =
+                    AlbumDetailFragmentDirections.actionNavAlbumDetailToAlbumBottomSheet(
+                            songId,
+                            songImage,
+                            songTitle,
+                            authorNames.toArray(new String[0]) // Chuyển List thành Array
+                    );
+            Navigation.findNavController(view1).navigate(action);
+        });
+
         recyclerView.setAdapter(songAdapter);
 
         // Album of the same artist
@@ -224,6 +239,7 @@ public class AlbumDetailFragment extends Fragment {
 
         albumViewModel.getSongs().observe(getViewLifecycleOwner(), songs -> {
             Log.d("AlbumDetailFragmentSong", "Songs: " + songs);
+            albumSong=songs;
             songAdapter.setData(songs);
         });
 

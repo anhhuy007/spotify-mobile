@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Trạng thái CheckBox đã chọn -->
+    <item android:state_checked="true">
+        <shape android:shape="oval">
+            <solid android:color="#4CAF50"/>  <!-- Màu xanh khi chọn -->
+            <size android:width="50dp" android:height="50dp"/>  <!-- Kích thước hình tròn -->
+        </shape>
+    </item>
+
+    <!-- Trạng thái CheckBox chưa chọn -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#BDBDBD"/>  <!-- Màu xám khi chưa chọn -->
+            <size android:width="50dp" android:height="50dp"/>
+        </shape>
+    </item>
+
+</selector>

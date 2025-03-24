@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/playlist_cover"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/playlist_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hello"/>
+        <TextView
+            android:id="@+id/number_songs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hello"/>
+
+    </LinearLayout>
+    <com.example.spotifyclone.features.playlist.ui.CircleCheckBox
+        android:id="@+id/circleCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tickColor="#FFFFFF"
+        app:textColor="#000000"
+        app:innerCircleColor="#00CFAD"
+        app:outerCircleColor="#00CFAD"
+        app:circleBorderColor="#00CFAD"/>
+
+</LinearLayout>

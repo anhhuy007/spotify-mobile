@@ -36,9 +36,11 @@ public class AuthInterceptor implements Interceptor {
         Response response = chain.proceed(newRequest);
 
         if (response.code() == 401) {
+            response.close();
             synchronized (this) {
                 String refreshToken = tokenManager.getRefreshToken();
                 if (refreshToken == null) {
+
                     return response;
                 }
 
@@ -49,6 +51,7 @@ public class AuthInterceptor implements Interceptor {
                     newRequest = originalRequest.newBuilder()
                             .header("Authorization", "Bearer " + newToken)
                             .build();
+
                     return chain.proceed(newRequest);
                 }
             }

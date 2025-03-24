@@ -77,6 +77,9 @@
         <argument
             android:name="artist_url"
             app:argType="string" />
+        <action
+            android:id="@+id/action_nav_album_detail_to_albumBottomSheet"
+            app:destination="@id/albumBottomSheet" />
 
     </fragment>
     <fragment
@@ -152,6 +155,9 @@
         <action
             android:id="@+id/action_searchAllResultFragment_to_nav_album_detail"
             app:destination="@id/nav_album_detail" />
+        <action
+            android:id="@+id/action_searchAllResultFragment_to_albumBottomSheet"
+            app:destination="@id/albumBottomSheet" />
     </fragment>
 
     <fragment
@@ -176,6 +182,47 @@
             android:id="@+id/action_nav_premiumfm_to_checkoutfm"
             app:destination="@id/nav_checkout" />
     </fragment>
+    <dialog
+        android:id="@+id/albumBottomSheet"
+        android:name="com.example.spotifyclone.features.album.ui.AlbumBottomSheet"
+        android:label="AlbumBottomSheet"
+        tools:layout="@layout/bottom_sheet_song_option">
+        <argument
+            android:name="_id"
+            app:argType="string"/>
+        <argument
+            android:name="song_image"
+            app:argType="string"/>
+        <argument
+            android:name="song_name"
+            app:argType="string"/>
+        <argument
+            android:name="song_artist"
+            app:argType="string[]"/>
 
-
+    </dialog>
+    <dialog
+        android:id="@+id/allPlaylistBottomSheet"
+        android:name="com.example.spotifyclone.features.playlist.ui.AllPlaylistBottomSheet"
+        android:label="AllPlaylistBottomSheet"
+        tools:layout="@layout/bottom_sheet_all_playlist">
+        <argument
+            android:name="_id"
+            app:argType="string"/>
+        <argument
+            android:name="song_name"
+            app:argType="string"/>
+    </dialog>
+    <dialog
+        android:id="@+id/newPlaylistBottomSheet"
+        android:name="com.example.spotifyclone.features.playlist.ui.NewPlaylistBottomSheet"
+        android:label="NewPlaylistBottomSheet"
+        tools:layout="@layout/bottom_sheet_new_playlist">
+        <argument
+            android:name="_id"
+            app:argType="string"/>
+        <argument
+            android:name="song_name"
+            app:argType="string"/>
+    </dialog>
 </navigation>
