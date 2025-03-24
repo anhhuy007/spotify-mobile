@@ -14,9 +14,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.spotifyclone.features.artist.model.ItemDiscographyEP;
-import com.example.spotifyclone.features.artist.network.apiArtistService;
-import com.example.spotifyclone.features.artist.network.artistRetrofit;
+import com.example.spotifyclone.features.artist.network.ArtistService;
 import com.example.spotifyclone.shared.model.APIResponse;
+import com.example.spotifyclone.shared.network.RetrofitClient;
 
 import java.util.List;
 
@@ -67,8 +67,8 @@ public class ListDiscographyEPViewModel extends AndroidViewModel {
 
     public void fetchItems() {
 
-        Retrofit retrofit = artistRetrofit.getClient();
-        apiArtistService apiService = retrofit.create(apiArtistService.class);
+        Retrofit retrofit = RetrofitClient.getClient(context);
+        ArtistService apiService = retrofit.create(ArtistService.class);
 
 
         Call<APIResponse<List<ItemDiscographyEP>>> call;

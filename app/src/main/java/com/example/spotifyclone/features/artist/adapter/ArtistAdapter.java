@@ -20,18 +20,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.artist.model.Item;
+import com.example.spotifyclone.features.artist.ui.ArtistFragment;
 import com.example.spotifyclone.features.artist.ui.ArtistOverallFragment;
+import com.example.spotifyclone.features.artist.ui.DiscographyFragment;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
     private Context context;
+    private FragmentActivity FragActi;
     private List<Item> artistList;
     private View rootView;
 
-    public ArtistAdapter(Context context, List<Item> artistList) {
+    public ArtistAdapter(Context context,FragmentActivity FragActi, List<Item> artistList) {
         this.context = context;
+        this.FragActi = FragActi;
         this.artistList = artistList;
     }
 
@@ -56,14 +60,11 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
                 .into(holder.imageView);
 
         holder.artistItem.setOnClickListener(v -> {
-            if (rootView != null) {
-                // Create bundle with artist data
-                Bundle args = new Bundle();
-                args.putString("ARTIST_ID", item.getId());
-
-                // Navigate using the Navigation Component
-                Navigation.findNavController(rootView)
-                        .navigate(R.id.action_artistListFragment_to_artistFragment, args);
+            if (FragActi != null) {
+                FragActi.getSupportFragmentManager().beginTransaction()
+                        .replace(((ViewGroup) rootView.getParent()).getId(), ArtistFragment.newInstance(item.getId()))
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 

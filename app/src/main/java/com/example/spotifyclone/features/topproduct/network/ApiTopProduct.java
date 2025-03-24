@@ -2,6 +2,7 @@ package com.example.spotifyclone.features.topproduct.network;
 
 import com.example.spotifyclone.features.artist.model.Item;
 import com.example.spotifyclone.features.topproduct.model.AlsoLike;
+import com.example.spotifyclone.features.topproduct.model.MostSong;
 import com.example.spotifyclone.features.topproduct.model.TopAlbum;
 import com.example.spotifyclone.features.topproduct.model.TopArtist;
 import com.example.spotifyclone.features.topproduct.model.TopSong;
@@ -26,10 +27,10 @@ public interface ApiTopProduct {
         Call<APIResponse<TopAlbum>> getMostAlbum();
 
         @GET("song/mostSong")
-        Call<APIResponse<Item>> getMostSong();
+        Call<APIResponse<MostSong>> getMostSong();
 
         @GET("artist/mostArtist")
-        Call<APIResponse<Item>> getMostArtist();
+        Call<APIResponse<TopArtist>> getMostArtist();
 
         @GET("album/alsoLike")
         Call<APIResponse<List<AlsoLike>>> getAlsoLike();

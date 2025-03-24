@@ -11,10 +11,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.spotifyclone.features.artist.network.apiArtistService;
+import com.example.spotifyclone.features.artist.network.ArtistService;
 import com.example.spotifyclone.features.artist.model.Item;
-import com.example.spotifyclone.features.artist.network.artistRetrofit;
 import com.example.spotifyclone.shared.model.APIResponse;
+import com.example.spotifyclone.shared.network.RetrofitClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,8 +57,8 @@ public class ArtistOverallViewModel extends AndroidViewModel {
 
     public void fetchArtistDetails() {
 
-        Retrofit retrofit = artistRetrofit.getClient();
-        apiArtistService apiService = retrofit.create(apiArtistService.class);
+        Retrofit retrofit = RetrofitClient.getClient(context);
+        ArtistService apiService = retrofit.create(ArtistService.class);
 
 
         apiService.getArtistDetail(artistId).enqueue(new Callback<APIResponse<Item>>() {

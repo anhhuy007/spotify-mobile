@@ -152,6 +152,9 @@
         <action
             android:id="@+id/action_artistFragment_to_artistOverallFragment"
             app:destination="@id/artistOverallFragment" />
+        <action
+            android:id="@+id/action_artistFragment_to_artistDiscographyFragment"
+            app:destination="@id/artistDiscographyFragment" />
     </fragment>
 
     <fragment
@@ -168,17 +171,31 @@
         android:id="@+id/artistOverallFragment"
         android:name="com.example.spotifyclone.features.artist.ui.ArtistOverallFragment"
         android:label="Artist"
-        tools:layout="@layout/fragment_artist_detail" >
-        <action
-            android:id="@+id/action_artistOverallFragment_to_artistDiscographyFragment"
-            app:destination="@id/artistDiscographyFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_artist_detail" />
 
     <fragment
         android:id="@+id/artistDiscographyFragment"
         android:name="com.example.spotifyclone.features.artist.ui.DiscographyFragment"
         android:label="Artist"
         tools:layout="@layout/fragment_discography" />
+
+    <fragment
+        android:id="@+id/topAlbum"
+        android:name="com.example.spotifyclone.features.topproduct.ui.TopAlbumFragment"
+        android:label="TopProduct"
+        tools:layout="@layout/fragment_top_product" />
+
+    <fragment
+        android:id="@+id/topSong"
+        android:name="com.example.spotifyclone.features.topproduct.ui.TopSongFragment"
+        android:label="TopProduct"
+        tools:layout="@layout/fragment_top_product" />
+
+    <fragment
+        android:id="@+id/topArtist"
+        android:name="com.example.spotifyclone.features.topproduct.ui.TopArtistFragment"
+        android:label="TopProduct"
+        tools:layout="@layout/fragment_top_product" />
 
     <fragment
         android:id="@+id/searchSuggestFragment"
@@ -232,6 +249,7 @@
             android:id="@+id/action_nav_premiumfm_to_checkoutfm"
             app:destination="@id/nav_checkout" />
     </fragment>
+>
 
 
 </navigation>

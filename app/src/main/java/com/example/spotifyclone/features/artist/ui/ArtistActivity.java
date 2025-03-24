@@ -6,6 +6,7 @@
 //import android.view.View;
 //import android.view.ViewGroup;
 //import android.view.ViewTreeObserver;
+//import android.widget.FrameLayout;
 //import android.widget.ImageButton;
 //import android.widget.ImageView;
 //import android.widget.RelativeLayout;
@@ -46,6 +47,7 @@
 //    private MaterialButton btnSeeSongs, btnHideSongs, btn_see_view_discography;
 //    private RelativeLayout navbar_artist_UI;
 //
+//    private FrameLayout back_container_artist_detail_ui;
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -84,22 +86,29 @@
 //        btn_artist_detail_ui_background = findViewById(R.id.btn_artist_detail_ui_background);
 //        img_album_artist_detail = findViewById(R.id.img_album_artist_detail);
 //        btn_see_view_discography = findViewById(R.id.btn_see_view_discography);
+//        back_container_artist_detail_ui = findViewById(R.id.back_container_artist_detail_ui);
 //
+//        back_container_artist_detail_ui.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
 //        btnBack.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                finish();
 //            }
 //        });
-//
-//        btn_see_view_discography.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(ArtistActivity.this, DiscographyActivity.class);
-//                intent.putExtra("ARTIST_ID", artistId);
-//                startActivity(intent);
-//            }
-//        });
+////
+////        btn_see_view_discography.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View v) {
+////                Intent intent = new Intent(ArtistActivity.this, DiscographyActivity.class);
+////                intent.putExtra("ARTIST_ID", artistId);
+////                startActivity(intent);
+////            }
+////        });
 //
 //        AtomicInteger sizeHide = new AtomicInteger();
 //
@@ -182,11 +191,11 @@
 //                    .into(img_artist_artist_detail);
 //
 //            artist_detail_info_container = findViewById(R.id.artist_detail_info_container);
-//            artist_detail_info_container.setOnClickListener(v -> {
-//                Intent intent = new Intent(ArtistActivity.this, ArtistOverallActivity.class);
-//                intent.putExtra("ARTIST_ID", data.getId());
-//                startActivity(intent);
-//            });
+////            artist_detail_info_container.setOnClickListener(v -> {
+////                Intent intent = new Intent(ArtistActivity.this, ArtistOverallActivity.class);
+////                intent.putExtra("ARTIST_ID", data.getId());
+////                startActivity(intent);
+////            });
 //
 //            DominantColorExtractor.getDominantColor(context, data.getAvatarUrl(), color -> {
 //                navbar_artist_UI.setBackgroundColor(color);

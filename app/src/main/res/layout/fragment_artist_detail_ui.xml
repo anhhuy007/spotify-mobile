@@ -45,18 +45,19 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/circle_brown_background"
-                            android:scaleType="fitXY" />
+                            android:scaleType="fitXY"
+                            android:clickable="true"/>
 
                         <!-- Nút bấm giữ nguyên -->
                         <ImageButton
-
                             android:id="@+id/btn_artist_detail_ui_back"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@android:color/transparent"
                             android:src="@drawable/back_btn_white"
                             android:layout_gravity="center"
-                            android:contentDescription="Back button" />
+                            android:contentDescription="Back button"
+                            android:clickable="false"/>
                     </FrameLayout>
 
                     <TextView
@@ -499,6 +500,17 @@
                 </ScrollView>
             </FrameLayout>
         </LinearLayout>
+
+        <View
+            android:id="@+id/fix_detailUI"
+            android:layout_marginTop="24dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true" />
 
     </FrameLayout>
 

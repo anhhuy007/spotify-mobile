@@ -39,6 +39,7 @@ public class AuthInterceptor implements Interceptor {
             synchronized (this) {
                 String refreshToken = tokenManager.getRefreshToken();
                 if (refreshToken == null) {
+                    response.close();
                     return response;
                 }
 

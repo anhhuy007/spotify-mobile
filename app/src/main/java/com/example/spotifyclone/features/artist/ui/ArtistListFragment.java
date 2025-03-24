@@ -69,7 +69,7 @@ public class ArtistListFragment extends Fragment {
         artistListViewModel = new ViewModelProvider(this).get(ArtistListViewModel.class);
         artistListViewModel.getArtists().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
-                artistAdapter = new ArtistAdapter(context, artists);
+                artistAdapter = new ArtistAdapter(context,getActivity(), artists);
                 artistAdapter.setRootView(rootView); // Pass the root view for navigation
                 recyclerView.setAdapter(artistAdapter);
             }

@@ -53,6 +53,7 @@ public class ArtistFragment extends Fragment {
     private MaterialButton btnSeeSongs, btnHideSongs, btn_see_view_discography;
     private RelativeLayout navbar_artist_UI;
     private String artistId;
+    private View fix;
 
     public static ArtistFragment newInstance(String artistId) {
         ArtistFragment fragment = new ArtistFragment();
@@ -89,6 +90,20 @@ public class ArtistFragment extends Fragment {
 
         // Initialize views
         initViews(view);
+        fix = view.findViewById(R.id.fix_detailUI);
+
+        fix.setOnClickListener(v -> {
+            Toast.makeText(context, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
+
+            try {
+                Navigation.findNavController(v).navigateUp();
+            } catch (Exception e) {
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+            }
+
+        });
         setupListeners();
         setupRecyclerViews();
         loadData();
@@ -119,12 +134,6 @@ public class ArtistFragment extends Fragment {
     }
 
     private void setupListeners() {
-        btnBack.setOnClickListener(v -> {
-            // Use Navigation component to navigate back to the list
-            if (getView() != null) {
-                Navigation.findNavController(getView()).navigateUp();
-            }
-        });
 
         btn_see_view_discography.setOnClickListener(v -> {
             // Navigate to DiscographyFragment
@@ -315,7 +324,9 @@ public class ArtistFragment extends Fragment {
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
-                // Calculate the scroll position
+                if (!isAdded() || getContext() == null) {
+                    return;
+                }
                 int scrollY = scrollView.getScrollY();
 
                 // Calculate the threshold when the main artist name text reaches near the top
@@ -336,4 +347,5 @@ public class ArtistFragment extends Fragment {
             }
         });
     }
+
 }
