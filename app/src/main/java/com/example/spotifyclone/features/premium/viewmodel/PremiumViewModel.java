@@ -56,27 +56,24 @@ public class PremiumViewModel extends ViewModel {
 
         User user = authRepository.getUser();
         if (user == null) {
-            Log.d("DEBUG", "User not found");
             return;
         }
-        Log.d("DEBUG", "Creating subscription for user: " + user.getUsername());
 
         isLoading.setValue(true);
 
         premiumService.createSubscription(user.getId(), plan, convertDate(startDate), convertDate(endDate)).enqueue(new Callback<APIResponse<Subscription>>() {
             @Override
             public void onResponse(Call<APIResponse<Subscription>> call, Response<APIResponse<Subscription>> response) {
+                Log.d("DEBUG", "Create subscription response: " + response);
                 isLoading.setValue(false);
-                Log.d("DEBUG", "Response: " + response);
                 if (response.isSuccessful()) {
                     Subscription subscription = response.body().getData();
                     if (subscription != null) {
                         isSuccess.setValue(true);
-                        Log.d("DEBUG", "User subscribed to " + subscription.getSubscriptionType() + " plan successfully");
                     }
 
                 } else {
-                    Log.d("DEBUG", "Failed to create subscription");
+                    Log.d("DEBUG", "Failed to create subscription: " + response.message());
                     errorMessage.setValue("Failed to create subscription");
                 }
             }
