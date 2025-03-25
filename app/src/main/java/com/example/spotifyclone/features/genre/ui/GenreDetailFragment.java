@@ -79,7 +79,7 @@ public class GenreDetailFragment extends Fragment {
         genreImage = view.findViewById(R.id.genre_image);
         genreDescription = view.findViewById(R.id.genre_description);
         genreName = view.findViewById(R.id.genre_name);
-        backButton=view.findViewById(R.id.backButton);
+//        backButton=view.findViewById(R.id.backButton);
 
         //         extract color from picture
         int nightModeFlags = getContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;

@@ -1,5 +1,8 @@
 package com.example.spotifyclone;
 
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +43,7 @@ import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.features.premium.ui.PremiumFragment;
 import com.example.spotifyclone.features.search.ui.SearchFragment;
 import com.example.spotifyclone.shared.model.User;
+import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -56,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MusicPlayerViewModel viewModel;
     private ProgressBar miniPlayerProgress;
     private EditText search_input; // genre-ids
-
     private AlbumViewModel albumViewModel;
     private NavController navController;
     private DrawerLayout drawerLayout;
@@ -152,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
 
-        ImageView userAvatar = headerView.findViewById(R.id.drawer_header_avatar);
+        ImageView userAvatar =  headerView.findViewById(R.id.drawer_header_avatar);
         TextView userName = headerView.findViewById(R.id.drawer_header_username);
         TextView userEmail = headerView.findViewById(R.id.drawer_header_email);
 
@@ -220,7 +223,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 miniPlayerImage.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
             }
+
+            setupGradientBackground(miniPlayer, song.getImageUrl());
         }
+    }
+
+    private void setupGradientBackground(View view, String coverUrl) {
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean isDarkMode = (nightModeFlags == Configuration.UI_MODE_NIGHT_YES);
+        int secondColor = isDarkMode ? Color.BLACK : Color.WHITE;
+
+        DominantColorExtractor.getDominantColor(this, coverUrl, color -> {
+            GradientDrawable gradient = new GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    new int[]{color, secondColor}
+            );
+            float cornerRadius = 16f;
+            gradient.setCornerRadius(cornerRadius);
+
+            view.findViewById(R.id.mini_player).setBackground(gradient);
+        });
     }
 
     private void checkNotificationPermission() {

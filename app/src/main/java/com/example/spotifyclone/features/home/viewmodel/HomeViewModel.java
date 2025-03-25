@@ -1,7 +1,6 @@
 package com.example.spotifyclone.features.home.viewmodel;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -37,16 +36,10 @@ public class HomeViewModel extends ViewModel {
     }
 
     void fetchData() {
-        // Call api to fetch data here
-        // Fetch songs
         fetchNewSongs();
         fetchPopularSongs();
-
-        // Fetch albums
         fetchPopularAlbums();
         fetchLatestAlbums();
-
-        // Fetch artists
         fetchPopularArtists();
     }
 

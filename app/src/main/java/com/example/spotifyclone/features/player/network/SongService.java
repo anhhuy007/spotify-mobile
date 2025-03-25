@@ -24,5 +24,11 @@ public interface SongService {
 
     @GET("song/random")
     Call<APIResponse<PaginatedResponse<Song>>> getRandomSongs(@Query("limit") int limit);
+
+    @GET("album/{id}/songs")
+    Call<APIResponse<PaginatedResponse<Song>>> getAlbumSongs(@Path("id") String albumId);
+
+    @GET("artist/{id}/songs")
+    Call<APIResponse<PaginatedResponse<Song>>> getArtistSongs(@Path("id") String artistId);
 }
 

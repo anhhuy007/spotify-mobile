@@ -33,6 +33,10 @@ import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,12 +49,14 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     private List<Song> upcomingSongs = new ArrayList<>();
     private MusicPlayerViewModel viewModel;
     private ImageButton btnDown, btnOptions, btnAdd, btnShuffle, btnPrevious, btnPlay, btnNext, btnRepeat, btnMultiMedia, btnPlaylist, btnShare, btnShareLyrics, btnExpand;
-    private TextView tvPlaylistInfo, tvSongTitle, tvArtistName, tvCurrentTime, tvTotalTime, tvLyricsTitle, tvLyricsContent, tvArtistIntro, tvArtistFullName, tvListenersCount, tvArtistDescription;
+    private TextView tvPlayType, tvPlayName, tvSongTitle, tvArtistName, tvCurrentTime, tvTotalTime, tvLyricsTitle, tvLyricsContent, tvArtistIntro, tvArtistFullName, tvListenersCount, tvArtistDescription;
     private ImageView ivSongCover, ivArtistImage;
     private SeekBar progressBar;
     private boolean isUserSeeking = false;
     private View rootView;
     private UpcomingSongsBottomSheetFragment upcomingSongsBottomSheetFragment;
+    private CardView artistCard;
+    private NavController navController;
 
 
     public static PlayerBottomSheetFragment newInstance(Song song) {
@@ -80,6 +86,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navController = NavHostFragment.findNavController(this);
         initUI();
         setupListeners();
         observeViewModel();
@@ -94,7 +101,8 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void initUI() {
         btnDown = rootView.findViewById(R.id.btnDown);
-        tvPlaylistInfo = rootView.findViewById(R.id.tvPlaylistInfo);
+        tvPlayName = rootView.findViewById(R.id.tvPlayName);
+        tvPlayType = rootView.findViewById(R.id.tvPlayType);
         btnOptions = rootView.findViewById(R.id.btnOptions);
         ivSongCover = rootView.findViewById(R.id.ivSongCover);
         tvSongTitle = rootView.findViewById(R.id.tvSongTitle);
@@ -118,6 +126,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         tvLyricsContent = rootView.findViewById(R.id.tvLyricsContent);
 
         // Artist Info Section
+        artistCard = rootView.findViewById(R.id.artistCard);
         ivArtistImage = rootView.findViewById(R.id.ivArtistImage);
         tvArtistIntro = rootView.findViewById(R.id.tvArtistIntro);
         tvArtistFullName = rootView.findViewById(R.id.tvArtistFullName);
@@ -142,7 +151,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         btnAdd.setOnClickListener(v -> { });
         btnPlay.setOnClickListener(v -> {
             if (song != null) {
-                viewModel.togglePlayPause(song);
+                viewModel.togglePlayPause();
             }
         });
         btnPrevious.setOnClickListener(v -> viewModel.playPrevious());
@@ -186,6 +195,16 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         btnPlaylist.setOnClickListener(v -> {
             showUpcomingSongsBottomSheet();
         });
+
+        artistCard.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString("ARTIST_ID", song.getSingerIdAt(0));
+
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            navController.navigate(R.id.artistFragment, args);
+            dismiss();
+        });
+
     }
 
     private void observeViewModel() {
@@ -231,6 +250,30 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         });
 
         viewModel.getUpcomingSongs().observe(getViewLifecycleOwner(), this::updateUpcomingSongsList);
+        viewModel.getPlayType().observe(getViewLifecycleOwner(), type -> {
+                    String playTypeText;
+
+                    if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
+                        playTypeText = "ĐANG PHÁT TỪ ALBUM";
+                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.NONE) {
+                        playTypeText = "ĐANG PHÁT CÁC BÀI HÁT ĐƯỢC ĐỀ XUẤT CHO BẠN";
+                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.ARTIST) {
+                        playTypeText = "ĐANG PHÁT TỪ NGHỆ SĨ";
+                    } else {
+                        playTypeText = "ĐANG PHÁT";
+                    }
+                    tvPlayType.setText(playTypeText);
+                });
+
+
+        viewModel.getPlayName().observe(getViewLifecycleOwner(), name -> {
+            if (name != null && !name.isEmpty()) {
+                tvPlayName.setText(name);
+                tvPlayName.setVisibility(View.VISIBLE);
+            } else {
+                tvPlayName.setVisibility(View.GONE);
+            }
+        });
 
     }
 
@@ -247,7 +290,6 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                 Picasso.get().load(song.getImageUrl()).into(ivSongCover);
             }
-            tvPlaylistInfo.setText("Now Playing");
             tvCurrentTime.setText("0:00");
             tvTotalTime.setText("0:00");
             progressBar.setProgress(0);

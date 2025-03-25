@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_album_detail"
             app:destination="@id/nav_album_detail" />
+        <action
+            android:id="@+id/action_homeFragment_to_artistDetailFragment"
+            app:destination="@id/artistFragment" />
     </fragment>
 
     <fragment
@@ -165,13 +168,20 @@
         <action
             android:id="@+id/action_artistListFragment_to_artistFragment"
             app:destination="@id/artistFragment" />
+        <action
+            android:id="@+id/action_artistFragment_to_artistOverallFragment"
+            app:destination="@id/artistOverallFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/artistOverallFragment"
         android:name="com.example.spotifyclone.features.artist.ui.ArtistOverallFragment"
         android:label="Artist"
-        tools:layout="@layout/fragment_artist_detail" />
+        tools:layout="@layout/fragment_artist_detail" >
+        <action
+            android:id="@+id/action_artistOverallFragment_to_artistDiscographyFragment"
+            app:destination="@id/artistDiscographyFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/artistDiscographyFragment"
@@ -249,7 +259,16 @@
             android:id="@+id/action_nav_premiumfm_to_checkoutfm"
             app:destination="@id/nav_checkout" />
     </fragment>
->
 
+
+    <dialog
+        android:id="@+id/playerBottomSheetFragment"
+        android:name="com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment"
+        android:label="Player"
+        tools:layout="@layout/bottom_sheet_fragment_player">
+        <action
+            android:id="@+id/action_playerBottomSheet_to_artistFragment"
+            app:destination="@id/artistFragment" />
+    </dialog>
 
 </navigation>

@@ -28,8 +28,7 @@ public class SpotifyCloneApplication extends Application {
         appViewModelStore = new ViewModelStore();
 
         // Initialize the factory once
-        SongService songService = RetrofitClient.getClient(this).create(SongService.class);
-        musicPlayerViewModelFactory = new MusicPlayerViewModelFactory(this, songService);
+        musicPlayerViewModelFactory = new MusicPlayerViewModelFactory(this);
     }
 
     public static SpotifyCloneApplication getInstance() {

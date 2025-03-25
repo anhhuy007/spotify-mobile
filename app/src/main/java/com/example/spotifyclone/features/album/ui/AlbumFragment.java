@@ -60,7 +60,6 @@ public class AlbumFragment extends Fragment {
         albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), album -> {
             Log.d("AlbumFragment", "Selected album: " + album.getTitle());
 
-            // Chuyển đến albumDetailFragment
             navigateToAlbumDetail(album);
         }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 

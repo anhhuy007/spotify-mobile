@@ -21,12 +21,17 @@ import java.util.List;
 public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.ViewHolder> {
     private Context context;
     private List<PopularSong> artistList;
-
-    public SongArtistAdapter(Context context, List<PopularSong> artistList) {
-        this.context = context;
-        this.artistList = artistList;
+    private OnSongClickListener listener;
+    public interface OnSongClickListener {
+        void onSongClick(PopularSong song);
     }
 
+
+    public SongArtistAdapter(Context context, List<PopularSong> artistList, OnSongClickListener listener) {
+        this.context = context;
+        this.artistList = artistList;
+        this.listener = listener;
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,6 +50,12 @@ public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.Vi
                 .placeholder(R.drawable.loading)
                 .into(holder.img_song_cover);
 
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onSongClick(item);
+            }
+        });
 
         holder.btn_more_options.setOnClickListener(new View.OnClickListener() {
             @Override

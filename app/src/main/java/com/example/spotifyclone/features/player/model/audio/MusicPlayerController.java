@@ -4,6 +4,10 @@ import android.content.Context;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.spotifyclone.features.album.model.Album;
+import com.example.spotifyclone.features.artist.model.Artist;
+import com.example.spotifyclone.features.notification.MusicNotificationManager;
 import com.example.spotifyclone.features.player.model.playlist.PlayList;
 import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
@@ -33,8 +37,11 @@ public class MusicPlayerController {
     private ShuffleMode shuffleMode;
     private final Object playlistLock = new Object();
     private PlayList playList;
+    private String currentArtistId;
+    private String currentAlbumId;
+    private PlayList currentPlaylist;
     private volatile boolean isReleased;
-    private static final int REFILL_THRESHOLD = 5;
+    private static final int REFILL_THRESHOLD = 1;
     private static final int REFILL_COUNT = 15;
 
     /**
@@ -210,6 +217,10 @@ public class MusicPlayerController {
             Log.d(TAG, "Checking if more songs are needed");
             if (playList.getRemainingSongs() <= REFILL_THRESHOLD || playList.getCurrentSong() == null || playList.isEmpty()) {
                 fetchMoreSongsAndPlayNext();
+
+                // All artist album playlist will be null
+                currentAlbumId = null;
+
             }
         }
     }
@@ -332,7 +343,7 @@ public class MusicPlayerController {
             return playList.getUpcomingSongs();
         }
     }
-    public void playNextSong() {
+    public boolean playNextSong() {
         checkReleased();
         synchronized (playlistLock) {
             Log.d(TAG, "Playing next song");
@@ -340,9 +351,11 @@ public class MusicPlayerController {
             if (nextSong != null) {
                 Log.d(TAG, "Playing next song: " + nextSong.getTitle());
                 audioPlayer.loadAndPlay(nextSong);
+                return true;
             } else {
                 Log.w(TAG, "No next song available");
                 fetchMoreSongsAndPlayNext();
+                return false;
             }
         }
     }
@@ -354,6 +367,7 @@ public class MusicPlayerController {
      */
     public boolean playPreviousSong() {
         checkReleased();
+        Log.d(TAG, "Playing previous song: ");
         synchronized (playlistLock) {
             Song previousSong = playList.getPreviousSong();
             if (previousSong != null) {
@@ -370,11 +384,9 @@ public class MusicPlayerController {
      * Fetches more songs from the API and plays the next song when available.
      */
     private void fetchMoreSongsAndPlayNext() {
-        Log.d(TAG, "Fetching more songs: " + REFILL_COUNT);
         songService.getRandomSongs(REFILL_COUNT).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
             @Override
             public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
-                Log.d("DEBUG", "onFailure: "+ response.body());
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     List<Song> songs = response.body().getData().getItems();
                     if (songs != null && !songs.isEmpty()) {
@@ -457,4 +469,181 @@ public class MusicPlayerController {
         playList.prioritizeSong(song);
         play();
     }
+
+    public void playAlbum(String albumId){
+        checkReleased();
+        synchronized (playlistLock) {
+            fetchAlbumSongs(albumId);
+            Log.d("Album ID", albumId);
+            currentAlbumId = albumId;
+        }
+    }
+
+    public void playAlbumSong(String albumId, Song song) {
+        checkReleased();
+        synchronized (playlistLock) {
+            fetchAlbumSongWithPriority(albumId, song);
+            Log.d("Album ID", albumId);
+            currentAlbumId = albumId;
+        }
+    }
+
+    private void fetchAlbumSongWithPriority(String id, Song first_song) {
+        songService.getAlbumSongs(id).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    List<Song> songs = response.body().getData().getItems();
+                    if (songs != null && !songs.isEmpty()) {
+                        synchronized (playlistLock) {
+                            playList.clear();
+                            songs.removeIf(song -> song.getId().equals(first_song.getId()));
+                            playList.addFirstSong(first_song);
+                            playList.addSongs(songs);
+                            playList.printPlaylist();
+                            play();
+                        }
+                    } else {
+                        Log.w(TAG, "No songs found in API response");
+                    }
+                    Log.d("DEBUG", "Popular Songs: " + response.body());
+                } else {
+                    Log.d("DEBUG", "onFailure: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+                Log.d("DEBUG", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void fetchAlbumSongs(String id) {
+        songService.getAlbumSongs(id).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    List<Song> songs = response.body().getData().getItems();
+                    if (songs != null && !songs.isEmpty()) {
+                        synchronized (playlistLock) {
+                            playList.clear();
+                            for (Song song : songs) {
+                                Log.d("SongInfo", "Title: " + song.getTitle() + ", Artist: " + song.getSingerNameAt(0));
+                            }
+                            playList.addSongs(songs);
+                            playList.printPlaylist();
+
+                            play();
+                        }
+                    } else {
+                        Log.w(TAG, "No songs found in API response");
+                    }
+                    Log.d("DEBUG","Popular Songs" + response.body());
+                } else {
+                    Log.d("DEBUG", "onFailure: "+ response.message());
+
+                }
+            }
+            @Override
+            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+                Log.d("DEBUG", "onFailure: " + t.getMessage());            }
+        });
+    }
+
+    private void fetchArtistSongWithPriority(String id, String first_song_id) {
+        songService.getArtistSongs(id).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    List<Song> songs = response.body().getData().getItems();
+                    if (songs != null && !songs.isEmpty()) {
+                        synchronized (playlistLock) {
+                            playList.clear();
+
+                            Song first_song = null;
+                            for (Song song : songs) {
+                                if (song.getId().equals(first_song_id)) {
+                                    first_song = song;
+                                    break;
+                                }
+                            }
+
+                            if (first_song != null) {
+                                songs.remove(first_song);
+                                playList.addFirstSong(first_song);
+                            }
+
+                            playList.addSongs(songs);
+                            playList.printPlaylist();
+                            play();
+                        }
+                    } else {
+                        Log.w(TAG, "No songs found for artist in API response");
+                    }
+                    Log.d("DEBUG", "Artist Songs: " + response.body());
+                } else {
+                    Log.d("DEBUG", "onFailure: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+                Log.d("DEBUG", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+
+    private void fetchArtistSongs(String id) {
+        songService.getArtistSongs(id).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    List<Song> songs = response.body().getData().getItems();
+                    if (songs != null && !songs.isEmpty()) {
+                        synchronized (playlistLock) {
+                            playList.clear();
+                            for (Song song : songs) {
+                                Log.d("SongInfo", "Title: " + song.getTitle() + ", Artist: " + song.getSingerNameAt(0));
+                            }
+                            playList.addSongs(songs);
+                            playList.printPlaylist();
+                            play();
+                        }
+                    } else {
+                        Log.w(TAG, "No songs found for artist in API response");
+                    }
+                    Log.d("DEBUG", "Artist Songs: " + response.body());
+                } else {
+                    Log.d("DEBUG", "onFailure: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+                Log.d("DEBUG", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+
+    public void playArtist(String artistId) {
+        checkReleased();
+        synchronized (playlistLock) {
+            fetchArtistSongs(artistId);
+            Log.d("Artist ID", artistId);
+            currentArtistId = artistId;
+        }
+    }
+
+    public void playArtistSong(String artistId, String songId) {
+        checkReleased();
+        synchronized (playlistLock) {
+            fetchArtistSongWithPriority(artistId, songId);
+            Log.d("Artist ID", artistId);
+            currentArtistId = artistId;
+        }
+    }
+
 }
