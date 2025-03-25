@@ -6,7 +6,9 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\
+
+
 
     <application
         android:name=".SpotifyCloneApplication"
@@ -27,6 +29,16 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver android:name=".features.notification.MusicNotificationReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="ACTION_PLAY_PAUSE"/>
+                <action android:name="ACTION_NEXT"/>
+                <action android:name="ACTION_PREVIOUS"/>
+                <action android:name="ACTION_CLOSE"/>
+            </intent-filter>
+        </receiver>
 
 <!--        <activity-->
 <!--            android:name=".features.player.ui.SongLyricsBottomSheetFragment"-->
@@ -75,5 +87,6 @@
             android:name=".features.authentication.ui.SignupActivity"
             android:windowSoftInputMode="adjustPan" />
     </application>
+
 
 </manifest>

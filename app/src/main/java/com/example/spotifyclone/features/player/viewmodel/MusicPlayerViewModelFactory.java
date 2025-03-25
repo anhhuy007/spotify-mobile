@@ -11,12 +11,10 @@ import android.content.Context;
 
 public class MusicPlayerViewModelFactory implements ViewModelProvider.Factory {
     private final Context applicationContext;
-    private final SongService songService;
     private MusicPlayerViewModel cachedViewModel;
 
-    public MusicPlayerViewModelFactory(Context context, SongService songService) {
+    public MusicPlayerViewModelFactory(Context context) {
         this.applicationContext = context.getApplicationContext();
-        this.songService = songService;
     }
 
     @NonNull
@@ -27,7 +25,7 @@ public class MusicPlayerViewModelFactory implements ViewModelProvider.Factory {
                 // Get the controller from Application
                 MusicPlayerController controller =
                         SpotifyCloneApplication.getInstance().getMusicPlayerController();
-                cachedViewModel = new MusicPlayerViewModel(controller, songService);
+                cachedViewModel = new MusicPlayerViewModel(controller, applicationContext);
             }
             return (T) cachedViewModel;
         }

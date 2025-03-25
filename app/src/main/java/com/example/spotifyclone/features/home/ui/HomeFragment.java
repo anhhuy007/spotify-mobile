@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
@@ -44,18 +45,16 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements SongAdapter.OnSongClickListener, AlbumAdapter.OnAlbumClickListener, ArtistAdapter.OnArtistClickListener {
+public class HomeFragment extends Fragment implements AlbumAdapter.OnAlbumClickListener, ArtistAdapter.OnArtistClickListener {
     private RecyclerView newSongsRecyclerView, popularSongsRecyclerView, latestAlbumsRecylerView, popularAlbumsRecyclerView, popularArtistsRecyclerView;
-    private SongAdapter newSongsAdapter, popularSongsAdapter;
+//    private SongAdapter newSongsAdapter, popularSongsAdapter;
     private AlbumAdapter popularAlbumsAdapter, latestAlbumsAdapter;
     private ArtistAdapter popularArtistAdapter;
     private MusicPlayerViewModel musicPlayerViewModel;
     private User currentUser;
     private ImageView userAvatarImage;
     private TextView userNameText;
-
     private HomeViewModel homeViewModel;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -86,27 +85,29 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
         int spacing = 20; // dp spacing
         boolean includeEdge = true;
 
-        newSongsRecyclerView = view.findViewById(R.id.rv_top_songs);
-        newSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        newSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.VERTICAL, this);
-        newSongsRecyclerView.setAdapter(newSongsAdapter);
-        newSongsRecyclerView.setNestedScrollingEnabled(false);
+//        newSongsRecyclerView = view.findViewById(R.id.rv_top_songs);
+//        newSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+//        newSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.VERTICAL, this);
+//        newSongsRecyclerView.setAdapter(newSongsAdapter);
+//        newSongsRecyclerView.setNestedScrollingEnabled(false);
+//
+//        popularSongsRecyclerView = view.findViewById(R.id.rv_popular_songs);
+//        popularSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+//        popularSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.HORIZONTAL, this);
+//        popularSongsRecyclerView.setAdapter(popularSongsAdapter);
+//        popularSongsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
-        popularSongsRecyclerView = view.findViewById(R.id.rv_popular_songs);
-        popularSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        popularSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.HORIZONTAL, this);
-        popularSongsRecyclerView.setAdapter(popularSongsAdapter);
-        popularSongsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
-
+        // Popular albums with horizontal layout
         popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
         popularAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        popularAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), this);
+        popularAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.HORIZONTAL, this);
         popularAlbumsRecyclerView.setAdapter(popularAlbumsAdapter);
         popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
+        // Latest albums with vertical layout
         latestAlbumsRecylerView = view.findViewById(R.id.rv_latest_albums);
-        latestAlbumsRecylerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        latestAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), this);
+        latestAlbumsRecylerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        latestAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.VERTICAL, this);
         latestAlbumsRecylerView.setAdapter(latestAlbumsAdapter);
         latestAlbumsRecylerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
@@ -139,10 +140,9 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
     private void observeViewModel() {
         musicPlayerViewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
             if (playbackState != null) {
-                musicPlayerViewModel.getCurrentSong().observe(getViewLifecycleOwner(), song -> {
-                    if (song != null) {
-                        newSongsAdapter.updateUI(playbackState, song);
-                        popularSongsAdapter.updateUI(playbackState, song);
+                musicPlayerViewModel.getCurrentAlbumId().observe(getViewLifecycleOwner(), albumId -> {
+                    if (albumId != null) {
+                        latestAlbumsAdapter.updateUI(playbackState, albumId);
                     }
                 });
             }
@@ -161,16 +161,7 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
                 popularAlbumsAdapter.setAlbums(albums);
             }
         });
-        homeViewModel.getNewSongs().observe(getViewLifecycleOwner(), songs -> {
-            if(songs != null) {
-                newSongsAdapter.setSongs(songs);
-            }
-        });
-        homeViewModel.getPopularSongs().observe(getViewLifecycleOwner(), songs -> {
-            if(songs != null) {
-                popularSongsAdapter.setSongs(songs);
-            }
-        });
+
         homeViewModel.getPopularArtists().observe(getViewLifecycleOwner(), artists -> {
             if(artists != null){
                 popularArtistAdapter.setArtists(artists);
@@ -179,37 +170,18 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
 
     }
 
-    @Override
-    public void onSongClick(Song song) {
-        musicPlayerViewModel.playSong(song);
-    }
-
-    @Override
-    public void onPlayClick(Song song) {
-        musicPlayerViewModel.togglePlayPause(song);
-    }
+//    @Override
+//    public void onSongClick(Song song) {
+//        musicPlayerViewModel.playSong(song);
+//    }
+//
+//    @Override
+//    public void onPlayClick(Song song) {
+//        musicPlayerViewModel.togglePlayPause(song);
+//    }
 
     @Override
     public void onAlbumClick(Album album) {
-//        Bundle args = new Bundle();
-//        Log.d("Album", "Click Album" + album);
-//
-//        args.putString("cover_url", album.getCoverUrl());
-//        args.putString("name", album.getTitle());
-//        args.putString("id", album.getId());
-//        args.putString("day_create", album.getReleaseDate().toString());
-//        List<String> artistNamesList = album.getArtists_name() != null ? album.getArtists_name() : new ArrayList<>();
-//        String[] artistNamesArray = artistNamesList.toArray(new String[0]);
-//        args.putStringArray("artists_name", artistNamesArray);
-//        args.putString("artist_url", album.getCoverUrl());
-
-
-
-//        NavController navController = Navigation.findNavController(requireView());
-//        navController.navigate(R.id.nav_album_detail, args);
-        navigateToAlbumDetail(album);
-    }
-    private void navigateToAlbumDetail(Album album){
         NavDirections action = HomeFragmentDirections.actionNavHomeToNavAlbumDetail(
                 album.getId(),
                 album.getTitle(),
@@ -223,11 +195,20 @@ public class HomeFragment extends Fragment implements SongAdapter.OnSongClickLis
 
         );
         Navigation.findNavController(requireView()).navigate(action);
+    }
 
+    @Override
+    public void onPlayClick(Album album) {
+        musicPlayerViewModel.playAlbum(album.getId(), album.getTitle());
     }
 
     @Override
     public void onArtistClick(Artist artist) {
+        Bundle args = new Bundle();
+        args.putString("ARTIST_ID", artist.getId());
 
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        navController.navigate(R.id.action_homeFragment_to_artistDetailFragment, args);
     }
 }
+

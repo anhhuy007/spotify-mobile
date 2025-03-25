@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,30 +23,36 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.artist.adapter.AlbumArtistAdapter;
 import com.example.spotifyclone.features.artist.adapter.ArtistPlaylistAdapter;
 import com.example.spotifyclone.features.artist.adapter.ArtistSimilarAdapter;
 import com.example.spotifyclone.features.artist.adapter.SongArtistAdapter;
+import com.example.spotifyclone.features.artist.model.PopularSong;
 import com.example.spotifyclone.features.artist.viewModel.ArtistOverallViewModel;
 import com.example.spotifyclone.features.artist.viewModel.FansAlsoLikeViewModel;
 import com.example.spotifyclone.features.artist.viewModel.ListDiscographyAlbumViewModel;
 import com.example.spotifyclone.features.artist.viewModel.ListDiscographyEPViewModel;
 import com.example.spotifyclone.features.artist.viewModel.PopularViewModel;
+import com.example.spotifyclone.features.player.model.song.PlaybackState;
+import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ArtistFragment extends Fragment {
+public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSongClickListener {
     private RecyclerView rv_popular_songs, rv_albums, rv_playlists, rv_similar_artists;
     private Context context;
-    private ImageButton btnBack;
+    private ImageButton btnBack, btnPlay;
     private TextView tv_artist_name, tv_artist_info, tv_monthly_listeners, participant_artist_detail, artist_name, tv_playlist_title_artist_detail;
     private ImageView img_artist_artist_detail, img_artist_cover, img_playlist_artist_detail, img_album_artist_detail, btn_artist_detail_ui_background;
     private ScrollView scrollView;
@@ -53,6 +60,9 @@ public class ArtistFragment extends Fragment {
     private MaterialButton btnSeeSongs, btnHideSongs, btn_see_view_discography;
     private RelativeLayout navbar_artist_UI;
     private String artistId;
+    private String artistName = "Test name";
+    private View rootView;
+    private MusicPlayerViewModel viewModel;
     private View fix;
 
     public static ArtistFragment newInstance(String artistId) {
@@ -74,9 +84,9 @@ public class ArtistFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_artist_detail_ui, container, false);
+        rootView = inflater.inflate(R.layout.fragment_artist_detail_ui, container, false);
         context = getContext();
-        return view;
+        return rootView;
     }
 
     @Override
@@ -105,8 +115,38 @@ public class ArtistFragment extends Fragment {
 
         });
         setupListeners();
+        setupViewModel();
         setupRecyclerViews();
         loadData();
+        setupListeners();
+    }
+
+    private void setupViewModel() {
+        SpotifyCloneApplication app = SpotifyCloneApplication.getInstance();
+        viewModel = new ViewModelProvider(new ViewModelStoreOwner() {
+            @NonNull
+            @Override
+            public ViewModelStore getViewModelStore() {
+                return app.getAppViewModelStore();
+            }
+        }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
+
+        viewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
+            if (playbackState != null) {
+                updatePlayButton(playbackState == PlaybackState.PLAYING);
+            }
+        });
+
+    }
+
+    private void updatePlayButton(boolean isPlaying) {
+        if (isPlaying) {
+            btnPlay.setImageResource(R.drawable.play_button);
+            btnPlay.setTag("pause");
+        } else {
+            btnPlay.setImageResource(R.drawable.play_button);
+            btnPlay.setTag("play");
+        }
     }
 
     private void initViews(View view) {
@@ -131,9 +171,17 @@ public class ArtistFragment extends Fragment {
 
         btnSeeSongs = view.findViewById(R.id.btn_see_all_songs);
         btnHideSongs = view.findViewById(R.id.btn_hide_songs);
+
+        btnPlay = view.findViewById(R.id.btn_play_artist_detail);
     }
 
     private void setupListeners() {
+        btnBack.setOnClickListener(v -> {
+//            if (getView() != null) {
+//                Navigation.findNavController(getView()).navigateUp();
+//            }
+            Navigation.findNavController(rootView).navigateUp();
+        });
 
         btn_see_view_discography.setOnClickListener(v -> {
             // Navigate to DiscographyFragment
@@ -144,6 +192,12 @@ public class ArtistFragment extends Fragment {
                         .commit();
             }
         });
+
+        btnPlay.setOnClickListener(v -> {
+            Log.d("ArtistId" , artistId + " " + artistName);
+            viewModel.togglePlayPauseArtist(artistId, artistName);
+        });
+
 
         setupScrollListener();
     }
@@ -164,7 +218,7 @@ public class ArtistFragment extends Fragment {
                 .get(PopularViewModel.class);
         artistListViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
-                SongArtistAdapter rvPopularSongsAdapter = new SongArtistAdapter(context, artists);
+                SongArtistAdapter rvPopularSongsAdapter = new SongArtistAdapter(getContext(), artists, this);
                 rv_popular_songs.setAdapter(rvPopularSongsAdapter);
 
                 ViewGroup.LayoutParams params = rv_popular_songs.getLayoutParams();
@@ -216,11 +270,13 @@ public class ArtistFragment extends Fragment {
                 new ArtistOverallViewModel.Factory(requireActivity().getApplication(), artistId))
                 .get(ArtistOverallViewModel.class);
         artistViewModel.getArtist().observe(getViewLifecycleOwner(), data -> {
+            artistId = data.getId();
+            artistName = data.getName();
             tv_artist_name.setText(data.getName());
             artist_name.setText(data.getName());
-            tv_artist_info = getView().findViewById(R.id.tv_artist_info);
+            tv_artist_info = rootView.findViewById(R.id.tv_artist_info);
             tv_artist_info.setText(data.getDescription());
-            participant_artist_detail = getView().findViewById(R.id.participant_artist_detail);
+            participant_artist_detail = rootView.findViewById(R.id.participant_artist_detail);
             participant_artist_detail.setText(getString(R.string.participant_text) + data.getName());
 
             Glide.with(this)
@@ -327,6 +383,7 @@ public class ArtistFragment extends Fragment {
                 if (!isAdded() || getContext() == null) {
                     return;
                 }
+                // Calculate the scroll position
                 int scrollY = scrollView.getScrollY();
 
                 // Calculate the threshold when the main artist name text reaches near the top
@@ -348,4 +405,8 @@ public class ArtistFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onSongClick(PopularSong song) {
+        viewModel.playArtistSong(artistId, artistName, song.getId());
+    }
 }

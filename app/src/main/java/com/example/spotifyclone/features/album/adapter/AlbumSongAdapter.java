@@ -29,12 +29,20 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int VIEW_TYPE_ITEM = 0;
     private static final int VIEW_TYPE_LOAD_MORE = 1;
     private boolean isExpanded = false;
+    private OnItemClickListener listener;
+
     private enum ViewType {
         ITEM,
         LOAD_MORE,
         COLLAPSE
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(Song song);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
 
     public AlbumSongAdapter(Context context, List<Song> songs, int initialVisibleSongCount) { // Thêm initialVisibleSongCount
@@ -75,7 +83,6 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof SongViewHolder) {
             // Gán dữ liệu cho item bài hát
@@ -88,6 +95,12 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 if (context instanceof FragmentActivity) {
                     AlbumBottomSheet bottomSheet = AlbumBottomSheet.newInstance(song);
                     bottomSheet.show(((FragmentActivity) context).getSupportFragmentManager(), "BottomSheet");
+                }
+            });
+
+            songHolder.itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick(song);
                 }
             });
 
@@ -181,7 +194,4 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             buttonLoadMore = itemView.findViewById(R.id.buttonLoadMore); // ID của nút "Xem thêm" trong load_more_layout.xml
         }
     }
-
-
-
 }
