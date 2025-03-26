@@ -43,9 +43,6 @@ public class MusicPlayerViewModel extends ViewModel {
 
     // UI State
     private final MutableLiveData<List<Song>> upcomingSongs = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<Song> currentSong = new MutableLiveData<>();
-    private final MutableLiveData<String> currentAlbumId = new MutableLiveData<>();
-    private final MutableLiveData<String> currentArtistId = new MutableLiveData<>();
     private final MutableLiveData<PlayList> currentPlaylist = new MutableLiveData<>(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
     private final MutableLiveData<PlaybackState> playbackState = new MutableLiveData<>(PlaybackState.STOPPED);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -55,11 +52,15 @@ public class MusicPlayerViewModel extends ViewModel {
     private final MutableLiveData<Long> currentDuration = new MutableLiveData<>(0L);
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     private final MutableLiveData<String> currentName = new MutableLiveData<>();
+    private final MutableLiveData<Song> currentSong = new MutableLiveData<>();
+    private final MutableLiveData<String> currentAlbumId = new MutableLiveData<>();
+    private final MutableLiveData<String> currentArtistId = new MutableLiveData<>();
     private final MutableLiveData<PlaybackSourceType> currentPlaybackSourceType = new MutableLiveData<>(PlaybackSourceType.NONE);
     public enum PlaybackSourceType {
         NONE,
         ALBUM,
-        ARTIST, PLAYLIST
+        ARTIST,
+        PLAYLIST
     }
     private final PlayerRepository playerRepository;
 
@@ -95,8 +96,10 @@ public class MusicPlayerViewModel extends ViewModel {
         currentSong.setValue(state.getCurrentSong());
         currentDuration.setValue(state.getCurrentDuration());
         duration.setValue(state.getDuration());
-        repeatMode.setValue(state.getRepeatMode());
-        shuffleMode.setValue(state.getShuffleMode());
+
+        setShuffleMode(state.getShuffleMode());
+        setRepeatMode(state.getRepeatMode());
+
         playbackState.setValue(PlaybackState.PAUSED);
 
         upcomingSongs.setValue(state.getUpcomingSongs());
@@ -375,6 +378,12 @@ public class MusicPlayerViewModel extends ViewModel {
         shuffleMode.setValue(nextMode);
         playerController.setShuffle(nextMode);
     }
+
+    public void setShuffleMode(ShuffleMode mode) {
+        shuffleMode.setValue(mode);
+        playerController.setShuffle(mode);
+    }
+
     public void cycleRepeatMode() {
         RepeatMode currentMode = repeatMode.getValue();
         RepeatMode nextMode;
@@ -390,11 +399,16 @@ public class MusicPlayerViewModel extends ViewModel {
         repeatMode.setValue(nextMode);
         playerController.setRepeatMode(nextMode);
     }
+    public void setRepeatMode(RepeatMode mode) {
+        repeatMode.setValue(mode);
+        playerController.setRepeatMode(mode);
+    }
 
-        public void seekTo(int position) {
-            playerController.seekTo(position);
-            playbackState.setValue(PlaybackState.SEEKING);
-        }
+
+    public void seekTo(int position) {
+        playerController.seekTo(position);
+        playbackState.setValue(PlaybackState.SEEKING);
+    }
 
     private void updateSongDuration() {
         this.duration.setValue(playerController.getDuration());

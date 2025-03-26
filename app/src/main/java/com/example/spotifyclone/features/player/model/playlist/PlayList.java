@@ -112,9 +112,13 @@ public class PlayList {
     }
 
     public void shuffle() {
-        Log.d(TAG, "Shuffling playlist from index " + currentIndex);
-        Collections.shuffle(songList.subList(currentIndex +  1, songList.size()));
+        if (songList.size() - (currentIndex + 1) > 2) {
+            Collections.shuffle(songList.subList(currentIndex + 1, songList.size()));
+        } else {
+            Log.d(TAG, "Not enough songs to shuffle.");
+        }
     }
+
 
     public void printPlaylist() {
         Log.d(TAG, "Playlist:");
