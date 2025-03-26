@@ -25,7 +25,7 @@ public class MusicPlayerViewModelFactory implements ViewModelProvider.Factory {
                 // Get the controller from Application
                 MusicPlayerController controller =
                         SpotifyCloneApplication.getInstance().getMusicPlayerController();
-                cachedViewModel = new MusicPlayerViewModel(controller, applicationContext);
+                cachedViewModel = new MusicPlayerViewModel(applicationContext, controller);
             }
             return (T) cachedViewModel;
         }
