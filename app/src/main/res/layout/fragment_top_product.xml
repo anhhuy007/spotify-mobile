@@ -144,19 +144,6 @@
                                     android:scaleType="fitXY"
                                     android:layout_gravity="center_vertical" />
 
-                                <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/btn_follow_top"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="36dp"
-                                    android:text="@string/fl"
-                                    android:textColor="@color/black"
-                                    app:backgroundTint="@android:color/transparent"
-                                    app:strokeColor="@color/black"
-                                    app:strokeWidth="1dp"
-                                    android:padding="6dp"
-                                    android:textSize="10dp"
-                                    android:fontFamily="@font/avenir_next_bold"
-                                    android:layout_gravity="center_vertical"/>
 
                                 <ImageButton
                                     android:layout_marginLeft="10dp"
@@ -197,7 +184,7 @@
                                 android:paddingTop="16dp"
                                 android:paddingEnd="16dp"
                                 android:gravity="center_vertical"
-                                android:text="@string/popular"
+                                android:text="@string/ranking"
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
                                 android:fontFamily="@font/avenir_next_bold" />

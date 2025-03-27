@@ -7,7 +7,9 @@
     <string name="dark_mode">Dark mode</string>
     <string name="light_mode">Light mode</string>
     <string name="fler">follower</string>
-    <string name="fl">follow</string>
+    <string name="fl">Following</string>
+    <string name="follow">Follow</string>
+
     <string name="edit">Edit</string>
     <string name="noActivity">No recent activity</string>
 
@@ -100,6 +102,7 @@
     <string name="compilation">Compilation</string>
     <string name="available_on">Available on</string>
     <string name="you_may_also_like">You may also like</string>
+    <string name="change_password">Change password</string>
 
     <string name="email_password"><![CDATA[Step 1: Enter Email & Password]]></string>
     <string name="next">Next</string>
@@ -138,4 +141,7 @@
     <string name="play_songs_in_any_order">Play songs in any order</string>
     <string name="high_audio_quality">High audio quality</string>
     <string name="organize_listening_queue">Organize listening queue</string>
+    <string name="play_count">Play count</string>
+    <string name="ranking">Ranking</string>
+
 </resources>

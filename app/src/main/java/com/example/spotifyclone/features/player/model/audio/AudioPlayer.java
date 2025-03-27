@@ -2,6 +2,8 @@ package com.example.spotifyclone.features.player.model.audio;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
@@ -52,6 +54,26 @@ public class AudioPlayer implements AutoCloseable {
     public void setPlaybackListener(PlaybackListener listener) {
         this.playbackListener = listener;
     }
+
+        public void loadAndPlayFrom(@NonNull Song song, int currentPosition) {
+            try {
+                if (exoPlayer.isPlaying()) {
+                    exoPlayer.stop();
+                }
+                currentSong = song;
+                MediaItem mediaItem = MediaItem.fromUri(Uri.parse(song.getMp3Url()));
+                exoPlayer.setMediaItem(mediaItem);
+                exoPlayer.prepare();
+
+                exoPlayer.seekTo(currentPosition);
+                exoPlayer.pause();
+
+            } catch (Exception e) {
+                if (playbackListener != null) {
+                    playbackListener.onError(song, "Failed to load media: " + e.getMessage());
+                }
+            }
+        }
 
     public void loadAndPlay(@NonNull Song song) {
         try {

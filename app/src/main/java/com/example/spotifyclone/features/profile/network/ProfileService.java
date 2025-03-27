@@ -1,10 +1,13 @@
 package com.example.spotifyclone.features.profile.network;
 
+import com.example.spotifyclone.features.artist.model.ItemDiscographyEP;
 import com.example.spotifyclone.features.authentication.model.UploadAvatarResponse;
-import com.example.spotifyclone.features.profile.model.Profile;
 import com.example.spotifyclone.features.profile.model.ProfileUpdate;
 import com.example.spotifyclone.features.profile.model.PasswordUpdate;
 import com.example.spotifyclone.shared.model.APIResponse;
+import com.example.spotifyclone.shared.model.User;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -23,14 +26,15 @@ public interface ProfileService {
             @Part MultipartBody.Part image
     );
 
-    @GET("user/{id}")
-    Call<Profile> getUserProfile(@Path("id") String userID);
 
     @PUT("user/profile")
-    Call<Profile> updateProfile(@Body ProfileUpdate profileUpdate);
+    Call<APIResponse<User>> updateProfile(@Body ProfileUpdate profileUpdate);
 
-    @PUT("user/change-password")
-    Call<Profile> updatePassword(@Body PasswordUpdate passwordUpdate);
+    @PUT("user/profile/change-password")
+    Call<APIResponse<User>> updatePassword(@Body PasswordUpdate passwordUpdate);
+
+    @GET("follower/{user_id}/count")
+    Call<APIResponse<Integer>> getCountFollowedArtists(@Path("id") String artistId);
 
     @GET("user/profile/hello")
     Call<APIResponse<Object>> hello();
