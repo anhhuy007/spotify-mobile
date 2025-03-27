@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.premium.ui;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
@@ -22,9 +23,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.features.premium.model.Plan;
 import com.example.spotifyclone.features.premium.viewmodel.PremiumVMFactory;
 import com.example.spotifyclone.features.premium.viewmodel.PremiumViewModel;
 import com.google.android.material.button.MaterialButton;
+import com.google.gson.Gson;
 
 import java.text.ParseException;
 
@@ -39,12 +42,13 @@ public class CheckoutFragment extends Fragment {
     }
 
     private PremiumViewModel premiumViewModel;
-    private TextView planName, planDetails, todayCharge, afterTrial;
+    private TextView planName, planDetails, todayCharge, duration, afterTrial;
     private EditText etAmount;
     private RadioButton rbCreditCard, rbPaypal, rbMomo;
     private Button btnPay;
     private AlertDialog progressDialog;
 
+    private Plan plan;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +62,7 @@ public class CheckoutFragment extends Fragment {
         planDetails = view.findViewById(R.id.tv_plan_details);
         todayCharge = view.findViewById(R.id.tv_today_charge);
         afterTrial = view.findViewById(R.id.tv_after_trial);
+        duration = view.findViewById(R.id.tv_duration);
         etAmount = view.findViewById(R.id.et_amount);
         rbCreditCard = view.findViewById(R.id.rb_credit_card);
         rbPaypal = view.findViewById(R.id.rb_paypal);
@@ -65,12 +70,11 @@ public class CheckoutFragment extends Fragment {
         btnPay = view.findViewById(R.id.btn_pay);
 
         Bundle bundle = getArguments();
-        final String plan = bundle.getString("plan");
-        final Integer duration = bundle.getInt("duration");
-        handlePlan(plan, duration);
+        plan = new Gson().fromJson(bundle.getString("planJson"), Plan.class);
+        handlePlan(plan);
 
         btnPay.setOnClickListener(v -> {
-            showConfirmationDialog(plan, duration);
+            showConfirmationDialog(plan);
         });
 
         observeViewModel();
@@ -78,7 +82,7 @@ public class CheckoutFragment extends Fragment {
         return view;
     }
 
-    private void showConfirmationDialog(String plan, Integer duration) {
+    private void showConfirmationDialog(Plan plan) {
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_confirm_payment);
@@ -116,7 +120,12 @@ public class CheckoutFragment extends Fragment {
             dialog.dismiss();
             // Call API to create subscription
             try {
-                premiumViewModel.createSubscription(plan, duration);
+                premiumViewModel.createSubscription(
+                        plan.getType(),
+                        plan.getDuration(),
+                        plan.getCurrentPrice(),
+                        plan.getNewCharge()
+                );
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -125,26 +134,14 @@ public class CheckoutFragment extends Fragment {
         dialog.show();
     }
 
-    private void handlePlan(String plan, Integer duration) {
-        switch (plan) {
-            case "mini":
-                planName.setText("Premium Mini");
-                planDetails.setText("Get access to all features for 1 month");
-                etAmount.setText("₫10,500");
-                break;
-            case "individual":
-                planName.setText("Premium Individual");
-                planDetails.setText("Get access to all features for 3 months");
-                etAmount.setText("₫0");
-                break;
-            case "student":
-                planName.setText("Premium Student");
-                planDetails.setText("Get access to all features for 6 months");
-                etAmount.setText("₫29,500");
-                break;
-        }
-
-        todayCharge.setText(etAmount.getText().toString());
+    @SuppressLint("SetTextI18n")
+    private void handlePlan(Plan plan) {
+        planName.setText(plan.getTitle());
+        planDetails.setText(plan.getTerm());
+        duration.setText("After " + plan.getDuration().toString() + " months");
+        afterTrial.setText("₫" + formatPrice(plan.getNewCharge()) + "/month");
+        todayCharge.setText("₫" + formatPrice(plan.getCurrentPrice()));
+        etAmount.setText(todayCharge.getText().toString());
         btnPay.setText("Pay " + etAmount.getText().toString());
     }
 
@@ -193,5 +190,10 @@ public class CheckoutFragment extends Fragment {
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
+    }
+
+    private String formatPrice(Integer price) {
+        // convert 10000 to 10,000
+        return String.format("%,d", price);
     }
 }

@@ -11,6 +11,8 @@ public class Subscription {
     private String id;
     private Date createdAt;
     private Date updatedAt;
+    private Integer total;
+    private Integer newCharge;
 
     // Getters and Setters
     public String getUserId() {
@@ -75,5 +77,21 @@ public class Subscription {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public Integer getNewCharge() {
+        return newCharge;
+    }
+
+    public void setNewCharge() {
+        this.newCharge = newCharge;
     }
 }
