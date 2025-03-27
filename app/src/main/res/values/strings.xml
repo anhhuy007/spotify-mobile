@@ -39,6 +39,7 @@
     <string name="light_mode">Chế độ sáng</string>
     <string name="fler">người theo dõi</string>
     <string name="fl">Đang theo dõi</string>
+    <string name="follow">Theo dõi</string>
     <string name="edit">Chỉnh sửa</string>
     <string name="noActivity">Không có hoạt động nào gần đây</string>
     <string name="setting">CÀI ĐẶT</string>
@@ -58,9 +59,9 @@
     <string name="error_loading_profile">Lỗi tải dữ liệu người dùng</string>
     <string name="network_error">Mạng của bạn có vẫn đề</string>
     <string name="edit_profile">Chỉnh sửa hồ sơ</string>
+    <string name="change_password">Thay đổi mật khẩu</string>
     <string name="save">Lưu</string>
     <string name="name">Tên tài khoản</string>
-    <string name="password">Mật khẩu</string>
     <string name="post_by">Đăng bởi </string>
     <string name="monthly_listeners">NGƯỜI NGHE HÀNG THÁNG </string>
     <string name="dark_mode_description">Bật/tắt chế độ tối để trải nghiệm tốt hơn vào ban đêm</string>
@@ -69,8 +70,8 @@
     <string name="logout_description">Đăng xuất tài khoản của bạn một cách an toàn</string>
     <string name="view_profile">Xem hồ sơ</string>
     <string name="free_account">Tài khoản miễn phí</string>
-    <string name="premium_account">Tài khoản cao cấp</string>
-    <string name="go_premium">Nâng cấp lên cao cấp</string>
+    <string name="premium_account">Tài khoản premium</string>
+    <string name="go_premium">Nâng cấp lên premium</string>
     <string name="popular">Phổ biến</string>
     <string name="new_releases_popular">Bản phát hành mới phổ biến</string>
     <string name="see_more">Xem thêm</string>
@@ -124,4 +125,7 @@
     <string name="noSearchResult">Không tìm thấy kết quả nào</string>
     <string name="old_password">Mật khẩu cũ</string>
     <string name="new_password">Mật khẩu mới</string>
+    <string name="play_count">Lượt nghe</string>
+    <string name="ranking">Bảng xếp hạng</string>
+
 </resources>

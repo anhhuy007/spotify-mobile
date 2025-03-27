@@ -1,7 +1,6 @@
 package com.example.spotifyclone.features.artist.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -42,28 +41,50 @@ import com.example.spotifyclone.features.artist.viewModel.FansAlsoLikeViewModel;
 import com.example.spotifyclone.features.artist.viewModel.ListDiscographyAlbumViewModel;
 import com.example.spotifyclone.features.artist.viewModel.ListDiscographyEPViewModel;
 import com.example.spotifyclone.features.artist.viewModel.PopularViewModel;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
+import com.example.spotifyclone.features.follow.model.Follow;
+import com.example.spotifyclone.features.follow.viewModel.AddFollowerViewModel;
+import com.example.spotifyclone.features.follow.viewModel.CheckFollowerViewModel;
+import com.example.spotifyclone.features.follow.viewModel.DeleteFollowerViewModel;
+import com.example.spotifyclone.features.follow.viewModel.FollowedArtistsCountViewModel;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSongClickListener {
+    // View components
+    private MaterialButton btn_follow;
     private RecyclerView rv_popular_songs, rv_albums, rv_playlists, rv_similar_artists;
     private Context context;
     private ImageButton btnBack, btnPlay;
-    private TextView tv_artist_name, tv_artist_info, tv_monthly_listeners, participant_artist_detail, artist_name, tv_playlist_title_artist_detail;
-    private ImageView img_artist_artist_detail, img_artist_cover, img_playlist_artist_detail, img_album_artist_detail, btn_artist_detail_ui_background;
+    private TextView tv_artist_name, tv_artist_info, tv_monthly_listeners,
+            participant_artist_detail, artist_name,
+            tv_playlist_title_artist_detail;
+    private ImageView img_artist_artist_detail, img_artist_cover,
+            img_playlist_artist_detail, img_album_artist_detail,
+            btn_artist_detail_ui_background;
     private ScrollView scrollView;
     private ConstraintLayout artist_detail_info_container;
     private MaterialButton btnSeeSongs, btnHideSongs, btn_see_view_discography;
     private RelativeLayout navbar_artist_UI;
+    private View rootView, fix;
+
+    // Data and state variables
     private String artistId;
     private String artistName = "Test name";
-    private View rootView;
+    private String userID;
+
+    // ViewModels
     private MusicPlayerViewModel viewModel;
-    private View fix;
+    private CheckFollowerViewModel checkFollowerViewModel;
+    private AddFollowerViewModel addFollowerViewModel;
+    private DeleteFollowerViewModel deleteFollowerViewModel;
+    private AuthRepository authRepository;
+    private String currentUserId;
 
     public static ArtistFragment newInstance(String artistId) {
         ArtistFragment fragment = new ArtistFragment();
@@ -100,56 +121,15 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         // Initialize views
         initViews(view);
-        fix = view.findViewById(R.id.fix_detailUI);
-
-        fix.setOnClickListener(v -> {
-            Toast.makeText(context, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
-
-            try {
-                Navigation.findNavController(v).navigateUp();
-            } catch (Exception e) {
-                if (getActivity() != null) {
-                    getActivity().onBackPressed();
-                }
-            }
-
-        });
+        initFollowComponents();
         setupListeners();
         setupViewModel();
         setupRecyclerViews();
         loadData();
-        setupListeners();
-    }
-
-    private void setupViewModel() {
-        SpotifyCloneApplication app = SpotifyCloneApplication.getInstance();
-        viewModel = new ViewModelProvider(new ViewModelStoreOwner() {
-            @NonNull
-            @Override
-            public ViewModelStore getViewModelStore() {
-                return app.getAppViewModelStore();
-            }
-        }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
-
-        viewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
-            if (playbackState != null) {
-                updatePlayButton(playbackState == PlaybackState.PLAYING);
-            }
-        });
-
-    }
-
-    private void updatePlayButton(boolean isPlaying) {
-        if (isPlaying) {
-            btnPlay.setImageResource(R.drawable.play_button);
-            btnPlay.setTag("pause");
-        } else {
-            btnPlay.setImageResource(R.drawable.play_button);
-            btnPlay.setTag("play");
-        }
     }
 
     private void initViews(View view) {
+        // Initialize all view components
         rv_popular_songs = view.findViewById(R.id.rv_popular_songs);
         rv_albums = view.findViewById(R.id.rv_albums);
         rv_playlists = view.findViewById(R.id.rv_playlists);
@@ -171,20 +151,125 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         btnSeeSongs = view.findViewById(R.id.btn_see_all_songs);
         btnHideSongs = view.findViewById(R.id.btn_hide_songs);
+        btn_follow = view.findViewById(R.id.btn_follow);
 
         btnPlay = view.findViewById(R.id.btn_play_artist_detail);
+        fix = view.findViewById(R.id.fix_detailUI);
+    }
+
+    private void initFollowComponents() {
+        // Initialize authentication and follow-related components
+        authRepository = new AuthRepository(requireContext());
+        User currentUser = authRepository.getUser();
+
+        if (currentUser != null) {
+            currentUserId = currentUser.getId();
+
+            // Initialize ViewModels for follow functionality
+            checkFollowerViewModel = new ViewModelProvider(this).get(CheckFollowerViewModel.class);
+            addFollowerViewModel = new ViewModelProvider(this).get(AddFollowerViewModel.class);
+            deleteFollowerViewModel = new ViewModelProvider(this).get(DeleteFollowerViewModel.class);
+
+            // Setup follow button listeners and observers
+            setupFollowButton();
+        }
+    }
+
+    private void setupFollowButton() {
+        // Follow button click listener
+        btn_follow.setOnClickListener(v -> toggleFollowStatus());
+
+        // Observe follow status
+        checkFollowerViewModel.getIsFollowing().observe(getViewLifecycleOwner(), follow -> {
+            updateFollowButtonState(follow != null && follow.getId()!= null);
+        });
+
+        // Observe add follower response
+        addFollowerViewModel.getAddedFollow().observe(getViewLifecycleOwner(), follow -> {
+            if (follow != null) {
+                updateFollowButtonState(true);
+                Toast.makeText(requireContext(), "Followed successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Observe delete follower response
+        deleteFollowerViewModel.getIsDeleted().observe(getViewLifecycleOwner(), isDeleted -> {
+            if (isDeleted) {
+                updateFollowButtonState(false);
+                Toast.makeText(requireContext(), "Unfollowed successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        checkFollowStatus();
+    }
+
+    private void checkFollowStatus() {
+        if (artistId != null && currentUserId != null) {
+            Follow followCheck = new Follow();
+            followCheck.setUserId(currentUserId);
+            followCheck.setArtistId(artistId);
+
+            checkFollowerViewModel.checkFollower(followCheck);
+        }
+    }
+
+    private void toggleFollowStatus() {
+        if (artistId != null && currentUserId != null) {
+            Follow follow = new Follow();
+            follow.setUserId(currentUserId);
+            follow.setArtistId(artistId);
+
+            // Check current state and perform appropriate action
+            checkFollowerViewModel.getIsFollowing().observe(getViewLifecycleOwner(), existingFollow -> {
+                if (existingFollow != null && existingFollow.getId() != null) {
+                    // Currently following, so unfollow
+                    deleteFollowerViewModel.deleteFollower(existingFollow.getId());
+                } else {
+                    // Not following, so follow
+                    addFollowerViewModel.addFollower(follow);
+                }
+            });
+
+            // Trigger the check
+            checkFollowerViewModel.checkFollower(follow);
+        } else {
+            // Handle case where artistId or currentUserId is null
+            Toast.makeText(requireContext(),
+                    "Unable to perform follow action. Please try again.",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateFollowButtonState(boolean isFollowing) {
+        if (isFollowing) {
+            btn_follow.setText(getString(R.string.fl));
+            btn_follow.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+        } else {
+            btn_follow.setText(getString(R.string.follow));
+            btn_follow.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+        }
     }
 
     private void setupListeners() {
+        // Back button listener
         btnBack.setOnClickListener(v -> {
-//            if (getView() != null) {
-//                Navigation.findNavController(getView()).navigateUp();
-//            }
             Navigation.findNavController(rootView).navigateUp();
         });
 
+        // Fix button listener
+        fix.setOnClickListener(v -> {
+            Toast.makeText(context, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
+            try {
+                Navigation.findNavController(v).navigateUp();
+            } catch (Exception e) {
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+            }
+        });
+
+        // Discography button listener
         btn_see_view_discography.setOnClickListener(v -> {
-            // Navigate to DiscographyFragment
             if (getActivity() != null) {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(((ViewGroup) getView().getParent()).getId(), DiscographyFragment.newInstance(artistId))
@@ -193,13 +278,40 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
             }
         });
 
+        // Play button listener
         btnPlay.setOnClickListener(v -> {
-            Log.d("ArtistId" , artistId + " " + artistName);
+            Log.d("ArtistId", artistId + " " + artistName);
             viewModel.togglePlayPauseArtist(artistId, artistName);
         });
 
-
         setupScrollListener();
+    }
+
+    private void setupViewModel() {
+        SpotifyCloneApplication app = SpotifyCloneApplication.getInstance();
+        viewModel = new ViewModelProvider(new ViewModelStoreOwner() {
+            @NonNull
+            @Override
+            public ViewModelStore getViewModelStore() {
+                return app.getAppViewModelStore();
+            }
+        }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
+
+        viewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
+            if (playbackState != null) {
+                updatePlayButton(playbackState == PlaybackState.PLAYING);
+            }
+        });
+    }
+
+    private void updatePlayButton(boolean isPlaying) {
+        if (isPlaying) {
+            btnPlay.setImageResource(R.drawable.play_button);
+            btnPlay.setTag("pause");
+        } else {
+            btnPlay.setImageResource(R.drawable.play_button);
+            btnPlay.setTag("play");
+        }
     }
 
     private void setupRecyclerViews() {
@@ -229,126 +341,123 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         });
         artistListViewModel.fetchItems();
 
-        // Load EPs
-        ListDiscographyEPViewModel artistListViewModel2 = new ViewModelProvider(this,
-                new ListDiscographyEPViewModel.Factory(requireActivity().getApplication(), artistId, 1))
-                .get(ListDiscographyEPViewModel.class);
-        artistListViewModel2.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
-            if (artists != null) {
-                AlbumArtistAdapter rvAlbumsAdapter = new AlbumArtistAdapter(context, artists);
-                rv_albums.setAdapter(rvAlbumsAdapter);
-            }
-        });
-        artistListViewModel2.fetchItems();
-
-        // Load albums
-        ListDiscographyAlbumViewModel artistListViewModel3 = new ViewModelProvider(this,
-                new ListDiscographyAlbumViewModel.Factory(requireActivity().getApplication(), artistId, 1))
-                .get(ListDiscographyAlbumViewModel.class);
-        artistListViewModel3.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
-            if (artists != null) {
-                ArtistPlaylistAdapter rvPlaylistsAdapter = new ArtistPlaylistAdapter(context, artists);
-                rv_playlists.setAdapter(rvPlaylistsAdapter);
-            }
-        });
-        artistListViewModel3.fetchItems();
-
-        // Load similar artists
-        FansAlsoLikeViewModel artistListViewModel4 = new ViewModelProvider(this,
-                new FansAlsoLikeViewModel.Factory(requireActivity().getApplication(), artistId))
-                .get(FansAlsoLikeViewModel.class);
-        artistListViewModel4.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
-            if (artists != null) {
-                ArtistSimilarAdapter rvSimilarArtistsAdapter = new ArtistSimilarAdapter(context, artists);
-                rv_similar_artists.setAdapter(rvSimilarArtistsAdapter);
-            }
-        });
-        artistListViewModel4.fetchItems();
-
-        // Load artist details
+        // Load artist details and setup dynamic UI
         ArtistOverallViewModel artistViewModel = new ViewModelProvider(this,
                 new ArtistOverallViewModel.Factory(requireActivity().getApplication(), artistId))
                 .get(ArtistOverallViewModel.class);
         artistViewModel.getArtist().observe(getViewLifecycleOwner(), data -> {
+            // Update artist details
             artistId = data.getId();
             artistName = data.getName();
             tv_artist_name.setText(data.getName());
             artist_name.setText(data.getName());
+
+            // Set description and participant text
             tv_artist_info = rootView.findViewById(R.id.tv_artist_info);
             tv_artist_info.setText(data.getDescription());
             participant_artist_detail = rootView.findViewById(R.id.participant_artist_detail);
             participant_artist_detail.setText(getString(R.string.participant_text) + data.getName());
 
-            Glide.with(this)
-                    .load(data.getAvatarUrl())
-                    .placeholder(R.drawable.loading)
-                    .into(img_album_artist_detail);
+            // Load artist images
+            loadArtistImages(data.getAvatarUrl());
 
-            Glide.with(this)
-                    .load(data.getAvatarUrl())
-                    .placeholder(R.drawable.loading)
-                    .into(img_artist_cover);
-
-            img_artist_artist_detail = getView().findViewById(R.id.img_artist_artist_detail);
-            Glide.with(this)
-                    .load(data.getAvatarUrl())
-                    .placeholder(R.drawable.loading)
-                    .into(img_artist_artist_detail);
-
+            // Setup artist detail container click listener
             artist_detail_info_container = getView().findViewById(R.id.artist_detail_info_container);
-            artist_detail_info_container.setOnClickListener(v -> {
-                // Navigate to ArtistOverallFragment
-                if (getActivity() != null) {
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(((ViewGroup) getView().getParent()).getId(), ArtistOverallFragment.newInstance(data.getId()))
-                            .addToBackStack(null)
-                            .commit();
-                }
-            });
+            artist_detail_info_container.setOnClickListener(v -> navigateToArtistOverallFragment(data.getId()));
 
-//            DominantColorExtractor.getDominantColor(context, data.getAvatarUrl(), color -> {
-//                navbar_artist_UI.setBackgroundColor(color);
-//            });
-
-            DominantColorExtractor.getDominantColor(context, data.getAvatarUrl(), color -> {
-                // Lấy màu trắng làm màu nền
-                int baseColor = ContextCompat.getColor(context, R.color.white);
-
-                // Làm cho gradient nhẹ hơn bằng cách điều chỉnh alpha của màu chính
-                int adjustedColor = adjustAlpha(color, 0.8f);
-
-                // Tạo GradientDrawable với chuyển đổi nhẹ nhàng
-                GradientDrawable gradient = new GradientDrawable(
-                        GradientDrawable.Orientation.TOP_BOTTOM,
-                        new int[]{adjustedColor, baseColor}
-                );
-
-                gradient.setCornerRadius(0.3f);
-
-                // Áp dụng gradient vào navbar thay vì màu đơn
-                navbar_artist_UI.setBackground(gradient);
-            });
-
-
+            // Apply dynamic background color
+            applyDynamicBackground(data.getAvatarUrl());
         });
         artistViewModel.fetchArtistDetails();
 
-        // Load playlist artist details
-        ArtistOverallViewModel playlistArtist = new ViewModelProvider(this,
-                new ArtistOverallViewModel.Factory(requireActivity().getApplication(), artistId))
-                .get(ArtistOverallViewModel.class);
-        playlistArtist.getArtist().observe(getViewLifecycleOwner(), data -> {
-            tv_playlist_title_artist_detail = getView().findViewById(R.id.tv_playlist_title_artist_detail);
-            img_playlist_artist_detail = getView().findViewById(R.id.img_playlist_artist_detail);
-            Glide.with(this)
-                    .load(data.getAvatarUrl())
-                    .placeholder(R.drawable.loading)
-                    .into(img_playlist_artist_detail);
-            tv_playlist_title_artist_detail.setText(data.getName());
-        });
-        playlistArtist.fetchArtistDetails();
+        // Load other data (EPs, Albums, Playlists, Similar Artists)
+        loadAdditionalArtistData();
 
-        // Set up See More/Hide functionality
+        // Setup See More/Hide functionality for songs
+        setupSongVisibilityControls(sizeHide);
+    }
+
+    private void loadArtistImages(String avatarUrl) {
+        // Load artist images using Glide
+        Glide.with(this)
+                .load(avatarUrl)
+                .placeholder(R.drawable.loading)
+                .into(img_album_artist_detail);
+
+        Glide.with(this)
+                .load(avatarUrl)
+                .placeholder(R.drawable.loading)
+                .into(img_artist_cover);
+
+        img_artist_artist_detail = getView().findViewById(R.id.img_artist_artist_detail);
+        Glide.with(this)
+                .load(avatarUrl)
+                .placeholder(R.drawable.loading)
+                .into(img_artist_artist_detail);
+    }
+
+    private void navigateToArtistOverallFragment(String artistId) {
+        if (getActivity() != null) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(((ViewGroup) getView().getParent()).getId(), ArtistOverallFragment.newInstance(artistId))
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
+    private void applyDynamicBackground(String avatarUrl) {
+        DominantColorExtractor.getDominantColor(context, avatarUrl, color -> {
+            int baseColor = ContextCompat.getColor(context, R.color.white);
+            int adjustedColor = adjustAlpha(color, 0.8f);
+
+            GradientDrawable gradient = new GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    new int[]{adjustedColor, baseColor}
+            );
+            gradient.setCornerRadius(0.3f);
+            navbar_artist_UI.setBackground(gradient);
+        });
+    }
+
+    private void loadAdditionalArtistData() {
+        // Load EPs
+        ListDiscographyEPViewModel epViewModel = new ViewModelProvider(this,
+                new ListDiscographyEPViewModel.Factory(requireActivity().getApplication(), artistId, 1))
+                .get(ListDiscographyEPViewModel.class);
+        epViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
+            if (artists != null) {
+                AlbumArtistAdapter albumAdapter = new AlbumArtistAdapter(context, artists);
+                rv_albums.setAdapter(albumAdapter);
+            }
+        });
+        epViewModel.fetchItems();
+
+        // Load albums and playlists
+        ListDiscographyAlbumViewModel albumViewModel = new ViewModelProvider(this,
+                new ListDiscographyAlbumViewModel.Factory(requireActivity().getApplication(), artistId, 1))
+                .get(ListDiscographyAlbumViewModel.class);
+        albumViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
+            if (artists != null) {
+                ArtistPlaylistAdapter playlistAdapter = new ArtistPlaylistAdapter(context, artists);
+                rv_playlists.setAdapter(playlistAdapter);
+            }
+        });
+        albumViewModel.fetchItems();
+
+        // Load similar artists
+        FansAlsoLikeViewModel similarArtistsViewModel = new ViewModelProvider(this,
+                new FansAlsoLikeViewModel.Factory(requireActivity().getApplication(), artistId))
+                .get(FansAlsoLikeViewModel.class);
+        similarArtistsViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
+            if (artists != null) {
+                ArtistSimilarAdapter similarArtistsAdapter = new ArtistSimilarAdapter(context, artists);
+                rv_similar_artists.setAdapter(similarArtistsAdapter);
+            }
+        });
+        similarArtistsViewModel.fetchItems();
+    }
+
+    private void setupSongVisibilityControls(AtomicInteger sizeHide) {
         btnSeeSongs.setOnClickListener(v -> {
             ViewGroup.LayoutParams params = rv_popular_songs.getLayoutParams();
             params.height = (int) (64 * getResources().getDisplayMetrics().density * sizeHide.get());
@@ -368,41 +477,35 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         });
     }
 
+    private void setupScrollListener() {
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(() -> {
+            if (!isAdded() || getContext() == null) {
+                return;
+            }
+
+            int scrollY = scrollView.getScrollY();
+            float nameHeight = tv_artist_name.getHeight();
+            float threshold = (40 * getResources().getDisplayMetrics().density) + (nameHeight * 0.7f);
+
+            float alpha = 0f;
+            float alpha2 = 0.5f;
+            if (scrollY > threshold) {
+                alpha = Math.min(1f, (scrollY - threshold) / (nameHeight * 0.3f));
+                alpha2 = Math.max(0f, 0.5f - (scrollY - threshold) / (nameHeight * 0.3f));
+            }
+
+            navbar_artist_UI.setAlpha(alpha);
+            artist_name.setAlpha(alpha);
+            btn_artist_detail_ui_background.setAlpha(alpha2);
+        });
+    }
+
     private int adjustAlpha(int color, float factor) {
         int alpha = Math.round(255 * factor);
         int red = Color.red(color);
         int green = Color.green(color);
         int blue = Color.blue(color);
         return Color.argb(alpha, red, green, blue);
-    }
-
-    private void setupScrollListener() {
-        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                if (!isAdded() || getContext() == null) {
-                    return;
-                }
-                // Calculate the scroll position
-                int scrollY = scrollView.getScrollY();
-
-                // Calculate the threshold when the main artist name text reaches near the top
-                float nameHeight = tv_artist_name.getHeight();
-                float threshold = (40 * getResources().getDisplayMetrics().density) + (nameHeight * 0.7f);
-
-                // Calculate alpha based on scroll position
-                float alpha = 0f;
-                float alpha2 = 0.5f;
-                if (scrollY > threshold) {
-                    alpha = Math.min(1f, (scrollY - threshold) / (nameHeight * 0.3f));
-                    alpha2 = Math.max(0f, 0.5f - (scrollY - threshold) / (nameHeight * 0.3f));
-                }
-
-                navbar_artist_UI.setAlpha(alpha);
-                artist_name.setAlpha(alpha);
-                btn_artist_detail_ui_background.setAlpha(alpha2);
-            }
-        });
     }
 
     @Override

@@ -128,7 +128,7 @@ public class TopAlbumFragment extends Fragment {
                     .placeholder(R.drawable.loading)
                     .into(img_artist_cover);
 
-            tv_monthly_listeners.setText(data.getDescription() + getString(R.string.monthly_listeners));
+            tv_monthly_listeners.setText(data.getDescription()+" " + getString(R.string.play_count));
 
             DominantColorExtractor.getDominantColor(context, data.getAvatarUrl(), color -> {
                 navbar_artist_UI.setBackgroundColor(color);

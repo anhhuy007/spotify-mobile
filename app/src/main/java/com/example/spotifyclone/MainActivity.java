@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_profile) {
             // TODO: Handle navigation to profile
             // Could use Navigation Component to navigate to profileFragment
-//            navController.navigate(R.id.profileFragment);
-            navController.navigate(R.id.topArtist);
+           navController.navigate(R.id.profileFragment);
+//            navController.navigate(R.id.topArtist);
         } else if (id == R.id.nav_settings) {
             // TODO: Handle navigation to settings
              navController.navigate(R.id.settingsFragment);

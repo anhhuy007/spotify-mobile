@@ -143,7 +143,7 @@ public class AuthRepository {
     /**
      * Save user to SharedPreferences
      */
-    private void saveUser(User user) {
+    public void saveUser(User user) {
         String userJson = gson.toJson(user);
         editor.putString(KEY_USER, userJson);
         editor.apply();

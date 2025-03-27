@@ -1,4 +1,4 @@
-package com.example.spotifyclone.features.profile.viewmodel;
+package com.example.spotifyclone.features.settings.viewModel;
 
 import android.app.Application;
 import android.content.Context;
@@ -22,12 +22,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class ProfileViewModel extends AndroidViewModel {
+public class SettingViewModel extends AndroidViewModel {
     private final Context context;
     private final MutableLiveData<User> user = new MutableLiveData<>();
     private final MutableLiveData<Boolean> updateStatus = new MutableLiveData<>();
 
-    public ProfileViewModel(@NonNull Application application) {
+    public SettingViewModel(@NonNull Application application) {
         super(application);
         this.context = application.getApplicationContext();
     }

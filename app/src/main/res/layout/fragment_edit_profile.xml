@@ -45,6 +45,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginRight="1dp"/>
 
+
+
     <androidx.cardview.widget.CardView
         android:id="@+id/avatar"
         android:layout_width="100dp"
@@ -78,7 +80,8 @@
         app:layout_constraintEnd_toEndOf="@id/avatar"
         android:layout_margin="0dp"/>
 
-    <!-- Username Section -->
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -90,7 +93,7 @@
 
         <TextView
             android:id="@+id/label_name"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/name"
             android:textSize="16sp"
@@ -99,14 +102,14 @@
 
         <EditText
             android:id="@+id/display_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="Enter your username"
+            android:text="Nhật Phước"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:background="@android:color/transparent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginStart="16dp"/>
     </LinearLayout>
 
     <View
@@ -118,19 +121,43 @@
         android:layout_marginTop="8dp"
         android:layout_marginHorizontal="14dp"/>
 
-    <!-- Old Password Section -->
+    <TextView
+        android:id="@+id/tt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/change_password"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/line1"
+        android:layout_marginTop="64dp"/>
+    <Button
+        android:id="@+id/btn_save_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/tt"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="1dp"/>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/line1"
-        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/tt"
+        android:layout_marginTop="32dp"
         android:layout_marginStart="16dp"
         android:id="@+id/edit_old_password">
 
         <TextView
             android:id="@+id/label_old_password"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/old_password"
             android:textSize="16sp"
@@ -139,16 +166,18 @@
 
         <EditText
             android:id="@+id/display_old_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter old password"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:background="@android:color/transparent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:inputType="textPassword"/>
+            android:background="@android:color/transparent"
+            android:inputType="textPassword"
+            android:hint="enter old password"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
     </LinearLayout>
+
+
 
     <View
         android:id="@+id/line2"
@@ -159,36 +188,37 @@
         android:layout_marginTop="8dp"
         android:layout_marginHorizontal="14dp"/>
 
-    <!-- New Password Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/line2"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:layout_marginStart="16dp"
         android:id="@+id/edit_password">
 
         <TextView
-            android:id="@+id/label_password"
-            android:layout_width="80dp"
+            android:id="@+id/label_new_password"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/new_password"
             android:textSize="16sp"
+
             android:textColor="@color/black"
             android:textStyle="bold"/>
 
         <EditText
-            android:id="@+id/display_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter new password"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:background="@android:color/transparent"
+            android:id="@+id/display_new_password"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:inputType="textPassword"/>
+            android:background="@android:color/transparent"
+            android:inputType="textPassword"
+            android:hint="enter new password"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            />
     </LinearLayout>
 
     <View
@@ -199,17 +229,5 @@
         app:layout_constraintTop_toBottomOf="@id/edit_password"
         android:layout_marginTop="8dp"
         android:layout_marginHorizontal="14dp"/>
-
-    <TextView
-        android:id="@+id/password_note"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Leave password fields empty if you don't want to change it"
-        android:textSize="12sp"
-        android:textColor="@color/gray"
-        android:textStyle="italic"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/line3"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,9 @@
     <string name="dark_mode">Dark mode</string>
     <string name="light_mode">Light mode</string>
     <string name="fler">follower</string>
-    <string name="fl">follow</string>
+    <string name="fl">Following</string>
+    <string name="follow">Follow</string>
+
     <string name="edit">Edit</string>
     <string name="noActivity">No recent activity</string>
 
@@ -100,6 +102,7 @@
     <string name="compilation">Compilation</string>
     <string name="available_on">Available on</string>
     <string name="you_may_also_like">You may also like</string>
+    <string name="change_password">Change password</string>
 
     <string name="email_password"><![CDATA[Step 1: Enter Email & Password]]></string>
     <string name="next">Next</string>
@@ -125,4 +128,7 @@
 
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
+    <string name="play_count">Play count</string>
+    <string name="ranking">Ranking</string>
+
 </resources>

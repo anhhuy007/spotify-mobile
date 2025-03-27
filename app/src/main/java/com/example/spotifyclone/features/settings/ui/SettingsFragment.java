@@ -35,6 +35,8 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.MainActivity;
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
+import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.utils.Constants;
 
 import java.util.Locale;
@@ -67,26 +69,13 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Apply saved settings before inflating layout
-        SharedPreferences prefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        AuthRepository authRepo = new AuthRepository(getContext());
+        User user = authRepo.getUser();
 
-        boolean isDarkMode;
-        if (prefs.contains("darkMode")) {
-            isDarkMode = prefs.getBoolean("darkMode", false);
-            AppCompatDelegate.setDefaultNightMode(isDarkMode ?
-                    AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-        } else {
-            int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-            if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                isDarkMode = true;
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                isDarkMode = false;
-            }
-        }
+        AppCompatDelegate.setDefaultNightMode(user.getTheme().equals("dark") ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
 
-        boolean isEnglish = prefs.getBoolean("isEnglish", false);
-        setLocale(isEnglish ? "en" : "vi");
+
+        setLocale(user.getLanguage());
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false);
