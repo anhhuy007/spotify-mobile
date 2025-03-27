@@ -1,10 +1,15 @@
 package com.example.spotifyclone.features.premium.ui;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -13,10 +18,13 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.premium.viewmodel.PremiumVMFactory;
 import com.example.spotifyclone.features.premium.viewmodel.PremiumViewModel;
+import com.google.android.material.button.MaterialButton;
 
 import java.text.ParseException;
 
@@ -35,6 +43,8 @@ public class CheckoutFragment extends Fragment {
     private EditText etAmount;
     private RadioButton rbCreditCard, rbPaypal, rbMomo;
     private Button btnPay;
+    private AlertDialog progressDialog;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,7 +70,51 @@ public class CheckoutFragment extends Fragment {
         handlePlan(plan, duration);
 
         btnPay.setOnClickListener(v -> {
-            // Handle payment
+            showConfirmationDialog(plan, duration);
+        });
+
+        observeViewModel();
+
+        return view;
+    }
+
+    private void showConfirmationDialog(String plan, Integer duration) {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_confirm_payment);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(true);
+
+        // Initialize dialog views
+        TextView tvDialogPlanName = dialog.findViewById(R.id.tv_dialog_plan_name);
+        TextView tvDialogPlanDetails = dialog.findViewById(R.id.tv_dialog_plan_details);
+        TextView tvDialogPaymentMethod = dialog.findViewById(R.id.tv_dialog_payment_method);
+        TextView tvDialogAmount = dialog.findViewById(R.id.tv_dialog_amount);
+        MaterialButton btnDialogCancel = dialog.findViewById(R.id.btn_dialog_cancel);
+        MaterialButton btnDialogConfirm = dialog.findViewById(R.id.btn_dialog_confirm);
+
+        // Set dialog content
+        tvDialogPlanName.setText(planName.getText());
+        tvDialogPlanDetails.setText(planDetails.getText());
+        tvDialogAmount.setText(etAmount.getText());
+
+        // Get selected payment method
+        String paymentMethod;
+        if (rbPaypal.isChecked()) {
+            paymentMethod = "PayPal";
+        } else if (rbMomo.isChecked()) {
+            paymentMethod = "Momo";
+        } else {
+            paymentMethod = "Credit Card";
+        }
+        tvDialogPaymentMethod.setText(paymentMethod);
+
+        // Set button click listeners
+        btnDialogCancel.setOnClickListener(v -> dialog.dismiss());
+
+        btnDialogConfirm.setOnClickListener(v -> {
+            dialog.dismiss();
+            // Call API to create subscription
             try {
                 premiumViewModel.createSubscription(plan, duration);
             } catch (ParseException e) {
@@ -68,9 +122,7 @@ public class CheckoutFragment extends Fragment {
             }
         });
 
-        observeViewModel();
-
-        return view;
+        dialog.show();
     }
 
     private void handlePlan(String plan, Integer duration) {
@@ -104,15 +156,19 @@ public class CheckoutFragment extends Fragment {
                 Toast.makeText(requireContext(), "Payment success", Toast.LENGTH_SHORT).show();
 
                 // Redirect to home
-                requireActivity().getSupportFragmentManager().popBackStack();
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.nav_home);
             }
         });
 
         premiumViewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
-            Log.d("DEBUG", "isLoading: " + isLoading);
             if (isLoading) {
-                // Show loading
-                Toast.makeText(requireContext(), "Processing payment...", Toast.LENGTH_SHORT).show();
+                // Show loading dialog
+                showLoadingDialog();
+            }
+            else {
+                // Dismiss loading dialog
+                dismissLoadingDialog();
             }
         });
 
@@ -122,5 +178,20 @@ public class CheckoutFragment extends Fragment {
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showLoadingDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(R.layout.dialog_loading); // Custom layout with ProgressBar
+        builder.setCancelable(false);
+
+        progressDialog = builder.create();
+        progressDialog.show();
+    }
+
+    private void dismissLoadingDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 }

@@ -173,6 +173,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return app.getAppViewModelStore();
             }
         }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
+
+        viewModel.restorePlayerState();
     }
 
     private void setupListeners() {
@@ -288,5 +290,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.w("FCM", "Notification permission denied");
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("PAUSE", "test");
+        viewModel.savePlayerState();
     }
 }

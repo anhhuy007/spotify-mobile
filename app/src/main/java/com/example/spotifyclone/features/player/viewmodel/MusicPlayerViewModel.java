@@ -1,6 +1,7 @@
 package com.example.spotifyclone.features.player.viewmodel;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -10,7 +11,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.spotifyclone.features.album.model.Album;
-import com.example.spotifyclone.features.notification.MusicNotificationManager;
 import com.example.spotifyclone.features.player.model.audio.MusicPlayerController;
 import com.example.spotifyclone.features.player.model.audio.PlaybackListener;
 import com.example.spotifyclone.features.player.model.playlist.PlayList;
@@ -19,9 +19,12 @@ import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.network.SongService;
+import com.example.spotifyclone.shared.model.PlayerState;
+import com.example.spotifyclone.shared.repository.PlayerRepository;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,9 +43,6 @@ public class MusicPlayerViewModel extends ViewModel {
 
     // UI State
     private final MutableLiveData<List<Song>> upcomingSongs = new MutableLiveData<>(new ArrayList<>());
-    private final MutableLiveData<Song> currentSong = new MutableLiveData<>();
-    private final MutableLiveData<String> currentAlbumId = new MutableLiveData<>();
-    private final MutableLiveData<String> currentArtistId = new MutableLiveData<>();
     private final MutableLiveData<PlayList> currentPlaylist = new MutableLiveData<>(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
     private final MutableLiveData<PlaybackState> playbackState = new MutableLiveData<>(PlaybackState.STOPPED);
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
@@ -52,13 +52,17 @@ public class MusicPlayerViewModel extends ViewModel {
     private final MutableLiveData<Long> currentDuration = new MutableLiveData<>(0L);
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     private final MutableLiveData<String> currentName = new MutableLiveData<>();
+    private final MutableLiveData<Song> currentSong = new MutableLiveData<>();
+    private final MutableLiveData<String> currentAlbumId = new MutableLiveData<>();
+    private final MutableLiveData<String> currentArtistId = new MutableLiveData<>();
     private final MutableLiveData<PlaybackSourceType> currentPlaybackSourceType = new MutableLiveData<>(PlaybackSourceType.NONE);
     public enum PlaybackSourceType {
         NONE,
         ALBUM,
-        ARTIST, PLAYLIST
+        ARTIST,
+        PLAYLIST
     }
-    private MusicNotificationManager notificationManager;
+    private final PlayerRepository playerRepository;
 
     // Handler for updating progress and current duration on UI
     private final Handler handler = new Handler(Looper. getMainLooper());
@@ -68,25 +72,81 @@ public class MusicPlayerViewModel extends ViewModel {
             if (playerController != null && playbackState.getValue() == PlaybackState.PLAYING) {
                 long currentTime = playerController.getCurrentDuration();
                 currentDuration.postValue(currentTime);
-
-                Song song = currentSong.getValue();
-                if (song != null && notificationManager != null) {
-                    notificationManager.updateNotificationProgress(
-                            song,
-                            currentTime,
-                            playerController.getDuration()
-                    );
-                }
-
                 handler.postDelayed(this, 1000);
             }
         }
     };
 
-    public MusicPlayerViewModel(MusicPlayerController playerController, Context context) {
+    public MusicPlayerViewModel(Context context, MusicPlayerController playerController) {
+        super();
         this.playerController = playerController;
-        this.notificationManager = new MusicNotificationManager(context, this);
+        this.playerRepository = new PlayerRepository(context.getApplicationContext());
         setupPlaybackListener();
+    }
+
+    public void restorePlayerState() {
+        PlayerState state = this.playerRepository.loadPlayerState();
+        setUpMusicPlayerViewModel(state);
+    }
+    public void setUpMusicPlayerViewModel(PlayerState state) {
+        if (state == null) {
+            return;
+        }
+
+        currentSong.setValue(state.getCurrentSong());
+        currentDuration.setValue(state.getCurrentDuration());
+        duration.setValue(state.getDuration());
+
+        setShuffleMode(state.getShuffleMode());
+        setRepeatMode(state.getRepeatMode());
+
+        playbackState.setValue(PlaybackState.PAUSED);
+
+        upcomingSongs.setValue(state.getUpcomingSongs());
+        setUpcomingSongs(state.getUpcomingSongs(), state.getCurrentSong(), Math.toIntExact(state.getCurrentDuration()));
+
+        currentName.setValue(state.getCurrentName());
+
+        PlaybackSourceType sourceType = state.getCurrentPlaybackSourceType();
+        currentPlaybackSourceType.setValue(sourceType);
+
+        if (sourceType == PlaybackSourceType.ALBUM) {
+            currentAlbumId.setValue(state.getCurrentAlbumId());
+        } else if (sourceType == PlaybackSourceType.ARTIST) {
+            currentArtistId.setValue(state.getCurrentArtistId());
+        } else if (sourceType == PlaybackSourceType.NONE) {
+            currentName.setValue(null);
+        }
+    }
+
+    public void setUpcomingSongs(List<Song> upcomingSongs, Song currentSong, int currentPosition) {
+        if (upcomingSongs == null || currentSong == null) {
+            return;
+        }
+
+        List<Song> songs = new ArrayList<>();
+        songs.add(currentSong);
+        songs.addAll(upcomingSongs);
+
+        playerController.setSongs(songs, currentPosition);
+    }
+
+    public void savePlayerState() {
+        Log.d("Upcoming songs", upcomingSongs.getValue().toString());
+        PlayerState currentPlayerState = new PlayerState(
+                currentSong.getValue(),
+                upcomingSongs.getValue(),
+                currentPlaylist.getValue(),
+                currentArtistId.getValue(),
+                currentAlbumId.getValue(),
+                shuffleMode.getValue(),
+                repeatMode.getValue(),
+                duration.getValue(),
+                currentDuration.getValue(),
+                currentName.getValue(),
+                currentPlaybackSourceType.getValue()
+        );
+        playerRepository.savePlayerState(currentPlayerState);
     }
 
     private void setupPlaybackListener() {
@@ -95,7 +155,6 @@ public class MusicPlayerViewModel extends ViewModel {
             public void onStarted(Song song) {
                 currentSong.postValue(song);
                 playbackState.postValue(PlaybackState.PLAYING);
-                updateNotification();
                 updateUpcomingSongs();
                 updateSongDuration();
                 handler.post(updateProgressRunnable);
@@ -104,14 +163,12 @@ public class MusicPlayerViewModel extends ViewModel {
             @Override
             public void onPaused(Song song) {
                 playbackState.postValue(PlaybackState.PAUSED);
-                updateNotification();
                 handler.removeCallbacks(updateProgressRunnable);
             }
 
             @Override
             public void onCompleted(Song song) {
                 playbackState.postValue(PlaybackState.COMPLETED);
-                updateNotification();
                 handler.removeCallbacks(updateProgressRunnable);
             }
 
@@ -125,20 +182,6 @@ public class MusicPlayerViewModel extends ViewModel {
 
         playerController.addPlaybackListener(playbackListener);
     }
-    private void updateNotification() {
-        Song song = currentSong.getValue();
-        PlaybackState state = playbackState.getValue();
-        ShuffleMode shuffle = shuffleMode.getValue();
-
-        if (song != null && notificationManager != null) {
-            boolean isPlaying = state == PlaybackState.PLAYING;
-            boolean isShuffleOn = shuffle != null && shuffle == ShuffleMode.SHUFFLE_ON;
-
-            notificationManager.showNotification(song, isPlaying, isShuffleOn);
-        }
-    }
-
-
     public void togglePlayPause() {
         PlaybackState currentState = playbackState.getValue();
         if (currentState == PlaybackState.PLAYING) {
@@ -202,7 +245,6 @@ public class MusicPlayerViewModel extends ViewModel {
         if (currentList != null &&
                 currentList.equals(playlist) &&
                 currentPlaybackSourceType.getValue() == PlaybackSourceType.PLAYLIST) {
-
             if (currentState == PlaybackState.PLAYING) {
                 pausePlayback();
             } else if (currentState == PlaybackState.PAUSED || currentState == PlaybackState.SEEKING) {
@@ -335,8 +377,13 @@ public class MusicPlayerViewModel extends ViewModel {
 
         shuffleMode.setValue(nextMode);
         playerController.setShuffle(nextMode);
-        updateNotification();
     }
+
+    public void setShuffleMode(ShuffleMode mode) {
+        shuffleMode.setValue(mode);
+        playerController.setShuffle(mode);
+    }
+
     public void cycleRepeatMode() {
         RepeatMode currentMode = repeatMode.getValue();
         RepeatMode nextMode;
@@ -351,14 +398,17 @@ public class MusicPlayerViewModel extends ViewModel {
 
         repeatMode.setValue(nextMode);
         playerController.setRepeatMode(nextMode);
-
-        updateNotification();
+    }
+    public void setRepeatMode(RepeatMode mode) {
+        repeatMode.setValue(mode);
+        playerController.setRepeatMode(mode);
     }
 
-        public void seekTo(int position) {
-            playerController.seekTo(position);
-            playbackState.setValue(PlaybackState.SEEKING);
-        }
+
+    public void seekTo(int position) {
+        playerController.seekTo(position);
+        playbackState.setValue(PlaybackState.SEEKING);
+    }
 
     private void updateSongDuration() {
         this.duration.setValue(playerController.getDuration());
@@ -366,6 +416,7 @@ public class MusicPlayerViewModel extends ViewModel {
     }
 
     private void updateUpcomingSongs() {
+        Log.d("VM", "Update upcoming songs");
         upcomingSongs.setValue(playerController.getUpcomingSongs());
     }
 

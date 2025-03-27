@@ -280,6 +280,8 @@ public class MusicPlayerController {
         }
     }
 
+
+
     /**
      * Pauses the current playback.
      */
@@ -304,6 +306,7 @@ public class MusicPlayerController {
     public void continuePlaying() {
         checkReleased();
         Log.d(TAG, "Continuing playback");
+        playList.printPlaylist();
         audioPlayer.play();
     }
 
@@ -646,4 +649,21 @@ public class MusicPlayerController {
         }
     }
 
+    public void setSongs(List<Song> upcomingSongs, int currentPosition) {
+        playList.addSongs(upcomingSongs);
+        playList.printPlaylist();
+        playFrom(currentPosition);
+    }
+
+    public void playFrom(int currentPosition) {
+        checkReleased();
+        Song currentSong = playList.getCurrentSong();
+        if (currentSong != null) {
+            Log.d(TAG, "Playing song: " + currentSong.getTitle());
+            audioPlayer.loadAndPlayFrom(currentSong, currentPosition);
+        } else {
+            Log.w(TAG, "No current song to play");
+            checkAndFetchMoreSongs();
+        }
+    }
 }
