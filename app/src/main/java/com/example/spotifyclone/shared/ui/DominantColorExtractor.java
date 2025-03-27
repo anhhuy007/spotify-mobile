@@ -40,7 +40,6 @@ public class DominantColorExtractor {
 
     private static void extractDominantColor(Bitmap bitmap, ColorCallback callback) {
         if (bitmap == null) {
-            Log.d("DominantColorExtractor", "Bitmap is null");
             callback.onColorExtracted(Color.GRAY);
             return;
         }

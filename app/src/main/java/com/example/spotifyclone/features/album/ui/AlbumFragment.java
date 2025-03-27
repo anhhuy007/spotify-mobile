@@ -32,12 +32,10 @@ public class AlbumFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("AlbumFragment", "onCreate");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("AlbumFragment", "onCreateView");
         return inflater.inflate(R.layout.activity_layoutlist, container, false);
     }
 
@@ -56,10 +54,7 @@ public class AlbumFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
-        Log.d("AlbumFragment", "set up");
         albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), album -> {
-            Log.d("AlbumFragment", "Selected album: " + album.getTitle());
-
             // Chuyển đến albumDetailFragment
             navigateToAlbumDetail(album);
         }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -90,7 +85,6 @@ public class AlbumFragment extends Fragment {
                 new AlbumViewModelFactory(requireContext())
         ).get(AlbumViewModel.class);
 
-        Log.d("AlbumFragment", "viewmodel");
         albumViewModel.fetchAlbumsByIds();
         albumViewModel.getAlbums().observe(getViewLifecycleOwner(), albums -> {
             albumAdapter.setData(albums);

@@ -66,7 +66,7 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
         song_name.setText(args.getSongName());
         song_artist.setText(String.join(" ,",args.getSongArtist()));
         add_to_playlist.setOnClickListener(view1 -> {
-            final String songName = args.getSongName();
+
             final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
             // Cũng nên kiểm tra null
@@ -80,7 +80,7 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
             // Sử dụng Handler với thời gian ngắn hơn
             new Handler(Looper.getMainLooper()).post(() -> {
                 try {
-                    AllPlaylistBottomSheet allPlaylistBottomSheet = AllPlaylistBottomSheet.newInstance(args.getId(), args.getSongName());
+                    AllPlaylistBottomSheet allPlaylistBottomSheet = AllPlaylistBottomSheet.newInstance(args.getId(), args.getSongName(), args.getSongImage());
                     allPlaylistBottomSheet.show(fragmentManager, "AllPlaylistBottomSheet");
                 } catch (Exception e) {
                     Log.e("AlbumBottomSheet", "Error showing AllPlaylistBottomSheet", e);

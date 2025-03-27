@@ -3,15 +3,10 @@ package com.example.spotifyclone.features.search.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,18 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.search.adapter.ClassifyAdapter;
-import com.example.spotifyclone.features.search.adapter.SearchAdapter;
 import com.example.spotifyclone.features.search.adapter.SearchAllAdapter;
 import com.example.spotifyclone.features.search.model.SearchItem;
-import com.example.spotifyclone.features.search.viewmodel.SearchClassifyViewModel;
-import com.example.spotifyclone.features.search.viewmodel.SearchClassifyViewModelFactory;
 import com.example.spotifyclone.features.search.viewmodel.SearchViewModel;
 import com.example.spotifyclone.features.search.viewmodel.SearchViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SearchAllResultFragment extends Fragment {
     private RecyclerView recyclerView;
@@ -205,8 +196,6 @@ public class SearchAllResultFragment extends Fragment {
 
 
                     }, 1000);
-
-
                 }
                 else if(layoutManager!=null&&lastVisibleItemPosition>=totalItem-1&&isFiltering){
                     currentClassifyPage++;

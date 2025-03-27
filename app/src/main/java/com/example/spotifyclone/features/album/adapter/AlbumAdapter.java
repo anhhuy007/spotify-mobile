@@ -95,7 +95,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
                     album.getArtists_name() != null ? String.join(", ", album.getArtists_name()) : "Unknown Artist"
             );
 
-            Log.d("Album Adapter", album.getCoverUrl());
             int radius = 20;
             Glide.with(context)
                     .load(album.getCoverUrl())

@@ -23,15 +23,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.search.adapter.SearchAdapter;
-import com.example.spotifyclone.features.search.inter.SearchMainCallbacks;
 import com.example.spotifyclone.features.search.model.SearchItem;
 import com.example.spotifyclone.features.search.viewmodel.SearchViewModel;
 import com.example.spotifyclone.features.search.viewmodel.SearchViewModelFactory;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchSuggestFragment extends Fragment {
     // SearchSuggestFragment code here
@@ -43,8 +39,6 @@ public class SearchSuggestFragment extends Fragment {
     private Button allresult;
     @Override
     public void onAttach(@NonNull Context context) {
-        Log.d("Search", "onAttach");
-
         super.onAttach(context);
     }
 
@@ -63,13 +57,13 @@ public class SearchSuggestFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_search_suggest, container, false);
-        if(view==null){
-            Log.d("Search", "onCreateView null");
-        }
-        else {
-            Log.d("Search", "not null");
-
-        }
+//        if(view==null){
+//            Log.d("Search", "onCreateView null");
+//        }
+//        else {
+//            Log.d("Search", "not null");
+//
+//        }
         return view;
     }
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
@@ -88,7 +82,6 @@ public class SearchSuggestFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String searchQuery = searchInput.getText().toString().trim();
-                Log.d("Search_suggest", "Onclik"+searchQuery);
                 // Điều hướng và truyền dữ liệu
                 SearchSuggestFragmentDirections.ActionSearchSuggestFragmentToSearchAllResultFragment action =
                         SearchSuggestFragmentDirections.actionSearchSuggestFragmentToSearchAllResultFragment(searchQuery);
@@ -107,17 +100,16 @@ public class SearchSuggestFragment extends Fragment {
 
         searchAdapter = new SearchAdapter(requireContext(), new ArrayList<>(), item -> {
             if ("song".equals(item.getType())) {
-                Log.d("SearchSuggest", "Clicked on a song");
+
             }
             if ("album".equals(item.getType())) {
-                Log.d("SearchSuggest", "Got in here album");
                 navigateToAlbumDetail(item);
             }
             if ("genre".equals(item.getType())) {
-                Log.d("SearchSuggest", "Clicked on a genre");
+
             }
             if ("artist".equals(item.getType())) {
-                Log.d("SearchSuggest", "Clicked on an artist");
+
             }
         });
         recyclerView.setAdapter(searchAdapter);
@@ -145,7 +137,6 @@ public class SearchSuggestFragment extends Fragment {
         ).get(SearchViewModel.class);
         searchViewModel.getItems().observe(getViewLifecycleOwner(), items -> {
             if (items == null) {
-                Log.d("SearchDebug", "Search result is NULL!");
                 recyclerView.setVisibility(View.GONE);
                 noResultText.setVisibility(View.VISIBLE);
                 searchAdapter.setData(new ArrayList<>());
@@ -154,12 +145,10 @@ public class SearchSuggestFragment extends Fragment {
 
 //            List<SearchItem> items = searchResult.getItems();
             if (items != null && !items.isEmpty()) {
-                Log.d("SearchDebug", "Number of items: " + items.size());
                 searchAdapter.setData(items);
                 recyclerView.setVisibility(View.VISIBLE);
                 noResultText.setVisibility(View.GONE);
             } else {
-                Log.d("SearchDebug", "Search result is empty!");
                 recyclerView.setVisibility(View.GONE);
                 noResultText.setVisibility(View.VISIBLE);
                 searchAdapter.setData(new ArrayList<>());

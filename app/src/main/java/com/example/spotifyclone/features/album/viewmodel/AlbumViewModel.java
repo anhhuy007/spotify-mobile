@@ -29,7 +29,6 @@ public class AlbumViewModel extends ViewModel {
 
     public AlbumViewModel(AlbumService albumService)
     {
-        Log.d("Album viewmodel", "constructor");
         this.albumService=albumService;
     }
     public void fetchAlbumsByIds(){
@@ -99,7 +98,6 @@ public class AlbumViewModel extends ViewModel {
     public void fetchAlbumSongs(String album_id)//return list of album_songs
     {
         isLoading.setValue(true);
-        Log.d("AlbumViewModel", "fetch album song"+album_id);
 
         albumService.getSongs(album_id).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() { // Load genre data
             @Override
@@ -107,7 +105,6 @@ public class AlbumViewModel extends ViewModel {
                 try {
                     isLoading.setValue(false);
                     if (response.isSuccessful()) {
-                        Log.d("AlbumViewModel", "Response successful");
                         if (response.body().getData().getItems() != null) {
                             if (response.body().isSuccess()) {
                                 album_songs.setValue(response.body().getData().getItems());
@@ -131,6 +128,9 @@ public class AlbumViewModel extends ViewModel {
             }
         });
     }
+
+
+
 
     public LiveData<List<Song>> getSongs(){
         return album_songs;

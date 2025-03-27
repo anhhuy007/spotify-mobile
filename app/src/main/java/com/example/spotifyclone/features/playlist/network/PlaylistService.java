@@ -28,6 +28,21 @@ public interface PlaylistService {
     @FormUrlEncoded
     Call<APIResponse<Void>> createPlaylist(
             @Field("id") String song_id,
-            @Field("name") String playlistName
+            @Field("name") String playlistName,
+            @Field("image") String playlistImage
     );
+
+    @POST("playlist/add-song")
+    @FormUrlEncoded
+    Call<APIResponse<Void>> addSongToPlaylist(
+            @Field("playlistId") String playlistId,
+            @Field("songId") String song_id
+    );
+
+    @GET("playlist/playlist-by-id/{id}")
+    Call <APIResponse<Playlist>> getPlaylistById(@Path("id") String playlist_id);
+
+    @GET("playlist/playlist-songs/{id}")
+    Call <APIResponse<PaginatedResponse<Song>>>getPlaylistSongs(@Path("id") String playlist_id);
+
 }

@@ -4,71 +4,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/rounded_gray_background"
+    android:background="@color/white"
+   >
 
-    >
-
-    <!-- Tiêu đề -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/gray"
-        android:padding="5dp">
+        android:orientation="horizontal"
+        android:background="#111111"
+        android:padding="20dp">
 
-        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hủy"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/avenir_next_bold"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="8dp"
             android:text="Thêm vào danh sách phát"
+            android:fontFamily="@font/avenir_next_bold"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@color/text_color" />
-
     </LinearLayout>
 
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!-- Nút "Danh sách phát mới" (tùy chọn) -->
+
+    </LinearLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/white">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/newPlaylistButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
                 android:text="Danh sách phát mới"
+                android:fontFamily="@font/avenir_next_bold"
                 android:textColor="@color/background_color"
                 android:backgroundTint="@color/text_color"
                 android:layout_marginBottom="16dp"
-                android:padding="12dp"
-                app:cornerRadius="20dp"
-            />
+                android:padding="15dp"
+                app:cornerRadius="20dp"/>
 
-            <!-- Các mục danh sách phát (dùng RecyclerView hoặc LinearLayout) -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/playlist_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:maxHeight="400dp"
                 android:layout_marginBottom="16dp"/>
         </LinearLayout>
 
-
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
     <!-- Nút "Xong" -->
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/done_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/colorPrimary"
         android:text="Xong"
         android:textColor="@color/background_color"
         android:layout_marginBottom="16dp"

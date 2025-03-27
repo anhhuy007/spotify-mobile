@@ -90,16 +90,8 @@ public class AlbumDetailFragment extends Fragment {
             artistNames = Arrays.asList(artist_names_stringarray);
             artistUrl=getArguments().getString("artist_url");
 
-            if(artistNames==null){
-                Log.d("AlbumDetailFragment", "Failed to fetch arristname");
 
-            }
-            else {
-                Log.d("AlbumDetailFragment", String.join(" ",artistNames));
-
-            }
         } else {
-            Log.e("AlbumDetailFragment", "Arguments is null");
             NavHostFragment.findNavController(this).navigateUp();
             return;
         }
@@ -127,11 +119,6 @@ public class AlbumDetailFragment extends Fragment {
     }
 
     private void setupUI() {
-//        // Set artist names
-//        String artistNamesJoined = (artistNames != null && !artistNames.isEmpty())
-//            ? TextUtils.join(", ", artistNames)
-//            : "Unknown Artist";
-//
         // Load album image
         artist_name.setText(String.join(" ,", artistNames));Glide.with(requireContext())
                 .load(coverUrl)
@@ -180,7 +167,7 @@ public class AlbumDetailFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 //        songAdapter = new AlbumSongAdapter(requireContext(), new ArrayList<>(), 3);
         // Khởi tạo adapter và truyền sự kiện click
-        songAdapter = new AlbumSongAdapter(getContext(), albumSong, 5, (songId, songImage, songTitle,  authorNames, view1) -> {
+        songAdapter = new AlbumSongAdapter(getContext(), albumSong, 3, (songId, songImage, songTitle,  authorNames, view1) -> {
             AlbumDetailFragmentDirections.ActionNavAlbumDetailToAlbumBottomSheet action =
                     AlbumDetailFragmentDirections.actionNavAlbumDetailToAlbumBottomSheet(
                             songId,
@@ -238,7 +225,6 @@ public class AlbumDetailFragment extends Fragment {
         ).get(AlbumViewModel.class);
 
         albumViewModel.getSongs().observe(getViewLifecycleOwner(), songs -> {
-            Log.d("AlbumDetailFragmentSong", "Songs: " + songs);
             albumSong=songs;
             songAdapter.setData(songs);
         });

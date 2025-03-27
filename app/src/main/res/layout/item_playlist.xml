@@ -3,35 +3,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/playlist_cover"
-        android:layout_width="40dp"
-        android:layout_height="40dp"/>
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="10dp"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
         <TextView
             android:id="@+id/playlist_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="hello"/>
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/text_color"
+            android:fontFamily="@font/avenir_next"
+            />
         <TextView
             android:id="@+id/number_songs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="hello"/>
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/text_color"
+            android:fontFamily="@font/avenir_next"
+
+            />
 
     </LinearLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
     <com.example.spotifyclone.features.playlist.ui.CircleCheckBox
         android:id="@+id/circleCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:tickColor="#FFFFFF"
-        app:textColor="#000000"
-        app:innerCircleColor="#00CFAD"
-        app:outerCircleColor="#00CFAD"
-        app:circleBorderColor="#00CFAD"/>
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        app:tickColor="@color/white"
+        app:textColor="@color/white"
+        app:innerCircleColor="@color/colorPrimary"
+        app:outerCircleColor="#444444"
+        app:circleBorderColor="#CCCCCC"/>
 
 </LinearLayout>

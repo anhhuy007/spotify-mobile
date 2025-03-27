@@ -14,6 +14,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:background="#6666"
+        android:drawableTint="@color/text_color"
         android:drawableLeft="@drawable/ic_search"
         android:drawablePadding="8dp"
         android:fontFamily="@font/avenir_next"

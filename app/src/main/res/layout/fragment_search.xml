@@ -13,15 +13,16 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@color/white"
+        android:background="@drawable/rounded_edit_text"
         android:drawableLeft="@drawable/ic_search"
-        android:drawablePadding="8dp"
+        android:drawablePadding="10dp"
         android:focusable="false"
         android:clickable="true"
         android:fontFamily="@font/avenir_next"
         android:hint="@string/search_text"
+        android:textColorHint="@color/background_color"
         android:padding="12dp"
-        android:textColor="@color/text_color" />
+        android:textColor="@color/background_color" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

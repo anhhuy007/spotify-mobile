@@ -46,7 +46,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
                         <ImageView
-                            android:id="@+id/album_image"
+                            android:id="@+id/playlist_image"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:scaleType="centerCrop"
@@ -88,9 +88,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/albumlayout">
+            android:id="@+id/playlist_layout">
             <TextView
-                android:id="@+id/artist_name"
+                android:id="@+id/playlist_name"
                 android:layout_width="wrap_content"
                 android:fontFamily="@font/avenir_next"
                 android:layout_height="wrap_content"
@@ -101,18 +101,34 @@
                 android:textSize="16sp"
                 />
 
-            <TextView
-                android:id="@+id/information"
+            <!--            Display total time-->
+<!--            <TextView-->
+<!--                android:id="@+id/information"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:text="@string/follower_string"-->
+<!--                android:fontFamily="@font/avenir_next"-->
+<!--                android:textColor="@color/text_color"-->
+<!--                android:textSize="14sp"-->
+<!--                />-->
+
+<!--            User profile-->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/follower_string"
-                android:fontFamily="@font/avenir_next"
-                android:textColor="@color/text_color"
-                android:textSize="14sp"
-                />
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_image"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_name"/>
+            </LinearLayout>
 
 
             <LinearLayout
@@ -147,24 +163,24 @@
                         android:layout_marginEnd="5dp"/>
 
                     <ImageButton
-                        android:id="@+id/addButton"
+                        android:id="@+id/downloadButton"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/add_button_description"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_add"
+                        android:src="@drawable/ic_download"
                         app:tint="@color/text_color"
                         android:layout_marginEnd="5dp"/> <!-- Khoảng cách 5dp -->
 
                     <ImageButton
-                        android:id="@+id/downloadButton"
+                        android:id="@+id/people_add"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/download_description"
+                        android:contentDescription="add_collab"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_download"
+                        android:src="@drawable/ic_people_add"
                         app:tint="@color/text_color"
                         android:layout_marginEnd="5dp"
                         />
@@ -214,6 +230,43 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp">z
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="Thêm"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp"
+                    app:chipIcon="@drawable/ic_plus"
+                    app:chipIconSize="24dp"
+                    app:chipIconTint="@color/text_color"
+                    app:chipStartPadding="4dp"
+                    app:chipEndPadding="8dp"
+                    app:chipMinHeight="32dp"
+                    style="@style/Widget.MaterialComponents.Chip.Action"/>
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="Chỉnh sửa"
+                    android:textColor="@color/text_color"
+                    android:textSize="12sp"
+                    app:chipIcon="@drawable/ic_write"
+                    app:chipIconSize="24dp"
+                    app:chipIconTint="@color/text_color"
+                    app:chipStartPadding="4dp"
+                    app:chipEndPadding="8dp"
+                    app:chipMinHeight="32dp"
+                    style="@style/Widget.MaterialComponents.Chip.Action"/>
+
+            </LinearLayout>
+
 
             <!-- Danh sách bài hát -->
             <androidx.recyclerview.widget.RecyclerView
@@ -231,55 +284,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="20sp"
                 android:textColor="@color/text_color"
-                android:text="@string/artist_string"
+                android:textSize="20sp"
                 android:fontFamily="@font/avenir_next_bold"
+                android:text="Các bài hát được đề xuất"
                 />
-
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                >
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/artist_image"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="16dp"
-                    android:src="@drawable/ic_launcher_foreground"
-                    app:shapeAppearanceOverlay="@style/CircleImageView"/>
-                <TextView
-                    android:id="@+id/artist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="16dp"
-                    android:textColor="@color/text_color"
-                    android:fontFamily="@font/avenir_next"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:textSize="14sp"
-                    />
-
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/artist_album_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/text_color"
-                android:textSize="20sp"
-                android:fontFamily="@font/avenir_next_bold"
-                />
-            <!--        Danh sach album cua nghe si-->
+                android:textSize="15sp"
+                android:fontFamily="@font/avenir_next"
+                android:text="Dựa trên các bài hát trong playlist này"/>
+
+            <!--        Các bài hat duoc de xuat-->
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_marginTop="10dp"
-                android:id="@+id/artist_album"
+                android:id="@+id/song_recommend_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"/>
@@ -296,10 +319,10 @@
                 android:fontFamily="@font/avenir_next_bold"
                 android:textColor="@color/text_color"
                 />
-            <!--        Danh sach album lien quan-->
+            <!--        Danh sach album de xuat-->
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/related_album"
+                android:id="@+id/recommend_albums"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
