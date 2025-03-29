@@ -124,7 +124,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
     private void setupListeners() {
         playButton.setOnClickListener(v-> {
-            viewModel.togglePlayPauseAlbum(albumId, albumTitle);
+            viewModel.togglePlayPause(albumId, albumTitle, MusicPlayerViewModel.PlaybackSourceType.ALBUM);
         });
     }
 
@@ -321,6 +321,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     @Override
     public void onItemClick(Song song) {
         Log.d("AlbumClick", "Song" + song.toString() + "Album" + albumId);
-        viewModel.playAlbumSong(albumId, albumTitle, song);
+        viewModel.playSongsFrom(albumId, albumTitle, MusicPlayerViewModel.PlaybackSourceType.ALBUM,song.getId());
     }
 }
