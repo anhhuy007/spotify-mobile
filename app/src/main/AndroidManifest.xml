@@ -33,14 +33,16 @@
         <receiver android:name=".features.notification.MusicNotificationReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="ACTION_PLAY_PAUSE"/>
-                <action android:name="ACTION_NEXT"/>
-                <action android:name="ACTION_PREVIOUS"/>
-                <action android:name="ACTION_CLOSE"/>
+                <action android:name="com.example.spotifyclone.ACTION_PLAY_PAUSE" />
+                <action android:name="com.example.spotifyclone.ACTION_NEXT" />
+                <action android:name="com.example.spotifyclone.ACTION_PREVIOUS" />
+                <action android:name="com.example.spotifyclone.ACTION_SEEK_TO" />
             </intent-filter>
         </receiver>
 
-<!--        <activity-->
+
+
+        <!--        <activity-->
 <!--            android:name=".features.player.ui.SongLyricsBottomSheetFragment"-->
 <!--            android:exported="false" />-->
 

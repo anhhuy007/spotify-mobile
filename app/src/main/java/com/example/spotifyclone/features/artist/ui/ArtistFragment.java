@@ -195,7 +195,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         btnPlay.setOnClickListener(v -> {
             Log.d("ArtistId" , artistId + " " + artistName);
-            viewModel.togglePlayPauseArtist(artistId, artistName);
+            viewModel.togglePlayPause(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST);
         });
 
 
@@ -407,6 +407,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
     @Override
     public void onSongClick(PopularSong song) {
-        viewModel.playArtistSong(artistId, artistName, song.getId());
+        viewModel.playSongsFrom(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST,song.getId());
     }
 }

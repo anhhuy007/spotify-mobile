@@ -1,6 +1,9 @@
 package com.example.spotifyclone;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.util.Log;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,6 +18,7 @@ public class SpotifyCloneApplication extends Application {
     private MusicPlayerViewModelFactory musicPlayerViewModelFactory;
     private ViewModelStore appViewModelStore;
     private MusicPlayerController musicPlayerController;
+    private static final String CHANNEL_ID = "SPOTIFY";
 
     @Override
     public void onCreate() {
@@ -29,6 +33,21 @@ public class SpotifyCloneApplication extends Application {
 
         // Initialize the factory once
         musicPlayerViewModelFactory = new MusicPlayerViewModelFactory(this);
+
+        // Initialize notification channel
+        createNotificationChannel();
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is not in the Support Library.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Channel Spotify", NotificationManager.IMPORTANCE_DEFAULT);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this.
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     public static SpotifyCloneApplication getInstance() {

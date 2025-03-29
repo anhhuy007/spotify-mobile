@@ -252,10 +252,9 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         viewModel.getUpcomingSongs().observe(getViewLifecycleOwner(), this::updateUpcomingSongsList);
         viewModel.getPlayType().observe(getViewLifecycleOwner(), type -> {
                     String playTypeText;
-
                     if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
                         playTypeText = "ĐANG PHÁT TỪ ALBUM";
-                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.NONE) {
+                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.RANDOM) {
                         playTypeText = "ĐANG PHÁT CÁC BÀI HÁT ĐƯỢC ĐỀ XUẤT CHO BẠN";
                     } else if (type == MusicPlayerViewModel.PlaybackSourceType.ARTIST) {
                         playTypeText = "ĐANG PHÁT TỪ NGHỆ SĨ";
@@ -264,7 +263,6 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
                     }
                     tvPlayType.setText(playTypeText);
                 });
-
 
         viewModel.getPlayName().observe(getViewLifecycleOwner(), name -> {
             if (name != null && !name.isEmpty()) {

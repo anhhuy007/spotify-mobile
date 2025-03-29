@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.player.model.audio.MusicPlayerController;
-import com.example.spotifyclone.features.player.network.SongService;
+
 import android.content.Context;
 
 public class MusicPlayerViewModelFactory implements ViewModelProvider.Factory {
@@ -25,7 +25,7 @@ public class MusicPlayerViewModelFactory implements ViewModelProvider.Factory {
                 // Get the controller from Application
                 MusicPlayerController controller =
                         SpotifyCloneApplication.getInstance().getMusicPlayerController();
-                cachedViewModel = new MusicPlayerViewModel(applicationContext, controller);
+                cachedViewModel = new MusicPlayerViewModel(controller);
             }
             return (T) cachedViewModel;
         }
