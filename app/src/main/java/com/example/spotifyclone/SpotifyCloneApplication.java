@@ -57,11 +57,6 @@ public class SpotifyCloneApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
         try {
-            Log.d("TERMINATE","Test");
-            if (musicPlayerController != null && !musicPlayerController.isReleased()) {
-                musicPlayerController.close();
-            }
-
             // Clear ViewModel store
             if (appViewModelStore != null) {
                 appViewModelStore.clear();

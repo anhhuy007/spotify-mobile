@@ -114,6 +114,12 @@ public class PlayerNotification {
                                 PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
                                 PlaybackStateCompat.ACTION_SEEK_TO
                 )
+                .addCustomAction(
+                        "shuffle", "Shuffle mode", R.drawable.ic_shuffle_off
+                )
+                .addCustomAction(
+                        "add", "Add", R.drawable.ic_add
+                )
                 .build();
 
         mediaSession.setPlaybackState(playbackState);
@@ -168,6 +174,8 @@ public class PlayerNotification {
             }
         });
 
+        PendingIntent contentIntent = createContentIntent();
+
         // Build notification with improved media style and progress
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -179,12 +187,24 @@ public class PlayerNotification {
                 .setContentTitle(song.getTitle())
                 .setContentText(song.getSingersString())
                 .setLargeIcon(songAvatar)
+                .setContentIntent(contentIntent)
                 .setProgress((int) duration, (int) currentPosition, true)
                 .setOnlyAlertOnce(true)
                 .build();
 
         // Update notification
         notificationManager.notify(NOTIFICATION_ID, notification);
+    }
+
+    private PendingIntent createContentIntent() {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        return PendingIntent.getActivity(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
     }
 
     public void cancelNotification() {

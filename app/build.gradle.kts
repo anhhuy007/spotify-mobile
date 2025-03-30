@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.preference)
     implementation(libs.androidx.material)
     implementation(libs.androidx.media3.session)
+    implementation(libs.androidx.lifecycle.process)
 
     // Testing
     testImplementation(libs.junit)

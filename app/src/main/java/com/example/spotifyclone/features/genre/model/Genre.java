@@ -1,10 +1,13 @@
 package com.example.spotifyclone.features.genre.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class Genre {
+public class Genre implements Parcelable {
     @SerializedName("_id")
     private String _id;
 
@@ -18,15 +21,53 @@ public class Genre {
     private String image_url;
 
     @SerializedName("create_at")
-    private Date create_at; // Đổi tên thành createdAt (camelCase)
+    private Date create_at;
 
     @SerializedName("update_at")
-    private Date update_at; // Đổi tên thành updatedAt (camelCase)
+    private Date update_at;
 
+    // Constructor mặc định
     public Genre() {
-        // Constructor mặc định là cần thiết để Gson hoạt động đúng cách
     }
 
+    // Constructor cho Parcelable
+    protected Genre(Parcel in) {
+        _id = in.readString();
+        name = in.readString();
+        description = in.readString();
+        image_url = in.readString();
+        create_at = new Date(in.readLong());
+        update_at = new Date(in.readLong());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_id);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(image_url);
+        dest.writeLong(create_at != null ? create_at.getTime() : -1);
+        dest.writeLong(update_at != null ? update_at.getTime() : -1);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Genre> CREATOR = new Creator<Genre>() {
+        @Override
+        public Genre createFromParcel(Parcel in) {
+            return new Genre(in);
+        }
+
+        @Override
+        public Genre[] newArray(int size) {
+            return new Genre[size];
+        }
+    };
+
+    // Getter và Setter
     public String get_id() {
         return _id;
     }
