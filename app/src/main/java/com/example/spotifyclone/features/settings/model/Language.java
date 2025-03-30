@@ -3,22 +3,21 @@ package com.example.spotifyclone.features.settings.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Language {
-    @SerializedName("theme")
-    private String theme;
-
+    @SerializedName("language")
+    private String language;
     public Language() {
     }
-    public Language(String theme) {
-        this.theme = theme;
+    public Language(String language) {
+        this.language = language;
     }
 
     // Getters and Setters
-    public String getTheme() {
-        return theme;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setTheme(String username) {
-        this.theme = theme;
+    public void setLanguage(String username) {
+        this.language = language;
     }
 
 }

@@ -12,6 +12,7 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +32,17 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.MainActivity;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.authentication.repository.AuthRepository;
+import com.example.spotifyclone.features.profile.ui.EditProfileFragment;
+import com.example.spotifyclone.features.profile.ui.ProfileFragment;
+import com.example.spotifyclone.features.profile.viewmodel.ProfileViewModel;
+import com.example.spotifyclone.features.settings.viewModel.SettingViewModel;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.utils.Constants;
 
@@ -50,6 +57,9 @@ public class SettingsFragment extends Fragment {
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private ImageView ava;
     private TextView userName;
+
+
+    private SettingViewModel settingViewModel;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -68,12 +78,13 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Apply saved settings before inflating layout
         AuthRepository authRepo = new AuthRepository(getContext());
         User user = authRepo.getUser();
 
         AppCompatDelegate.setDefaultNightMode(user.getTheme().equals("dark") ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-
 
         setLocale(user.getLanguage());
 
@@ -87,15 +98,48 @@ public class SettingsFragment extends Fragment {
 
         initializeViews(view);
 
-        SharedPreferences prefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
-        boolean isDarkMode = prefs.getBoolean("darkMode", false);
-        boolean isEnglish = prefs.getBoolean("isEnglish", false);
-
-        switchTheme.setChecked(isDarkMode);
-        switchLang.setChecked(isEnglish);
-        switchNoti.setChecked(prefs.getBoolean("notificationEnabled", false));
+        initSetting();
 
         setupListeners();
+    }
+
+    private void initSetting(){
+        settingViewModel = new ViewModelProvider(this).get(SettingViewModel.class);
+
+        SharedPreferences prefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        AuthRepository authRepo = new AuthRepository(getContext());
+        User user = authRepo.getUser();
+        settingViewModel.getTheme().observe(getViewLifecycleOwner(), updatedUser -> {
+            if (updatedUser != null) {
+                AppCompatDelegate.setDefaultNightMode(switchTheme.isChecked() ?
+                        AppCompatDelegate.MODE_NIGHT_YES :
+                        AppCompatDelegate.MODE_NIGHT_NO);
+//                requireActivity().recreate();
+            }
+        });
+
+        settingViewModel.getLanguage().observe(getViewLifecycleOwner(), updatedUser -> {
+            if (updatedUser != null) {
+                setLocale(updatedUser);
+            }
+        });
+        switchTheme.setChecked(user.getTheme().equals("dark"));
+        switchLang.setChecked(user.getLanguage().equals("en"));
+        switchNoti.setChecked(prefs.getBoolean("notificationEnabled", false));
+
+        if (user.isPremium()) {
+            freeAccountContainer.setVisibility(View.GONE);
+            premiumAccountContainer.setVisibility(View.VISIBLE);
+        } else {
+            freeAccountContainer.setVisibility(View.VISIBLE);
+            premiumAccountContainer.setVisibility(View.GONE);
+        }
+
+        Glide.with(requireContext())
+                .load(user.getAvatarUrl())
+                .placeholder(R.drawable.loading)
+                .into(ava);
+        userName.setText(user.getUsername());
     }
 
     @Override
@@ -111,6 +155,7 @@ public class SettingsFragment extends Fragment {
         switchNoti.setOnCheckedChangeListener(null);
         switchNoti.setChecked(hasNotificationPermission);
         setupNotificationSwitchListener();
+        initSetting();
     }
 
     private void registerPermissionLauncher() {
@@ -144,21 +189,6 @@ public class SettingsFragment extends Fragment {
         ava = view.findViewById(R.id.user_logo);
         userName = view.findViewById(R.id.user_name);
 
-        userName.setText(Constants.userName);
-
-        Glide.with(requireContext())
-                .load(Constants.userAvatar)
-                .placeholder(R.drawable.loading)
-                .into(ava);
-
-        if (Constants.isPremium) {
-            freeAccountContainer.setVisibility(View.GONE);
-            premiumAccountContainer.setVisibility(View.VISIBLE);
-        } else {
-            freeAccountContainer.setVisibility(View.VISIBLE);
-            premiumAccountContainer.setVisibility(View.GONE);
-        }
-
         // Buttons
         backButton = view.findViewById(R.id.back_button);
     }
@@ -173,27 +203,27 @@ public class SettingsFragment extends Fragment {
 
         // Switches
         switchTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
-            editor.putBoolean("darkMode", isChecked);
-            editor.apply();
-            updateTheme();
+            settingViewModel.updateTheme(isChecked ? "dark":"light");
+            setLocale(isChecked ? "en" : "vi");
         });
 
         switchLang.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE).edit();
-            editor.putBoolean("isEnglish", isChecked);
-            editor.apply();
-            setLocale(isChecked ? "en" : "vi");
-            requireActivity().recreate();
+            settingViewModel.updateLanguage(isChecked ? "en":"vi");
+                   setLocale(isChecked ? "en" : "vi");
+//                     requireActivity().recreate();
+
         });
 
         setupNotificationSwitchListener();
 
         // Account info navigation
         accountInfoContainer.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), MainActivity.class);
-            intent.putExtra("USER_ID", Constants.userID);
-            startActivity(intent);
+            if (getActivity() != null) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(((ViewGroup) requireView().getParent()).getId(), ProfileFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+            }
         });
 
         // Logout button
@@ -291,25 +321,6 @@ public class SettingsFragment extends Fragment {
         switchNoti.setChecked(hasNotificationPermission);
         setupNotificationSwitchListener();
     }
-
-    private void toggleSection(View optionsLayout, ImageView expandArrow) {
-        // Toggle visibility
-        if (optionsLayout.getVisibility() == View.GONE) {
-            optionsLayout.setVisibility(View.VISIBLE);
-            expandArrow.setRotation(90);
-        } else {
-            optionsLayout.setVisibility(View.GONE);
-            expandArrow.setRotation(0);
-        }
-    }
-
-    private void updateTheme() {
-        AppCompatDelegate.setDefaultNightMode(switchTheme.isChecked() ?
-                AppCompatDelegate.MODE_NIGHT_YES :
-                AppCompatDelegate.MODE_NIGHT_NO);
-        requireActivity().recreate();
-    }
-
     private void setLocale(String languageCode) {
         Locale locale = new Locale(languageCode);
         Locale.setDefault(locale);

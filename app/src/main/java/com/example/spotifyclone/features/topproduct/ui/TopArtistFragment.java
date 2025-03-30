@@ -100,6 +100,10 @@ public class TopArtistFragment extends Fragment {
             if (artists != null) {
                 topProductAdapter = new TopArtistAdapter(context, artists);
                 rvTop.setAdapter(topProductAdapter);
+
+                ViewGroup.LayoutParams params = rvTop.getLayoutParams();
+                params.height = (int) (114 * getResources().getDisplayMetrics().density * artists.size() );
+                rvTop.setLayoutParams(params);
             }
         });
         topProductViewModel.fetchItems();

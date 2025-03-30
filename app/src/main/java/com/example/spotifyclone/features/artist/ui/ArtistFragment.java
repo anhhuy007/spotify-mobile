@@ -32,6 +32,7 @@ import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.artist.adapter.AlbumArtistAdapter;
+import com.example.spotifyclone.features.artist.adapter.ArtistAdapter;
 import com.example.spotifyclone.features.artist.adapter.ArtistPlaylistAdapter;
 import com.example.spotifyclone.features.artist.adapter.ArtistSimilarAdapter;
 import com.example.spotifyclone.features.artist.adapter.SongArtistAdapter;
@@ -242,7 +243,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
     private void updateFollowButtonState(boolean isFollowing) {
         if (isFollowing) {
-            btn_follow.setText(getString(R.string.fl));
+            btn_follow.setText(getString(R.string.unfollow));
             btn_follow.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
         } else {
             btn_follow.setText(getString(R.string.follow));
@@ -450,7 +451,9 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
                 .get(FansAlsoLikeViewModel.class);
         similarArtistsViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
-                ArtistSimilarAdapter similarArtistsAdapter = new ArtistSimilarAdapter(context, artists);
+                ArtistSimilarAdapter similarArtistsAdapter = new ArtistSimilarAdapter(context,getActivity(), artists);
+                similarArtistsAdapter.setRootView(rootView);
+
                 rv_similar_artists.setAdapter(similarArtistsAdapter);
             }
         });
