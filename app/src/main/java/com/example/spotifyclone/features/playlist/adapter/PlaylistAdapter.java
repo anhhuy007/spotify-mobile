@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,11 +31,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     private final OnPlaylistClickListener listener;
     private List<Playlist> playlists;
     private final HashSet<String> selectedPlaylists = new HashSet<>(); // Lưu danh sách đã check
+    private final HashSet<String> removeSongPlaylists = new HashSet<>(); // Lưu danh sách đã check>
+    private String currentSongId;
 
-    public PlaylistAdapter(Context context, List<Playlist> playlists, OnPlaylistClickListener listener) {
+    public PlaylistAdapter(Context context, List<Playlist> playlists, OnPlaylistClickListener listener, String currentSongId) {
         this.context = context;
         this.playlists = playlists;
         this.listener = listener;
+        this.currentSongId=currentSongId;
     }
 
     @NonNull
@@ -64,12 +68,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public HashSet<String> getSelectedPlaylists() {
         return selectedPlaylists;
     }
+    public HashSet<String> getRemoveSongPlaylists(){return removeSongPlaylists;}
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView playlist_cover;
         private final TextView playlist_name, number_songs;
         private final CircleCheckBox checkBox;
         private final PlaylistAdapter adapter; // Giữ tham chiếu đến adapter
+
 
         public ViewHolder(@NonNull View itemView, PlaylistAdapter adapter) {
             super(itemView);
@@ -80,23 +86,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             number_songs = itemView.findViewById(R.id.number_songs);
             checkBox = itemView.findViewById(R.id.circleCheckBox);
 
-            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                Playlist playlist = (Playlist) itemView.getTag();
-                if (playlist != null) {
-                    if (isChecked) {
-                        adapter.selectedPlaylists.add(playlist.getId()); // Thêm vào danh sách
-                    } else {
-                        adapter.selectedPlaylists.remove(playlist.getId()); // Xóa khỏi danh sách
-                    }
-                }
-            });
 
-            itemView.setOnClickListener(v -> {
-                Playlist playlist = (Playlist) v.getTag();
-                if (listener != null && playlist != null) {
-                    listener.OnItemClick(playlist);
-                }
-            });
 
         }
 
@@ -106,8 +96,41 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             Glide.with(context).load(playlist.getCoverUrl()).into(playlist_cover);
             itemView.setTag(playlist);
 
-            // Đặt trạng thái checkbox đúng khi cuộn RecyclerView
-            checkBox.setChecked(adapter.selectedPlaylists.contains(playlist.getId()));
+            // Kiểm tra nếu bài hát đã có trong playlist
+            boolean isSongInPlaylist = playlist.getSongIds().contains(currentSongId);
+
+            // Đặt trạng thái checkbox dựa vào danh sách bài hát trong playlist
+            checkBox.setOnCheckedChangeListener(null); // Ngăn chặn vòng lặp sự kiện khi cập nhật UI
+            checkBox.setChecked(isSongInPlaylist&&!removeSongPlaylists.contains(playlist.getId())); // contain song id and user not recheck
+
+
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//                Playlist playlist = (Playlist) itemView.getTag();
+                if (playlist != null) {
+                    if (isChecked) {
+                        if(!isSongInPlaylist)
+                        {
+                            adapter.selectedPlaylists.add(playlist.getId()); // Thêm vào danh sách
+                        }
+                    } else {
+                        if(isSongInPlaylist){
+                            removeSongPlaylists.add(playlist.getId());
+                        }
+                        else{
+                            adapter.selectedPlaylists.remove(playlist.getId()); // Xóa khỏi danh sách
+                        }
+                    }
+                }
+            });
+
+            itemView.setOnClickListener(v -> {
+//                Playlist playlist = (Playlist) v.getTag();
+                if (listener != null && playlist != null) {
+                    Log.d("PlaylistAdapter", "Playlist ID: " + playlist.getId());
+                    listener.OnItemClick(playlist);
+                }
+            });
+
 
         }
     }

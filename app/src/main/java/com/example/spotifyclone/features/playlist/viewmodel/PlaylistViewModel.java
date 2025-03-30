@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.spotifyclone.features.album.model.Album;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.playlist.model.Playlist;
 import com.example.spotifyclone.features.playlist.network.PlaylistService;
@@ -24,12 +25,15 @@ public class PlaylistViewModel extends ViewModel {
     private final PlaylistService playlistService;
     private final MutableLiveData<List<Playlist>> userPlaylists=new MutableLiveData<>();
     private final MutableLiveData<List<Song>> playlistSongs=new MutableLiveData<>();
+    private final MutableLiveData<List<Song>> popularSongs=new MutableLiveData<>();
     private final MutableLiveData<Playlist> playlsitById=new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading=new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage=new MutableLiveData<>();
 
     private final MutableLiveData<APIResponse<Void>> createPlaylistResponse=new MutableLiveData<>();
     private final MutableLiveData<APIResponse<Void>> createAddSongToPlaylist=new MutableLiveData<>();
+    private final MutableLiveData<APIResponse<Void>> deleteSongFromPlaylist=new MutableLiveData<>();
+    private final MutableLiveData<APIResponse<Void>> updatePlaylistInfo=new MutableLiveData<>();
 
     public PlaylistViewModel(PlaylistService playlistService){
         this.playlistService=playlistService;
@@ -94,6 +98,7 @@ public class PlaylistViewModel extends ViewModel {
             public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     createAddSongToPlaylist.setValue(response.body());
+                    fetchPlaylistSong(playlistId); //update playlist data.
                 } else {
                     createAddSongToPlaylist.setValue(new APIResponse<>());
                 }
@@ -117,6 +122,7 @@ public class PlaylistViewModel extends ViewModel {
                     if (response.body().isSuccess()) {
                         Playlist receivedPlaylist = response.body().getData();
                         playlsitById.setValue(receivedPlaylist);
+
                     } else {
                         errorMessage.setValue("Failed to load playlists");
                         Log.e("PlaylistViewModel", "API Response not successful");
@@ -152,7 +158,6 @@ public class PlaylistViewModel extends ViewModel {
                 isLoading.setValue(false);
                 if (response.isSuccessful() && response.body() != null) {
                     if (response.body().isSuccess()) {
-                        Log.d("PlaylistViewModel", "success"+response.body().getData().getItems().get(0).getTitle());
                         playlistSongs.setValue(response.body().getData().getItems());
                     } else {
                         errorMessage.setValue("Failed to load playlists");
@@ -182,6 +187,77 @@ public class PlaylistViewModel extends ViewModel {
     }
 
 
+    public void removeSongFromPlaylist(String playlistId, String songId) {
+        playlistService.removeSongFromPlaylist(playlistId, songId).enqueue(new Callback<APIResponse<Void>>() {
+            @Override
+            public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    deleteSongFromPlaylist.setValue(response.body());
+                    fetchPlaylistSong(playlistId); //fetch again to update UI.
+                } else {
+                    deleteSongFromPlaylist.setValue(new APIResponse<>());
+                }
+            }
+            @Override
+            public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
+                deleteSongFromPlaylist.setValue(new APIResponse<>());
+            }
+        });
+    }
+
+    public void fetchPopularSongs(String playlistId)
+    {
+        isLoading.setValue(true);
+        playlistService.getSongPopular(playlistId, 5).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+                isLoading.setValue(false);
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().isSuccess()) {
+                        popularSongs.setValue(response.body().getData().getItems());
+                    } else {
+                        errorMessage.setValue("Failed to load songs");
+                    }
+                } else {
+                    if (response.errorBody() != null) {
+                        try {
+                            Log.e("PlaylistViewModel", "Response Error: " + response.errorBody().string());
+                        } catch (Exception e) {
+                            Log.e("PlaylistViewModel", "Lỗi khi đọc errorBody", e);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+                isLoading.setValue(false);
+                errorMessage.setValue(t.getMessage());
+                Log.e("PlaylistViewModel", "onFailure: API không gọi được - " + t.getMessage(), t);
+            }
+        });
+
+    }
+
+    public void updatePlaylistInfo(String playlistId, String playlist_name, String playlist_description) {
+        playlistService.updateInfo(playlistId, playlist_name, playlist_description).enqueue(new Callback<APIResponse<Void>>() {
+            @Override
+            public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    updatePlaylistInfo.setValue(response.body());
+                    fetchPlaylistById(playlistId); //update playlistdata
+                } else {
+                    updatePlaylistInfo.setValue(new APIResponse<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
+                updatePlaylistInfo.setValue(new APIResponse<>());
+            }
+        });
+
+    }
 
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
@@ -191,6 +267,7 @@ public class PlaylistViewModel extends ViewModel {
     }
     public LiveData<List<Playlist>> getUserPlaylist(){return userPlaylists;}
     public LiveData<List<Song>> getPlaylistSongs(){return playlistSongs;}
+    public LiveData<List<Song>> getPopularSongs(){return popularSongs;}
     public LiveData<Playlist> getPlaylistById(){
         return playlsitById;
     }
@@ -200,6 +277,15 @@ public class PlaylistViewModel extends ViewModel {
     public LiveData<APIResponse<Void>> getAddSongToPlaylistResponse() {
         return createAddSongToPlaylist;
     }
+    public LiveData<APIResponse<Void>> getRemoveSongFromPlaylistResponse() {
+        return deleteSongFromPlaylist;
+    }
+
+    public LiveData<APIResponse<Void>> getUpdatePlaylistResponse() {
+        return updatePlaylistInfo;
+    }
+
+
 
 
 

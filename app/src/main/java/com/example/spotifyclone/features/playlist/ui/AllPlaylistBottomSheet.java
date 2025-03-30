@@ -104,6 +104,9 @@ public class AllPlaylistBottomSheet extends BottomSheetDialogFragment {
             for (String playlistId : selectedPlaylists) {
                 playlistViewModel.addSongToPlaylist(playlistId, songId);
             }
+            for (String playlistId : playlistAdapter.getRemoveSongPlaylists()) {
+                playlistViewModel.removeSongFromPlaylist(playlistId, songId);
+            }
             dismiss();
         });
         // cancel
@@ -145,7 +148,7 @@ public class AllPlaylistBottomSheet extends BottomSheetDialogFragment {
 
         playlistAdapter = new PlaylistAdapter(requireContext(), new ArrayList<>(), playlist -> {
 
-        });
+        }, songId);
         recyclerView.setAdapter(playlistAdapter);
     }
 

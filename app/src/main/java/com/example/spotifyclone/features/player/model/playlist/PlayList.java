@@ -10,7 +10,7 @@ import java.util.List;
 public class PlayList {
 
     private static final String TAG = "PlayList";
-    public final List<Song> songList;
+    public List<Song> songList;
     private int currentIndex;
 
     public PlayList(List<Song> songs, ShuffleMode shuffleMode) {
@@ -20,6 +20,10 @@ public class PlayList {
         if (shuffleMode == ShuffleMode.SHUFFLE_ON) {
             shuffle();
         }
+    }
+
+    public void setSongList(List<Song> songs) {
+        songList.addAll(songs);
     }
 
     public Song getCurrentSong() {
@@ -108,9 +112,13 @@ public class PlayList {
     }
 
     public void shuffle() {
-        Log.d(TAG, "Shuffling playlist from index " + currentIndex);
-        Collections.shuffle(songList.subList(currentIndex +  1, songList.size()));
+        if (songList.size() - (currentIndex + 1) > 2) {
+            Collections.shuffle(songList.subList(currentIndex + 1, songList.size()));
+        } else {
+            Log.d(TAG, "Not enough songs to shuffle.");
+        }
     }
+
 
     public void printPlaylist() {
         Log.d(TAG, "Playlist:");
@@ -120,6 +128,7 @@ public class PlayList {
     }
 
     public List<Song> getUpcomingSongs() {
+        Log.d("Upcoming index", currentIndex + 1 + "");
         return songList.subList(currentIndex + 1, songList.size());
     }
 
@@ -148,5 +157,17 @@ public class PlayList {
 
         Log.d(TAG, "Prioritized song: " + song.getTitle() + " at index " + currentIndex);
         printPlaylist();
+    }
+    public void addFirstSong(Song song) {
+        if (songList == null) {
+            songList = new ArrayList<>();
+        }
+        songList.removeIf(s -> s.getId().equals(song.getId()));
+        songList.add(0, song);
+    }
+
+    public void clear() {
+        songList.clear();
+        currentIndex = 0;
     }
 }

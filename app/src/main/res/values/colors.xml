@@ -32,6 +32,10 @@
     <color name="blackAlpha">#88000000</color>
     <color name="gray">#595959</color>
     <color name="lightGrey">#E0E0E0</color>
+    <color name="darkGrey1">#808080</color>
+
+    <color name="darkGrey">#262626</color>
+
     <color name="blue">#2196F3</color>
 
     <color name="spotify_green">#1DB954</color>

@@ -14,11 +14,13 @@ public class Playlist {
     @SerializedName("description")
     private String description;
 
-    @SerializedName("cover_url")
-    private String coverUrl;
 
     @SerializedName("owner_id")
     private String ownerId;
+
+    @SerializedName("cover_url")
+    private String coverUrl;
+
 
     @SerializedName("song_ids")
     private List<String> songIds;

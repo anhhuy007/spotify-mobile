@@ -1,5 +1,10 @@
 package com.example.spotifyclone;
 
+import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -24,6 +31,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.spotifyclone.features.authentication.network.TokenManager;
 import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.home.ui.HomeFragment;
 import com.example.spotifyclone.features.library.ui.LibraryFragment;
@@ -35,9 +43,12 @@ import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.features.premium.ui.PremiumFragment;
 import com.example.spotifyclone.features.search.ui.SearchFragment;
 import com.example.spotifyclone.shared.model.User;
+import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
+import android.Manifest;
 
 import android.util.Log;
 
@@ -49,12 +60,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MusicPlayerViewModel viewModel;
     private ProgressBar miniPlayerProgress;
     private EditText search_input; // genre-ids
-
     private AlbumViewModel albumViewModel;
     private NavController navController;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private User currentUser;
+
+    private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupListeners();
         observeViewModel();
         setupNavigation();
+        checkNotificationPermission();
     }
 
     private void initUser() {
@@ -108,7 +121,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_profile) {
             // TODO: Handle navigation to profile
             // Could use Navigation Component to navigate to profileFragment
-//             navController.navigate(R.id.profileFragment);
+           navController.navigate(R.id.profileFragment);
+//            navController.navigate(R.id.topArtist);
         } else if (id == R.id.nav_settings) {
             // TODO: Handle navigation to settings
              navController.navigate(R.id.settingsFragment);
@@ -159,6 +173,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return app.getAppViewModelStore();
             }
         }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
+
+        viewModel.restorePlayerState();
     }
 
     private void setupListeners() {
@@ -209,6 +225,77 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 miniPlayerImage.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
             }
+
+            setupGradientBackground(miniPlayer, song.getImageUrl());
         }
+    }
+
+    private void setupGradientBackground(View view, String coverUrl) {
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        boolean isDarkMode = (nightModeFlags == Configuration.UI_MODE_NIGHT_YES);
+        int secondColor = isDarkMode ? Color.BLACK : Color.WHITE;
+
+        DominantColorExtractor.getDominantColor(this, coverUrl, color -> {
+            GradientDrawable gradient = new GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    new int[]{color, secondColor}
+            );
+            float cornerRadius = 16f;
+            gradient.setCornerRadius(cornerRadius);
+
+            view.findViewById(R.id.mini_player).setBackground(gradient);
+        });
+    }
+
+    private void checkNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                        NOTIFICATION_PERMISSION_REQUEST_CODE);
+            } else {
+                retrieveFCMToken();
+            }
+        } else {
+            retrieveFCMToken();
+        }
+    }
+
+    private void retrieveFCMToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w("FCM", "Fetching FCM registration token failed", task.getException());
+                        return;
+                    }
+                    String token = task.getResult();
+                    Log.d("FCM", "FCM Token: " + token);
+                    sendTokenToServer(token);
+                });
+    }
+
+    private void sendTokenToServer(String token) {
+        // Implement API call to send token to your backend
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("FCM", "Notification permission granted");
+                retrieveFCMToken();
+            } else {
+                Log.w("FCM", "Notification permission denied");
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("PAUSE", "test");
+        viewModel.savePlayerState();
     }
 }

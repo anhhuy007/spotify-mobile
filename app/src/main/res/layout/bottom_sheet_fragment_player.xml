@@ -8,7 +8,6 @@
     android:fillViewport="true"
     android:scrollbars="none"
     >
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,58 +15,83 @@
         android:id="@+id/root_layout">
 
         <!-- Top Bar -->
-        <ImageButton
-            android:id="@+id/btnDown"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Go back"
-            android:src="@drawable/ic_arrow_down"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvPlaylistInfo"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:text="Now Playing"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp"
+            android:id="@+id/topBar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/btnOptions"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Options"
-            android:src="@drawable/ic_more_vert"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Album Cover -->
+            <!-- Nút Back -->
+            <ImageButton
+                android:id="@+id/btnDown"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Go back"
+                android:src="@drawable/ic_arrow_down"
+                android:scaleType="centerInside"/>
+
+            <!-- Thông tin bài hát (Căn giữa) -->
+            <LinearLayout
+                android:id="@+id/tvPlayInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tvPlayType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Now Playing"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="14sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tvPlayName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Song Name"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <!-- Nút Options -->
+            <ImageButton
+                android:id="@+id/btnOptions"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Options"
+                android:src="@drawable/ic_more_vert"
+                android:scaleType="centerInside"/>
+        </LinearLayout>
+
+
+    <!-- Album Cover -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cvSongCover"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="80dp"
-            android:layout_marginBottom="80dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="30dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPlaylistInfo"
+            app:layout_constraintTop_toBottomOf="@+id/topBar"
             app:layout_constraintBottom_toTopOf="@+id/tvSongTitle">
 
             <ImageView
@@ -86,7 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="70dp"
             android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:maxLines="1"

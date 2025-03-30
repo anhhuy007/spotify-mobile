@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -44,5 +45,26 @@ public interface PlaylistService {
 
     @GET("playlist/playlist-songs/{id}")
     Call <APIResponse<PaginatedResponse<Song>>>getPlaylistSongs(@Path("id") String playlist_id);
+
+    @DELETE("playlist/{playlistId}/remove-song/{songId}")
+    Call<APIResponse<Void>> removeSongFromPlaylist(
+            @Path("playlistId") String playlistId,
+            @Path("songId") String songId
+    );
+
+    @GET("song/popular/{id}")
+    Call<APIResponse<PaginatedResponse<Song>>> getSongPopular(@Path("id") String playlist_id, @Query("limit") int limit);
+
+    @POST("playlist/{playlistId}/update-info")
+    @FormUrlEncoded
+    Call<APIResponse<Void>> updateInfo(
+            @Path("playlistId") String playlistId,
+            @Field("name") String playlist_name,
+            @Field("description") String playlist_description
+    );
+
+
+
+
 
 }

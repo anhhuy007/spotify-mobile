@@ -57,13 +57,6 @@ public class SearchSuggestFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_search_suggest, container, false);
-//        if(view==null){
-//            Log.d("Search", "onCreateView null");
-//        }
-//        else {
-//            Log.d("Search", "not null");
-//
-//        }
         return view;
     }
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){

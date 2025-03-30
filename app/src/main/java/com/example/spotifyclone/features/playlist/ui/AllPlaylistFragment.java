@@ -45,7 +45,6 @@ public class AllPlaylistFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
-
         setupViewModel();
         setupRecyclerView(view);
 
@@ -58,7 +57,7 @@ public class AllPlaylistFragment extends Fragment {
         playlistAdapter = new PlaylistAdapter(requireContext(), new ArrayList<>(), playlist -> {
             // Chuyển đến
             navigateToPlaylistDetail(playlist);
-        });
+        }, " "); // add song Id,
 
         recyclerView.setAdapter(playlistAdapter);
     }

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_nav_home_to_nav_album_detail"
             app:destination="@id/nav_album_detail" />
+        <action
+            android:id="@+id/action_homeFragment_to_artistDetailFragment"
+            app:destination="@id/artistFragment" />
     </fragment>
 
     <fragment
@@ -125,7 +128,90 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.spotifyclone.features.settings.ui.SettingsFragment"
         android:label="Settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.spotifyclone.features.profile.ui.ProfileFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment2"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_playlistDetailFragment"
+            app:destination="@id/playlistDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.spotifyclone.features.profile.ui.EditProfileFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_edit_profile" />
+
+    <fragment
+        android:id="@+id/artistFragment"
+        android:name="com.example.spotifyclone.features.artist.ui.ArtistFragment"
+        android:label="Artist"
+        tools:layout="@layout/fragment_artist_detail_ui" >
+        <action
+            android:id="@+id/action_artistFragment_to_artistOverallFragment"
+            app:destination="@id/artistOverallFragment" />
+        <action
+            android:id="@+id/action_artistFragment_to_artistDiscographyFragment"
+            app:destination="@id/artistDiscographyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/artistListFragment"
+        android:name="com.example.spotifyclone.features.artist.ui.ArtistListFragment"
+        android:label="Artist"
+        tools:layout="@layout/fragment_artist_list" >
+        <action
+            android:id="@+id/action_artistListFragment_to_artistFragment"
+            app:destination="@id/artistFragment" />
+        <action
+            android:id="@+id/action_artistFragment_to_artistOverallFragment"
+            app:destination="@id/artistOverallFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/artistOverallFragment"
+        android:name="com.example.spotifyclone.features.artist.ui.ArtistOverallFragment"
+        android:label="Artist"
+        tools:layout="@layout/fragment_artist_detail" >
+        <action
+            android:id="@+id/action_artistOverallFragment_to_artistDiscographyFragment"
+            app:destination="@id/artistDiscographyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/artistDiscographyFragment"
+        android:name="com.example.spotifyclone.features.artist.ui.DiscographyFragment"
+        android:label="Artist"
+        tools:layout="@layout/fragment_discography" />
+
+    <fragment
+        android:id="@+id/topAlbum"
+        android:name="com.example.spotifyclone.features.topproduct.ui.TopAlbumFragment"
+        android:label="TopProduct"
+        tools:layout="@layout/fragment_top_product" />
+
+    <fragment
+        android:id="@+id/topSong"
+        android:name="com.example.spotifyclone.features.topproduct.ui.TopSongFragment"
+        android:label="TopProduct"
+        tools:layout="@layout/fragment_top_product" />
+
+    <fragment
+        android:id="@+id/topArtist"
+        android:name="com.example.spotifyclone.features.topproduct.ui.TopArtistFragment"
+        android:label="TopProduct"
+        tools:layout="@layout/fragment_top_product" />
 
     <fragment
         android:id="@+id/searchSuggestFragment"
@@ -254,7 +340,40 @@
         <argument
             android:name="playlist_image"
             app:argType="string"/>
+        <action
+            android:id="@+id/action_playlistDetailFragment_to_editPlaylistBottomSheet"
+            app:destination="@id/editPlaylistBottomSheet" />
 
 
     </fragment>
+
+
+    <dialog
+        android:id="@+id/playerBottomSheetFragment"
+        android:name="com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment"
+        android:label="Player"
+        tools:layout="@layout/bottom_sheet_fragment_player">
+        <action
+            android:id="@+id/action_playerBottomSheet_to_artistFragment"
+            app:destination="@id/artistFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/editPlaylistBottomSheet"
+        android:name="com.example.spotifyclone.features.playlist.ui.EditPlaylistBottomSheet"
+        android:label="EditPlaylistBottomSheet"
+        tools:layout="@layout/bottom_sheet_playlist_edit">
+        <argument
+            android:name="playlist_id"
+            app:argType="string"/>
+        <argument
+            android:name="playlist_name"
+            app:argType="string"/>
+        <argument
+            android:name="playlist_image"
+            app:argType="string"/>
+        <argument
+            android:name="playlist_description"
+            app:argType="string"/>
+    </dialog>
+
 </navigation>

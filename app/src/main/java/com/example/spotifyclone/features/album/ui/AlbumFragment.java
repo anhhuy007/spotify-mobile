@@ -85,6 +85,7 @@ public class AlbumFragment extends Fragment {
                 new AlbumViewModelFactory(requireContext())
         ).get(AlbumViewModel.class);
 
+        Log.d("AlbumFragment", "viewmodel");
         albumViewModel.fetchAlbumsByIds();
         albumViewModel.getAlbums().observe(getViewLifecycleOwner(), albums -> {
             albumAdapter.setData(albums);

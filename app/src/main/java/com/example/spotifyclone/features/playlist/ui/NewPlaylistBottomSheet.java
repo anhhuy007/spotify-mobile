@@ -95,10 +95,6 @@ public class NewPlaylistBottomSheet extends BottomSheetDialogFragment {
                 dismiss();
             }
         });
-
-
-
-
         return view;
     }
 

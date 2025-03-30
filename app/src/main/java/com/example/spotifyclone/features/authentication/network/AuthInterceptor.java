@@ -1,6 +1,9 @@
 package com.example.spotifyclone.features.authentication.network;
 
 import android.content.Context;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.example.spotifyclone.features.authentication.model.Tokens;
 import com.example.spotifyclone.shared.model.APIResponse;
@@ -20,6 +23,7 @@ public class AuthInterceptor implements Interceptor {
         this.authService = authService;
     }
 
+    @NonNull
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request originalRequest = chain.request();
@@ -40,7 +44,7 @@ public class AuthInterceptor implements Interceptor {
             synchronized (this) {
                 String refreshToken = tokenManager.getRefreshToken();
                 if (refreshToken == null) {
-
+                    response.close();
                     return response;
                 }
 

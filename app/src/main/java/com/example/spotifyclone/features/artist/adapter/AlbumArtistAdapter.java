@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.artist.adapter;
 
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.artist.model.Artist;
+import com.example.spotifyclone.features.artist.model.Item;
+import com.example.spotifyclone.features.artist.model.ItemDiscographyEP;
 
 import java.util.List;
 
 public class AlbumArtistAdapter extends RecyclerView.Adapter<AlbumArtistAdapter.ViewHolder> {
     private Context context;
-    private List<Artist> artistList;
+    private List<ItemDiscographyEP> artistList;
 
-    public AlbumArtistAdapter(Context context, List<Artist> artistList) {
+    public AlbumArtistAdapter(Context context, List<ItemDiscographyEP> artistList) {
         this.context = context;
         this.artistList = artistList;
     }
@@ -34,11 +36,11 @@ public class AlbumArtistAdapter extends RecyclerView.Adapter<AlbumArtistAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Artist item = artistList.get(position);
+        ItemDiscographyEP item = artistList.get(position);
         holder.tv_album_title.setText(item.getName());
-        holder.tv_album_info.setText(item.getDescription());
+        holder.tv_album_info.setText(item.getYear()+"•" + context.getString(R.string.single));
         Glide.with(context)
-                .load(item.getAvatarUrl())
+                .load(item.getCoverUrl())
                 .placeholder(R.drawable.loading)
                 .into(holder.img_album_cover);
 
@@ -46,7 +48,7 @@ public class AlbumArtistAdapter extends RecyclerView.Adapter<AlbumArtistAdapter.
 
     @Override
     public int getItemCount() {
-        return Math.min(artistList.size(), 4);
+        return artistList.size();
     }
 
 

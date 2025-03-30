@@ -26,4 +26,5 @@ public interface AlbumService {
     Call<APIResponse<PaginatedResponse<Album>>> getArtistAlbums(@Query("artistNames") List<String> artistNames);
 
 
+
 }

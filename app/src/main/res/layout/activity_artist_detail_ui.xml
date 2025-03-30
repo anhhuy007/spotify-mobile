@@ -27,7 +27,7 @@
                 <RelativeLayout
                     android:id="@+id/navbar_artist_UI"
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
+                    android:layout_height="match_parent"
                     android:background="@android:color/transparent"/>
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -36,6 +36,7 @@
                     android:paddingTop="24dp">
 
                     <FrameLayout
+                        android:id="@+id/back_container_artist_detail_ui"
                         android:layout_width="48dp"
                         android:layout_height="48dp">
 
@@ -56,7 +57,7 @@
                             android:background="@android:color/transparent"
                             android:src="@drawable/back_btn_white"
                             android:layout_gravity="center"
-                            android:contentDescription="Back button" />
+                            android:contentDescription="Back button"/>
                     </FrameLayout>
 
                     <TextView

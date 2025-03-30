@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+    <ImageView
+        android:id="@+id/remove_song_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_remove"
+        app:tint="#FFFFFF"
+        android:layout_marginEnd="16dp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chăm Em Một Đời"
+            android:fontFamily="@font/avenir_next_bold"
+            android:textColor="@color/text_color"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/song_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đưc phúc"
+            android:fontFamily="@font/avenir_next"
+            android:textColor="@color/text_color"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+    <ImageButton
+        android:id="@+id/reorder_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:foregroundGravity="right"
+        android:src="@drawable/ic_reorder"
+        android:gravity="end"
+        android:layout_gravity="right|end"
+
+        app:tint="@color/text_color" />
+
+
+
+</LinearLayout>
