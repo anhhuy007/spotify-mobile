@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/allPlaylistFragment">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/nav_home"
@@ -311,15 +311,7 @@
             android:name="song_name"
             app:argType="string"/>
     </dialog>
-    <fragment
-        android:id="@+id/allPlaylistFragment"
-        android:name="com.example.spotifyclone.features.playlist.ui.AllPlaylistFragment"
-        android:label="AllPlaylistFragment"
-        tools:layout="@layout/fragment_playlists">
-        <action
-            android:id="@+id/action_allPlaylistFragment_to_playlistDetailFragment"
-            app:destination="@id/playlistDetailFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/playlistDetailFragment"
         android:name="com.example.spotifyclone.features.playlist.ui.PlaylistDetailFragment"

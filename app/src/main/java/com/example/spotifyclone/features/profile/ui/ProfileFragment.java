@@ -27,7 +27,6 @@ import com.example.spotifyclone.features.follow.viewModel.FollowedArtistsCountVi
 import com.example.spotifyclone.features.playlist.adapter.PlaylistAdapter;
 import com.example.spotifyclone.features.playlist.adapter.ProfilePlaylistAdapter;
 import com.example.spotifyclone.features.playlist.model.Playlist;
-import com.example.spotifyclone.features.playlist.ui.AllPlaylistFragmentDirections;
 import com.example.spotifyclone.features.playlist.viewmodel.PlaylistViewModel;
 import com.example.spotifyclone.features.playlist.viewmodel.PlaylistViewModelFactory;
 import com.example.spotifyclone.features.profile.viewmodel.ProfileViewModel;
@@ -106,9 +105,6 @@ public class ProfileFragment extends Fragment {
 
         playlistViewModel.fetchPlaylists();
         playlistViewModel.getUserPlaylist().observe(getViewLifecycleOwner(), playlists -> {
-            Log.d("profilefragment","hehe");
-
-            Log.d("profilefragment",playlists.get(0).getName());
             playlistAdapter.setData(playlists);
         });
 
