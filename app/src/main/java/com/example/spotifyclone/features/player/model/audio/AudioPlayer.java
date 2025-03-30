@@ -138,4 +138,7 @@ public class AudioPlayer implements AutoCloseable {
     }
 
 
+    public ExoPlayer getPlayer() {
+        return exoPlayer;
+    }
 }

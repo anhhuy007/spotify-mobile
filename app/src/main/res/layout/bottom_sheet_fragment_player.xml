@@ -151,7 +151,6 @@
             app:layout_constraintTop_toTopOf="@+id/tvSongTitle"
             android:scaleType="fitCenter"/>
 
-        <!-- Progress -->
         <SeekBar
             android:id="@+id/progressBar"
             android:layout_width="0dp"
@@ -159,6 +158,8 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
+            android:progressTint="@color/textColorPrimary"
+            android:thumbTint="@color/textColorPrimary"
             android:progressBackgroundTint="@color/textColorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +209,7 @@
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Shuffle"
-                android:src="@drawable/ic_shuffle_off"
+                android:src="@drawable/ic_shuffle_1"
                 android:scaleType="fitCenter" />
 
             <ImageButton

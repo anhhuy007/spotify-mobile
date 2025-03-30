@@ -42,7 +42,9 @@ import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.features.premium.ui.PremiumFragment;
 import com.example.spotifyclone.features.search.ui.SearchFragment;
+import com.example.spotifyclone.shared.model.PlayerState;
 import com.example.spotifyclone.shared.model.User;
+import com.example.spotifyclone.shared.repository.PlayerRepository;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -65,21 +67,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private User currentUser;
-
+    private PlayerRepository playerRepository;
     private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+            initUser();
+            initUI();
+            initViewModel();
+            observeViewModel();
+            setupPlayerRepositoryAndRestorePlayerViewModel();
+            setupListeners();
+            setupNavigation();
+            checkNotificationPermission();
+        }
 
-        setContentView(R.layout.activity_main);
-        initUser();
-        initUI();
-        initViewModel();
-        setupListeners();
-        observeViewModel();
-        setupNavigation();
-        checkNotificationPermission();
+    private void setupPlayerRepositoryAndRestorePlayerViewModel() {
+        this.playerRepository = new PlayerRepository(this);
+        viewModel.setUpMusicPlayerViewModel(playerRepository.loadPlayerState());
     }
 
     private void initUser() {
@@ -98,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
+        assert navHostFragment != null;
         navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(navView, navController);
 
@@ -125,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            navController.navigate(R.id.editProfileFragment);
 
         } else if (id == R.id.nav_settings) {
-            // TODO: Handle navigation to settings
              navController.navigate(R.id.settingsFragment);
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -174,9 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return app.getAppViewModelStore();
             }
         }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
-
-        viewModel.restorePlayerState();
-    }
+        }
 
     private void setupListeners() {
         miniPlayerPlayPauseButton.setOnClickListener(v -> viewModel.togglePlayPause());
@@ -292,11 +297,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
-
     @Override
     protected void onPause() {
         super.onPause();
         Log.d("PAUSE", "test");
-        viewModel.savePlayerState();
+        savePlayerState();
+    }
+    private void savePlayerState(){
+        PlayerState currentPlayerState = new PlayerState(
+                viewModel.getCurrentSong().getValue(),
+                viewModel.getUpcomingSongs().getValue(),
+                viewModel.getCurrentPlaylist().getValue(),
+                viewModel.getCurrentArtistId().getValue(),
+                viewModel.getCurrentArtistId().getValue(),
+                viewModel.getShuffleMode().getValue(),
+                viewModel.getRepeatMode().getValue(),
+                viewModel.getDuration().getValue(),
+                viewModel.getCurrentDuration().getValue(),
+                viewModel.getPlayName().getValue(),
+                viewModel.getPlayType().getValue()
+        );
+        playerRepository.savePlayerState(currentPlayerState);
     }
 }

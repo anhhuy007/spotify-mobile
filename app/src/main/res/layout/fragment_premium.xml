@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/avenir_next"
-                    android:text="Listen without limits. Try 3 months of Premium Individual for ₫0 with Spotify."
+                    android:text="@string/premium_subscription_title"
                     android:textColor="@color/black"
                     android:textSize="27dp" />
 
@@ -72,7 +72,7 @@
                     android:layout_height="56dp"
                     android:layout_marginTop="20dp"
                     android:backgroundTint="@android:color/white"
-                    android:text="GET STARTED"
+                    android:text="@string/get_started"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -82,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="₫0 for 3 months, then ₫59,000 per month after. Offer only available if you haven't tried Premium before and you subscribe via Spotify. Offers via Google Play may differ. Terms apply."
+                    android:text="@string/mini_plan_description"
                     android:textColor="#9E9E9E"
                     android:textSize="14sp" />
 
@@ -113,7 +113,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
-                            android:text="Why join Premium?"
+                            android:text="@string/why_join_premium"
                             android:textColor="@android:color/white"
                             android:textSize="22sp"
                             android:textStyle="bold" />
@@ -135,7 +135,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Ad-free music listening"
+                                android:text="@string/ad_free_music_listening"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -156,7 +156,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Download to listen offline"
+                                android:text="@string/download_to_listen_offline"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -177,7 +177,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Play songs in any order"
+                                android:text="@string/play_songs_in_any_order"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -198,7 +198,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="High audio quality"
+                                android:text="@string/high_audio_quality"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -219,7 +219,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Organize listening queue"
+                                android:text="@string/organize_listening_queue"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -298,7 +298,7 @@
                                 android:layout_marginTop="24dp"
                                 android:fontFamily="@font/avenir_next"
                                 android:lineSpacingExtra="4dp"
-                                android:text="1 mobile-only Premium account • Offline listening of up to 30 songs on 1 device • One-time payment • Basic audio quality"
+                                android:text="@string/mini_plan_description"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp" />
 
@@ -414,7 +414,7 @@
                                 android:fontFamily="@font/avenir_next"
                                 android:gravity="center"
                                 android:lineSpacingExtra="4dp"
-                                android:text="1 Premium account • Cancel anytime • Subscribe or one-time payment"
+                                android:text="@string/individual_plan_description"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp" />
 
@@ -440,7 +440,7 @@
                                 android:fontFamily="@font/avenir_next"
                                 android:gravity="center"
                                 android:lineSpacingExtra="4dp"
-                                android:text="₫0 for 3 months, then ₫59,000 per month after. Offer only available if you haven't tried Premium before and you subscribe via Spotify. Offers via Google Play may differ. Terms apply."
+                                android:text="@string/individual_plan_term"
                                 android:textColor="@android:color/white"
                                 android:textSize="12sp" />
 
@@ -458,7 +458,8 @@
                     </FrameLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView android:layout_width="match_parent"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="20dp"
                     app:cardBackgroundColor="@android:color/transparent"
@@ -541,7 +542,7 @@
                                 android:fontFamily="@font/avenir_next"
                                 android:gravity="center"
                                 android:lineSpacingExtra="4dp"
-                                android:text="1 verified Premium account • Discount for eligible students • Cancel anytime • Subscribe or one-time payment"
+                                android:text="@string/student_plan_description"
                                 android:textColor="@android:color/white"
                                 android:textSize="16sp" />
 
@@ -567,7 +568,7 @@
                                 android:fontFamily="@font/avenir_next"
                                 android:gravity="center"
                                 android:lineSpacingExtra="4dp"
-                                android:text="₫29,500 for 2 months, then ₫29,500 per month after. Offer only available for eligible students. Terms apply."
+                                android:text="@string/student_plan_term"
                                 android:textColor="@android:color/white"
                                 android:textSize="12sp" />
                         </LinearLayout>

@@ -1,6 +1,9 @@
 package com.example.spotifyclone;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.util.Log;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,11 +18,12 @@ public class SpotifyCloneApplication extends Application {
     private MusicPlayerViewModelFactory musicPlayerViewModelFactory;
     private ViewModelStore appViewModelStore;
     private MusicPlayerController musicPlayerController;
-
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
+
+        registerActivityLifecycleCallbacks(new AppLifecycleHandler(this));
 
         // Create a single controller instance
         musicPlayerController = MusicPlayerController.getInstance(this);
@@ -29,6 +33,8 @@ public class SpotifyCloneApplication extends Application {
 
         // Initialize the factory once
         musicPlayerViewModelFactory = new MusicPlayerViewModelFactory(this);
+
+        // Initialize notification channel
     }
 
     public static SpotifyCloneApplication getInstance() {
@@ -51,10 +57,6 @@ public class SpotifyCloneApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
         try {
-            if (musicPlayerController != null && !musicPlayerController.isReleased()) {
-                musicPlayerController.close();
-            }
-
             // Clear ViewModel store
             if (appViewModelStore != null) {
                 appViewModelStore.clear();

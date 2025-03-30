@@ -199,7 +199,7 @@ public class HomeFragment extends Fragment implements AlbumAdapter.OnAlbumClickL
 
     @Override
     public void onPlayClick(Album album) {
-        musicPlayerViewModel.playAlbum(album.getId(), album.getTitle());
+        musicPlayerViewModel.togglePlayPause(album.getId(), album.getTitle(), MusicPlayerViewModel.PlaybackSourceType.ALBUM);
     }
 
     @Override

@@ -45,7 +45,7 @@ public class PremiumViewModel extends ViewModel {
         authRepository = new AuthRepository(context);
     }
 
-    public void createSubscription(String plan, Integer duration) throws ParseException {
+    public void createSubscription(String plan, Integer duration, Integer total, Integer newCharge) throws ParseException {
         String startDate = new Date().toString();
 
         // Calculate end date based on duration (month)
@@ -61,7 +61,13 @@ public class PremiumViewModel extends ViewModel {
 
         isLoading.setValue(true);
 
-        premiumService.createSubscription(user.getId(), plan, convertDate(startDate), convertDate(endDate)).enqueue(new Callback<APIResponse<Subscription>>() {
+        premiumService.createSubscription(
+                user.getId(),
+                plan,
+                convertDate(startDate), convertDate(endDate),
+                total,
+                newCharge
+        ).enqueue(new Callback<APIResponse<Subscription>>() {
             @Override
             public void onResponse(Call<APIResponse<Subscription>> call, Response<APIResponse<Subscription>> response) {
                 Log.d("DEBUG", "Create subscription response: " + response);

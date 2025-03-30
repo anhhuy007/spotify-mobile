@@ -243,11 +243,8 @@
         android:label="CheckoutFragment"
         tools:layout="@layout/fragment_checkout">
         <argument
-            android:name="plan"
+            android:name="planJson"
             app:argType="string" />
-        <argument
-            android:name="duration"
-            app:argType="integer" />
     </fragment>
 
     <fragment

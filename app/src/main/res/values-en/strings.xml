@@ -129,6 +129,19 @@
 
     <string name="old_password">Old Password</string>
     <string name="new_password">New Password</string>
+    <string name="individual_plan_term">₫0 for 3 months, then ₫59,000 per month after. Offer only available if you haven\'t tried Premium before and you subscribe via Spotify. Offers via Google Play may differ. Terms apply.</string>
+    <string name="mini_plan_description">1 mobile-only Premium account • Offline listening of up to 30 songs on 1 device • One-time payment • Basic audio quality</string>
+    <string name="individual_plan_description">1 Premium account • Cancel anytime • Subscribe or one-time payment</string>
+    <string name="student_plan_description">1 verified Premium account • Discount for eligible students • Cancel anytime • Subscribe or one-time payment</string>
+    <string name="student_plan_term">₫29,500 for 2 months, then ₫29,500 per month after. Offer only available for eligible students. Terms apply.</string>
+    <string name="premium_subscription_title">Listen without limits. Try 3 months of Premium Individual for ₫0 with Spotify.</string>
+    <string name="get_started">GET STARTED</string>
+    <string name="why_join_premium">Why join Premium?</string>
+    <string name="ad_free_music_listening">Ad-free music listening</string>
+    <string name="download_to_listen_offline">Download to listen offline</string>
+    <string name="play_songs_in_any_order">Play songs in any order</string>
+    <string name="high_audio_quality">High audio quality</string>
+    <string name="organize_listening_queue">Organize listening queue</string>
     <string name="play_count">Play count</string>
     <string name="ranking">Ranking</string>
 

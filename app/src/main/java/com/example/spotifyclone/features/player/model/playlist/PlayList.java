@@ -14,7 +14,6 @@ public class PlayList {
     private int currentIndex;
 
     public PlayList(List<Song> songs, ShuffleMode shuffleMode) {
-        Log.d(TAG, "Initializing PlayList with " + songs.size() + " songs.");
         this.songList = new ArrayList<>(songs);
         this.currentIndex = 0;
         if (shuffleMode == ShuffleMode.SHUFFLE_ON) {
@@ -27,9 +26,7 @@ public class PlayList {
     }
 
     public Song getCurrentSong() {
-        Song currentSong = (currentIndex >= 0 && currentIndex < songList.size()) ? songList.get(currentIndex) : null;
-        Log.d(TAG, "Getting current song: " + (currentSong != null ? currentSong.getTitle() : "None"));
-        return currentSong;
+        return (currentIndex >= 0 && currentIndex < songList.size()) ? songList.get(currentIndex) : null;
     }
 
     public Song getNextSong() {
@@ -37,20 +34,16 @@ public class PlayList {
             return null;
         }
         currentIndex++;
-        Song nextSong = songList.get(currentIndex);
-        Log.d(TAG, "Getting next song: " + nextSong.getTitle());
-        return nextSong;
+        return songList.get(currentIndex);
     }
 
     public Song getPreviousSong() {
         if (currentIndex > 0) {
             currentIndex--;
         } else {
-            currentIndex = songList.size() - 1;
+            return null;
         }
-        Song previousSong = songList.get(currentIndex);
-        Log.d(TAG, "Getting previous song: " + previousSong.getTitle());
-        return previousSong;
+        return songList.get(currentIndex);
     }
 
     public void reset() {
@@ -78,7 +71,6 @@ public class PlayList {
             }
         }
         songList.add(currentIndex, song);
-        printPlaylist();
     }
 
     public void insertSongs(List<Song> songs) {
@@ -104,9 +96,7 @@ public class PlayList {
 
 
     public void insertPlaylist(PlayList newPlayList) {
-        Log.d(TAG, "Inserting new playlist with " + newPlayList.songList.size() + " songs.");
         for (Song song : newPlayList.songList) {
-            Log.d(TAG, "Adding song: " + song.getTitle());
             songList.add(currentIndex++, song);
         }
     }
@@ -121,14 +111,12 @@ public class PlayList {
 
 
     public void printPlaylist() {
-        Log.d(TAG, "Playlist:");
         for (int i = 0; i < songList.size(); i++) {
             Log.d(TAG, "Song " + i + ": " + songList.get(i).getTitle());
         }
     }
 
     public List<Song> getUpcomingSongs() {
-        Log.d("Upcoming index", currentIndex + 1 + "");
         return songList.subList(currentIndex + 1, songList.size());
     }
 
@@ -154,9 +142,6 @@ public class PlayList {
                 i--;
             }
         }
-
-        Log.d(TAG, "Prioritized song: " + song.getTitle() + " at index " + currentIndex);
-        printPlaylist();
     }
     public void addFirstSong(Song song) {
         if (songList == null) {

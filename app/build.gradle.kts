@@ -75,6 +75,8 @@ dependencies {
     implementation(libs.palette.ktx)
     implementation(libs.preference)
     implementation(libs.androidx.material)
+    implementation(libs.androidx.media3.session)
+    implementation(libs.androidx.lifecycle.process)
 
     // Testing
     testImplementation(libs.junit)
@@ -97,4 +99,8 @@ dependencies {
     // push notification FCM
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.core)
+
+//    implementation ("com.android.support:support-compat:27.1.1")
+    implementation (libs.picasso)
+
 }

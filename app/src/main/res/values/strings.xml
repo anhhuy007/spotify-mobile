@@ -63,6 +63,7 @@
     <string name="change_password">Thay đổi mật khẩu</string>
     <string name="save">Lưu</string>
     <string name="name">Tên tài khoản</string>
+    <string name="password">Mật khẩu</string>
     <string name="post_by">Đăng bởi </string>
     <string name="monthly_listeners">NGƯỜI NGHE HÀNG THÁNG </string>
     <string name="dark_mode_description">Bật/tắt chế độ tối để trải nghiệm tốt hơn vào ban đêm</string>
@@ -128,5 +129,19 @@
     <string name="new_password">Mật khẩu mới</string>
     <string name="play_count">Lượt nghe</string>
     <string name="ranking">Bảng xếp hạng</string>
+
+    <string name="individual_plan_term">₫0 cho 3 tháng, sau đó ₫59.000 mỗi tháng. Chỉ áp dụng nếu bạn chưa từng dùng thử Premium trước đây và đăng ký qua Spotify. Các ưu đãi qua Google Play có thể khác. Điều khoản áp dụng.</string>
+    <string name="mini_plan_description">1 tài khoản Premium chỉ dùng trên di động • Nghe ngoại tuyến tối đa 30 bài hát trên 1 thiết bị • Thanh toán một lần • Chất lượng âm thanh cơ bản</string>
+    <string name="individual_plan_description">1 tài khoản Premium • Hủy bất kỳ lúc nào • Đăng ký hoặc thanh toán một lần</string>
+    <string name="student_plan_description">1 tài khoản Premium đã xác minh • Giảm giá cho sinh viên đủ điều kiện • Hủy bất kỳ lúc nào • Đăng ký hoặc thanh toán một lần</string>
+    <string name="student_plan_term">₫29.500 cho 2 tháng, sau đó ₫29.500 mỗi tháng. Chỉ áp dụng cho sinh viên đủ điều kiện. Điều khoản áp dụng.</string>
+    <string name="premium_subscription_title">Nghe nhạc không giới hạn. Dùng thử 3 tháng Premium Individual với giá ₫0 trên Spotify.</string>
+    <string name="get_started">BẮT ĐẦU NGAY</string>
+    <string name="why_join_premium">Tại sao nên tham gia Premium?</string>
+    <string name="ad_free_music_listening">Nghe nhạc không có quảng cáo</string>
+    <string name="download_to_listen_offline">Tải xuống để nghe ngoại tuyến</string>
+    <string name="play_songs_in_any_order">Phát bài hát theo thứ tự bất kỳ</string>
+    <string name="high_audio_quality">Chất lượng âm thanh cao</string>
+    <string name="organize_listening_queue">Sắp xếp hàng đợi phát</string>
 
 </resources>

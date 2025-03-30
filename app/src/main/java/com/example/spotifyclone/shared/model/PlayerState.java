@@ -36,7 +36,7 @@ public class PlayerState {
         this.duration = 0L;
         this.currentDuration = 0L;
         this.currentName = "";
-        this.currentPlaybackSourceType = MusicPlayerViewModel.PlaybackSourceType.NONE;
+        this.currentPlaybackSourceType = MusicPlayerViewModel.PlaybackSourceType.RANDOM;
     }
 
     public PlayerState(Song currentSong, List<Song> upcomingSongs, PlayList currentPlaylist,
@@ -53,7 +53,7 @@ public class PlayerState {
         this.duration =  (currentSong != null) ? duration : 0L;
         this.currentDuration = (currentSong != null) ? currentDuration : 0L;
         this.currentName = (currentName != null) ? currentName : ((currentSong != null) ? currentSong.getTitle() : "");
-        this.currentPlaybackSourceType = (currentPlaybackSourceType != null) ? currentPlaybackSourceType : MusicPlayerViewModel.PlaybackSourceType.NONE;
+        this.currentPlaybackSourceType = (currentPlaybackSourceType != null) ? currentPlaybackSourceType : MusicPlayerViewModel.PlaybackSourceType.RANDOM;
     }
 
     // Getters & Setters

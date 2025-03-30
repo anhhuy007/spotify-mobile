@@ -43,6 +43,8 @@ recyclerviewVersion = "1.3.2"
 retrofit = "2.9.0"
 preference = "1.2.1"
 rxjava = "2.2.9"
+media3Session = "1.6.0"
+lifecycleProcess = "2.8.7"
 
 [libraries]
 adapter-rxjava2 = { module = "com.squareup.retrofit2:adapter-rxjava2", version.ref = "converterGson" }
@@ -94,6 +96,8 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 
 preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 rxjava = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava" }
+androidx-media3-session = { group = "androidx.media3", name = "media3-session", version.ref = "media3Session" }
+androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycleProcess" }
 
 
 [plugins]

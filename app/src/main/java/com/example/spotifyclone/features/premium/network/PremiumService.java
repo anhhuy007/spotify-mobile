@@ -18,7 +18,9 @@ public interface PremiumService {
             @Field("userId") String userId,
             @Field("subscriptionType") String subscriptionType,
             @Field("startDate") String startDate,
-            @Field("endDate") String endDate
+            @Field("endDate") String endDate,
+            @Field("total") Integer total,
+            @Field("newCharge") Integer newCharge
     );
 
     @GET("/subscription/check/{userId}")
