@@ -8,22 +8,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.artist.model.FansAlsoLike;
 import com.example.spotifyclone.features.artist.model.Item;
+import com.example.spotifyclone.features.artist.ui.ArtistFragment;
 
 import java.util.List;
 
 public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdapter.ViewHolder> {
     private Context context;
+    private FragmentActivity FragActi;
     private List<FansAlsoLike> artistList;
+    private View rootView;
 
-    public ArtistSimilarAdapter(Context context, List<FansAlsoLike> artistList) {
+
+
+    public ArtistSimilarAdapter(Context context,FragmentActivity FragActi, List<FansAlsoLike> artistList) {
         this.context = context;
+        this.FragActi = FragActi;
         this.artistList = artistList;
+    }
+
+    public void setRootView(View rootView) {
+        this.rootView = rootView;
     }
 
     @NonNull
@@ -41,6 +52,15 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
                 .load(item.getAvatarUrl())
                 .placeholder(R.drawable.loading)
                 .into(holder.artist_logo);
+
+        holder.artist_logo.setOnClickListener(v -> {
+            if (FragActi != null) {
+                FragActi.getSupportFragmentManager().beginTransaction()
+                        .replace(((ViewGroup) rootView.getParent()).getId(), ArtistFragment.newInstance(item.getId()))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
     }
 
