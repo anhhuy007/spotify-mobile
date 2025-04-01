@@ -135,3 +135,4 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         }
     }
 }
+

@@ -12,15 +12,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.follow.model.FollowCountResponse;
 import com.example.spotifyclone.features.follow.viewModel.FollowedArtistsCountViewModel;
+import com.example.spotifyclone.features.playlist.adapter.ProfilePlaylistAdapter;
+import com.example.spotifyclone.features.playlist.model.Playlist;
+import com.example.spotifyclone.features.playlist.ui.PlaylistDetailFragment;
+import com.example.spotifyclone.features.playlist.viewmodel.PlaylistViewModel;
+import com.example.spotifyclone.features.playlist.viewmodel.PlaylistViewModelFactory;
 import com.example.spotifyclone.features.profile.viewmodel.ProfileViewModel;
 import com.example.spotifyclone.shared.model.User;
+
+import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
     private TextView userName;
@@ -32,6 +45,13 @@ public class ProfileFragment extends Fragment {
     private ProfileViewModel profileViewModel;
     private FollowedArtistsCountViewModel followedArtistsCountViewModel;
     private AuthRepository authRepository;
+
+    private PlaylistViewModel playlistViewModel;
+    private ProfilePlaylistAdapter playlistAdapter;
+    private User currentUser;
+    private RecyclerView playlistRecyclerView; //
+
+
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -51,6 +71,8 @@ public class ProfileFragment extends Fragment {
         setupObservers();
         setupListeners();
         loadUserData();
+        setupRecyclerView(view);
+
     }
 
     private void initializeDependencies() {
@@ -63,6 +85,10 @@ public class ProfileFragment extends Fragment {
         userAvatar = view.findViewById(R.id.artist_logo);
         backButton = view.findViewById(R.id.back_button);
         editButton = view.findViewById(R.id.edit_button);
+
+        playlistRecyclerView=view.findViewById(R.id.playlist_recycler_view);
+
+
     }
 
     private void setupObservers() {
@@ -75,6 +101,18 @@ public class ProfileFragment extends Fragment {
 
         // Observe followed artists count
         followedArtistsCountViewModel.getCount().observe(getViewLifecycleOwner(), this::updateFollowCount);
+
+        // Playlist Viewmodel
+        playlistViewModel = new ViewModelProvider(
+                this,
+                new PlaylistViewModelFactory(requireContext())
+        ).get(PlaylistViewModel.class);
+
+        playlistViewModel.fetchPlaylists();
+        playlistViewModel.getUserPlaylist().observe(getViewLifecycleOwner(), playlists -> {
+            playlistAdapter.setData(playlists);
+        });
+
     }
 
     private void setupListeners() {
@@ -83,7 +121,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadUserData() {
-        User currentUser = authRepository.getUser();
+        currentUser = authRepository.getUser();
         if (currentUser != null) {
             updateUserInterface(currentUser);
             followedArtistsCountViewModel.fetchCount(currentUser.getId());
@@ -130,4 +168,35 @@ public class ProfileFragment extends Fragment {
                     .commit();
         }
     }
+    private void setupRecyclerView(View view) {
+        playlistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        playlistAdapter = new ProfilePlaylistAdapter(requireContext(), new ArrayList<>(), playlist -> {
+            // Chuyển đến
+            navigateToPlaylistDetail(playlist);
+        }, currentUser.getUsername()); // add song Id,
+
+        playlistRecyclerView.setAdapter(playlistAdapter);
+    }
+
+    private void navigateToPlaylistDetail(Playlist playlist){
+
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+
+        ProfileFragmentDirections.ActionProfileFragmentToPlaylistDetailFragment action=
+                ProfileFragmentDirections.actionProfileFragmentToPlaylistDetailFragment(
+                        currentUser.getUsername(),
+                        currentUser.getAvatarUrl(),
+                        playlist.getId(),
+                        playlist.getName(),
+                        playlist.getCoverUrl()
+                );
+
+
+//        Navigation.findNavController(requireView()).navigate(action);
+
+        navController.navigate(action);
+
+    }
+
 }

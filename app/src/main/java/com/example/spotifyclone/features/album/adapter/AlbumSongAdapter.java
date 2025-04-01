@@ -10,14 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.album.ui.AlbumBottomSheet;
+import com.example.spotifyclone.features.album.inter.OnSongMoreIconClickListener;
 import com.example.spotifyclone.features.player.model.song.Song;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> { // Thay đổi RecyclerView.ViewHolder
@@ -29,7 +29,9 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int VIEW_TYPE_ITEM = 0;
     private static final int VIEW_TYPE_LOAD_MORE = 1;
     private boolean isExpanded = false;
-    private OnItemClickListener listener;
+    private OnItemClickListener item_listener;
+
+    private OnSongMoreIconClickListener song_listener; // Interface để xử lý navigation
 
     private enum ViewType {
         ITEM,
@@ -41,15 +43,20 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onItemClick(Song song);
     }
     public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
+        this.item_listener = listener;
     }
 
 
-    public AlbumSongAdapter(Context context, List<Song> songs, int initialVisibleSongCount) { // Thêm initialVisibleSongCount
+    public AlbumSongAdapter(Context context, List<Song> songs, int initialVisibleSongCount, OnSongMoreIconClickListener listener) { // Thêm initialVisibleSongCount
         this.context = context;
-        this.songs = songs;
+        this.songs = (songs != null) ? songs : new ArrayList<>(); // Tránh null
+
         this.initialVisibleSongCount = initialVisibleSongCount;
-        this.visibleSongCount = Math.min(initialVisibleSongCount, songs.size()); // Khởi tạo visibleSongCount
+        if(songs!=null){
+            this.visibleSongCount = Math.min(initialVisibleSongCount, songs.size());
+        }
+        // Khởi tạo visibleSongCount
+        this.song_listener = listener;
     }
 
     public static class CollapseViewHolder extends RecyclerView.ViewHolder {
@@ -91,16 +98,16 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             songHolder.song_name.setText(song.getTitle());
             String songs_artist = String.join(", ", song.getSingersString());
             songHolder.song_artist.setText(songs_artist);
+
             songHolder.more_icon.setOnClickListener(v -> {
-                if (context instanceof FragmentActivity) {
-                    AlbumBottomSheet bottomSheet = AlbumBottomSheet.newInstance(song);
-                    bottomSheet.show(((FragmentActivity) context).getSupportFragmentManager(), "BottomSheet");
+                if (song_listener != null) {
+                    song_listener.onMoreIconClick(song.getId(), song.getImageUrl(), song.getTitle(),song.getAuthorNames(), v);
                 }
             });
 
             songHolder.itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onItemClick(song);
+                if (item_listener != null) {
+                    item_listener.onItemClick(song);
                 }
             });
 
