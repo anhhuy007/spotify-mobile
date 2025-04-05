@@ -34,6 +34,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.MainActivity;
@@ -218,12 +221,15 @@ public class SettingsFragment extends Fragment {
 
         // Account info navigation
         accountInfoContainer.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(((ViewGroup) requireView().getParent()).getId(), ProfileFragment.newInstance())
-                        .addToBackStack(null)
-                        .commit();
-            }
+//            if (getActivity() != null) {
+//                getActivity().getSupportFragmentManager().beginTransaction()
+//                        .replace(((ViewGroup) requireView().getParent()).getId(), ProfileFragment.newInstance())
+//                        .addToBackStack(null)
+//                        .commit();
+//            }
+            NavDirections action = SettingsFragmentDirections.actionSettingsFragmentToProfileFragment();
+            NavController navController = Navigation.findNavController(requireView());
+            navController.navigate(action);
         });
 
         // Logout button

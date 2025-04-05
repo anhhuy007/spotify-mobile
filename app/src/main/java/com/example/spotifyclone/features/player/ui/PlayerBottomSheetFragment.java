@@ -258,7 +258,10 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
                         playTypeText = "ĐANG PHÁT CÁC BÀI HÁT ĐƯỢC ĐỀ XUẤT CHO BẠN";
                     } else if (type == MusicPlayerViewModel.PlaybackSourceType.ARTIST) {
                         playTypeText = "ĐANG PHÁT TỪ NGHỆ SĨ";
-                    } else {
+                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.PLAYLIST) {
+                        playTypeText = "ĐANG PHÁT TỪ DANH SÁCH PHÁT";
+                    }
+                    else {
                         playTypeText = "ĐANG PHÁT";
                     }
                     tvPlayType.setText(playTypeText);

@@ -502,7 +502,85 @@ public class MusicPlayerController {
                     } else {
                         fetchArtistSongWithPriority(sourceId, prioritizedSongId);
                     }
+
+                case PLAYLIST:
+                    if(prioritizedSongId == null) {
+                        fetchPlaylistSongs(sourceId);
+
+                    } else {
+                        fetchPlaylistSongWithPriority(sourceId, prioritizedSongId);
+                    }
             }
         }
+    }
+
+    private void fetchPlaylistSongWithPriority(String id, String first_song_id) {
+        songService.getPlaylistSongs(id).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Response<APIResponse<PaginatedResponse<Song>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    List<Song> songs = response.body().getData().getItems();
+                    if (songs != null && !songs.isEmpty()) {
+                        synchronized (playlistLock) {
+                            playList.clear();
+
+                            Song first_song = null;
+                            for (Song song : songs) {
+                                if (song.getId().equals(first_song_id)) {
+                                    first_song = song;
+                                    break;
+                                }
+                            }
+
+                            if (first_song != null) {
+                                songs.remove(first_song);
+                                playList.addFirstSong(first_song);
+                            }
+
+                            playList.addSongs(songs);
+                            play();
+                        }
+                    } else {
+                        Log.w(TAG, "No songs found for artist in API response");
+                    }
+                    Log.d("DEBUG", "Artist Songs: " + response.body());
+                } else {
+                    Log.d("DEBUG", "onFailure: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+                Log.d("DEBUG", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private void fetchPlaylistSongs(String id) {
+        songService.getPlaylistSongs(id).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Response<APIResponse<PaginatedResponse<Song>>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    List<Song> songs = response.body().getData().getItems();
+                    if (songs != null && !songs.isEmpty()) {
+                        synchronized (playlistLock) {
+                            playList.clear();
+                            playList.addSongs(songs);
+                            play();
+                        }
+                    } else {
+                        Log.w(TAG, "No songs found for artist in API response");
+                    }
+                    Log.d("DEBUG", "Artist Songs: " + response.body());
+                } else {
+                    Log.d("DEBUG", "onFailure: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+                Log.d("DEBUG", "onFailure: " + t.getMessage());
+            }
+        });
     }
 }

@@ -35,7 +35,12 @@
         android:id="@+id/nav_library"
         android:name="com.example.spotifyclone.features.library.ui.LibraryFragment"
         android:label="Library"
-        tools:layout="@layout/fragment_library" />
+        tools:layout="@layout/fragment_library">
+        <action
+            android:id="@+id/action_lib_to_playlistDetailFragment"
+            app:destination="@id/playlistDetailFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/nav_premium"
@@ -80,6 +85,10 @@
         <argument
             android:name="artist_url"
             app:argType="string" />
+        <action
+            android:id="@+id/action_nav_album_detail_to_albumBottomSheet"
+            app:destination="@id/albumBottomSheet" />
+
 
     </fragment>
     <fragment
@@ -139,6 +148,10 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment2"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_playlistDetailFragment"
+            app:destination="@id/playlistDetailFragment" />
+
     </fragment>
 
     <fragment
@@ -267,5 +280,71 @@
             android:id="@+id/action_playerBottomSheet_to_artistFragment"
             app:destination="@id/artistFragment" />
     </dialog>
+
+    <dialog
+        android:id="@+id/albumBottomSheet"
+        android:name="com.example.spotifyclone.features.album.ui.AlbumBottomSheet"
+        android:label="AlbumBottomSheet"
+        tools:layout="@layout/bottom_sheet_song_option">
+        <argument
+            android:name="_id"
+            app:argType="string"/>
+        <argument
+            android:name="song_image"
+            app:argType="string"/>
+        <argument
+            android:name="song_name"
+            app:argType="string"/>
+        <argument
+            android:name="song_artist"
+            app:argType="string[]"/>
+
+    </dialog>
+
+    <dialog
+        android:id="@+id/editPlaylistBottomSheet"
+        android:name="com.example.spotifyclone.features.playlist.ui.EditPlaylistBottomSheet"
+        android:label="EditPlaylistBottomSheet"
+        tools:layout="@layout/bottom_sheet_playlist_edit">
+        <argument
+            android:name="playlist_id"
+            app:argType="string"/>
+        <argument
+            android:name="playlist_name"
+            app:argType="string"/>
+        <argument
+            android:name="playlist_image"
+            app:argType="string"/>
+        <argument
+            android:name="playlist_description"
+            app:argType="string"/>
+    </dialog>
+    <fragment
+        android:id="@+id/playlistDetailFragment"
+        android:name="com.example.spotifyclone.features.playlist.ui.PlaylistDetailFragment"
+        android:label="PlaylistDetailFragment"
+        tools:layout="@layout/fragment_playlist_detail">
+        <argument
+            android:name="user_name"
+            app:argType="string"/>
+        <argument
+            android:name="user_image"
+            app:argType="string"/>
+        <argument
+            android:name="playlist_id"
+            app:argType="string"/>
+        <argument
+            android:name="playlist_name"
+            app:argType="string"/>
+        <argument
+            android:name="playlist_image"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_playlistDetailFragment_to_editPlaylistBottomSheet"
+            app:destination="@id/editPlaylistBottomSheet" />
+
+
+    </fragment>
+
 
 </navigation>

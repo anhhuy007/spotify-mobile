@@ -30,5 +30,10 @@ public interface SongService {
 
     @GET("artist/{id}/songs")
     Call<APIResponse<PaginatedResponse<Song>>> getArtistSongs(@Path("id") String artistId);
+
+    @GET("playlist/playlist-songs/{id}")
+    Call <APIResponse<PaginatedResponse<Song>>>getPlaylistSongs(@Path("id") String playlist_id);
 }
+
+
 

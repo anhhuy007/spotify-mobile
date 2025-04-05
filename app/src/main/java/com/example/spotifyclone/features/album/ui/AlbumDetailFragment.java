@@ -30,6 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,6 +78,8 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     private String dayCreate;
     private List<String> artistNames;
     private String artistUrl;
+    private List<Song> albumSong;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -111,8 +114,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
             return;
         }
 
-        initViews(view);        setupViewModel();
-
+        initViews(view);
         setupUI();
         setupViewModel();
         setupRecyclerView(view);
@@ -144,11 +146,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     }
 
     private void setupUI() {
-//        // Set artist names
-//        String artistNamesJoined = (artistNames != null && !artistNames.isEmpty())
-//            ? TextUtils.join(", ", artistNames)
-//            : "Unknown Artist";
-//
         // Load album image
         artist_name.setText(String.join(" ,", artistNames));Glide.with(requireContext())
                 .load(coverUrl)
@@ -194,7 +191,17 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         // Song of album
         recyclerView = view.findViewById(R.id.song_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        songAdapter = new AlbumSongAdapter(requireContext(), new ArrayList<>(), 3);
+        songAdapter = new AlbumSongAdapter(getContext(), albumSong, 3, (songId, songImage, songTitle,  authorNames, view1) -> {
+            AlbumDetailFragmentDirections.ActionNavAlbumDetailToAlbumBottomSheet action =
+                    AlbumDetailFragmentDirections.actionNavAlbumDetailToAlbumBottomSheet(
+                            songId,
+                            songImage,
+                            songTitle,
+                            authorNames.toArray(new String[0]) // Chuyển List thành Array
+                    );
+            Navigation.findNavController(view1).navigate(action);
+        });
+
         recyclerView.setAdapter(songAdapter);
         songAdapter.setOnItemClickListener(this);
 
@@ -243,7 +250,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         ).get(AlbumViewModel.class);
 
         albumViewModel.getSongs().observe(getViewLifecycleOwner(), songs -> {
-            Log.d("AlbumDetailFragmentSong", "Songs: " + songs);
+            albumSong=songs;
             songAdapter.setData(songs);
         });
 

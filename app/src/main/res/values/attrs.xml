@@ -2,4 +2,22 @@
     <resources>
         <attr name="fullscreenBackgroundColor" format="color"/>
         <attr name="fullscreenTextColor" format="color"/>
+    <declare-styleable name="CircleCheckbox">
+        <attr name="showOuterCircle" format="boolean" />
+
+        <attr name="tickColor" format="color"/>
+        <attr name="outerCircleColor" format="color"/>
+        <attr name="innerCircleColor" format="color"/>
+        <attr name="textColor" format="color"/>
+        <attr name="circleBorderColor" format="color"/>
+
+        <attr name="outerCircleRadius" format="dimension"/>
+        <attr name="innerCircleRadius" format="dimension"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="borderThickness" format="dimension"/>
+        <attr name="tickThickness" format="dimension"/>
+
+        <attr name="textLeftPadding" format="dimension"/>
+        <attr name="text" format="string"/>
+    </declare-styleable>
     </resources>
