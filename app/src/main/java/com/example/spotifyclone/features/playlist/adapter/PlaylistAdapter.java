@@ -85,9 +85,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             playlist_name = itemView.findViewById(R.id.playlist_name);
             number_songs = itemView.findViewById(R.id.number_songs);
             checkBox = itemView.findViewById(R.id.circleCheckBox);
-
-
-
         }
 
         public void bind(Playlist playlist) {
@@ -126,7 +123,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             itemView.setOnClickListener(v -> {
 //                Playlist playlist = (Playlist) v.getTag();
                 if (listener != null && playlist != null) {
-                    Log.d("PlaylistAdapter", "Playlist ID: " + playlist.getId());
                     listener.OnItemClick(playlist);
                 }
             });
@@ -135,4 +131,3 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         }
     }
 }
-

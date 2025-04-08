@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:layout_marginBottom="4dp">
+
+    <TextView
+        android:id="@+id/aiMessageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="0dp"
+        android:textColor="@color/text_color"
+        android:visibility="gone"
+        android:padding="10dp"
+        android:text="AI message"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/userMessageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="0dp"
+        android:visibility="gone"
+        android:gravity="end"
+        android:textColor="@color/white"
+
+        android:background="@drawable/ai_message_bg"
+        android:padding="10dp"
+        android:text="User message"/>
+</LinearLayout>

@@ -18,6 +18,7 @@ import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.shared.model.PlayerState;
 
+import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,9 +41,13 @@ public class MusicPlayerViewModel extends ViewModel {
     private final MutableLiveData<Song> currentSong = new MutableLiveData<>();
     private final MutableLiveData<String> currentAlbumId = new MutableLiveData<>();
     private final MutableLiveData<String> currentArtistId = new MutableLiveData<>();
-    private final MutableLiveData<PlayList> currentPlaylist = new MutableLiveData<>(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
+    private final MutableLiveData<String> currentPlaylistId = new MutableLiveData<>();
+//    private final MutableLiveData<PlayList> currentPlaylist = new MutableLiveData<>(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
     private final MutableLiveData<PlaybackSourceType> currentPlaybackSourceType = new MutableLiveData<>(PlaybackSourceType.RANDOM);
     private final MutableLiveData<String> currentName = new MutableLiveData<>();
+
+
+
     public enum PlaybackSourceType {
         RANDOM,
         ALBUM,
@@ -157,9 +162,9 @@ public class MusicPlayerViewModel extends ViewModel {
     }
 
     public void playSongsFrom(String sourceId, String sourceName, PlaybackSourceType type, String prioritizedSongId) {
-        currentPlaylist.setValue(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
         currentAlbumId.setValue(null);
         currentArtistId.setValue(null);
+        currentPlaylistId.setValue(null);
 
         switch (type) {
             case ALBUM:
@@ -169,14 +174,15 @@ public class MusicPlayerViewModel extends ViewModel {
             case ARTIST:
                 currentArtistId.setValue(sourceId);
                 break;
-
+            case PLAYLIST:
+                currentPlaylistId.setValue(sourceId);
+                break;
             default:
                 Log.e("MusicPlayer", "⚠️ PlaybackSourceType không hợp lệ!");
                 return;
         }
 
         playerController.playSongsFrom(sourceId, type, prioritizedSongId);
-
         currentPlaybackSourceType.setValue(type);
         currentName.setValue(sourceName);
         playbackState.setValue(PlaybackState.LOADING);
@@ -187,7 +193,8 @@ public class MusicPlayerViewModel extends ViewModel {
         PlaybackState currentState = playbackState.getValue();
 
         boolean isSameSource = (type == PlaybackSourceType.ALBUM && id.equals(currentAlbumId.getValue())) ||
-                (type == PlaybackSourceType.ARTIST && id.equals(currentArtistId.getValue()));
+                (type == PlaybackSourceType.ARTIST && id.equals(currentArtistId.getValue())) ||
+                (type == PlaybackSourceType.PLAYLIST && id.equals(currentPlaylistId.getValue()));
 
         if (isSameSource && currentPlaybackSourceType.getValue() == type) {
             if (currentState == PlaybackState.PLAYING) {
@@ -221,22 +228,22 @@ public class MusicPlayerViewModel extends ViewModel {
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
     }
-    public void playPlaylist(PlayList playlist) {
-        if (playlist == null || playlist.isEmpty()) {
-            return;
-        }
-        // Clear current album info and artist
-        currentAlbumId.setValue(null);
-
-        // Set current playlist info
-        currentPlaylist.setValue(playlist);
-        currentPlaybackSourceType.setValue(PlaybackSourceType.PLAYLIST);
-
-        // Start playback
-        playerController.playPlaylist(playlist);
-        playbackState.setValue(PlaybackState.LOADING);
-        handler.post(updateProgressRunnable);
-    }
+//    public void playPlaylist(PlayList playlist) {
+//        if (playlist == null || playlist.isEmpty()) {
+//            return;
+//        }
+//        // Clear current album info and artist
+//        currentAlbumId.setValue(null);
+//
+//        // Set current playlist info
+//        currentPlaylist.setValue(playlist);
+//        currentPlaybackSourceType.setValue(PlaybackSourceType.PLAYLIST);
+//
+//        // Start playback
+//        playerController.playPlaylist(playlist);
+//        playbackState.setValue(PlaybackState.LOADING);
+//        handler.post(updateProgressRunnable);
+//    }
 
     public void stop() {
         playerController.stop();
@@ -326,15 +333,18 @@ public class MusicPlayerViewModel extends ViewModel {
         return upcomingSongs;
     }
 
-    public LiveData<PlayList> getCurrentPlaylist() {
-        return currentPlaylist;
-    }
+//    public LiveData<PlayList> getCurrentPlaylist() {
+//        return currentPlaylist;
+//    }
 
     public LiveData<String> getCurrentAlbumId() {
         return currentAlbumId;
     }
     public LiveData<String> getCurrentArtistId() {
         return currentArtistId;
+    }
+    public LiveData<String> getCurrentPlaylistId() {
+        return currentPlaylistId;
     }
 
     public LiveData<PlaybackState> getPlaybackState() {

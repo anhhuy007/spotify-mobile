@@ -103,6 +103,13 @@ public class PlaylistSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     listener.OnAddClickSong(song);
                 }
             });
+            itemView.setOnClickListener(v -> {
+                Song song = (Song) itemView.getTag();
+                if (listener != null && song != null) {
+                    listener.OnPlaySong(song);
+                }
+            });
+
         }
 
         public void bind(Song song, Context context) {
@@ -138,6 +145,7 @@ public class PlaylistSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     listener.OnRemoveClickSong(song);
                 }
             });
+
         }
 
         public void bind(Song song, Context context) {

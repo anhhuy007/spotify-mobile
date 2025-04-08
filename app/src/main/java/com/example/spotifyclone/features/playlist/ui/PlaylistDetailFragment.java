@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +27,10 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -39,13 +43,17 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.album.adapter.AlbumAdapter;
 import com.example.spotifyclone.features.album.adapter.AlbumSongAdapter;
 import com.example.spotifyclone.features.album.model.Album;
+import com.example.spotifyclone.features.album.ui.AlbumFragmentDirections;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModelFactory;
 import com.example.spotifyclone.features.home.adapter.SongAdapter;
+import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
+import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.features.playlist.adapter.PlaylistSongAdapter;
 import com.example.spotifyclone.features.playlist.inter.OnSongClickListner;
 import com.example.spotifyclone.features.playlist.viewmodel.PlaylistViewModel;
@@ -58,7 +66,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PlaylistDetailFragment extends Fragment {
+public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter.OnItemClickListener {
     private String user_name;
     private String user_image;
     private String playlist_id;
@@ -78,7 +86,6 @@ public class PlaylistDetailFragment extends Fragment {
     private Chip add_chip;
     private Chip edit_chip;
 
-
     // UI component
     private ImageView playlist_image;
     private Toolbar toolbar;
@@ -87,13 +94,13 @@ public class PlaylistDetailFragment extends Fragment {
     private RecyclerView song_recommend_recyclerview;
     private RecyclerView recommend_albums_recyclerview;
     private Button new_button;
+    private ImageButton play_button;
     //
     private ImageView userImage;
     private TextView userName;
 
     private TextView playlist_description;
-
-
+    private MusicPlayerViewModel musicPlayerViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,13 +111,11 @@ public class PlaylistDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         Bundle bundle = getArguments();
         if (bundle == null) {
             Log.e("PlaylistDetailFragment", "Arguments bundle is null!");
-            return; // Ngăn chặn lỗi
+            return;
         }
-
 
         // Take arguments from previous fragment
         PlaylistDetailFragmentArgs args = PlaylistDetailFragmentArgs.fromBundle(getArguments());
@@ -121,19 +126,25 @@ public class PlaylistDetailFragment extends Fragment {
         playlistTitle=args.getPlaylistName();
         playlistUrl=args.getPlaylistImage();
 
-
-
         initViews(view);
         setupViewModel();
         setupUI();
         setupRecyclerView(view);
         setupToolbar((AppCompatActivity) requireActivity());
+        setupListeners(); //
         setupScrollListener(); //
         setupGradientBackground(view); //
 
     }
 
+    private void setupListeners() {
+        play_button.setOnClickListener(v-> {
+            musicPlayerViewModel.togglePlayPause(playlist_id, playlistTitle, MusicPlayerViewModel.PlaybackSourceType.PLAYLIST);
+        });
+    }
+
     private void setupUI() {
+
         // Load playlist image
         Glide.with(requireContext())
                 .load(playlistUrl)
@@ -171,6 +182,7 @@ public class PlaylistDetailFragment extends Fragment {
         });
 
 
+
     }
 
     private  void setupRecyclerView(View view){
@@ -182,7 +194,6 @@ public class PlaylistDetailFragment extends Fragment {
         recommend_albums_recyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
         songAdapter = new AlbumSongAdapter(getContext(), playlist_songs, 3, (songId, songImage, songTitle,  authorNames, view1) -> {
-
         });
 
         addSongAdapter = new PlaylistSongAdapter(requireContext(), recommend_songs, new OnSongClickListner() {
@@ -201,18 +212,39 @@ public class PlaylistDetailFragment extends Fragment {
 
             @Override
             public void OnRemoveClickSong(Song song) {
-                // Không làm gì cả vì adapter này chỉ dùng để thêm bài hát
             }
+            @Override
+            public void OnPlaySong(Song song) {
+            }
+
+
         }, PlaylistSongAdapter.ADD_TYPE);
 
         albumAdapter=new AlbumAdapter(requireContext(),recommend_albums, album->{
-
+            navigateToAlbumDetail(album);
         }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         song_recyclerview.setAdapter(songAdapter);
         song_recommend_recyclerview.setAdapter(addSongAdapter);
         recommend_albums_recyclerview.setAdapter(albumAdapter);
+        songAdapter.setOnItemClickListener(this);
     }
+    private void navigateToAlbumDetail(Album album){
+        NavDirections action = PlaylistDetailFragmentDirections.actionPlaylistDetailFragmentToAlbumDetail(
+                album.getId(),
+                album.getTitle(),
+                album.getArtists_name().toArray(new String[0]), // List<String> → String[]
+                album.getReleaseDate() != null ? album.getReleaseDate().getTime() : 0L, // Date → long
+                album.getCoverUrl(),
+                album.getCreatedAt() != null ? album.getCreatedAt().getTime() : 0L, // Date → long
+                album.getLike_count(),
+                album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
+                album.getArtist_url().get(0) // Take the first url
+        );
+        Navigation.findNavController(requireView()).navigate(action);
+
+    }
+
     private void setupToolbar(AppCompatActivity activity) {
         activity.setSupportActionBar(toolbar);
 
@@ -243,6 +275,8 @@ public class PlaylistDetailFragment extends Fragment {
 
 
     private void initViews(View view){
+        play_button = view.findViewById(R.id.play_button);
+
         playlist_image = view.findViewById(R.id.playlist_image);
 
         toolbar = view.findViewById(R.id.toolbar);
@@ -294,6 +328,32 @@ public class PlaylistDetailFragment extends Fragment {
             recommend_albums=albums;
             albumAdapter.setData(albums);
         });
+
+
+        SpotifyCloneApplication app = SpotifyCloneApplication.getInstance();
+        musicPlayerViewModel = new ViewModelProvider(new ViewModelStoreOwner() {
+            @NonNull
+            @Override
+            public ViewModelStore getViewModelStore() {
+                return app.getAppViewModelStore();
+            }
+        }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
+
+        musicPlayerViewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
+            if (playbackState != null) {
+                updatePlayButton(playbackState == PlaybackState.PLAYING);
+            }
+        });
+    }
+
+    private void updatePlayButton(boolean isPlaying) {
+//        if (isPlaying) {
+//            playButton.setImageResource(R.drawable.play_button);
+//            playButton.setTag("pause");
+//        } else {
+//            playButton.setImageResource(R.drawable.play_button);
+//            playButton.setTag("play");
+//        }
     }
 
     private void setupScrollListener() {
@@ -325,11 +385,16 @@ public class PlaylistDetailFragment extends Fragment {
 
             view.findViewById(R.id.imageConstraintLayout).setBackground(gradient);
         });
-
     }
 
-
-
-
-
+    @Override
+    public void onItemClick(Song song) {
+        Log.d("Song clicked", song.toString());
+        musicPlayerViewModel.playSongsFrom(
+                playlist_id,
+                playlistTitle,
+                MusicPlayerViewModel.PlaybackSourceType.PLAYLIST,
+                song.getId()
+        );
+    }
 }

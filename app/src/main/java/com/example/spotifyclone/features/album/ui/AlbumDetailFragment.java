@@ -1,12 +1,10 @@
 package com.example.spotifyclone.features.album.ui;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -30,6 +28,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,13 +39,13 @@ import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.album.adapter.AlbumAdapter;
 import com.example.spotifyclone.features.album.adapter.AlbumSongAdapter;
-import com.example.spotifyclone.features.album.inter.AlbumMainCallbacks;
 import com.example.spotifyclone.features.album.model.Album;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModelFactory;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.features.playlist.ui.PlaylistDetailFragmentDirections;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.ArrayList;
@@ -90,32 +89,20 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            coverUrl = getArguments().getString("cover_url");
-            albumTitle = getArguments().getString("title");
-            albumId = getArguments().getString("_id");
-            dayCreate = getArguments().getString("release_date");
-
-            String[] artist_names_stringarray=getArguments().getStringArray("artist");
-            artistNames = Arrays.asList(artist_names_stringarray);
-            artistUrl=getArguments().getString("artist_url");
-
-            if(artistNames==null){
-                Log.d("AlbumDetailFragment", "Failed to fetch arristname");
-
-            }
-            else {
-                Log.d("AlbumDetailFragment", String.join(" ",artistNames));
-
-            }
+        AlbumDetailFragmentArgs args=AlbumDetailFragmentArgs.fromBundle(getArguments());
+        if (args != null) {
+            coverUrl=args.getCoverUrl();
+            albumTitle=args.getTitle();
+            albumId=args.getId();
+            artistNames=Arrays.asList(args.getArtist());
+            artistUrl=args.getArtistUrl();
         } else {
             Log.e("AlbumDetailFragment", "Arguments is null");
             NavHostFragment.findNavController(this).navigateUp();
             return;
         }
 
-        initViews(view);        setupViewModel();
-
+        initViews(view);
         setupUI();
         setupViewModel();
         setupRecyclerView(view);
@@ -214,9 +201,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         );
 
         artist_albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), album -> {
-            Bundle args = createBundleFromAlbum(album);
-            NavController navController = NavHostFragment.findNavController(this);
-            navController.navigate(R.id.nav_album_detail, args);
+            navigateToAlbumDetail(album);
         }, widthInPx, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         artist_album.setAdapter(artist_albumAdapter);
@@ -225,23 +210,26 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         related_album = view.findViewById(R.id.related_album);
         related_album.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
         related_albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), album -> {
-            Bundle args = createBundleFromAlbum(album);
-            NavController navController = NavHostFragment.findNavController(this);
-            navController.navigate(R.id.nav_album_detail, args);
+            navigateToAlbumDetail(album);
         }, widthInPx, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         related_album.setAdapter(related_albumAdapter);
     }
 
-    private Bundle createBundleFromAlbum(Album album) {
-        Bundle args = new Bundle();
-        args.putString("cover_url", album.getCoverUrl());
-        args.putString("name", album.getTitle());
-        args.putString("id", album.getId());
-        args.putString("day_create", album.getReleaseDate().toString());
-        args.putStringArrayList("artists_name", new ArrayList<>(album.getArtists_name()));
-        args.putString("artist_url", album.getCoverUrl());
-        return args;
+    private void navigateToAlbumDetail(Album album){
+        NavDirections action = AlbumDetailFragmentDirections.actionNavAlbumDetailSelf(
+                album.getId(),
+                album.getTitle(),
+                album.getArtists_name().toArray(new String[0]), // List<String> → String[]
+                album.getReleaseDate() != null ? album.getReleaseDate().getTime() : 0L, // Date → long
+                album.getCoverUrl(),
+                album.getCreatedAt() != null ? album.getCreatedAt().getTime() : 0L, // Date → long
+                album.getLike_count(),
+                album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
+                album.getArtist_url().get(0) // Take the first url
+        );
+        Navigation.findNavController(requireView()).navigate(action);
+
     }
 
     private void setupViewModel() {
@@ -328,7 +316,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
     @Override
     public void onItemClick(Song song) {
-        Log.d("AlbumClick", "Song" + song.toString() + "Album" + albumId);
         viewModel.playSongsFrom(albumId, albumTitle, MusicPlayerViewModel.PlaybackSourceType.ALBUM,song.getId());
     }
 }

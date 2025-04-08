@@ -207,6 +207,7 @@ public class PlaylistViewModel extends ViewModel {
 
     public void fetchPopularSongs(String playlistId)
     {
+        Log.d("PlaylistViewModel", playlistId);
         isLoading.setValue(true);
         playlistService.getSongPopular(playlistId, 5).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
             @Override

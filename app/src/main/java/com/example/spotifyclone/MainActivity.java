@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         PlayerState currentPlayerState = new PlayerState(
                 viewModel.getCurrentSong().getValue(),
                 viewModel.getUpcomingSongs().getValue(),
-                viewModel.getCurrentPlaylist().getValue(),
+                viewModel.getCurrentPlaylistId().getValue(),
                 viewModel.getCurrentArtistId().getValue(),
                 viewModel.getCurrentArtistId().getValue(),
                 viewModel.getShuffleMode().getValue(),
