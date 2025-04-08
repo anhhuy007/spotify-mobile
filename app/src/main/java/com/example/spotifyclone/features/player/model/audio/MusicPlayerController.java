@@ -32,10 +32,16 @@ public class MusicPlayerController {
     private final Object playlistLock = new Object();
     private PlayList playList;
 
+    private boolean isStopAtEndOfTrack  = false;
+
     private volatile boolean isReleased;
     private final PlayerNotification playerNotification;
     private static final int REFILL_THRESHOLD = 1;
     private static final int REFILL_COUNT = 15;
+
+    public void setStopAtEndOfTrack(boolean isOn){
+        this.isStopAtEndOfTrack =isOn;
+    }
 
     private MusicPlayerController(@NonNull Context context) {
         Context applicationContext = context.getApplicationContext();
@@ -160,7 +166,10 @@ public class MusicPlayerController {
     private void handleSongCompletion() {
         synchronized (playlistLock) {
             checkAndFetchMoreSongs();
-            if (repeatMode == RepeatMode.REPEAT_INFINITE) {
+            if (isStopAtEndOfTrack){
+                isStopAtEndOfTrack = false;
+            }
+            else if (repeatMode == RepeatMode.REPEAT_INFINITE) {
                 play();
             } else {
                 playNextSong();

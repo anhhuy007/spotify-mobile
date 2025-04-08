@@ -1,161 +1,268 @@
 package com.example.spotifyclone.features.library.ui;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.follow.model.FollowCountResponse;
-import com.example.spotifyclone.features.follow.viewModel.FollowedArtistsCountViewModel;
-import com.example.spotifyclone.features.playlist.adapter.ProfilePlaylistAdapter;
-import com.example.spotifyclone.features.playlist.model.Playlist;
-import com.example.spotifyclone.features.playlist.viewmodel.PlaylistViewModel;
-import com.example.spotifyclone.features.playlist.viewmodel.PlaylistViewModelFactory;
-import com.example.spotifyclone.features.profile.ui.EditProfileFragment;
-import com.example.spotifyclone.features.profile.ui.ProfileFragmentDirections;
-import com.example.spotifyclone.features.profile.viewmodel.ProfileViewModel;
-import com.example.spotifyclone.shared.model.User;
+import com.example.spotifyclone.features.artist.ui.ArtistFragment;
+import com.example.spotifyclone.features.library.adapter.LibraryArtistAdapter;
+import com.example.spotifyclone.features.library.adapter.LibraryPlaylistAdapter;
+import com.example.spotifyclone.features.library.model.LibraryArtist;
+import com.example.spotifyclone.features.library.model.LibraryPlaylist;
+import com.example.spotifyclone.features.library.viewModel.LibraryArtistsViewModel;
+import com.example.spotifyclone.features.library.viewModel.LibraryPlaylistsViewModel;
+import com.example.spotifyclone.features.library.viewModel.LikedSongsViewModel;
+import com.example.spotifyclone.features.playlist.ui.PlaylistDetailFragment;
 
-import java.util.ArrayList;
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LibraryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class LibraryFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private PlaylistViewModel playlistViewModel;
-    private ProfilePlaylistAdapter playlistAdapter;
-    private RecyclerView playlistRecyclerView; //
-
-
-    public LibraryFragment() {
-        // Required empty public constructor
-    }
-
-
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LibraryFragment newInstance(String param1, String param2) {
-        LibraryFragment fragment = new LibraryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private Context context;
+    private RecyclerView artistsRecyclerView, playlistsRecyclerView;
+    private TextView playlistTab, artistTab, likedSongsCount;
+    private TextView profileInitial;
+    private ImageView profileImageI, clearFilterButton;
+    private View likedSongsContainer;
+    private View tabContainer;
+    private boolean isFilterActive = false;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_library, container, false);
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        context = requireContext();
         initializeViews(view);
-        setupObservers();
-        setupRecyclerView(view);
-
+        setupRecyclerViews();
+        setupTabListeners();
+        loadUserProfile();
+        fetchData();
     }
 
     private void initializeViews(View view) {
+        // Initialize RecyclerViews
+        artistsRecyclerView = view.findViewById(R.id.artistsRecyclerView);
+        playlistsRecyclerView = view.findViewById(R.id.playlistsRecyclerView);
 
+        // Initialize tabs
+        playlistTab = view.findViewById(R.id.playlistTab);
+        artistTab = view.findViewById(R.id.artistTab);
+        tabContainer = view.findViewById(R.id.tabContainer);
 
-        playlistRecyclerView=view.findViewById(R.id.playlist_recycler_view);
+        // Initialize clear filter button (X button)
+        clearFilterButton = view.findViewById(R.id.clearFilterButton);
 
+        // Initialize user profile
+        profileInitial = view.findViewById(R.id.profileInitial);
+        profileImageI = view.findViewById(R.id.profileImageI);
 
+        // Initialize liked songs container
+        likedSongsContainer = view.findViewById(R.id.likedSongsContainer);
+        likedSongsCount = view.findViewById(R.id.likedSongsCount);
     }
 
-    private void setupObservers() {
-        // Initialize ViewModels
+    private void setupRecyclerViews() {
+        // Set layout managers
+        artistsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        playlistsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+    }
 
-        // Playlist Viewmodel
-        playlistViewModel = new ViewModelProvider(
-                this,
-                new PlaylistViewModelFactory(requireContext())
-        ).get(PlaylistViewModel.class);
-
-        playlistViewModel.fetchPlaylists();
-        playlistViewModel.getUserPlaylist().observe(getViewLifecycleOwner(), playlists -> {
-            playlistAdapter.setData(playlists);
+    private void setupTabListeners() {
+        playlistTab.setOnClickListener(v -> {
+            if (!isFilterActive || (isFilterActive && !artistsRecyclerView.isShown())) {
+                // If no filter is active or if playlists are already showing,
+                // activate filter and show only playlists
+                activateFilter(true);
+            }
         });
 
+        artistTab.setOnClickListener(v -> {
+            if (!isFilterActive || (isFilterActive && !playlistsRecyclerView.isShown())) {
+                // If no filter is active or if artists are already showing,
+                // activate filter and show only artists
+                activateFilter(false);
+            }
+        });
+
+        clearFilterButton.setOnClickListener(v -> {
+            // Clear filter and show all content
+            deactivateFilter();
+        });
+
+        // Default state - no filter active
+        deactivateFilter();
+
+        // Setup liked songs click listener
+        likedSongsContainer.setOnClickListener(v -> {
+            navigateToLikedSongs();
+        });
     }
 
+    private void activateFilter(boolean isPlaylistSelected) {
+        isFilterActive = true;
+        clearFilterButton.setVisibility(View.VISIBLE);
 
-
-
-    private void setupRecyclerView(View view) {
-        playlistRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-        playlistAdapter = new ProfilePlaylistAdapter(requireContext(), new ArrayList<>(), playlist -> {
-            // Chuyển đến
-            navigateToPlaylistDetail(playlist);
-        }, "currentUser.getUsername()"); // add song Id,
-
-        playlistRecyclerView.setAdapter(playlistAdapter);
+        // Set tab backgrounds - selected tab gets green background
+        if (isPlaylistSelected) {
+//            playlistTab.setBackgroundResource(R.drawable.green_rounded_button_background);
+            artistTab.setVisibility(View.GONE);
+            artistsRecyclerView.setVisibility(View.GONE);
+            playlistsRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+//            artistTab.setBackgroundResource(R.drawable.green_rounded_button_background);
+            playlistTab.setVisibility(View.GONE);
+            artistsRecyclerView.setVisibility(View.VISIBLE);
+            playlistsRecyclerView.setVisibility(View.GONE);
+        }
     }
 
-    private void navigateToPlaylistDetail(Playlist playlist){
+    private void deactivateFilter() {
+        isFilterActive = false;
+        clearFilterButton.setVisibility(View.GONE);
 
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        // Reset tab backgrounds and visibility
+        playlistTab.setBackgroundResource(R.drawable.rounded_button_background);
+        artistTab.setBackgroundResource(R.drawable.rounded_button_background);
+        playlistTab.setVisibility(View.VISIBLE);
+        artistTab.setVisibility(View.VISIBLE);
 
-        LibraryFragmentDirections.ActionLibToPlaylistDetailFragment action=
-                LibraryFragmentDirections.actionLibToPlaylistDetailFragment(
-                        "currentUser.getUsername()",
-                        "currentUser.getAvatarUrl()",
-                        playlist.getId(),
-                        playlist.getName(),
-                        playlist.getCoverUrl()
-                );
-
-
-//        Navigation.findNavController(requireView()).navigate(action);
-
-        navController.navigate(action);
-
+        // Show both content sections
+        artistsRecyclerView.setVisibility(View.VISIBLE);
+        playlistsRecyclerView.setVisibility(View.VISIBLE);
     }
 
+    private void loadUserProfile() {
+        // Placeholder for user profile loading
+        // In a real app, this would load from user session or preferences
+        String userInitial = "N"; // Get from user name
+        profileInitial.setText(userInitial);
 
+        // If user has profile image
+        String profileImageUrl = null; // Get from user profile
+        if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+            Glide.with(context)
+                    .load(profileImageUrl)
+                    .placeholder(R.drawable.loading)
+                    .into(profileImageI);
+            profileInitial.setVisibility(View.GONE);
+        } else {
+            profileInitial.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void fetchData() {
+        fetchArtists();
+        fetchPlaylists();
+        fetchLikedSongsCount();
+    }
+
+    private void fetchLikedSongsCount() {
+        LikedSongsViewModel viewModel = new ViewModelProvider(this,
+                new LikedSongsViewModel.Factory(requireActivity().getApplication()))
+                .get(LikedSongsViewModel.class);
+
+        viewModel.getLikedSongsCount().observe(getViewLifecycleOwner(), count -> {
+            if (count != null) {
+                TextView songsCountText = likedSongsContainer.findViewById(R.id.likedSongsCount);
+                if (songsCountText != null) {
+                    songsCountText.setText("Danh sách phát • " + count + " bài hát");
+                }
+            }
+        });
+
+        viewModel.fetchLikedSongsCount();
+    }
+
+    private void fetchArtists() {
+        LibraryArtistsViewModel viewModel = new ViewModelProvider(this,
+                new LibraryArtistsViewModel.Factory(requireActivity().getApplication()))
+                .get(LibraryArtistsViewModel.class);
+
+        viewModel.getArtistsList().observe(getViewLifecycleOwner(), artists -> {
+            if (artists != null && !artists.isEmpty()) {
+                LibraryArtistAdapter adapter = new LibraryArtistAdapter(context, artists,
+                        artist -> navigateToArtistDetail(artist.getId()));
+                artistsRecyclerView.setAdapter(adapter);
+            }
+        });
+
+        viewModel.fetchArtists();
+    }
+
+    private void fetchPlaylists() {
+        LibraryPlaylistsViewModel viewModel = new ViewModelProvider(this,
+                new LibraryPlaylistsViewModel.Factory(requireActivity().getApplication()))
+                .get(LibraryPlaylistsViewModel.class);
+
+        viewModel.getPlaylistsList().observe(getViewLifecycleOwner(), playlists -> {
+            if (playlists != null && !playlists.isEmpty()) {
+                LibraryPlaylistAdapter adapter = new LibraryPlaylistAdapter(context, playlists,
+                        playlist -> navigateToPlaylistDetail(playlist.getId()));
+                playlistsRecyclerView.setAdapter(adapter);
+            }
+        });
+
+        viewModel.fetchPlaylists();
+    }
+
+    private void navigateToArtistDetail(String artistId) {
+        if (artistId != null && !artistId.isEmpty()) {
+            if (getActivity() != null) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(((ViewGroup) requireView().getParent()).getId(), ArtistFragment.newInstance(artistId))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        } else {
+            Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void navigateToPlaylistDetail(String playlistId) {
+        if (playlistId != null && !playlistId.isEmpty()) {
+            // Commented out as in original code
+            // Fragment fragment = PlaylistDetailFragment.newInstance(playlistId);
+            // requireActivity().getSupportFragmentManager()
+            //         .beginTransaction()
+            //         .replace(R.id.fragmentContainer, fragment)
+            //         .addToBackStack(null)
+            //         .commit();
+        } else {
+            Toast.makeText(context, "Invalid Playlist ID", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void navigateToLikedSongs() {
+        // Navigate to liked songs fragment/activity
+        // Commented out as in original code
+        // Fragment fragment = LikedSongsFragment.newInstance();
+        // requireActivity().getSupportFragmentManager()
+        //         .beginTransaction()
+        //         .replace(R.id.fragmentContainer, fragment)
+        //         .addToBackStack(null)
+        //         .commit();
+    }
 }
