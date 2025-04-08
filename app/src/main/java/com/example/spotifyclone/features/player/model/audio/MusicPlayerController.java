@@ -3,13 +3,20 @@ package com.example.spotifyclone.features.player.model.audio;
 import android.content.Context;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 
+import com.example.spotifyclone.R;
+import com.example.spotifyclone.SpotifyCloneApplication;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.player.model.playlist.PlayList;
 import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.network.SongService;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.network.RetrofitClient;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -34,8 +41,13 @@ public class MusicPlayerController {
 
     private volatile boolean isReleased;
     private final PlayerNotification playerNotification;
+    private final Song adSong = new Song("", "Quảng cáo của Spotify", "", false, 0, String.valueOf(R.raw.ads), "https://res.cloudinary.com/dndmj9oid/image/upload/v1744005550/download_i9ti4i.jpg", null, null, null);
     private static final int REFILL_THRESHOLD = 1;
     private static final int REFILL_COUNT = 15;
+    private static final int MAX_SONGS_TO_ADS = 3;
+    private int count_ads = 0;
+    private MusicPlayerViewModel musicPlayerViewModel;
+    private User currentUser;
 
     private MusicPlayerController(@NonNull Context context) {
         Context applicationContext = context.getApplicationContext();
@@ -48,6 +60,17 @@ public class MusicPlayerController {
         this.isReleased = false;
         this.songService = RetrofitClient.getClient(context).create(SongService.class);
         setupInternalPlaybackListener();
+        initUser();
+    }
+
+    private void initUser() {
+        AuthRepository authRepository = new AuthRepository(getApplicationContext());
+        currentUser = authRepository.getUser();
+        Log.d(TAG, "Current user: " + currentUser.isPremium());
+    }
+
+    private Context getApplicationContext() {
+        return SpotifyCloneApplication.getInstance().getApplicationContext();
     }
 
     public static MusicPlayerController getInstance(@NonNull Context context) {
@@ -61,6 +84,12 @@ public class MusicPlayerController {
         }
         return instance;
     }
+
+    public void attachViewModel(MusicPlayerViewModel viewModel) {
+        this.musicPlayerViewModel = viewModel;
+    }
+
+
 
     private void checkReleased() {
         if (isReleased) {
@@ -84,6 +113,10 @@ public class MusicPlayerController {
 
             @Override
             public void onCompleted(@NonNull Song song) {
+                if (Boolean.TRUE.equals(musicPlayerViewModel.isAdPlaying().getValue())) {
+                    musicPlayerViewModel.setAdPlaying(false);
+                    Log.d(TAG, "Ad finished playing");
+                }
                 handleSongCompletion();
             }
 
@@ -184,6 +217,7 @@ public class MusicPlayerController {
 
     public void play() {
         checkReleased();
+        if(Boolean.TRUE.equals(musicPlayerViewModel.isAdPlaying().getValue())) return;
         Song currentSong = playList.getCurrentSong();
         if (currentSong != null) {
             audioPlayer.loadAndPlay(currentSong);
@@ -237,10 +271,20 @@ public class MusicPlayerController {
         synchronized (playlistLock) {
             Song nextSong = playList.getNextSong();
             if (nextSong != null) {
+                if(!currentUser.isPremium()) {
+                    count_ads++;
+                    if (count_ads >= MAX_SONGS_TO_ADS) {
+                        count_ads = 0;
+                        audioPlayer.loadAndPlayOffline(adSong);
+                        musicPlayerViewModel.setAdPlaying(true);
+                        return true;
+                    }
+                }
                 audioPlayer.loadAndPlay(nextSong);
                 return true;
             } else {
                 fetchMoreSongsAndPlayNext();
+                Log.d(TAG, "No next song found, fetching more songs");
                 return false;
             }
         }

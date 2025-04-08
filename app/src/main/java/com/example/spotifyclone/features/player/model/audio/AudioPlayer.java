@@ -5,9 +5,12 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.datasource.RawResourceDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
 
 import com.example.spotifyclone.features.player.model.song.Song;
@@ -88,6 +91,36 @@ public class AudioPlayer implements AutoCloseable {
         } catch (Exception e) {
             if (playbackListener != null) {
                 playbackListener.onError(song, "Failed to load media: " + e.getMessage());
+            }
+        }
+    }
+
+    @OptIn(markerClass = UnstableApi.class)
+    public void loadAndPlayOffline(@NonNull Song song) {
+        try {
+            if (exoPlayer.isPlaying()) {
+                exoPlayer.stop();
+            }
+            currentSong = song;
+
+            int resourceId;
+            try {
+                resourceId = Integer.parseInt(song.getMp3Url());
+            } catch (NumberFormatException e) {
+                if (playbackListener != null) {
+                    playbackListener.onError(song, "Invalid resource ID format: " + e.getMessage());
+                }
+                return;
+            }
+
+            Uri rawResourceUri = RawResourceDataSource.buildRawResourceUri(resourceId);
+            MediaItem mediaItem = MediaItem.fromUri(rawResourceUri);
+            exoPlayer.setMediaItem(mediaItem);
+            exoPlayer.prepare();
+            exoPlayer.play();
+        } catch (Exception e) {
+            if (playbackListener != null) {
+                playbackListener.onError(song, "Failed to load local media: " + e.getMessage());
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.player.ui;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -19,11 +20,13 @@ import androidx.annotation.Nullable;
 
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -55,8 +58,9 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     private boolean isUserSeeking = false;
     private View rootView;
     private UpcomingSongsBottomSheetFragment upcomingSongsBottomSheetFragment;
-    private CardView artistCard;
+    private CardView artistCard, lyricsCard;
     private NavController navController;
+    private User currentUser;
 
 
     public static PlayerBottomSheetFragment newInstance(Song song) {
@@ -67,6 +71,17 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         return fragment;
     }
 
+    private void initUser() {
+        AuthRepository authRepository = new AuthRepository(getApplicationContext());
+        currentUser = authRepository.getUser();
+        Log.d(TAG, "Current user: " + currentUser.isPremium());
+    }
+
+    private Context getApplicationContext() {
+        return SpotifyCloneApplication.getInstance().getApplicationContext();
+    }
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +89,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             song = getArguments().getParcelable(ARG_SONG);
         }
         initViewModel();
+        initUser();
     }
 
     @Nullable
@@ -124,6 +140,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         btnExpand = rootView.findViewById(R.id.btnExpand);
         tvLyricsTitle = rootView.findViewById(R.id.tvLyricsTitle);
         tvLyricsContent = rootView.findViewById(R.id.tvLyricsContent);
+        lyricsCard = rootView.findViewById(R.id.lyricsCard);
 
         // Artist Info Section
         artistCard = rootView.findViewById(R.id.artistCard);
@@ -132,6 +149,13 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         tvArtistFullName = rootView.findViewById(R.id.tvArtistFullName);
         tvListenersCount = rootView.findViewById(R.id.tvListenersCount);
         tvArtistDescription = rootView.findViewById(R.id.tvArtistDescription);
+
+//        if(currentUser != null && !currentUser.isPremium()) {
+//            btnPlaylist.setAlpha(0.5f);
+//            btnPlaylist.setEnabled(false);
+//        } else {
+//            btnShareLyrics.setVisibility(View.GONE);
+//        }
     }
 
     private void initViewModel() {
@@ -276,6 +300,67 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
+        viewModel.isAdPlaying().observe(getViewLifecycleOwner(), isAdPlaying -> {
+            if (isAdPlaying) {
+                tvPlayType.setText("ĐANG PHÁT QUẢNG CÁO");
+
+                btnPrevious.setEnabled(false);
+                btnNext.setEnabled(false);
+                btnShuffle.setEnabled(false);
+                btnRepeat.setEnabled(false);
+
+                btnPrevious.setAlpha(0.5f);
+                btnNext.setAlpha(0.5f);
+                btnShuffle.setAlpha(0.5f);
+                btnRepeat.setAlpha(0.5f);
+
+                artistCard.setVisibility(View.GONE);
+                lyricsCard.setVisibility(View.GONE);
+
+                progressBar.setEnabled(false);
+            } else {
+                btnPrevious.setEnabled(true);
+                btnNext.setEnabled(true);
+                btnShuffle.setEnabled(true);
+                btnRepeat.setEnabled(true);
+
+                btnPrevious.setAlpha(1.0f);
+                btnNext.setAlpha(1.0f);
+                btnShuffle.setAlpha(1.0f);
+                btnRepeat.setAlpha(1.0f);
+
+                artistCard.setVisibility(View.VISIBLE);
+                lyricsCard.setVisibility(View.VISIBLE);
+
+                progressBar.setEnabled(true);
+
+                viewModel.getPlayType().observe(getViewLifecycleOwner(), type -> {
+                    String playTypeText;
+                    if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
+                        playTypeText = "ĐANG PHÁT TỪ ALBUM";
+                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.RANDOM) {
+                        playTypeText = "ĐANG PHÁT CÁC BÀI HÁT ĐƯỢC ĐỀ XUẤT CHO BẠN";
+                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.ARTIST) {
+                        playTypeText = "ĐANG PHÁT TỪ NGHỆ SĨ";
+                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.PLAYLIST) {
+                        playTypeText = "ĐANG PHÁT TỪ DANH SÁCH PHÁT";
+                    } else {
+                        playTypeText = "ĐANG PHÁT";
+                    }
+                    tvPlayType.setText(playTypeText);
+                });
+
+                viewModel.getPlayName().observe(getViewLifecycleOwner(), name -> {
+                    if (name != null && !name.isEmpty()) {
+                        tvPlayName.setText(name);
+                        tvPlayName.setVisibility(View.VISIBLE);
+                    } else {
+                        tvPlayName.setVisibility(View.GONE);
+                    }
+                });
+            }
+        });
+
     }
 
     private void updateUI() {
@@ -296,8 +381,11 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             progressBar.setProgress(0);
 
             // Artist Info Section
+            if(song.getSingerImageUrlAt(0) != null && !song.getSingerImageUrlAt(0).isEmpty()) {
+                Picasso.get().load(song.getSingerImageUrlAt(0)).placeholder(R.drawable.progress_drawable).into(ivArtistImage);
+            }
             Log.d("Artist Image", song.getSingerImageUrlAt(0));
-            Picasso.get().load(song.getSingerImageUrlAt(0)).into(ivArtistImage);
+//            Picasso.get().load(song.getSingerImageUrlAt(0)).placeholder(R.drawable.progress_drawable).into(ivArtistImage);
             tvArtistFullName.setText(song.getSingerNameAt(0));
             tvArtistDescription.setText(song.getSingerBioAt(0));
             tvListenersCount.setText(String.valueOf(song.getSingerFollowersAt(0)) + " người nghe hằng tháng");
@@ -358,7 +446,6 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             gradient.setCornerRadius(0f);
 
             view.findViewById(R.id.root_layout).setBackground(gradient);
-            CardView lyricsCard = view.findViewById(R.id.lyricsCard);
             if (lyricsCard != null) {
                 lyricsCard.setCardBackgroundColor(color);
             }        });

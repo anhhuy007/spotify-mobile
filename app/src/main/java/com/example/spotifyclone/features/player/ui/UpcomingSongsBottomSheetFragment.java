@@ -192,7 +192,7 @@ public class UpcomingSongsBottomSheetFragment extends BottomSheetDialogFragment 
         if (currentSong != null) {
             tvCurrentSongTitle.setText(currentSong.getTitle());
             tvCurrentSongArtist.setText(
-                    currentSong.getSingersString() != null && !currentSong.getSingersString().isEmpty() ? currentSong.getSingersString() : "Unknown Artist"
+                    currentSong.getSingersString() != null && !currentSong.getSingersString().isEmpty() ? currentSong.getSingersString() : "Spotify Clone" // Fallback to default value
             );
             Picasso.get().load(currentSong.getImageUrl()).into(ivCurrentSongImage);
         }
