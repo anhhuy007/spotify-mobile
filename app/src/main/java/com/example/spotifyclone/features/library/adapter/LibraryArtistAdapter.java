@@ -48,7 +48,7 @@ public class LibraryArtistAdapter extends RecyclerView.Adapter<LibraryArtistAdap
         LibraryArtist artist = artistList.get(position);
 
         holder.artistName.setText(artist.getName());
-        holder.artistType.setText(artist.getFlCount() + context.getString(R.string.fler));
+        holder.artistType.setText(artist.getFlCount()+" " + context.getString(R.string.fler));
 
         if (artist.getImageUrl() != null && !artist.getImageUrl().isEmpty()) {
             Glide.with(context)

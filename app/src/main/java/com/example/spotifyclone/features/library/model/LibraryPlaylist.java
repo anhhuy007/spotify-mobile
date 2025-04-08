@@ -3,7 +3,7 @@ package com.example.spotifyclone.features.library.model;
 public class LibraryPlaylist {
     private String _id;
     private String name;
-    private String image_url;
+    private String cover_url;
     private String creator_name;
     private int song_count;
 
@@ -27,11 +27,11 @@ public class LibraryPlaylist {
     }
 
     public String getImageUrl() {
-        return image_url;
+        return cover_url;
     }
 
     public void setImageUrl(String imageUrl) {
-        this.image_url = imageUrl;
+        this.cover_url = imageUrl;
     }
 
     public String getCreatorName() {

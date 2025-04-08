@@ -11,14 +11,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.artist.ui.ArtistFragment;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.library.adapter.LibraryArtistAdapter;
 import com.example.spotifyclone.features.library.adapter.LibraryPlaylistAdapter;
 import com.example.spotifyclone.features.library.model.LibraryArtist;
@@ -27,10 +30,12 @@ import com.example.spotifyclone.features.library.viewModel.LibraryArtistsViewMod
 import com.example.spotifyclone.features.library.viewModel.LibraryPlaylistsViewModel;
 import com.example.spotifyclone.features.library.viewModel.LikedSongsViewModel;
 import com.example.spotifyclone.features.playlist.ui.PlaylistDetailFragment;
+import com.example.spotifyclone.shared.model.User;
 
-public class LibraryFragment extends Fragment {
+public class LibraryFragment extends Fragment  {
 
     private Context context;
+    private User currentUser;
     private RecyclerView artistsRecyclerView, playlistsRecyclerView;
     private TextView playlistTab, artistTab, likedSongsCount;
     private TextView profileInitial;
@@ -38,6 +43,12 @@ public class LibraryFragment extends Fragment {
     private View likedSongsContainer;
     private View tabContainer;
     private boolean isFilterActive = false;
+    private ConstraintLayout addArtistContainer,addPodcastContainer;
+
+    private LibraryArtistsViewModel viewModelArtist;
+    private LibraryPlaylistsViewModel viewModelPlaylist;
+
+    private int playlistCount ;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +68,7 @@ public class LibraryFragment extends Fragment {
         context = requireContext();
         initializeViews(view);
         setupRecyclerViews();
-        setupTabListeners();
+        setupListeners();
         loadUserProfile();
         fetchData();
     }
@@ -82,6 +93,43 @@ public class LibraryFragment extends Fragment {
         // Initialize liked songs container
         likedSongsContainer = view.findViewById(R.id.likedSongsContainer);
         likedSongsCount = view.findViewById(R.id.likedSongsCount);
+
+        addArtistContainer = view.findViewById(R.id.addArtistContainer);
+        addPodcastContainer = view.findViewById(R.id.addPodcastContainer);
+
+        viewModelArtist = new ViewModelProvider(this,
+                new LibraryArtistsViewModel.Factory(requireActivity().getApplication()))
+                .get(LibraryArtistsViewModel.class);
+
+
+        viewModelPlaylist = new ViewModelProvider(this,
+                new LibraryPlaylistsViewModel.Factory(requireActivity().getApplication()))
+                .get(LibraryPlaylistsViewModel.class);
+
+        AuthRepository authRepository = new AuthRepository(requireContext());
+        currentUser = authRepository.getUser();
+        Glide.with(this)
+                .load(currentUser.getAvatarUrl())
+                .placeholder(R.drawable.loading)
+                .into(profileImageI);
+
+        viewModelArtist.getArtistsList().observe(getViewLifecycleOwner(), artists -> {
+            if (artists != null && !artists.isEmpty()) {
+                LibraryArtistAdapter adapter = new LibraryArtistAdapter(context, artists,
+                        artist -> navigateToArtistDetail(artist.getId()));
+                artistsRecyclerView.setAdapter(adapter);
+            }
+        });
+
+        viewModelPlaylist.getPlaylistsList().observe(getViewLifecycleOwner(), playlists -> {
+            if (playlists != null && !playlists.isEmpty()) {
+                playlistCount = playlists.size();
+                LibraryPlaylistAdapter adapter = new LibraryPlaylistAdapter(context, playlists,
+                        playlist -> navigateToPlaylistDetail(playlist.getId()));
+                playlistsRecyclerView.setAdapter(adapter);
+            }
+        });
+
     }
 
     private void setupRecyclerViews() {
@@ -90,7 +138,17 @@ public class LibraryFragment extends Fragment {
         playlistsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 
-    private void setupTabListeners() {
+    private void setupListeners() {
+
+        addArtistContainer.setOnClickListener(v -> {
+
+        });
+        addPodcastContainer.setOnClickListener(v -> {
+
+NewPlaylistDialog newPlaylistBottomSheet = NewPlaylistDialog.newInstance("Danh sách phát thứ "+(playlistCount+1)+ " của tôi", currentUser.getAvatarUrl());
+            newPlaylistBottomSheet.setViewModel(viewModelPlaylist);
+newPlaylistBottomSheet.show(getParentFragmentManager(), "NewPlaylistBottomSheet");
+        });
         playlistTab.setOnClickListener(v -> {
             if (!isFilterActive || (isFilterActive && !artistsRecyclerView.isShown())) {
                 // If no filter is active or if playlists are already showing,
@@ -174,8 +232,8 @@ public class LibraryFragment extends Fragment {
     }
 
     private void fetchData() {
-        fetchArtists();
-        fetchPlaylists();
+        viewModelArtist.fetchArtists();
+        viewModelPlaylist.fetchPlaylists();
         fetchLikedSongsCount();
     }
 
@@ -196,37 +254,7 @@ public class LibraryFragment extends Fragment {
         viewModel.fetchLikedSongsCount();
     }
 
-    private void fetchArtists() {
-        LibraryArtistsViewModel viewModel = new ViewModelProvider(this,
-                new LibraryArtistsViewModel.Factory(requireActivity().getApplication()))
-                .get(LibraryArtistsViewModel.class);
 
-        viewModel.getArtistsList().observe(getViewLifecycleOwner(), artists -> {
-            if (artists != null && !artists.isEmpty()) {
-                LibraryArtistAdapter adapter = new LibraryArtistAdapter(context, artists,
-                        artist -> navigateToArtistDetail(artist.getId()));
-                artistsRecyclerView.setAdapter(adapter);
-            }
-        });
-
-        viewModel.fetchArtists();
-    }
-
-    private void fetchPlaylists() {
-        LibraryPlaylistsViewModel viewModel = new ViewModelProvider(this,
-                new LibraryPlaylistsViewModel.Factory(requireActivity().getApplication()))
-                .get(LibraryPlaylistsViewModel.class);
-
-        viewModel.getPlaylistsList().observe(getViewLifecycleOwner(), playlists -> {
-            if (playlists != null && !playlists.isEmpty()) {
-                LibraryPlaylistAdapter adapter = new LibraryPlaylistAdapter(context, playlists,
-                        playlist -> navigateToPlaylistDetail(playlist.getId()));
-                playlistsRecyclerView.setAdapter(adapter);
-            }
-        });
-
-        viewModel.fetchPlaylists();
-    }
 
     private void navigateToArtistDetail(String artistId) {
         if (artistId != null && !artistId.isEmpty()) {

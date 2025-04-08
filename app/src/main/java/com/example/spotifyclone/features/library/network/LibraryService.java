@@ -8,13 +8,22 @@ import com.example.spotifyclone.shared.model.APIResponse;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface LibraryService {
-    @GET("library/getPlaylists")
+    @GET("playlist/library/playlists")
     Call<APIResponse<List<LibraryPlaylist>>> getPlaylists();
 
+    @POST("playlist/createNewPlaylist")
+    @FormUrlEncoded
+    Call<APIResponse<LibraryPlaylist>> createPlaylist(
+            @Field("name") String playlistName,
+            @Field("cover_url") String playlistImage
+    );
 
     @GET("follower/list")
     Call<APIResponse<List<LibraryArtist>>> getFollowedArtists();

@@ -67,8 +67,6 @@ public class LibraryArtistsViewModel extends AndroidViewModel {
         call.enqueue(new Callback<APIResponse<List<LibraryArtist>>>() {
             @Override
             public void onResponse(Call<APIResponse<List<LibraryArtist>>> call, Response<APIResponse<List<LibraryArtist>>> response) {
-                Log.d("library", "" + response.body().getData());
-                Log.d("library", "" + response);
                 if (response.isSuccessful() && response.body() != null) {
                     artistsList.setValue(response.body().getData());
                 } else {

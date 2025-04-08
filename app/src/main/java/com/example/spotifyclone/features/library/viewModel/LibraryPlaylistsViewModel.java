@@ -53,6 +53,30 @@ public class LibraryPlaylistsViewModel extends AndroidViewModel {
         return playlistsList;
     }
 
+    public void createPlaylist( String playlistName, String song_image) {
+
+        Retrofit retrofit = RetrofitClient.getClient(context);
+        LibraryService apiService = retrofit.create(LibraryService.class);
+
+        Call<APIResponse<LibraryPlaylist>> call = apiService.createPlaylist(playlistName,song_image);
+
+        call.enqueue(new Callback<APIResponse<LibraryPlaylist>>() {
+            @Override
+            public void onResponse(Call<APIResponse<LibraryPlaylist>> call, Response<APIResponse<LibraryPlaylist>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    fetchPlaylists();
+                } else {
+                    Toast.makeText(context, "Failed to load playlists", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<LibraryPlaylist>> call, Throwable t) {
+                Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     public void fetchPlaylists() {
         Retrofit retrofit = RetrofitClient.getClient(context);
         LibraryService apiService = retrofit.create(LibraryService.class);
