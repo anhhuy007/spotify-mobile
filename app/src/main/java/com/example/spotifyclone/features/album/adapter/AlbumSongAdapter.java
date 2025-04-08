@@ -92,7 +92,6 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof SongViewHolder) {
-            // Gán dữ liệu cho item bài hát
             SongViewHolder songHolder = (SongViewHolder) holder;
             Song song = songs.get(position);
             songHolder.song_name.setText(song.getTitle());

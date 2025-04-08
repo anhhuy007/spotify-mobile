@@ -17,7 +17,7 @@ public class PlayerState {
     private Song currentSong;
     private String currentAlbumId;
     private String currentArtistId;
-    private PlayList currentPlaylist;
+    private String currentPlaylistId;
     private ShuffleMode shuffleMode;
     private RepeatMode repeatMode;
     private Long duration;
@@ -28,7 +28,7 @@ public class PlayerState {
     public PlayerState() {
         this.currentSong = null;
         this.upcomingSongs = new ArrayList<>();
-        this.currentPlaylist = new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF);
+        this.currentPlaylistId = null;
         this.currentArtistId = null;
         this.currentAlbumId = null;
         this.shuffleMode = ShuffleMode.SHUFFLE_OFF;
@@ -39,13 +39,13 @@ public class PlayerState {
         this.currentPlaybackSourceType = MusicPlayerViewModel.PlaybackSourceType.RANDOM;
     }
 
-    public PlayerState(Song currentSong, List<Song> upcomingSongs, PlayList currentPlaylist,
+    public PlayerState(Song currentSong, List<Song> upcomingSongs, String currentPlaylistId,
                        String currentArtistId, String currentAlbumId, ShuffleMode shuffleMode,
                        RepeatMode repeatMode, Long duration, Long currentDuration, String currentName,
                        MusicPlayerViewModel.PlaybackSourceType currentPlaybackSourceType) {
         this.currentSong = currentSong;
         this.upcomingSongs = (upcomingSongs != null) ? new ArrayList<>(upcomingSongs) : new ArrayList<>();
-        this.currentPlaylist = (currentPlaylist != null) ? currentPlaylist : new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF);
+        this.currentPlaylistId = currentPlaylistId;
         this.currentArtistId = currentArtistId;
         this.currentAlbumId = currentAlbumId;
         this.shuffleMode = (shuffleMode != null) ? shuffleMode : ShuffleMode.SHUFFLE_OFF;
@@ -61,7 +61,7 @@ public class PlayerState {
     public Song getCurrentSong() { return currentSong; }
     public String getCurrentAlbumId() { return currentAlbumId; }
     public String getCurrentArtistId() { return currentArtistId; }
-    public PlayList getCurrentPlaylist() { return currentPlaylist; }
+    public String getCurrentPlaylist() { return currentPlaylistId; }
     public ShuffleMode getShuffleMode() { return shuffleMode; }
     public RepeatMode getRepeatMode() { return repeatMode; }
     public Long getDuration() {return duration; }
@@ -73,7 +73,7 @@ public class PlayerState {
     public void setCurrentSong(Song currentSong) { this.currentSong = currentSong; }
     public void setCurrentAlbumId(String albumId) {this.currentAlbumId = albumId; }
     public void setCurrentArtistId(String artistId) { this.currentArtistId = artistId; }
-    public void setCurrentPlaylist(PlayList currentPlaylist) { this.currentPlaylist = currentPlaylist; }
+    public void setCurrentPlaylist(String currentPlaylistId) { this.currentPlaylistId = currentPlaylistId; }
     public void setShuffleMode(ShuffleMode shuffleMode) { this.shuffleMode = shuffleMode; }
     public void setRepeatMode(RepeatMode repeatMode) { this.repeatMode = repeatMode; }
     public void setCurrentDuration(Long currentDuration) { this.currentDuration = currentDuration; }

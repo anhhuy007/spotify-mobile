@@ -114,8 +114,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
             return;
         }
 
-        initViews(view);        setupViewModel();
-
+        initViews(view);
         setupUI();
         setupViewModel();
         setupRecyclerView(view);
