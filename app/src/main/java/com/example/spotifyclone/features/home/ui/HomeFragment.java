@@ -38,6 +38,7 @@ import com.example.spotifyclone.features.home.adapter.SongAdapter;
 import com.example.spotifyclone.features.home.adapter.SongItemType;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.shared.model.User;
+import com.example.spotifyclone.shared.ui.BaseOnlineFragment;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -45,15 +46,15 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements AlbumAdapter.OnAlbumClickListener, ArtistAdapter.OnArtistClickListener {
-    private RecyclerView newSongsRecyclerView, popularSongsRecyclerView, latestAlbumsRecylerView, popularAlbumsRecyclerView, popularArtistsRecyclerView;
-//    private SongAdapter newSongsAdapter, popularSongsAdapter;
+public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnAlbumClickListener, ArtistAdapter.OnArtistClickListener {
+    private RecyclerView newSongsRecyclerView;
+    private RecyclerView popularSongsRecyclerView;
+    //    private SongAdapter newSongsAdapter, popularSongsAdapter;
     private AlbumAdapter popularAlbumsAdapter, latestAlbumsAdapter;
     private ArtistAdapter popularArtistAdapter;
     private MusicPlayerViewModel musicPlayerViewModel;
     private User currentUser;
     private ImageView userAvatarImage;
-    private TextView userNameText;
     private HomeViewModel homeViewModel;
     @Nullable
     @Override
@@ -98,27 +99,27 @@ public class HomeFragment extends Fragment implements AlbumAdapter.OnAlbumClickL
 //        popularSongsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         // Popular albums with horizontal layout
-        popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
+        RecyclerView popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
         popularAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         popularAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.HORIZONTAL, this);
         popularAlbumsRecyclerView.setAdapter(popularAlbumsAdapter);
         popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         // Latest albums with vertical layout
-        latestAlbumsRecylerView = view.findViewById(R.id.rv_latest_albums);
+        RecyclerView latestAlbumsRecylerView = view.findViewById(R.id.rv_latest_albums);
         latestAlbumsRecylerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         latestAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.VERTICAL, this);
         latestAlbumsRecylerView.setAdapter(latestAlbumsAdapter);
         latestAlbumsRecylerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
-        popularArtistsRecyclerView = view.findViewById(R.id.rv_popular_artists);
+        RecyclerView popularArtistsRecyclerView = view.findViewById(R.id.rv_popular_artists);
         popularArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         popularArtistAdapter = new ArtistAdapter(new ArrayList<>(), this);
         popularArtistsRecyclerView.setAdapter(popularArtistAdapter);
         popularArtistsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         userAvatarImage = view.findViewById(R.id.iv_user_avatar);
-        userNameText = view.findViewById(R.id.tv_user_name);
+        TextView userNameText = view.findViewById(R.id.tv_user_name);
 
         Picasso.get().load(currentUser.getAvatarUrl()).into(userAvatarImage);
         userNameText.setText(currentUser.getUsername());
