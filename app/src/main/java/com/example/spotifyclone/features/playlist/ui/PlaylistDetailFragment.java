@@ -66,7 +66,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PlaylistDetailFragment extends Fragment {
+public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter.OnItemClickListener {
     private String user_name;
     private String user_image;
     private String playlist_id;
@@ -74,8 +74,6 @@ public class PlaylistDetailFragment extends Fragment {
     private String playlistTitle;
     private String playlistDescription;
     private PlaylistViewModel playlistViewModel;
-    private MusicPlayerViewModel viewModel;
-
     private AlbumViewModel albumViewModel;
     private AlbumSongAdapter songAdapter;
     private AlbumAdapter albumAdapter;
@@ -88,7 +86,6 @@ public class PlaylistDetailFragment extends Fragment {
     private Chip add_chip;
     private Chip edit_chip;
 
-
     // UI component
     private ImageView playlist_image;
     private Toolbar toolbar;
@@ -97,14 +94,13 @@ public class PlaylistDetailFragment extends Fragment {
     private RecyclerView song_recommend_recyclerview;
     private RecyclerView recommend_albums_recyclerview;
     private Button new_button;
+    private ImageButton play_button;
     //
     private ImageView userImage;
     private TextView userName;
-    private ImageButton playButton;
 
     private TextView playlist_description;
-
-
+    private MusicPlayerViewModel musicPlayerViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,13 +111,11 @@ public class PlaylistDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         Bundle bundle = getArguments();
         if (bundle == null) {
             Log.e("PlaylistDetailFragment", "Arguments bundle is null!");
-            return; // Ngăn chặn lỗi
+            return;
         }
-
 
         // Take arguments from previous fragment
         PlaylistDetailFragmentArgs args = PlaylistDetailFragmentArgs.fromBundle(getArguments());
@@ -132,20 +126,25 @@ public class PlaylistDetailFragment extends Fragment {
         playlistTitle=args.getPlaylistName();
         playlistUrl=args.getPlaylistImage();
 
-
-
         initViews(view);
-        setupListeners();
         setupViewModel();
         setupUI();
         setupRecyclerView(view);
         setupToolbar((AppCompatActivity) requireActivity());
+        setupListeners(); //
         setupScrollListener(); //
         setupGradientBackground(view); //
 
     }
 
+    private void setupListeners() {
+        play_button.setOnClickListener(v-> {
+            musicPlayerViewModel.togglePlayPause(playlist_id, playlistTitle, MusicPlayerViewModel.PlaybackSourceType.PLAYLIST);
+        });
+    }
+
     private void setupUI() {
+
         // Load playlist image
         Glide.with(requireContext())
                 .load(playlistUrl)
@@ -186,13 +185,6 @@ public class PlaylistDetailFragment extends Fragment {
 
     }
 
-    private void setupListeners() {
-        playButton.setOnClickListener(v-> {
-            viewModel.togglePlayPause(playlist_id, playlistTitle, MusicPlayerViewModel.PlaybackSourceType.ALBUM);
-        });
-    }
-
-
     private  void setupRecyclerView(View view){
         song_recyclerview=view.findViewById(R.id.song_recyclerview);
         song_recyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -202,7 +194,6 @@ public class PlaylistDetailFragment extends Fragment {
         recommend_albums_recyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
         songAdapter = new AlbumSongAdapter(getContext(), playlist_songs, 3, (songId, songImage, songTitle,  authorNames, view1) -> {
-
         });
 
         addSongAdapter = new PlaylistSongAdapter(requireContext(), recommend_songs, new OnSongClickListner() {
@@ -221,14 +212,12 @@ public class PlaylistDetailFragment extends Fragment {
 
             @Override
             public void OnRemoveClickSong(Song song) {
-
-                // Không làm gì cả vì adapter này chỉ dùng để thêm bài hát
             }
             @Override
-            public void OnPlaySong(Song song){
-                viewModel.playSongsFrom(playlist_id, playlistTitle, MusicPlayerViewModel.PlaybackSourceType.PLAYLIST,song.getId());
-
+            public void OnPlaySong(Song song) {
             }
+
+
         }, PlaylistSongAdapter.ADD_TYPE);
 
         albumAdapter=new AlbumAdapter(requireContext(),recommend_albums, album->{
@@ -238,6 +227,7 @@ public class PlaylistDetailFragment extends Fragment {
         song_recyclerview.setAdapter(songAdapter);
         song_recommend_recyclerview.setAdapter(addSongAdapter);
         recommend_albums_recyclerview.setAdapter(albumAdapter);
+        songAdapter.setOnItemClickListener(this);
     }
     private void navigateToAlbumDetail(Album album){
         NavDirections action = PlaylistDetailFragmentDirections.actionPlaylistDetailFragmentToAlbumDetail(
@@ -285,6 +275,8 @@ public class PlaylistDetailFragment extends Fragment {
 
 
     private void initViews(View view){
+        play_button = view.findViewById(R.id.play_button);
+
         playlist_image = view.findViewById(R.id.playlist_image);
 
         toolbar = view.findViewById(R.id.toolbar);
@@ -295,8 +287,6 @@ public class PlaylistDetailFragment extends Fragment {
         add_chip=view.findViewById(R.id.add_chip);
         new_button=view.findViewById(R.id.new_button);
         playlist_description=view.findViewById(R.id.playlist_description);
-        playButton = view.findViewById(R.id.play_button);
-
     }
     private void setupViewModel(){
         playlistViewModel=new ViewModelProvider(
@@ -341,7 +331,7 @@ public class PlaylistDetailFragment extends Fragment {
 
 
         SpotifyCloneApplication app = SpotifyCloneApplication.getInstance();
-        viewModel = new ViewModelProvider(new ViewModelStoreOwner() {
+        musicPlayerViewModel = new ViewModelProvider(new ViewModelStoreOwner() {
             @NonNull
             @Override
             public ViewModelStore getViewModelStore() {
@@ -349,23 +339,22 @@ public class PlaylistDetailFragment extends Fragment {
             }
         }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
 
-        viewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
+        musicPlayerViewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
             if (playbackState != null) {
                 updatePlayButton(playbackState == PlaybackState.PLAYING);
             }
         });
-
     }
+
     private void updatePlayButton(boolean isPlaying) {
-        if (isPlaying) {
-            playButton.setImageResource(R.drawable.play_button);
-            playButton.setTag("pause");
-        } else {
-            playButton.setImageResource(R.drawable.play_button);
-            playButton.setTag("play");
-        }
+//        if (isPlaying) {
+//            playButton.setImageResource(R.drawable.play_button);
+//            playButton.setTag("pause");
+//        } else {
+//            playButton.setImageResource(R.drawable.play_button);
+//            playButton.setTag("play");
+//        }
     }
-
 
     private void setupScrollListener() {
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -396,11 +385,16 @@ public class PlaylistDetailFragment extends Fragment {
 
             view.findViewById(R.id.imageConstraintLayout).setBackground(gradient);
         });
-
     }
 
-
-
-
-
+    @Override
+    public void onItemClick(Song song) {
+        Log.d("Song clicked", song.toString());
+        musicPlayerViewModel.playSongsFrom(
+                playlist_id,
+                playlistTitle,
+                MusicPlayerViewModel.PlaybackSourceType.PLAYLIST,
+                song.getId()
+        );
+    }
 }
