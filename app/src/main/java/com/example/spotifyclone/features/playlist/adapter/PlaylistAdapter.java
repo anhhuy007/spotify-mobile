@@ -126,7 +126,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             itemView.setOnClickListener(v -> {
 //                Playlist playlist = (Playlist) v.getTag();
                 if (listener != null && playlist != null) {
-                    Log.d("PlaylistAdapter", "Playlist ID: " + playlist.getId());
                     listener.OnItemClick(playlist);
                 }
             });

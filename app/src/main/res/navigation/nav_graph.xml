@@ -88,6 +88,9 @@
         <action
             android:id="@+id/action_nav_album_detail_to_albumBottomSheet"
             app:destination="@id/albumBottomSheet" />
+        <action
+            android:id="@+id/action_nav_album_detail_self"
+            app:destination="@id/nav_album_detail" />
 
 
     </fragment>
@@ -127,6 +130,9 @@
         <argument
             android:name="update_at"
             app:argType="long" />
+        <action
+            android:id="@+id/action_genreDetailFragment_to_nav_album_detail"
+            app:destination="@id/nav_album_detail" />
 
     </fragment>
 
@@ -247,7 +253,8 @@
             app:destination="@id/searchSuggestFragment" />
         <action
             android:id="@+id/action_searchAllResultFragment_to_nav_album_detail"
-            app:destination="@id/nav_album_detail" />
+            app:destination="@id/nav_album_detail"
+            />
     </fragment>
 
     <fragment
@@ -342,8 +349,9 @@
         <action
             android:id="@+id/action_playlistDetailFragment_to_editPlaylistBottomSheet"
             app:destination="@id/editPlaylistBottomSheet" />
-
-
+        <action
+            android:id="@+id/action_playlistDetailFragment_to_album_detail"
+            app:destination="@id/nav_album_detail"/>
     </fragment>
 
 
