@@ -66,6 +66,10 @@ public class MusicPlayerController {
     private void initUser() {
         AuthRepository authRepository = new AuthRepository(getApplicationContext());
         currentUser = authRepository.getUser();
+        if (currentUser == null) {
+            Log.e(TAG, "Current user is null");
+            return;
+        }
         Log.d(TAG, "Current user: " + currentUser.isPremium());
     }
 
@@ -206,14 +210,14 @@ public class MusicPlayerController {
         playNextSong();
     }
 
-    public void playPlaylist(PlayList newPlayList) {
-        checkReleased();
-        synchronized (playlistLock) {
-            playList.insertPlaylist(newPlayList);
-            checkAndFetchMoreSongs();
-            play();
-        }
-    }
+//    public void playPlaylist(PlayList newPlayList) {
+//        checkReleased();
+//        synchronized (playlistLock) {
+//            playList.insertPlaylist(newPlayList);
+//            checkAndFetchMoreSongs();
+//            play();
+//        }
+//    }
 
     public void play() {
         checkReleased();
@@ -269,9 +273,8 @@ public class MusicPlayerController {
     public boolean playNextSong() {
         checkReleased();
         synchronized (playlistLock) {
-            Song nextSong = playList.getNextSong();
-            if (nextSong != null) {
-                if(!currentUser.isPremium()) {
+            if(playList.checkNextSong()) {
+                if (!currentUser.isPremium()) {
                     count_ads++;
                     if (count_ads >= MAX_SONGS_TO_ADS) {
                         count_ads = 0;
@@ -280,6 +283,9 @@ public class MusicPlayerController {
                         return true;
                     }
                 }
+            }
+            Song nextSong = playList.getNextSong();
+            if (nextSong != null) {
                 audioPlayer.loadAndPlay(nextSong);
                 return true;
             } else {

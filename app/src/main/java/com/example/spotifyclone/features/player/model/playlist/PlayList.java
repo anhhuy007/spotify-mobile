@@ -155,4 +155,8 @@ public class PlayList {
         songList.clear();
         currentIndex = 0;
     }
+
+    public boolean checkNextSong() {
+        return currentIndex + 1 < songList.size();
+    }
 }

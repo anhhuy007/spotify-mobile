@@ -64,6 +64,7 @@ public class MusicPlayerViewModel extends ViewModel {
     };
 
     public void setAdPlaying(boolean isAdPlaying) {
+        Log.d("VM", "setAdPlaying: " + isAdPlaying);
         this.isAdPlaying.setValue(isAdPlaying);
     }
     public LiveData<Boolean> isAdPlaying() {
@@ -80,9 +81,16 @@ public class MusicPlayerViewModel extends ViewModel {
         if (state == null) {
             return;
         }
+        if (state.getCurrentSong() == null) {
+            return;
+        }
         if (Objects.equals(state.getCurrentSong().getId(), "")) {
             List<Song> songs = state.getUpcomingSongs();
+            if (songs == null || songs.isEmpty()) {
+                return;
+            }
             currentSong.setValue(songs.get(0));
+
             if (songs.size() > 1) {
                 upcomingSongs.setValue(songs.subList(1, songs.size()));
                 setUpcomingSongs(songs.subList(1, songs.size()), songs.get(0), Math.toIntExact(state.getCurrentDuration()));

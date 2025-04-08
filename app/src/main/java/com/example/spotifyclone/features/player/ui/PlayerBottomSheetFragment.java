@@ -275,10 +275,13 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
 
         viewModel.getUpcomingSongs().observe(getViewLifecycleOwner(), this::updateUpcomingSongsList);
         viewModel.getPlayType().observe(getViewLifecycleOwner(), type -> {
-                    String playTypeText;
+            Log.d(TAG, "Play type: " + type);
+
+            String playTypeText;
                     if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
                         playTypeText = "ĐANG PHÁT TỪ ALBUM";
                     } else if (type == MusicPlayerViewModel.PlaybackSourceType.RANDOM) {
+                        Log.d(TAG, "RANDOM");
                         playTypeText = "ĐANG PHÁT CÁC BÀI HÁT ĐƯỢC ĐỀ XUẤT CHO BẠN";
                     } else if (type == MusicPlayerViewModel.PlaybackSourceType.ARTIST) {
                         playTypeText = "ĐANG PHÁT TỪ NGHỆ SĨ";
@@ -318,6 +321,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
                 lyricsCard.setVisibility(View.GONE);
 
                 progressBar.setEnabled(false);
+                tvPlayName.setVisibility(View.GONE);
             } else {
                 btnPrevious.setEnabled(true);
                 btnNext.setEnabled(true);
@@ -333,8 +337,11 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
                 lyricsCard.setVisibility(View.VISIBLE);
 
                 progressBar.setEnabled(true);
+                tvPlayName.setVisibility(View.VISIBLE);
 
                 viewModel.getPlayType().observe(getViewLifecycleOwner(), type -> {
+                    Log.d(TAG, "Play type: " + type);
+
                     String playTypeText;
                     if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
                         playTypeText = "ĐANG PHÁT TỪ ALBUM";
@@ -344,7 +351,8 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
                         playTypeText = "ĐANG PHÁT TỪ NGHỆ SĨ";
                     } else if (type == MusicPlayerViewModel.PlaybackSourceType.PLAYLIST) {
                         playTypeText = "ĐANG PHÁT TỪ DANH SÁCH PHÁT";
-                    } else {
+                    }
+                    else {
                         playTypeText = "ĐANG PHÁT";
                     }
                     tvPlayType.setText(playTypeText);
@@ -358,6 +366,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
                         tvPlayName.setVisibility(View.GONE);
                     }
                 });
+
             }
         });
 
