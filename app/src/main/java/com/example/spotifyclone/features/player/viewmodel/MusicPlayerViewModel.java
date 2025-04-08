@@ -51,7 +51,6 @@ public class MusicPlayerViewModel extends ViewModel {
         PLAYLIST
     }
     private final MutableLiveData<Boolean> isAdPlaying = new MutableLiveData<>(false);
-
     private final Handler handler = new Handler(Looper. getMainLooper());
     private final Runnable updateProgressRunnable = new Runnable() {
         @Override
@@ -233,12 +232,6 @@ public class MusicPlayerViewModel extends ViewModel {
         playerController.pause();
         handler.removeCallbacks(updateProgressRunnable);
     }
-    public void playSong(Song song) {
-        playerController.playSong(song);
-        playbackState.setValue(PlaybackState.LOADING);
-        handler.post(updateProgressRunnable);
-    }
-
     public void prioritizeSong(Song song) {
         playerController.prioritizeSong(song);
         playbackState.setValue(PlaybackState.LOADING);
@@ -308,7 +301,6 @@ public class MusicPlayerViewModel extends ViewModel {
         repeatMode.setValue(mode);
         playerController.setRepeatMode(mode);
     }
-
 
     public void seekTo(int position) {
         playerController.seekTo(position);
