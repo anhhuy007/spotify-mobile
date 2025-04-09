@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import com.example.spotifyclone.features.search.inter.SearchMainCallbacks;
 import com.example.spotifyclone.features.search.model.SearchItem;
 import com.example.spotifyclone.features.search.viewmodel.SearchViewModel;
 import com.example.spotifyclone.features.search.viewmodel.SearchViewModelFactory;
+import com.google.android.material.chip.Chip;
 
 import org.w3c.dom.Text;
 
@@ -47,13 +49,13 @@ public class SearchSuggestFragment extends Fragment {
     private SearchViewModel searchViewModel;
     private EditText searchInput;
     private TextView noResultText;
-    private Button allresult;
-    private Button searchByVoice;
+    private Chip allresult;
+    private ImageButton searchByVoice;
+    private TextView cancelTextView;
     private static final int REQUEST_CODE_SPEECH_INPUT = 101;
 
     @Override
     public void onAttach(@NonNull Context context) {
-
         super.onAttach(context);
     }
 
@@ -79,6 +81,17 @@ public class SearchSuggestFragment extends Fragment {
         setupRecyclerView(view);
         setupViewModel();
 
+
+        cancelTextView=view.findViewById(R.id.cancel_textView);
+        cancelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Quay lại fragment trước đó
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .popBackStack();
+            }
+        });
 
         searchInput = view.findViewById(R.id.search_input);
         searchInput.requestFocus();
@@ -159,6 +172,7 @@ public class SearchSuggestFragment extends Fragment {
                 recyclerView.setVisibility(View.GONE);
                 noResultText.setVisibility(View.VISIBLE);
                 searchAdapter.setData(new ArrayList<>());
+
                 return;
             }
 
@@ -167,9 +181,12 @@ public class SearchSuggestFragment extends Fragment {
                 searchAdapter.setData(items);
                 recyclerView.setVisibility(View.VISIBLE);
                 noResultText.setVisibility(View.GONE);
+                allresult.setVisibility(View.VISIBLE);
             } else {
                 recyclerView.setVisibility(View.GONE);
                 noResultText.setVisibility(View.VISIBLE);
+                allresult.setVisibility(View.GONE);
+
                 searchAdapter.setData(new ArrayList<>());
             }
         });

@@ -114,7 +114,6 @@ public class SearchFragment extends Fragment {
         search_input.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("SearchBar", "Search bar clicked!");
                 Navigation.findNavController(view).navigate(R.id.action_nav_search_to_searchSuggestFragment);
             }
         });
@@ -122,7 +121,6 @@ public class SearchFragment extends Fragment {
         // Handle clicking on genre
         genreAdapter = new GenreAdapter(requireContext(), new ArrayList<>(), genre -> {
             // Chuyển đến genreDetailFragment
-            Log.d("Search", "to genre");
             navigateToGenreDetail(genre);
 
         });

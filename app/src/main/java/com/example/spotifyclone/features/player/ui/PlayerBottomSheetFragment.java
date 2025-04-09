@@ -4,6 +4,8 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,17 +21,20 @@ import androidx.annotation.Nullable;
 
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
+import com.example.spotifyclone.features.album.ui.AlbumBottomSheet;
 import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.features.playlist.ui.NewPlaylistBottomSheet;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.squareup.picasso.Picasso;
 
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -57,6 +62,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     private UpcomingSongsBottomSheetFragment upcomingSongsBottomSheetFragment;
     private CardView artistCard;
     private NavController navController;
+
 
 
     public static PlayerBottomSheetFragment newInstance(Song song) {
@@ -147,7 +153,27 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void setupListeners() {
         btnDown.setOnClickListener(v -> dismiss());
-        btnOptions.setOnClickListener(v -> { });
+        btnOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                if (fragmentManager == null) {
+                    return;
+                }
+
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    try {
+                        AlbumBottomSheet albumBottomSheet = AlbumBottomSheet.newInstance(song.getId(),song.getImageUrl(), song.getTitle(), song.getAuthorNames());
+                        albumBottomSheet.show(fragmentManager, "AlbumBottomSheet");
+                    } catch (Exception e) {
+                        Log.e("", "Error showing AlbumBottomSheet", e);
+                    }
+                });
+
+            }
+        });
+
         btnAdd.setOnClickListener(v -> { });
         btnPlay.setOnClickListener(v -> {
             if (song != null) {
@@ -287,7 +313,10 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             if (lyrics != null && lyrics.length() > 3) {
                 lyrics = lyrics.substring(3);
             }
-            tvLyricsContent.setText(lyrics.replace("\\n", "\n"));
+            if(lyrics!=null){
+                tvLyricsContent.setText(lyrics.replace("\\n", "\n"));
+
+            }
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                 Picasso.get().load(song.getImageUrl()).into(ivSongCover);
             }
@@ -296,7 +325,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             progressBar.setProgress(0);
 
             // Artist Info Section
-            Log.d("Artist Image", song.getSingerImageUrlAt(0));
+//            Log.d("Artist Image", song.getSingerImageUrlAt(0));
             Picasso.get().load(song.getSingerImageUrlAt(0)).into(ivArtistImage);
             tvArtistFullName.setText(song.getSingerNameAt(0));
             tvArtistDescription.setText(song.getSingerBioAt(0));

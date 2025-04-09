@@ -95,6 +95,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
     private RecyclerView recommend_albums_recyclerview;
     private Button new_button;
     private ImageButton play_button;
+    private ImageButton moreoption;
     //
     private ImageView userImage;
     private TextView userName;
@@ -174,16 +175,47 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
             }
         });
 
+        add_chip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections action=PlaylistDetailFragmentDirections.actionPlaylistDetailFragmentToAddPlaylistBottomSheet(
+                        playlist_id
+                );
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(action);
+
+            }
+        });
+
         new_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 playlistViewModel.fetchPopularSongs(playlist_id);
             }
         });
+        moreoption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateToPLaylistBottomSheetMoreOption();
+            }
+        });
 
 
 
     }
+
+    private void navigateToPLaylistBottomSheetMoreOption(){
+        NavDirections action = PlaylistDetailFragmentDirections.actionPlaylistDetailFragmentToAlbumPlaylistmoreoption(
+                user_name,
+                user_image,
+                playlist_id,
+                playlistTitle,
+                playlistUrl
+        );
+        Navigation.findNavController(requireView()).navigate(action);
+
+    }
+
 
     private  void setupRecyclerView(View view){
         song_recyclerview=view.findViewById(R.id.song_recyclerview);
@@ -204,19 +236,16 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
                         .setMessage("Bạn có chắc muốn thêm không?")
                         .setPositiveButton("Thêm", (dialog, which) -> {
                             playlistViewModel.addSongToPlaylist(playlist_id, song.getId());
-
                         })
                         .setNegativeButton("Hủy", null)
                         .show();
             }
-
             @Override
             public void OnRemoveClickSong(Song song) {
             }
             @Override
             public void OnPlaySong(Song song) {
             }
-
 
         }, PlaylistSongAdapter.ADD_TYPE);
 
@@ -287,6 +316,9 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
         add_chip=view.findViewById(R.id.add_chip);
         new_button=view.findViewById(R.id.new_button);
         playlist_description=view.findViewById(R.id.playlist_description);
+        moreoption=view.findViewById(R.id.optionsButton);
+        add_chip=view.findViewById(R.id.add_chip);
+
     }
     private void setupViewModel(){
         playlistViewModel=new ViewModelProvider(
@@ -294,8 +326,11 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
                 new PlaylistViewModelFactory(requireContext())).get(PlaylistViewModel.class);
         playlistViewModel.fetchPlaylistSong(playlist_id);
         playlistViewModel.getPlaylistSongs().observe(getViewLifecycleOwner(),songs->{
-            playlist_songs=new ArrayList<>(songs);
-            songAdapter.setData(playlist_songs);
+            if(songs!=null){
+                playlist_songs=new ArrayList<>(songs);
+                songAdapter.setData(playlist_songs);
+
+            }
 
             if(songs!=null){//only when have result finish previous request
                 playlistViewModel.fetchPopularSongs(playlist_id);// fetch playlist xong rồi mới gọi popular
@@ -389,7 +424,6 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
 
     @Override
     public void onItemClick(Song song) {
-        Log.d("Song clicked", song.toString());
         musicPlayerViewModel.playSongsFrom(
                 playlist_id,
                 playlistTitle,

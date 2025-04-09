@@ -33,6 +33,7 @@ public class PlaylistViewModel extends ViewModel {
     private final MutableLiveData<APIResponse<Void>> createPlaylistResponse=new MutableLiveData<>();
     private final MutableLiveData<APIResponse<Void>> createAddSongToPlaylist=new MutableLiveData<>();
     private final MutableLiveData<APIResponse<Void>> deleteSongFromPlaylist=new MutableLiveData<>();
+    private final MutableLiveData<APIResponse<Void>> deletePlaylist=new MutableLiveData<>();
     private final MutableLiveData<APIResponse<Void>> updatePlaylistInfo=new MutableLiveData<>();
 
     public PlaylistViewModel(PlaylistService playlistService){
@@ -207,7 +208,6 @@ public class PlaylistViewModel extends ViewModel {
 
     public void fetchPopularSongs(String playlistId)
     {
-        Log.d("PlaylistViewModel", playlistId);
         isLoading.setValue(true);
         playlistService.getSongPopular(playlistId, 5).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
             @Override
@@ -260,6 +260,24 @@ public class PlaylistViewModel extends ViewModel {
 
     }
 
+    public void removePlaylist(String playlistId){
+        playlistService.removePlaylist(playlistId).enqueue(new Callback<APIResponse<Void>>() {
+            @Override
+            public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    deleteSongFromPlaylist.setValue(response.body());
+                    fetchPlaylistSong(playlistId); //fetch again to update UI.
+                } else {
+                    deleteSongFromPlaylist.setValue(new APIResponse<>());
+                }
+            }
+            @Override
+            public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
+                deleteSongFromPlaylist.setValue(new APIResponse<>());
+            }
+        });
+    }
+
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
     }
@@ -285,6 +303,7 @@ public class PlaylistViewModel extends ViewModel {
     public LiveData<APIResponse<Void>> getUpdatePlaylistResponse() {
         return updatePlaylistInfo;
     }
+
 
 
 

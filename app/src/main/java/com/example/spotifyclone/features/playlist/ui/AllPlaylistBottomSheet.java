@@ -160,7 +160,6 @@ public class AllPlaylistBottomSheet extends BottomSheetDialogFragment {
 
         playlistViewModel.fetchPlaylists();
         playlistViewModel.getUserPlaylist().observe(getViewLifecycleOwner(), playlists -> {
-            Log.d("AllplaylistBottomsheet", "all playlists");
             playlistAdapter.setData(playlists);
         });
 
