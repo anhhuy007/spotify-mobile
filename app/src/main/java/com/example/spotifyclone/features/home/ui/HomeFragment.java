@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,8 @@ public class HomeFragment extends Fragment implements AlbumAdapter.OnAlbumClickL
     private User currentUser;
     private ImageView userAvatarImage;
     private TextView userNameText;
+    private CardView localSongsCardView;
+    private ImageButton playLocalSongsButton;
     private HomeViewModel homeViewModel;
     @Nullable
     @Override
@@ -73,6 +76,21 @@ public class HomeFragment extends Fragment implements AlbumAdapter.OnAlbumClickL
             @Override
             public void onClick(View v) {
                 ((MainActivity) requireActivity()).openDrawer();
+            }
+        });
+
+        localSongsCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavDirections action = HomeFragmentDirections.actionHomeFragmentToLocalSongListFragment();
+                Navigation.findNavController(requireView()).navigate(action);
+            }
+        });
+
+        playLocalSongsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                musicPlayerViewModel.playLocalSongs();
             }
         });
     }
@@ -122,6 +140,9 @@ public class HomeFragment extends Fragment implements AlbumAdapter.OnAlbumClickL
 
         Picasso.get().load(currentUser.getAvatarUrl()).into(userAvatarImage);
         userNameText.setText(currentUser.getUsername());
+
+        localSongsCardView = view.findViewById(R.id.cardViewLocalSongList);
+        playLocalSongsButton = view.findViewById(R.id.btnPlay);
     }
 
     private void setupViewModel() {

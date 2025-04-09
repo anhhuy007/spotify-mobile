@@ -93,10 +93,8 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
     private RecyclerView recommend_albums_recyclerview;
     private Button new_button;
     private ImageButton play_button;
-    //
     private ImageView userImage;
     private TextView userName;
-
     private TextView playlist_description;
     private MusicPlayerViewModel musicPlayerViewModel;
 

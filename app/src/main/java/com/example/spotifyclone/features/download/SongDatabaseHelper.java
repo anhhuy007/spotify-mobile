@@ -9,8 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 
-import com.example.spotifyclone.features.player.model.song.LocalSong;
+import com.example.spotifyclone.features.artist.model.Artist;
+import com.example.spotifyclone.features.genre.model.Genre;
 import com.example.spotifyclone.features.player.model.song.Song;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,15 +34,17 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Table and column names
-    private static final String TABLE_SONGS = "local_songs";
+    private static final String TABLE_SONGS = "songs";
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_LYRIC = "lyric";
     private static final String COLUMN_IS_PREMIUM = "is_premium";
     private static final String COLUMN_LIKE_COUNT = "like_count";
-    private static final String COLUMN_MP3_URL = "mp3_url";
-    private static final String COLUMN_IMAGE_URL = "image_url";
-    private static final String COLUMN_ARTIST_NAMES = "artist_names";
+    private static final String COLUMN_MP3_URL = "mp3_url";  // Will store local path after download
+    private static final String COLUMN_IMAGE_URL = "image_url";  // Will store local path after download
+    private static final String COLUMN_SINGERS = "singers";
+    private static final String COLUMN_AUTHORS = "authors";
+    private static final String COLUMN_GENRES = "genres";
 
     private final Context context;
     private final ExecutorService downloadExecutor = Executors.newFixedThreadPool(3);
@@ -57,7 +64,9 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_LIKE_COUNT + " INTEGER, " +
                 COLUMN_MP3_URL + " TEXT, " +
                 COLUMN_IMAGE_URL + " TEXT, " +
-                COLUMN_ARTIST_NAMES + " TEXT)";
+                COLUMN_SINGERS + " TEXT, " +
+                COLUMN_AUTHORS + " TEXT, " +
+                COLUMN_GENRES + " TEXT)";
         db.execSQL(createTableQuery);
     }
 
@@ -70,11 +79,11 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
     // Interface to notify download progress and completion
     public interface DownloadCallback {
         void onProgressUpdate(int progress);
-        void onDownloadComplete(LocalSong localSong);
+        void onDownloadComplete(Song song);
         void onError(String message);
     }
 
-    // Download song files and save to local storage
+    // Download both MP3 and image files and save to local storage
     public void downloadSong(Song song, DownloadCallback callback) {
         downloadExecutor.execute(() -> {
             try {
@@ -89,18 +98,26 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
                     imageDir.mkdirs();
                 }
 
+                // Store the song object - we'll modify it later
+                Song localSong = new Song(song);  // Assume Song has a copy constructor or create a deep copy
+
                 // Download MP3 file
                 String mp3Filename = song.getId() + ".mp3";
                 File mp3File = new File(musicDir, mp3Filename);
                 downloadFile(song.getMp3Url(), mp3File, 50, callback);
+
+                // Replace MP3 URL with local path
+                localSong.setMp3Url(mp3File.getAbsolutePath());
 
                 // Download image file
                 String imageFilename = song.getId() + ".jpg";
                 File imageFile = new File(imageDir, imageFilename);
                 downloadFile(song.getImageUrl(), imageFile, 50, callback);
 
-                // Create LocalSong and save to database
-                LocalSong localSong = new LocalSong(song, mp3File.getAbsolutePath(), imageFile.getAbsolutePath());
+                // Replace image URL with local path
+                localSong.setImageUrl(imageFile.getAbsolutePath());
+
+                // Save song to database with local paths
                 saveSongToDatabase(localSong);
 
                 callback.onDownloadComplete(localSong);
@@ -143,44 +160,138 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
         connection.disconnect();
     }
 
+    // Convert lists to JSON strings for storage
+    private String convertArtistListToJson(List<Artist> artists) {
+        if (artists == null || artists.isEmpty()) {
+            return "[]";
+        }
+
+        try {
+            JSONArray jsonArray = new JSONArray();
+            for (Artist artist : artists) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("_id", artist.getId());
+                jsonObject.put("name", artist.getName());
+                // Add other artist properties as needed
+                jsonArray.put(jsonObject);
+            }
+            return jsonArray.toString();
+        } catch (JSONException e) {
+            Log.e(TAG, "Error converting artists to JSON: " + e.getMessage());
+            return "[]";
+        }
+    }
+
+    private String convertGenreListToJson(List<Genre> genres) {
+        if (genres == null || genres.isEmpty()) {
+            return "[]";
+        }
+
+        try {
+            JSONArray jsonArray = new JSONArray();
+            for (Genre genre : genres) {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("_id", genre.get_id());
+                jsonObject.put("name", genre.getName());
+                // Add other genre properties as needed
+                jsonArray.put(jsonObject);
+            }
+            return jsonArray.toString();
+        } catch (JSONException e) {
+            Log.e(TAG, "Error converting genres to JSON: " + e.getMessage());
+            return "[]";
+        }
+    }
+
+    // Parse JSON strings back to lists
+    private List<Artist> parseArtistsFromJson(String json) {
+        List<Artist> artists = new ArrayList<>();
+        if (json == null || json.equals("[]")) {
+            return artists;
+        }
+
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Artist artist = new Artist();
+                artist.setId(jsonObject.getString("_id"));
+                artist.setName(jsonObject.getString("name"));
+                // Set other artist properties as needed
+                artists.add(artist);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Error parsing artists from JSON: " + e.getMessage());
+        }
+        return artists;
+    }
+
+    private List<Genre> parseGenresFromJson(String json) {
+        List<Genre> genres = new ArrayList<>();
+        if (json == null || json.equals("[]")) {
+            return genres;
+        }
+
+        try {
+            JSONArray jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Genre genre = new Genre();
+                genre.set_id(jsonObject.getString("_id"));
+                genre.setName(jsonObject.getString("name"));
+                // Set other genre properties as needed
+                genres.add(genre);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Error parsing genres from JSON: " + e.getMessage());
+        }
+        return genres;
+    }
+
     // Save song to SQLite database
-    public void saveSongToDatabase(LocalSong song) {
+    public void saveSongToDatabase(Song song) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_ID, song.getId());
         values.put(COLUMN_TITLE, song.getTitle());
-        values.put(COLUMN_LYRIC, song.getLyric());
+        values.put(COLUMN_LYRIC, song.getLyrics());
         values.put(COLUMN_IS_PREMIUM, song.isPremium() ? 1 : 0);
         values.put(COLUMN_LIKE_COUNT, song.getLikeCount());
-        values.put(COLUMN_MP3_URL, song.getMp3Url());
-        values.put(COLUMN_IMAGE_URL, song.getImageUrl());
-        values.put(COLUMN_ARTIST_NAMES, song.getArtistNames());
+        values.put(COLUMN_MP3_URL, song.getMp3Url());  // Could be online URL or local path
+        values.put(COLUMN_IMAGE_URL, song.getImageUrl());  // Could be online URL or local path
+        values.put(COLUMN_SINGERS, convertArtistListToJson(song.getSingers()));
+        values.put(COLUMN_AUTHORS, convertArtistListToJson(song.getAuthors()));
+        values.put(COLUMN_GENRES, convertGenreListToJson(song.getGenres()));
 
         // Insert or replace if song already exists
         db.insertWithOnConflict(TABLE_SONGS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
     }
 
-    // Get all local songs from database
+    // Get all saved songs from database
     @SuppressLint("Range")
-    public List<LocalSong> getAllLocalSongs() {
-        List<LocalSong> songList = new ArrayList<>();
+    public List<Song> getAllSavedSongs() {
+        List<Song> songList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_SONGS, null, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
-                LocalSong song = new LocalSong();
+                Song song = new Song();
                 song.setId(cursor.getString(cursor.getColumnIndex(COLUMN_ID)));
                 song.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
-                song.setLyric(cursor.getString(cursor.getColumnIndex(COLUMN_LYRIC)));
-                song.setPremium(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_PREMIUM)) == 1);
+                song.setLyrics(cursor.getString(cursor.getColumnIndex(COLUMN_LYRIC)));
+                song.setIs_premium(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_PREMIUM)) == 1);
                 song.setLikeCount(cursor.getInt(cursor.getColumnIndex(COLUMN_LIKE_COUNT)));
                 song.setMp3Url(cursor.getString(cursor.getColumnIndex(COLUMN_MP3_URL)));
                 song.setImageUrl(cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE_URL)));
-                song.setArtistNames(cursor.getString(cursor.getColumnIndex(COLUMN_ARTIST_NAMES)));
+
+                // Parse JSON strings back to lists
+                song.setSingers(parseArtistsFromJson(cursor.getString(cursor.getColumnIndex(COLUMN_SINGERS))));
+                song.setAuthors(parseArtistsFromJson(cursor.getString(cursor.getColumnIndex(COLUMN_AUTHORS))));
+                song.setGenres(parseGenresFromJson(cursor.getString(cursor.getColumnIndex(COLUMN_GENRES))));
 
                 songList.add(song);
             } while (cursor.moveToNext());
@@ -193,24 +304,28 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
 
     // Get a specific song by ID
     @SuppressLint("Range")
-    public LocalSong getSongById(String songId) {
+    public Song getSongById(String songId) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_SONGS, null, COLUMN_ID + "=?",
                 new String[]{songId}, null, null, null);
 
-        LocalSong song = null;
+        Song song = null;
 
         if (cursor.moveToFirst()) {
-            song = new LocalSong();
+            song = new Song();
             song.setId(cursor.getString(cursor.getColumnIndex(COLUMN_ID)));
             song.setTitle(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)));
-            song.setLyric(cursor.getString(cursor.getColumnIndex(COLUMN_LYRIC)));
-            song.setPremium(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_PREMIUM)) == 1);
+            song.setLyrics(cursor.getString(cursor.getColumnIndex(COLUMN_LYRIC)));
+            song.setIs_premium(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_PREMIUM)) == 1);
             song.setLikeCount(cursor.getInt(cursor.getColumnIndex(COLUMN_LIKE_COUNT)));
             song.setMp3Url(cursor.getString(cursor.getColumnIndex(COLUMN_MP3_URL)));
             song.setImageUrl(cursor.getString(cursor.getColumnIndex(COLUMN_IMAGE_URL)));
-            song.setArtistNames(cursor.getString(cursor.getColumnIndex(COLUMN_ARTIST_NAMES)));
+
+            // Parse JSON strings back to lists
+            song.setSingers(parseArtistsFromJson(cursor.getString(cursor.getColumnIndex(COLUMN_SINGERS))));
+            song.setAuthors(parseArtistsFromJson(cursor.getString(cursor.getColumnIndex(COLUMN_AUTHORS))));
+            song.setGenres(parseGenresFromJson(cursor.getString(cursor.getColumnIndex(COLUMN_GENRES))));
         }
 
         cursor.close();
@@ -218,22 +333,64 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
         return song;
     }
 
+    // Check if a song exists in the database
+    public boolean songExists(String songId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_SONGS,
+                new String[]{COLUMN_ID},
+                COLUMN_ID + "=?",
+                new String[]{songId},
+                null, null, null);
+
+        boolean exists = cursor.getCount() > 0;
+
+        cursor.close();
+        db.close();
+        return exists;
+    }
+
+    // Check if a song is downloaded (files exist locally)
+    public boolean isSongDownloaded(String songId) {
+        Song song = getSongById(songId);
+        if (song == null) {
+            return false;
+        }
+
+        // Check if MP3 file exists
+        File mp3File = new File(song.getMp3Url());
+
+        // Check if image file exists
+        File imageFile = new File(song.getImageUrl());
+
+        // Song is considered downloaded if both files exist
+        return mp3File.exists() && imageFile.exists();
+    }
+
     // Delete a song from database and storage
     public boolean deleteSong(String songId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        LocalSong song = getSongById(songId);
+        Song song = getSongById(songId);
 
         if (song != null) {
-            // Delete mp3 file
-            File mp3File = new File(song.getMp3Url());
-            if (mp3File.exists()) {
-                mp3File.delete();
+            String mp3Path = song.getMp3Url();
+            String imagePath = song.getImageUrl();
+
+            // Check if these are local paths
+            if (mp3Path.startsWith("/")) {
+                // Delete mp3 file
+                File mp3File = new File(mp3Path);
+                if (mp3File.exists()) {
+                    mp3File.delete();
+                }
             }
 
-            // Delete image file
-            File imageFile = new File(song.getImageUrl());
-            if (imageFile.exists()) {
-                imageFile.delete();
+            if (imagePath.startsWith("/")) {
+                // Delete image file
+                File imageFile = new File(imagePath);
+                if (imageFile.exists()) {
+                    imageFile.delete();
+                }
             }
 
             // Delete from database

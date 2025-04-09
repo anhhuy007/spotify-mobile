@@ -38,6 +38,10 @@ public class Artist implements Parcelable {
         }
     };
 
+    public Artist() {
+
+    }
+
     public String getId() { return _id; }
     public String getName() { return name; }
     public String getDescription() { return bio; }
@@ -56,5 +60,13 @@ public class Artist implements Parcelable {
         dest.writeString(bio);
         dest.writeString(avatar_url);
         dest.writeInt(followers);
+    }
+
+    public void setId(String id) {
+        this._id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

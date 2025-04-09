@@ -563,6 +563,21 @@ public class MusicPlayerController {
             }
         }
     }
+    public void playLocalSongs(List<Song> localSongs, Song prioritizedLocalSong) {
+        checkReleased();
+        synchronized (playlistLock) {
+            playList.clear();
+            if (prioritizedLocalSong != null) {
+                playList.addFirstSong(prioritizedLocalSong);
+                localSongs.remove(prioritizedLocalSong);
+                playList.addSongs(localSongs);
+            } else {
+                playList.addSongs(localSongs);
+                play();
+            }
+
+        }
+    }
 
     private void fetchPlaylistSongWithPriority(String id, String first_song_id) {
         songService.getPlaylistSongs(id).enqueue(new Callback<>() {

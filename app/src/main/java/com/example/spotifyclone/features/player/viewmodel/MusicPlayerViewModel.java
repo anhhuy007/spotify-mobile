@@ -8,17 +8,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-//import com.example.spotifyclone.features.notification.MusicNotificationManager;
 import com.example.spotifyclone.features.player.model.audio.MusicPlayerController;
 import com.example.spotifyclone.features.player.model.audio.PlaybackListener;
-import com.example.spotifyclone.features.player.model.playlist.PlayList;
 import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.shared.model.PlayerState;
-
-import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -48,7 +44,8 @@ public class MusicPlayerViewModel extends ViewModel {
         RANDOM,
         ALBUM,
         ARTIST,
-        PLAYLIST
+        PLAYLIST,
+        LOCAL
     }
     private final MutableLiveData<Boolean> isAdPlaying = new MutableLiveData<>(false);
     private final Handler handler = new Handler(Looper. getMainLooper());
@@ -231,6 +228,41 @@ public class MusicPlayerViewModel extends ViewModel {
             playSongsFrom(id, name, type, null);
         }
     }
+    public void togglePlayPauseLocal(List<Song> songs) {
+        if (isAdPlaying.getValue() != null && isAdPlaying.getValue()) {
+            errorMessage.setValue("Ad is playing");
+            return;
+        }
+        PlaybackState currentState = playbackState.getValue();
+        PlaybackSourceType type = PlaybackSourceType.LOCAL;
+
+        if (currentPlaybackSourceType.getValue() == type) {
+            if (currentState == PlaybackState.PLAYING) {
+                pausePlayback();
+            } else if (currentState == PlaybackState.PAUSED || currentState == PlaybackState.SEEKING) {
+                continuePlayback();
+            } else {
+                playLocalSongs(songs, null);
+            }
+        } else {
+            playLocalSongs(songs, null);
+        }
+    }
+
+    public void playLocalSongs(List<Song> songs, Song priotitizedSong) {
+        if (isAdPlaying.getValue() != null && isAdPlaying.getValue()) {
+            errorMessage.setValue("Ad is playing");
+            return;
+        }
+        currentAlbumId.setValue(null);
+        currentArtistId.setValue(null);
+        currentPlaylistId.setValue(null);
+        playerController.playLocalSongs(songs, priotitizedSong);
+        currentPlaybackSourceType.setValue(PlaybackSourceType.LOCAL);
+        currentName.setValue("Nhac ngoại tuyến");
+        playbackState.setValue(PlaybackState.LOADING);
+        handler.post(updateProgressRunnable);
+    }
 
     public void continuePlayback() {
         playerController.continuePlaying();
@@ -244,12 +276,6 @@ public class MusicPlayerViewModel extends ViewModel {
         playerController.prioritizeSong(song);
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
-    }
-
-    public void stop() {
-        playerController.stop();
-        playbackState.setValue(PlaybackState.STOPPED);
-        handler.removeCallbacks(updateProgressRunnable);
     }
 
     public void playNext() {
