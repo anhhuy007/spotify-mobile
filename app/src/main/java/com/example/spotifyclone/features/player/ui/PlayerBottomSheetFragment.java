@@ -184,6 +184,10 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         btnNext.setOnClickListener(v -> viewModel.playNext());
         btnShuffle.setOnClickListener(v -> viewModel.cycleShuffleMode());
         btnRepeat.setOnClickListener(v -> viewModel.cycleRepeatMode());
+        btnMultiMedia.setOnClickListener(v -> {
+            SleepTimerDialog sleepTimerDialog = SleepTimerDialog.newInstance();
+            sleepTimerDialog.show(getParentFragmentManager(), "SleepTimerDialog");
+        });
         progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

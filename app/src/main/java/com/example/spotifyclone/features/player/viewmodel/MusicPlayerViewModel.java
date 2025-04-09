@@ -55,6 +55,9 @@ public class MusicPlayerViewModel extends ViewModel {
         PLAYLIST
     }
 
+    public void setStopAtEndOfTrack(boolean isOn){
+        playerController.setStopAtEndOfTrack(isOn);
+    }
     private final Handler handler = new Handler(Looper. getMainLooper());
     private final Runnable updateProgressRunnable = new Runnable() {
         @Override
