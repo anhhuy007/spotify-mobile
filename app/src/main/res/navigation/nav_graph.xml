@@ -240,6 +240,9 @@
         <action
             android:id="@+id/action_searchSuggestFragment_to_nav_album_detail"
             app:destination="@id/nav_album_detail" />
+        <action
+            android:id="@+id/action_searchSuggestFragment_to_nav_search"
+            app:destination="@id/nav_search" />
     </fragment>
 
 
@@ -399,7 +402,11 @@
         android:id="@+id/chatbotFragment"
         android:name="com.example.spotifyclone.features.chatbot.ui.ChatbotFragment"
         android:label="ChatbotFragment"
-        tools:layout="@layout/fragment_chatbot"/>
+        tools:layout="@layout/fragment_chatbot">
+        <action
+            android:id="@+id/action_chatbotFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
 
 
 </navigation>

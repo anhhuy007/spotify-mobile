@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -87,9 +88,8 @@ public class SearchSuggestFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Quay lại fragment trước đó
-                requireActivity()
-                        .getSupportFragmentManager()
-                        .popBackStack();
+                NavDirections action=SearchSuggestFragmentDirections.actionSearchSuggestFragmentToNavSearch();
+                Navigation.findNavController(view).navigate(action);
             }
         });
 
@@ -135,6 +135,7 @@ public class SearchSuggestFragment extends Fragment {
 
         searchAdapter = new SearchAdapter(requireContext(), new ArrayList<>(), item -> {
             if ("song".equals(item.getType())) {
+
             }
             if ("album".equals(item.getType())) {
                 navigateToAlbumDetail(item);

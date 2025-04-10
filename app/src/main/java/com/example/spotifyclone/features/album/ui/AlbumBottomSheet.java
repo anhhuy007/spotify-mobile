@@ -68,7 +68,6 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
         List<String> artistList;
 
         if (bundle == null ) {
-            // ✅ Dùng SafeArgs
             AlbumBottomSheetArgs args = AlbumBottomSheetArgs.fromBundle(bundle);
             id = args.getId();
             image = args.getSongImage();

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@color/background_color"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hủy"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             android:textSize="16sp" />
 
         <Space
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Chỉnh sửa Playlist"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lưu"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             android:textSize="16sp" />
     </LinearLayout>
 

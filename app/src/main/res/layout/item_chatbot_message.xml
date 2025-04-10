@@ -28,7 +28,7 @@
         android:maxWidth="0dp"
         android:visibility="gone"
         android:gravity="end"
-        android:textColor="@color/white"
+        android:textColor="#ffffff"
 
         android:background="@drawable/ai_message_bg"
         android:padding="10dp"

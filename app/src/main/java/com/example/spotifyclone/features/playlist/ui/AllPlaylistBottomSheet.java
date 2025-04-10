@@ -26,6 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,8 +35,8 @@ public class AllPlaylistBottomSheet extends BottomSheetDialogFragment {
     private String songName;
     private String songId;
     private String songImage;
-    private Button newPlaylistButton;
-    private MaterialButton done_button;
+    private Chip newPlaylistButton;
+    private Chip done_button;
     private RecyclerView recyclerView;
     private PlaylistAdapter playlistAdapter;
     private PlaylistViewModel playlistViewModel;

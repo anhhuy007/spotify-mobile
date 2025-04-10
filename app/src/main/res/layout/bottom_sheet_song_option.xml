@@ -10,7 +10,7 @@
     <View
         android:layout_width="32dp"
         android:layout_height="4dp"
-        android:background="@color/white"
+        android:background="@color/text_color"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"/>
 
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingVertical="12dp">
+                >
 
                 <ImageView
                     android:layout_width="24dp"
@@ -96,16 +96,11 @@
                 <com.google.android.material.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:text="Premium"
                     android:textColor="@color/text_color"
                     android:textSize="12sp"
                     app:chipIcon="@drawable/ic_logo"
-                    app:chipIconSize="24dp"
-                    app:chipIconTint="@color/text_color"
-                    app:chipStartPadding="4dp"
-                    app:chipEndPadding="8dp"
-                    app:chipMinHeight="32dp"
+                    app:chipBackgroundColor="@color/background_color"
                     style="@style/Widget.MaterialComponents.Chip.Action"/>
 
             </LinearLayout>

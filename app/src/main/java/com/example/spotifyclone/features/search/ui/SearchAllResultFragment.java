@@ -234,14 +234,16 @@ public class SearchAllResultFragment extends Fragment {
 
     public void setupViewModel() {
         searchViewModel = new ViewModelProvider(
-                this,
+                requireActivity(),
                 new SearchViewModelFactory(requireContext())
         ).get(SearchViewModel.class);
 
         // Only fetch initial results if not already filtering
         if (!isFiltering && !isInitialLoadComplete) {
+            // chỉ fetch nếu chưa có dữ liệu
             searchViewModel.fetchSearchResults(searchQuery, null, null, currentPage, 10);
             isInitialLoadComplete = true;
+
 
             // Set up observer for initial results
             if (isAdded() && getViewLifecycleOwner() != null) {

@@ -130,7 +130,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.BaseViewHo
         public void bind(SearchItem item, Context context) {
             search_name.setText(item.getName());
             if (item.getArtists_name() != null) {
-                search_type.setText(item.getType() + " + " + String.join(", ", item.getArtists_name()));
+                search_type.setText(item.getType() + " • " + String.join(", ", item.getArtists_name()));
             }
             Glide.with(context).load(item.getImage_url()).into(search);
             itemView.setTag(item);
@@ -159,7 +159,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.BaseViewHo
         public void bind(SearchItem item, Context context) {
             search_name.setText(item.getName());
             if (item.getArtists_name() != null) {
-                search_type.setText(item.getType() + " + " + String.join(", ", item.getArtists_name()));
+                search_type.setText(item.getType() + " • " + String.join(", ", item.getArtists_name()));
             }
             Glide.with(context).load(item.getImage_url()).into(search);
             itemView.setTag(item);
@@ -188,7 +188,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.BaseViewHo
         public void bind(SearchItem item, Context context) {
             search_name.setText(item.getName());
             if (item.getArtists_name() != null) {
-                search_type.setText(item.getType() + " + " + String.join(", ", item.getArtists_name()));
+                search_type.setText(item.getType() + " • " + String.join(", ", item.getArtists_name()));
             }
             Glide.with(context).load(item.getImage_url()).apply(new RequestOptions().transform(new CircleCrop())).into(search);
             itemView.setTag(item);
@@ -217,7 +217,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.BaseViewHo
         public void bind(SearchItem item, Context context) {
             search_name.setText(item.getName());
             if (item.getArtists_name() != null) {
-                search_type.setText(item.getType() + " + " + String.join(", ", item.getArtists_name()));
+                search_type.setText(item.getType() + " • " + String.join(", ", item.getArtists_name()));
             }
             Glide.with(context).load(item.getImage_url()).into(search);
             itemView.setTag(item);
