@@ -143,5 +143,6 @@
     <string name="play_songs_in_any_order">Phát bài hát theo thứ tự bất kỳ</string>
     <string name="high_audio_quality">Chất lượng âm thanh cao</string>
     <string name="organize_listening_queue">Sắp xếp hàng đợi phát</string>
+    <string name="terms_apply">Terms apply.</string>
 
 </resources>

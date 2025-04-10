@@ -236,19 +236,14 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <!-- Blue gradient background -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="280dp"
-                            android:background="@drawable/premium_mini_gradient" />
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/premium_mini_gradient"
+                        android:padding="24dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="24dp">
+                            android:orientation="vertical">
 
                             <!-- Header: Premium Mini and Price -->
                             <LinearLayout
@@ -323,7 +318,7 @@
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="@font/avenir_next"
                                 android:gravity="center"
-                                android:text="Terms apply."
+                                android:text="@string/terms_apply"
                                 android:textColor="@android:color/white"
                                 android:textSize="14sp" />
                         </LinearLayout>
@@ -340,19 +335,14 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <!-- Green background -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="380dp"
-                            android:background="@drawable/premium_individual_gradient" />
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/premium_individual_gradient"
+                        android:padding="24dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="24dp">
+                            android:orientation="vertical">
 
                             <!-- Top text -->
                             <TextView
@@ -468,19 +458,14 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <!-- Orange background -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="350dp"
-                            android:background="@drawable/premium_student_gradient" />
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/premium_student_gradient"
+                        android:padding="24dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="24dp">
+                            android:orientation="vertical">
 
                             <!-- Top text -->
                             <TextView
