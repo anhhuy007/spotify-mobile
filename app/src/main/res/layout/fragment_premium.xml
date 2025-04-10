@@ -236,19 +236,14 @@
 
                     <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <!-- Blue gradient background -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="280dp"
-                            android:background="@drawable/premium_mini_gradient" />
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/premium_mini_gradient"
+                        android:padding="24dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="24dp">
+                            android:orientation="vertical">
 
                             <!-- Header: Premium Mini and Price -->
                             <LinearLayout
@@ -325,7 +320,30 @@
                                 android:text="@string/terms_apply"
                                 android:textColor="@android:color/white"
                                 android:textSize="14sp" />
+                        </LinearLayout>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="20dp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/premium_individual_gradient"
+                        android:padding="24dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!-- Top text -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -335,33 +353,61 @@
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="0dp"
+                            <!-- Header: Premium Individual and FREE -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/avenir_next"
-                                android:text="@string/premium_individual"
-                                android:textColor="@android:color/white"
-                                android:textSize="24sp"
-                                android:textStyle="bold" />
+                                android:layout_marginTop="24dp"
+                                android:orientation="horizontal">
 
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/avenir_next"
+                                    android:text="@string/premium_individual"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_next"
+                                        android:text="@string/free"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="25sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_next"
+                                        android:text="@string/for_3_months"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!-- Features description -->
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
                                 android:fontFamily="@font/avenir_next"
-                                android:text="@string/free"
+                                android:gravity="center"
+                                android:lineSpacingExtra="4dp"
+                                android:text="@string/individual_plan_description"
                                 android:textColor="@android:color/white"
-                                android:textSize="25sp"
-                                android:textStyle="bold" />
+                                android:textSize="16sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/avenir_next"
-                                android:text="@string/for_3_months"
-                                android:textColor="@android:color/white"
-                                android:textSize="13sp" />
-
+                            <!-- Try 3 months button -->
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btn_try_individual"
                                 android:layout_width="match_parent"
@@ -375,6 +421,19 @@
                                 android:textStyle="bold"
                                 app:cornerRadius="28dp" />
 
+                            <!-- Terms text -->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:fontFamily="@font/avenir_next"
+                                android:gravity="center"
+                                android:lineSpacingExtra="4dp"
+                                android:text="@string/individual_plan_term"
+                                android:textColor="@android:color/white"
+                                android:textSize="12sp" />
+
+                            <!-- Offer ends text -->
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -384,7 +443,30 @@
                                 android:text="@string/offer_ends_april_2"
                                 android:textColor="@android:color/white"
                                 android:textSize="12sp" />
+                        </LinearLayout>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="20dp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/premium_student_gradient"
+                        android:padding="24dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!-- Top text -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -394,33 +476,61 @@
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="0dp"
+                            <!-- Header: Premium Student and Price -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/avenir_next"
-                                android:text="@string/premium_student"
-                                android:textColor="@android:color/white"
-                                android:textSize="24sp"
-                                android:textStyle="bold" />
+                                android:layout_marginTop="24dp"
+                                android:orientation="horizontal">
 
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/avenir_next"
+                                    android:text="@string/premium_student"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_next"
+                                        android:text="@string/two_months_29500"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="25sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_next"
+                                        android:text="@string/for_2_months"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!-- Features description -->
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
                                 android:fontFamily="@font/avenir_next"
-                                android:text="@string/two_months_29500"
+                                android:gravity="center"
+                                android:lineSpacingExtra="4dp"
+                                android:text="@string/student_plan_description"
                                 android:textColor="@android:color/white"
-                                android:textSize="25sp"
-                                android:textStyle="bold" />
+                                android:textSize="16sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/avenir_next"
-                                android:text="@string/for_2_months"
-                                android:textColor="@android:color/white"
-                                android:textSize="13sp" />
-
+                            <!-- Try 2 months button -->
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btn_try_student"
                                 android:layout_width="match_parent"

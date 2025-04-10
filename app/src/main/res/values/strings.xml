@@ -4,6 +4,9 @@
     <string name="hello_blank_fragment">Xin chào blank fragment</string>
     <string name="dummy_button">Nút mẫu</string>
     <string name="dummy_content">NỘI DUNG\nMẪU</string>
+    <string name="all_results1">Tất cả kết quả</string>
+
+
     <string name="email_or_username">Email hoặc tên người dùng</string>
     <string name="forgot_your_password">Quên mật khẩu</string>
     <string name="Back">Quay lại</string>
@@ -338,5 +341,6 @@
     <string name="features_student">1 tài khoản Premium đã xác minh • Giảm giá cho sinh viên đủ điều kiện • Hủy bất kỳ lúc nào • Đăng ký hoặc thanh toán một lần</string>
     <string name="button_try_student">DÙNG 2 THÁNG VỚI ₫29.500</string>
     <string name="terms_student">₫29.500 cho 2 tháng, sau đó ₫29.500 mỗi tháng. Chỉ áp dụng cho sinh viên đủ điều kiện. Có điều khoản đi kèm.</string>
+
 
 </resources>

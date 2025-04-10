@@ -1,5 +1,6 @@
 package com.example.spotifyclone;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -34,6 +35,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.spotifyclone.features.authentication.network.TokenManager;
 import com.example.spotifyclone.features.authentication.repository.AuthRepository;
+import com.example.spotifyclone.features.authentication.ui.LoginActivity;
 import com.example.spotifyclone.features.home.ui.HomeFragment;
 import com.example.spotifyclone.features.library.ui.LibraryFragment;
 import com.example.spotifyclone.features.player.model.song.Song;
@@ -137,8 +139,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_settings) {
              navController.navigate(R.id.settingsFragment);
+        } else if (id == R.id.nav_log_out) {
+            TokenManager tokenManager = new TokenManager(getApplicationContext());
+            tokenManager.clearTokens();
+            AuthRepository authRepository = new AuthRepository(getApplicationContext());
+            authRepository.logout();
 
+            // Toast
+            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+
+            // navigate to login activity
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

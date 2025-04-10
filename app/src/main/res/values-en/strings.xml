@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">SpotifyClone</string>
     <string name="test">This is Login Activity made for testing purpose</string>
     <string name="theme">Theme</string>
@@ -9,6 +10,7 @@
     <string name="fler">follower</string>
     <string name="fl">Following</string>
     <string name="follow">Follow</string>
+    <string name="all_results1">All results</string>
 
     <string name="edit">Edit</string>
     <string name="noActivity">No recent activity</string>

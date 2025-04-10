@@ -80,11 +80,11 @@ public class NewPlaylistBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 String playlistName=playlistNameEditText.getText().toString();
-                if(playlistName==null||playlistName.isEmpty()){
+                if(playlistName.isEmpty()){
                     playlistViewModel.createPlaylist(songId, songName, songImage);
                 }
                 else{
-                    playlistViewModel.createPlaylist(songId, songName,songImage);
+                    playlistViewModel.createPlaylist(songId, playlistName, songImage);
                 }
                 dismiss();
             }

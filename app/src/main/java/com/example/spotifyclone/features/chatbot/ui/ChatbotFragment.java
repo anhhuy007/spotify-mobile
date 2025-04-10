@@ -73,10 +73,15 @@ public class ChatbotFragment extends Fragment {
         chatBotViewModel = new ViewModelProvider(
                 requireActivity(),
                 new ChatbotViewmodelFactory(requireContext())).get(ChatBotViewModel.class);
-        chatBotViewModel.fetchChatbotResponse(ask);
+//        chatBotViewModel.fetchChatbotResponse(ask);
         chatBotViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
-            messages.add(response);
-            chatAdapter.setData(messages);
+            if(!ask.isEmpty()&&!response.isEmpty())
+            {
+                messages.add(response);
+                chatAdapter.setData(messages);
+
+            }
+
         });
     }
 
@@ -85,12 +90,8 @@ public class ChatbotFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ask = editText.getText().toString();
-                editText.setText("");
                 messages.add(ask);
                 chatBotViewModel.fetchChatbotResponse(ask);
-//                String answer=chatBotViewModel.getResponseLiveData();
-//                messages.add(answer);
-
             }
         });
 
@@ -98,16 +99,11 @@ public class ChatbotFragment extends Fragment {
     }
 
     private  void setupRecyclerView(View view){
-        recyclerView=view.findViewById(R.id.song_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         chatAdapter = new ChatAdapter(messages);
 
 
         recyclerView.setAdapter(chatAdapter);
     }
-
-
-
-
 
 }
