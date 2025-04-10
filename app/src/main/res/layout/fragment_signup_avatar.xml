@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Profile Setup"
+        android:text="@string/profile_setup"
         android:textColor="@color/gray_600"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Step 3 of 4"
+        android:text="@string/step_3_of_4"
         android:textColor="@color/gray_600"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +70,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Close"
+        android:contentDescription="@string/close"
         android:src="@drawable/close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
@@ -188,7 +188,7 @@
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/spotify_green"
         android:fontFamily="@font/avenir_next_bold"
-        android:text="Continue"
+        android:text="@string/continue1"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:cornerRadius="28dp"
@@ -201,4 +201,3 @@
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

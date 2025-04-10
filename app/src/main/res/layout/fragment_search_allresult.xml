@@ -16,7 +16,7 @@
         android:drawablePadding="8dp"
         android:fontFamily="@font/avenir_next"
         android:textSize="12sp"
-        android:hint="@string/search_text"
+        android:hint="@string/search_text1"
         android:padding="2dp"
         android:textColor="@color/text_color"
         android:clickable="true"

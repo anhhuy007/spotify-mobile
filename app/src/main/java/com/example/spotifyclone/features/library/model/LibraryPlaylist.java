@@ -51,6 +51,6 @@ public class LibraryPlaylist {
     }
 
     public String getPlaylistInfo() {
-        return "Danh sách phát • " + creator_name;
+        return creator_name;
     }
 }

@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_next"
-            android:text="Nghe nhạc không quảng cáo"
+            android:text="@string/no_ads_music"
             android:textColor="@color/text_color"
             android:textSize="16sp"/>
 
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="Premium"
+            android:text="@string/premium_tag"
             android:textColor="@color/text_color"
             android:textSize="12sp"
             app:chipIcon="@drawable/ic_logo"
@@ -109,7 +109,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thêm vào Bài hát ưa thích"
+            android:text="@string/add_to_liked_songs"
             android:textColor="@color/text_color"
             android:textSize="16sp"/>
 
@@ -136,7 +136,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thêm vào danh sách phát"
+            android:text="@string/add_to_playlist"
             android:textColor="@color/text_color"
             android:textSize="16sp"/>
 
@@ -163,7 +163,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ẩn bài hát"
+            android:text="@string/hide_song"
             android:textColor="@color/text_color"
             android:textSize="16sp"/>
 
@@ -190,7 +190,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chia sẻ"
+            android:text="@string/share"
             android:textColor="@color/text_color"
             android:textSize="16sp"/>
 

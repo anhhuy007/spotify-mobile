@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <!-- Status Bar Background -->
     <View
         android:id="@+id/statusBarBackground"
         android:layout_width="match_parent"
@@ -14,14 +13,13 @@
         android:background="@color/spotify_green"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Progress Bar Section -->
     <TextView
         android:id="@+id/tvProgressLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Profile Setup"
+        android:text="@string/profile_setup"
         android:textColor="@color/gray_600"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Step 4 of 4"
+        android:text="@string/step_counter"
         android:textColor="@color/gray_600"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +49,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvProgressLabel" />
 
-    <!-- Navigation Buttons -->
     <ImageView
         android:id="@+id/btnBack"
         android:layout_width="30dp"
@@ -71,13 +68,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Close"
+        android:contentDescription="@string/close"
         android:src="@drawable/close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
         app:tint="@color/black" />
 
-    <!-- Main Content -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -99,21 +95,20 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="Your username is how other Spotify users can find and follow you"
+        android:text="@string/username_description"
         android:textColor="@color/gray_600"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-    <!-- Username Input -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameInputLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="32dp"
-        android:hint="Username"
+        android:hint="@string/username_hint"
         app:boxBackgroundColor="@color/inputEditTextBg"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
@@ -122,7 +117,7 @@
         app:boxStrokeColor="@color/spotify_green"
         app:boxStrokeWidth="0dp"
         app:endIconMode="clear_text"
-        app:helperText="Username must be unique"
+        app:helperText="@string/username_helper"
         app:helperTextTextColor="@color/gray_600"
         app:hintTextColor="@color/spotify_green"
         app:layout_constraintEnd_toEndOf="parent"
@@ -137,14 +132,13 @@
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Username Availability Indicator -->
     <TextView
         android:id="@+id/tvUsernameAvailability"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:drawablePadding="8dp"
-        android:text="This username is available"
+        android:text="@string/username_available"
         android:textColor="@color/spotify_green"
         android:textSize="14sp"
         android:visibility="gone"
@@ -153,13 +147,12 @@
         app:layout_constraintStart_toStartOf="@id/usernameInputLayout"
         app:layout_constraintTop_toBottomOf="@id/usernameInputLayout" />
 
-    <!-- Suggested Usernames -->
     <TextView
         android:id="@+id/tvSuggestionsLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Suggested usernames:"
+        android:text="@string/suggested_usernames"
         android:textColor="@color/black"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -167,7 +160,6 @@
         app:layout_constraintStart_toStartOf="@id/usernameInputLayout"
         app:layout_constraintTop_toBottomOf="@id/tvUsernameAvailability" />
 
-    <!-- Suggestion Chips -->
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/suggestedUsernamesChipGroup"
         android:layout_width="0dp"
@@ -181,33 +173,32 @@
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="music_lover123"
+            android:text="@string/suggestion_1"
             android:textColor="@color/black"
             app:chipBackgroundColor="@color/inputEditTextBg" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="melody_master"
+            android:text="@string/suggestion_2"
             android:textColor="@color/black"
             app:chipBackgroundColor="@color/inputEditTextBg" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="rhythm_fan2023"
+            android:text="@string/suggestion_3"
             android:textColor="@color/black"
             app:chipBackgroundColor="@color/inputEditTextBg" />
 
         <com.google.android.material.chip.Chip
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="tune_explorer"
+            android:text="@string/suggestion_4"
             android:textColor="@color/black"
             app:chipBackgroundColor="@color/inputEditTextBg" />
     </com.google.android.material.chip.ChipGroup>
 
-    <!-- Loading Progress Bar   -->
     <ProgressBar
         android:id="@+id/progressBarLoading"
         style="?android:attr/progressBarStyle"
@@ -220,7 +211,6 @@
         app:layout_constraintStart_toStartOf="@id/usernameInputLayout"
         app:layout_constraintTop_toBottomOf="@id/suggestedUsernamesChipGroup" />
 
-    <!-- Complete Sign Up Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCompleteSignup"
         android:layout_width="0dp"
@@ -228,7 +218,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/spotify_green"
-        android:text="Complete Sign Up"
+        android:text="@string/complete_sign_up"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:cornerRadius="28dp"

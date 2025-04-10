@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_next"
-                android:text="₫29,500 for 2 months"
+                android:text="@string/price_student_intro"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/avenir_next"
-                    android:text="Premium Student"
+                    android:text="@string/premium_student_title"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/avenir_next"
-                        android:text="₫29,500"
+                        android:text="@string/price_student"
                         android:textColor="@android:color/white"
                         android:textSize="25sp"
                         android:textStyle="bold" />
@@ -71,7 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/avenir_next"
-                        android:text="FOR 2 MONTHS"
+                        android:text="@string/duration_student"
                         android:textColor="@android:color/white"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -85,7 +85,7 @@
                 android:fontFamily="@font/avenir_next"
                 android:gravity="center"
                 android:lineSpacingExtra="4dp"
-                android:text="1 verified Premium account • Discount for eligible students • Cancel anytime • Subscribe or one-time payment"
+                android:text="@string/features_student"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
@@ -97,7 +97,7 @@
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@android:color/white"
                 android:fontFamily="@font/avenir_next"
-                android:text="TRY 2 MONTHS FOR ₫29,500"
+                android:text="@string/button_try_student"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -111,10 +111,9 @@
                 android:fontFamily="@font/avenir_next"
                 android:gravity="center"
                 android:lineSpacingExtra="4dp"
-                android:text="₫29,500 for 2 months, then ₫29,500 per month after. Offer only available for eligible students. Terms apply."
+                android:text="@string/terms_student"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
         </LinearLayout>
     </FrameLayout>
 </androidx.cardview.widget.CardView>
-

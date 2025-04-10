@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_next"
-                android:text="₫0 for 3 months"
+                android:text="@string/price_for_3_months"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/avenir_next"
-                    android:text="Premium Individual"
+                    android:text="@string/premium_individual1"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/avenir_next"
-                        android:text="FREE"
+                        android:text="@string/free_label"
                         android:textColor="@android:color/white"
                         android:textSize="25sp"
                         android:textStyle="bold" />
@@ -71,7 +71,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/avenir_next"
-                        android:text="FOR 3 MONTHS"
+                        android:text="@string/for_3_months1"
                         android:textColor="@android:color/white"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -85,7 +85,7 @@
                 android:fontFamily="@font/avenir_next"
                 android:gravity="center"
                 android:lineSpacingExtra="4dp"
-                android:text="1 Premium account • Cancel anytime • Subscribe or one-time payment"
+                android:text="@string/features_description"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
@@ -97,7 +97,7 @@
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@android:color/white"
                 android:fontFamily="@font/avenir_next"
-                android:text="TRY 3 MONTHS FOR ₫0"
+                android:text="@string/try_button_text"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -111,7 +111,7 @@
                 android:fontFamily="@font/avenir_next"
                 android:gravity="center"
                 android:lineSpacingExtra="4dp"
-                android:text="₫0 for 3 months, then ₫59,000 per month after. Offer only available if you haven't tried Premium before and you subscribe via Spotify. Offers via Google Play may differ. Terms apply."
+                android:text="@string/terms_text"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
 
@@ -122,7 +122,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/avenir_next"
                 android:gravity="center"
-                android:text="Offer ends April 2, 2025."
+                android:text="@string/offer_ends_text"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
         </LinearLayout>

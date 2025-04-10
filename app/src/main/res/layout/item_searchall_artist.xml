@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Theo dõi"
+        android:text="@string/follow"
         android:textColor="@color/text_color"
         android:textSize="12sp"
         android:layout_gravity="center_vertical"

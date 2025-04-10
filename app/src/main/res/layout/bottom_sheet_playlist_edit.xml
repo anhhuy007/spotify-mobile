@@ -19,7 +19,7 @@
             android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hủy"
+            android:text="@string/cancel"
             android:textColor="@color/text_color"
             android:textSize="16sp" />
 
@@ -32,7 +32,7 @@
             android:id="@+id/playlist_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chỉnh sửa Playlist"
+            android:text="@string/edit_playlist"
             android:textColor="@color/text_color"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -46,7 +46,7 @@
             android:id="@+id/save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lưu"
+            android:text="@string/save"
             android:textColor="@color/text_color"
             android:textSize="16sp" />
     </LinearLayout>
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:text="Thay đổi hình ảnh"
+        android:text="@string/change_image"
         android:textColor="@color/text_color"
         android:textSize="14sp" />
 
@@ -96,14 +96,14 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:backgroundTint="#333333"
-        android:text="Thêm phần mô tả"
+        android:text="@string/add_description"
         android:textColor="#FFFFFF" />
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textColorHint="@color/gray"
-        android:hint="Nhập mô tả"
+        android:hint="@string/enter_description"
         android:id="@+id/playlist_description_edittext"
         android:visibility="gone"/>
 
