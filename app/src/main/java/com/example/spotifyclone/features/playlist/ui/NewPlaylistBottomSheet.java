@@ -79,6 +79,7 @@ public class NewPlaylistBottomSheet extends BottomSheetDialogFragment {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("NewPlaylistBottomSheet", "Create button clicked"+songId+songName+songImage);
                 String playlistName=playlistNameEditText.getText().toString();
                 if(playlistName.isEmpty()){
                     playlistViewModel.createPlaylist(songId, songName, songImage);

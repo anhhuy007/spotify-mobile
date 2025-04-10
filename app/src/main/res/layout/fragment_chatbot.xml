@@ -1,35 +1,132 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <!-- RecyclerView để hiển thị tin nhắn -->
+    <!-- AppBar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:expandedTitleGravity="bottom|center_horizontal"
+        android:visibility="visible"
+        android:background="@color/gray"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:title="ChatBot"
+
+            android:titleTextColor="@android:color/white"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/ic_back_button" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Lottie Animation -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:lottie_rawRes="@raw/hello"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="8dp"/>
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-    <!-- Khung nhập và nút gửi -->
+        app:layout_constraintTop_toBottomOf="@id/animationView"
+        app:layout_constraintBottom_toTopOf="@id/messageInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Message Input Layout -->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/messageInputLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <EditText
-            android:id="@+id/inputEditText"
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="Nhập tin nhắn..." />
+            android:layout_marginEnd="5dp">
 
-        <Button
-            android:id="@+id/sendButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gửi" />
+            <!-- EditText -->
+            <EditText
+                android:id="@+id/inputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập tin nhắn"
+                android:textColorHint="@color/text_color"
+                android:background="@drawable/chatbot_shape"
+                android:paddingEnd="100dp"
+                android:paddingStart="15dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                android:textColor="@color/text_color"
+                android:textSize="16sp"
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:minHeight="48dp"
+                android:gravity="start|center_vertical" />
+
+            <!-- Buttons on the right -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="end|center_vertical"
+                android:paddingEnd="10dp">
+
+                <!-- Mic Button -->
+                <ImageButton
+                    android:id="@+id/micButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:src="@drawable/image_voice"
+                    android:background="@android:color/transparent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Gửi" />
+            </LinearLayout>
+
+            <!-- Send Button -->
+            <ImageButton
+                android:id="@+id/sendButton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/image_send"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:contentDescription="Gửi" />
+        </FrameLayout>
     </LinearLayout>
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

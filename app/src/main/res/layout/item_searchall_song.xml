@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/search"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_foreground"
         android:layout_gravity="center_vertical"

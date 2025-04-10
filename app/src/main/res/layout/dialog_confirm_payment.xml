@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm Payment"
+        android:text="@string/confirm_payment_title"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Premium Individual"
+        android:text="@string/plan_name_premium_individual"
         android:textColor="@android:color/white"
         android:textSize="16sp" />
 
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="₫0 for 3 months, then ₫59,000/month"
+        android:text="@string/plan_details_promo"
         android:textColor="#B3B3B3"
         android:textSize="14sp" />
 
@@ -49,7 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Payment method"
+            android:text="@string/payment_method"
             android:textColor="#B3B3B3"
             android:textSize="14sp" />
 
@@ -57,7 +57,7 @@
             android:id="@+id/tv_dialog_payment_method"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PayPal"
+            android:text="@string/payment_method_paypal"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
     </LinearLayout>
@@ -72,7 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Amount"
+            android:text="@string/amount"
             android:textColor="#B3B3B3"
             android:textSize="14sp" />
 
@@ -80,7 +80,7 @@
             android:id="@+id/tv_dialog_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="₫0.00"
+            android:text="@string/amount_zero"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="By confirming, you agree to the terms and conditions of this subscription."
+        android:text="@string/confirm_terms_notice"
         android:textColor="#B3B3B3"
         android:textSize="14sp" />
 
@@ -106,7 +106,7 @@
             android:layout_height="48dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             app:backgroundTint="#333333"
@@ -118,7 +118,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:text="Confirm"
+            android:text="@string/confirm"
             android:textAllCaps="false"
             android:textColor="@android:color/black"
             app:backgroundTint="#1DB954"

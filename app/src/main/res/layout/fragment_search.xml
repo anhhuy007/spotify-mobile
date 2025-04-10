@@ -20,7 +20,7 @@
         android:focusable="false"
         android:clickable="true"
         android:fontFamily="@font/avenir_next"
-        android:hint="@string/search_text"
+        android:hint="@string/search_text1"
         android:textColorHint="#000000"
         android:padding="15dp"
         android:textColor="#000000" />
@@ -34,8 +34,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/Search_all"
-        />
+        android:text="@string/Search_all1" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"

@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/search"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_foreground"
         android:layout_gravity="center_vertical"
@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Theo dõi"
+        android:text="@string/follow"
         android:textColor="@color/text_color"
         android:textSize="12sp"
         android:layout_gravity="center_vertical"

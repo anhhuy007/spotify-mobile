@@ -44,10 +44,9 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center_vertical"
-        app:tickColor="@color/white"
-        app:textColor="@color/white"
+        app:tickColor="@color/background_color"
+        app:textColor="@color/background_color"
         app:innerCircleColor="@color/colorPrimary"
-        app:outerCircleColor="#444444"
         app:circleBorderColor="#CCCCCC"/>
 
 </LinearLayout>

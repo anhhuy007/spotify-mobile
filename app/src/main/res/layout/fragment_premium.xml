@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/avenir_next"
-                    android:text="@string/premium_subscription_title"
+                    android:text="@string/premium_subscription_title1"
                     android:textColor="@color/black"
                     android:textSize="27dp" />
 
@@ -72,7 +72,7 @@
                     android:layout_height="56dp"
                     android:layout_marginTop="20dp"
                     android:backgroundTint="@android:color/white"
-                    android:text="@string/get_started"
+                    android:text="@string/get_started1"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -82,7 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="@string/mini_plan_description"
+                    android:text="@string/mini_plan_description1"
                     android:textColor="#9E9E9E"
                     android:textSize="14sp" />
 
@@ -90,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Offer ends April 2, 2025."
+                    android:text="@string/offer_ends_text"
                     android:textColor="#9E9E9E"
                     android:textSize="14sp" />
 
@@ -256,7 +256,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/avenir_next"
-                                    android:text="Premium Mini"
+                                    android:text="@string/premium_mini"
                                     android:textColor="@android:color/white"
                                     android:textSize="24sp"
                                     android:textStyle="bold" />
@@ -271,7 +271,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/avenir_next"
-                                        android:text="₫10,500"
+                                        android:text="@string/mini_price"
                                         android:textColor="@android:color/white"
                                         android:textSize="24sp"
                                         android:textStyle="bold" />
@@ -280,7 +280,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/avenir_next"
-                                        android:text="FOR 1 WEEK"
+                                        android:text="@string/mini_duration"
                                         android:textColor="@android:color/white"
                                         android:textSize="14sp" />
                                 </LinearLayout>
@@ -305,13 +305,12 @@
                                 android:layout_marginTop="24dp"
                                 android:backgroundTint="@android:color/white"
                                 android:fontFamily="@font/avenir_next"
-                                android:text="GET PREMIUM MINI"
+                                android:text="@string/get_premium_mini"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
                                 app:cornerRadius="28dp" />
 
-                            <!-- Terms apply text -->
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -349,7 +348,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/avenir_next"
-                                android:text="₫0 for 3 months"
+                                android:text="@string/three_months_zero"
                                 android:textColor="@android:color/white"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
@@ -366,7 +365,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/avenir_next"
-                                    android:text="Premium Individual"
+                                    android:text="@string/premium_individual"
                                     android:textColor="@android:color/white"
                                     android:textSize="24sp"
                                     android:textStyle="bold" />
@@ -381,7 +380,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/avenir_next"
-                                        android:text="FREE"
+                                        android:text="@string/free"
                                         android:textColor="@android:color/white"
                                         android:textSize="25sp"
                                         android:textStyle="bold" />
@@ -390,7 +389,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/avenir_next"
-                                        android:text="FOR 3 MONTHS"
+                                        android:text="@string/for_3_months"
                                         android:textColor="@android:color/white"
                                         android:textSize="13sp" />
                                 </LinearLayout>
@@ -416,7 +415,7 @@
                                 android:layout_marginTop="24dp"
                                 android:backgroundTint="@android:color/white"
                                 android:fontFamily="@font/avenir_next"
-                                android:text="TRY 3 MONTHS FOR ₫0"
+                                android:text="@string/try_three_months"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
@@ -441,7 +440,7 @@
                                 android:layout_marginTop="8dp"
                                 android:fontFamily="@font/avenir_next"
                                 android:gravity="center"
-                                android:text="Offer ends April 2, 2025."
+                                android:text="@string/offer_ends_april_2"
                                 android:textColor="@android:color/white"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -472,7 +471,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/avenir_next"
-                                android:text="₫29,500 for 2 months"
+                                android:text="@string/two_months_29500"
                                 android:textColor="@android:color/white"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
@@ -489,7 +488,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/avenir_next"
-                                    android:text="Premium Student"
+                                    android:text="@string/premium_student"
                                     android:textColor="@android:color/white"
                                     android:textSize="24sp"
                                     android:textStyle="bold" />
@@ -504,7 +503,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/avenir_next"
-                                        android:text="₫29,500"
+                                        android:text="@string/two_months_29500"
                                         android:textColor="@android:color/white"
                                         android:textSize="25sp"
                                         android:textStyle="bold" />
@@ -513,7 +512,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/avenir_next"
-                                        android:text="FOR 2 MONTHS"
+                                        android:text="@string/for_2_months"
                                         android:textColor="@android:color/white"
                                         android:textSize="13sp" />
                                 </LinearLayout>
@@ -539,11 +538,12 @@
                                 android:layout_marginTop="24dp"
                                 android:backgroundTint="@android:color/white"
                                 android:fontFamily="@font/avenir_next"
-                                android:text="TRY 2 MONTHS FOR ₫29,500"
+                                android:text="@string/try_two_months"
                                 android:textColor="@android:color/black"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
                                 app:cornerRadius="28dp" />
+
 
                             <!-- Terms text -->
                             <TextView

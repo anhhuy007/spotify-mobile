@@ -22,6 +22,8 @@ import retrofit2.Response;
 public class ChatBotViewModel extends ViewModel {
     private final ChatbotService chatbotService;
 
+
+
     private final MutableLiveData<String> responseLiveData = new MutableLiveData<>();
 
 
@@ -33,7 +35,6 @@ public class ChatBotViewModel extends ViewModel {
     }
     public void fetchChatbotResponse(String message) {
         isLoading.setValue(true);
-        Log.d("chatbotviewmodel", "get in here");
         chatbotService.getChatbotResponse(message).enqueue(new Callback<APIResponse<String>>() {
             @Override
             public void onResponse(Call<APIResponse<String>> call, Response<APIResponse<String>> response) {
@@ -42,8 +43,6 @@ public class ChatBotViewModel extends ViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     if (response.body().isSuccess()) {
 //                        responseLiveData.setValue(response.body().getData());
-                        Log.d("ChatBotViewModel", "API Response successful: " + response.body());
-                        Log.d("ChatBotViewModel", "API Response successful: " + response.body().getData());
 //                        responseMessage=response.body().getData();
                         responseLiveData.setValue(response.body().getData());
                     } else {
@@ -70,7 +69,10 @@ public class ChatBotViewModel extends ViewModel {
             }
         });
 
+
     }
+
+
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
     }

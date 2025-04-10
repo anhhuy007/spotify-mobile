@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -87,7 +88,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setupListeners();
             setupNavigation();
             checkNotificationPermission();
-        }
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+    }
 
     private void setupPlayerRepositoryAndRestorePlayerViewModel() {
         this.playerRepository = new PlayerRepository(this);

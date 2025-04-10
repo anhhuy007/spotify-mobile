@@ -184,6 +184,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(action);
 
+
             }
         });
 
@@ -328,6 +329,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
         playlistViewModel.getPlaylistSongs().observe(getViewLifecycleOwner(),songs->{
             if(songs!=null){
                 playlist_songs=new ArrayList<>(songs);
+                Log.d("PlaylistDetailFragment", "Playlist songs: " + songs.get(1).getAuthorNameAt(1));
                 songAdapter.setData(playlist_songs);
 
             }

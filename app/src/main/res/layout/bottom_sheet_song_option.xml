@@ -10,7 +10,7 @@
     <View
         android:layout_width="32dp"
         android:layout_height="4dp"
-        android:background="@color/white"
+        android:background="@color/text_color"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"/>
 
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingVertical="12dp">
+                >
 
                 <ImageView
                     android:layout_width="24dp"
@@ -89,23 +89,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Nghe nhạc không quảng cáo"
+                    android:text="@string/no_ads_music"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/text_color"/>
 
                 <com.google.android.material.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="Premium"
+                    android:text="@string/premium_tag"
                     android:textColor="@color/text_color"
                     android:textSize="12sp"
                     app:chipIcon="@drawable/ic_logo"
-                    app:chipIconSize="24dp"
-                    app:chipIconTint="@color/text_color"
-                    app:chipStartPadding="4dp"
-                    app:chipEndPadding="8dp"
-                    app:chipMinHeight="32dp"
+                    app:chipBackgroundColor="@color/background_color"
                     style="@style/Widget.MaterialComponents.Chip.Action"/>
 
             </LinearLayout>
@@ -129,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Thêm vào danh sách phát"
+                    android:text="@string/add_to_playlist"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/text_color"/>
 
@@ -154,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Ẩn bài hát"
+                    android:text="@string/hide_song"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/text_color"/>
 
@@ -229,7 +224,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Chia sẻ"
+                    android:text="@string/share"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/text_color"/>
 
@@ -254,7 +249,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Truy cập radio"
+                    android:text="@string/access_radio"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/text_color"/>
 
@@ -279,7 +274,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Chuyển đến album"
+                    android:text="@string/go_to_album"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/text_color"/>
 
@@ -304,7 +299,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Chuyển đến nghệ sĩ"
+                    android:text="@string/go_to_artist"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/text_color"/>
 
@@ -329,7 +324,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Chuyển đến buổi biểu diễn của nghệ sĩ"
+                    android:text="@string/go_to_concert"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/text_color"/>
 
@@ -354,7 +349,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Xem thông tin ghi công của bài hát"
+                    android:text="@string/view_song_credits"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/text_color"/>
 
@@ -379,7 +374,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hiển thị mã Spotify"
+                    android:text="@string/show_spotify_code"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                     android:textColor="@color/text_color"/>
 

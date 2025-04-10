@@ -102,5 +102,16 @@ dependencies {
 
 //    implementation ("com.android.support:support-compat:27.1.1")
     implementation (libs.picasso)
-    implementation ("me.relex:circleindicator:2.1.6")
+
+    implementation (libs.circleindicator)
+    implementation (libs.lottie)
+
+
+
+
+
+
+
+
+
 }

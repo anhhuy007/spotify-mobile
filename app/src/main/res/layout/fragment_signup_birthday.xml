@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <!-- Status Bar Background -->
     <View
         android:id="@+id/statusBarBackground"
         android:layout_width="match_parent"
@@ -14,7 +13,6 @@
         android:background="@color/spotify_green"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Progress Bar Section -->
     <TextView
         android:id="@+id/tvProgressLabel"
         android:layout_width="wrap_content"
@@ -32,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="Step 2 of 4"
+        android:text="@string/step_2_of_4"
         android:textColor="@color/gray_600"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +49,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvProgressLabel" />
 
-    <!-- Navigation Buttons -->
     <ImageView
         android:id="@+id/btnBack"
         android:layout_width="30dp"
@@ -59,7 +56,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Back"
+        android:contentDescription="@string/back"
         android:src="@drawable/back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
@@ -72,13 +69,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Close"
+        android:contentDescription="@string/close"
         android:src="@drawable/close"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
         app:tint="@color/black" />
 
-    <!-- Main Content -->
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
@@ -107,7 +103,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
-    <!-- Date Picker Container -->
     <LinearLayout
         android:id="@+id/datePickerContainer"
         android:layout_width="match_parent"
@@ -117,14 +112,12 @@
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/tvSubtitle">
 
-        <!-- Month Picker -->
         <NumberPicker
             android:id="@+id/monthPicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:theme="@style/SpotifyNumberPickerStyle" />
 
-        <!-- Day Picker -->
         <NumberPicker
             android:id="@+id/dayPicker"
             android:layout_width="wrap_content"
@@ -132,7 +125,6 @@
             android:layout_marginHorizontal="16dp"
             android:theme="@style/SpotifyNumberPickerStyle" />
 
-        <!-- Year Picker -->
         <NumberPicker
             android:id="@+id/yearPicker"
             android:layout_width="wrap_content"
@@ -146,14 +138,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:gravity="center"
-        android:text="You must be at least 13 years old to use Spotify"
+        android:text="@string/must_be_13"
         android:textColor="@color/gray_600"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@id/datePickerContainer"
         app:layout_constraintStart_toStartOf="@id/datePickerContainer"
         app:layout_constraintTop_toBottomOf="@id/datePickerContainer" />
 
-    <!-- Continue Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnContinue"
         android:layout_width="0dp"
