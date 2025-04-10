@@ -1,9 +1,13 @@
 package com.example.spotifyclone.features.search.ui;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -12,9 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -27,11 +34,13 @@ import com.example.spotifyclone.features.search.inter.SearchMainCallbacks;
 import com.example.spotifyclone.features.search.model.SearchItem;
 import com.example.spotifyclone.features.search.viewmodel.SearchViewModel;
 import com.example.spotifyclone.features.search.viewmodel.SearchViewModelFactory;
+import com.google.android.material.chip.Chip;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchSuggestFragment extends Fragment {
     // SearchSuggestFragment code here
@@ -40,11 +49,13 @@ public class SearchSuggestFragment extends Fragment {
     private SearchViewModel searchViewModel;
     private EditText searchInput;
     private TextView noResultText;
-    private Button allresult;
+    private Chip allresult;
+    private ImageButton searchByVoice;
+    private TextView cancelTextView;
+    private static final int REQUEST_CODE_SPEECH_INPUT = 101;
+
     @Override
     public void onAttach(@NonNull Context context) {
-        Log.d("Search", "onAttach");
-
         super.onAttach(context);
     }
 
@@ -63,24 +74,42 @@ public class SearchSuggestFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_search_suggest, container, false);
-        if(view==null){
-            Log.d("Search", "onCreateView null");
-        }
-        else {
-            Log.d("Search", "not null");
-
-        }
         return view;
     }
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState){
-        Log.d("Search", "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         setupRecyclerView(view);
         setupViewModel();
 
 
+        cancelTextView=view.findViewById(R.id.cancel_textView);
+        cancelTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Quay lại fragment trước đó
+                requireActivity()
+                        .getSupportFragmentManager()
+                        .popBackStack();
+            }
+        });
+
         searchInput = view.findViewById(R.id.search_input);
         searchInput.requestFocus();
+
+        searchByVoice=view.findViewById(R.id.search_by_voice);
+        searchByVoice.setOnClickListener(view1 -> {
+            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Hãy nói điều bạn muốn tìm...");
+
+            try {
+                startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(requireContext(), "Thiết bị không hỗ trợ giọng nói", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         noResultText=view.findViewById(R.id.noResult);
         allresult=view.findViewById(R.id.allresult);
@@ -88,7 +117,6 @@ public class SearchSuggestFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String searchQuery = searchInput.getText().toString().trim();
-                Log.d("Search_suggest", "Onclik"+searchQuery);
                 // Điều hướng và truyền dữ liệu
                 SearchSuggestFragmentDirections.ActionSearchSuggestFragmentToSearchAllResultFragment action =
                         SearchSuggestFragmentDirections.actionSearchSuggestFragmentToSearchAllResultFragment(searchQuery);
@@ -107,17 +135,13 @@ public class SearchSuggestFragment extends Fragment {
 
         searchAdapter = new SearchAdapter(requireContext(), new ArrayList<>(), item -> {
             if ("song".equals(item.getType())) {
-                Log.d("SearchSuggest", "Clicked on a song");
             }
             if ("album".equals(item.getType())) {
-                Log.d("SearchSuggest", "Got in here album");
                 navigateToAlbumDetail(item);
             }
             if ("genre".equals(item.getType())) {
-                Log.d("SearchSuggest", "Clicked on a genre");
             }
             if ("artist".equals(item.getType())) {
-                Log.d("SearchSuggest", "Clicked on an artist");
             }
         });
         recyclerView.setAdapter(searchAdapter);
@@ -145,23 +169,24 @@ public class SearchSuggestFragment extends Fragment {
         ).get(SearchViewModel.class);
         searchViewModel.getItems().observe(getViewLifecycleOwner(), items -> {
             if (items == null) {
-                Log.d("SearchDebug", "Search result is NULL!");
                 recyclerView.setVisibility(View.GONE);
                 noResultText.setVisibility(View.VISIBLE);
                 searchAdapter.setData(new ArrayList<>());
+
                 return;
             }
 
 //            List<SearchItem> items = searchResult.getItems();
             if (items != null && !items.isEmpty()) {
-                Log.d("SearchDebug", "Number of items: " + items.size());
                 searchAdapter.setData(items);
                 recyclerView.setVisibility(View.VISIBLE);
                 noResultText.setVisibility(View.GONE);
+                allresult.setVisibility(View.VISIBLE);
             } else {
-                Log.d("SearchDebug", "Search result is empty!");
                 recyclerView.setVisibility(View.GONE);
                 noResultText.setVisibility(View.VISIBLE);
+                allresult.setVisibility(View.GONE);
+
                 searchAdapter.setData(new ArrayList<>());
             }
         });
@@ -192,8 +217,24 @@ public class SearchSuggestFragment extends Fragment {
                     handler.postDelayed(workRunnable[0], 500); // Gửi request sau 500ms
                 }
             }
+
+
         });
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == Activity.RESULT_OK && data != null) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (result != null && !result.isEmpty()) {
+                String spokenText = result.get(0);
+                searchInput.setText(spokenText);
+                searchInput.setSelection(spokenText.length()); // Đưa con trỏ về cuối chuỗi
+            }
+        }
+    }
+
 
 
 

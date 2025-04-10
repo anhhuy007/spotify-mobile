@@ -9,31 +9,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
 
 import com.example.spotifyclone.features.search.inter.OnClassifyItemClickListener;
+import com.google.android.material.chip.Chip;
 
 import java.util.List;
 
 public class ClassifyAdapter extends RecyclerView.Adapter<ClassifyAdapter.ViewHolder> {
 
     private List<String> types;
+    private  String  selectedType=null;
     private final Context context;
     private final OnClassifyItemClickListener listener;
+
+    public void setSelectedType(String selectedType){
+        this.selectedType=selectedType;
+        notifyDataSetChanged();
+    }
 
     public ClassifyAdapter(Context context, List<String> types, OnClassifyItemClickListener listener) {
         this.context = context;
         this.types = types;
         this.listener = listener;
-
-        if (listener == null) {
-            Log.e("ClassifyAdapter", "Listener is NULL!");
-        } else {
-            Log.d("ClassifyAdapter", "Listener initialized successfully");
-        }
-
     }
 
     @NonNull
@@ -47,7 +48,7 @@ public class ClassifyAdapter extends RecyclerView.Adapter<ClassifyAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ClassifyAdapter.ViewHolder holder, int position) {
         String type = types.get(position);
-        holder.bind(type, listener);
+        holder.bind(type, selectedType,listener, context);
     }
 
     @Override
@@ -62,15 +63,24 @@ public class ClassifyAdapter extends RecyclerView.Adapter<ClassifyAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textType;
+        private final Chip textType;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textType = itemView.findViewById(R.id.textType);
         }
 
-        public void bind(String type, OnClassifyItemClickListener listener) {
+        public void bind(String type, String selectedType, OnClassifyItemClickListener listener, Context context) {
             textType.setText(type);
+
+            // Highlight nếu được chọn
+            if (selectedType != null && type.equals(selectedType)) {
+                textType.setChipBackgroundColorResource(R.color.colorPrimary); // màu xanh lá hoặc màu nổi bật
+            } else {
+                textType.setChipBackgroundColorResource(R.color.darkGrey);
+
+            }
+
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.OnItemClick(type);

@@ -11,7 +11,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:background="#6666"
+        android:background="@drawable/search_suggest_shape"
         android:drawableLeft="@drawable/ic_search"
         android:drawablePadding="8dp"
         android:fontFamily="@font/avenir_next"
@@ -27,6 +27,8 @@
         android:id="@+id/genre_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+
         />
 
     <androidx.core.widget.NestedScrollView

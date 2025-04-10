@@ -151,9 +151,10 @@ public class EditPlaylistBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void OnRemoveClickSong(Song song) {
                 playlistViewModel.removeSongFromPlaylist(playlistId, song.getId());
-
-
             }
+            @Override
+            public void OnPlaySong(Song song){}
+
         }, PlaylistSongAdapter.EDIT_TYPE);
         edit_song_recyclerview.setAdapter(removeSongAdapter);
     }

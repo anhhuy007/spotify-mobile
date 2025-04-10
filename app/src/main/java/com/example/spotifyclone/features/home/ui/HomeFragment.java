@@ -49,6 +49,9 @@ import java.util.List;
 public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnAlbumClickListener, ArtistAdapter.OnArtistClickListener {
     private RecyclerView newSongsRecyclerView;
     private RecyclerView popularSongsRecyclerView;
+
+    private ImageView chatbotImage;
+
     //    private SongAdapter newSongsAdapter, popularSongsAdapter;
     private AlbumAdapter popularAlbumsAdapter, latestAlbumsAdapter;
     private ArtistAdapter popularArtistAdapter;
@@ -123,6 +126,20 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
 
         Picasso.get().load(currentUser.getAvatarUrl()).into(userAvatarImage);
         userNameText.setText(currentUser.getUsername());
+
+        // navigate to Chatbotfragment
+        chatbotImage=view.findViewById(R.id.ic_chatbot);
+        chatbotImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                navigateToChatbotFragment();
+            }
+        });
+    }
+    public void navigateToChatbotFragment() {
+        NavDirections action = HomeFragmentDirections.actionNavHomeToChatbotFragment();
+        Navigation.findNavController(requireView()).navigate(action);
     }
 
     private void setupViewModel() {

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hẹn giờ ngủ"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/txt_current_timer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/spotify_green"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/btn_5_min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5 phút"
+                android:textColor="@color/black"
+                
+                android:gravity="center"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/btn_10_min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10 phút"
+                android:textColor="@color/black"
+                
+                android:gravity="center"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/btn_15_min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="15 phút"
+                android:textColor="@color/black"
+                
+                android:gravity="center"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/btn_30_min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="30 phút"
+                android:textColor="@color/black"
+                
+                android:gravity="center"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/btn_45_min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="45 phút"
+                android:textColor="@color/black"
+                
+                android:gravity="center"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/btn_1_hour"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1 giờ"
+                android:textColor="@color/black"
+                
+                android:gravity="center"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/btn_end_of_track"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kết thúc bài hát"
+                android:textColor="@color/black"
+                
+                android:gravity="center"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/btn_cancel_timer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Huỷ hẹn giờ"
+                android:textColor="@color/spotify_green"
+                android:gravity="center"
+                android:padding="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

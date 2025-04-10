@@ -1,6 +1,6 @@
 package com.example.spotifyclone.features.genre.network;
 
-import com.example.spotifyclone.features.genre.model.Album;
+import com.example.spotifyclone.features.album.model.Album;
 import com.example.spotifyclone.features.genre.model.Genre;
 import com.example.spotifyclone.shared.model.APIResponse;
 import com.example.spotifyclone.shared.model.PaginatedResponse;
