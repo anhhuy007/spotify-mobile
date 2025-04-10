@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +23,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
@@ -200,6 +206,7 @@ public class ChatbotFragment extends Fragment {
         });
 
 
+
     }
 
     private void sendMessage() {
@@ -228,7 +235,6 @@ public class ChatbotFragment extends Fragment {
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (result != null && !result.isEmpty()) {
                 String spokenText = result.get(0);
-                Log.d("Chatbotfragment", "Spoken Text: " + spokenText);
                 editText.setText(spokenText);
                 editText.setSelection(spokenText.length()); // Đưa con trỏ về cuối chuỗi
             }

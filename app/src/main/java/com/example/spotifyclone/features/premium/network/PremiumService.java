@@ -37,4 +37,10 @@ public interface PremiumService {
     Call<APIResponse<Subscription>> getAllSubscriptions(
             @Path("userId") String userId
     );
+
+    @GET("/subscription/{userId}")
+    Call<APIResponse<Subscription>> getLatestSubscription(
+            @Path("userId") String userId
+    );
+
 }

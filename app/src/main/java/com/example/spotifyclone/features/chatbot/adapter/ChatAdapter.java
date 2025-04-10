@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.chatbot.adapter;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.spotifyclone.R;
 
 import java.util.List;
+
+import io.noties.markwon.Markwon;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -47,22 +50,24 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         int maxWidth = (int) (screenWidth * 0.7);
 
+        Context context = holder.itemView.getContext();
+        Markwon markwon = Markwon.create(context);
 
         if (holder instanceof UserViewHolder) {
-
             UserViewHolder userHolder = (UserViewHolder) holder;
             userHolder.userMessageText.setMaxWidth(maxWidth);
-
-            userHolder.userMessageText.setText(message);
             userHolder.userMessageText.setVisibility(View.VISIBLE);
             userHolder.aiMessageText.setVisibility(View.GONE);
-        } else if (holder instanceof AIViewHolder) {
 
+            markwon.setMarkdown(userHolder.userMessageText, message);
+
+        } else if (holder instanceof AIViewHolder) {
             AIViewHolder aiHolder = (AIViewHolder) holder;
             aiHolder.aiMessageText.setMaxWidth(maxWidth);
-            aiHolder.aiMessageText.setText(message);
             aiHolder.aiMessageText.setVisibility(View.VISIBLE);
             aiHolder.userMessageText.setVisibility(View.GONE);
+
+            markwon.setMarkdown(aiHolder.aiMessageText, message);
         }
     }
 

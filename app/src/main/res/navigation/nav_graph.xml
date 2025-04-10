@@ -45,11 +45,6 @@
 
     </fragment>
 
-    <fragment
-        android:id="@+id/nav_premium"
-        android:name="com.example.spotifyclone.features.premium.ui.PremiumFragment"
-        android:label="Premium"
-        tools:layout="@layout/fragment_premium" />
 
     <!-- Additional fragment outside bottom navigation -->
     <fragment
@@ -277,11 +272,17 @@
         android:id="@id/nav_premium"
         android:name="com.example.spotifyclone.features.premium.ui.PremiumFragment"
         android:label="PremiumSubscription"
-        tools:layout="@layout/fragment_premium">
+        tools:layout="@layout/fragment_premium_redirect">
         <action
             android:id="@+id/action_nav_premiumfm_to_checkoutfm"
             app:destination="@id/nav_checkout" />
+        <action
+            android:id="@+id/action_nav_premium_to_subscriptionDetailFragment"
+            app:destination="@id/subscriptionDetailFragment" />
     </fragment>
+
+
+
 
 
     <dialog
@@ -407,6 +408,19 @@
             android:id="@+id/action_chatbotFragment_to_nav_home"
             app:destination="@id/nav_home" />
     </fragment>
+    <fragment
+        android:id="@+id/subscriptionDetailFragment"
+        android:name="com.example.spotifyclone.features.premium.ui.SubscriptionDetailFragment"
+        android:label="SubscriptionDetailFragment"
+        tools:layout="@layout/fragment_subscription_detail"/>
+    <fragment
+        android:id="@+id/subscriptionPlanFragment"
+        android:name="com.example.spotifyclone.features.premium.ui.SubscriptionPlanFragment"
+        android:label="SubscriptionPlanFragment"
+        tools:layout="@layout/fragment_premium"/>
+
+
+
 
 
 </navigation>

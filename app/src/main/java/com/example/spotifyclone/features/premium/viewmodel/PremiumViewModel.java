@@ -110,7 +110,6 @@ public class PremiumViewModel extends ViewModel {
 
         return outputFormat.format(calendar.getTime());
     }
-
     public MutableLiveData<Boolean> getIsLoading() {
         return isLoading;
     }

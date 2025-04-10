@@ -354,6 +354,7 @@
     <string name="manage_subscription">Quản lý gói đăng ký</string>
     <string name="view_receipt"><u>Xem hoá đơn</u></string>
     <string name="cancel_subscription">Huỷ gói đăng ký</string>
+    <string name="chatbot_string">ChatBot</string>
 
 
 </resources>

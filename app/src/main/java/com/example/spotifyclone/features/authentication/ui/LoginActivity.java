@@ -109,7 +109,6 @@ public class LoginActivity extends AppCompatActivity {
                                 return;
                             }
                             String token = task.getResult();
-                            Log.d("FCM", "FCM NToken: " + token);
 
                             MyFirebaseMessagingService messagingService = new MyFirebaseMessagingService();
                             messagingService.sendTokenToServer(this, token);

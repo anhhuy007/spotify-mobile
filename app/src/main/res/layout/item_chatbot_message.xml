@@ -14,7 +14,8 @@
         android:textColor="@color/text_color"
         android:visibility="gone"
         android:padding="10dp"
-        android:text="AI message"/>
+        />
+
 
     <View
         android:layout_width="0dp"
@@ -32,5 +33,6 @@
 
         android:background="@drawable/ai_message_bg"
         android:padding="10dp"
-        android:text="User message"/>
+        />
+
 </LinearLayout>

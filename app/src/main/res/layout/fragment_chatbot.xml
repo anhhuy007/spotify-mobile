@@ -12,20 +12,40 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:expandedTitleGravity="bottom|center_horizontal"
         android:visibility="visible"
+        android:layout_gravity="center"
         android:background="@color/gray"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:title="ChatBot"
+            android:background="@color/gray">
 
-            android:titleTextColor="@android:color/white"
-            android:background="@android:color/transparent"
-            app:navigationIcon="@drawable/ic_back_button" />
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:navigationIcon="@drawable/ic_back_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/toolbarCenteredTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chatbot_string"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/topAppBar"
+                app:layout_constraintBottom_toBottomOf="@id/topAppBar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Lottie Animation -->

@@ -29,7 +29,6 @@ public class AlbumViewModel extends ViewModel {
 
     public AlbumViewModel(AlbumService albumService)
     {
-        Log.d("Album viewmodel", "constructor");
         this.albumService=albumService;
     }
     public void fetchAlbumsByIds(){
