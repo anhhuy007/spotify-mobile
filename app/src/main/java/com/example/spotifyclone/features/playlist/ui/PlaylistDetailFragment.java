@@ -329,13 +329,12 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
         playlistViewModel.getPlaylistSongs().observe(getViewLifecycleOwner(),songs->{
             if(songs!=null){
                 playlist_songs=new ArrayList<>(songs);
-                Log.d("PlaylistDetailFragment", "Playlist songs: " + songs.get(1).getAuthorNameAt(1));
                 songAdapter.setData(playlist_songs);
 
             }
-
             if(songs!=null){//only when have result finish previous request
                 playlistViewModel.fetchPopularSongs(playlist_id);// fetch playlist xong rồi mới gọi popular
+                playlistViewModel.fetchRandomSongs(playlist_id); //
             }
 
         });

@@ -23,16 +23,17 @@ import com.example.spotifyclone.features.playlist.inter.OnSongClickListner;
 import com.example.spotifyclone.features.playlist.viewmodel.PlaylistViewModel;
 import com.example.spotifyclone.features.playlist.viewmodel.PlaylistViewModelFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.ViewHolder> {
-    private final List<List<Song>> songLists;
+    private final ArrayList<List<Song>> songLists; // ✅ Dùng ArrayList để cập nhật được
     private final OnSongClickListner listener;
     private final Context context;
     private final int page; // Có thể dùng để hiển thị tiêu đề khác nhau theo page
     private PlaylistSongAdapter adapter;
 
-    public ViewPagerAdapter(List<List<Song>> songLists, int page, Context context, OnSongClickListner listener) {
+    public ViewPagerAdapter(ArrayList<List<Song>> songLists, int page, Context context, OnSongClickListner listener) {
         this.songLists = songLists;
         this.page = page;
         this.context = context;
@@ -86,4 +87,10 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
             recyclerView = itemView.findViewById(R.id.recyclerView);
         }
     }
+    public void updateData(List<List<Song>> newSongLists) {
+        songLists.clear();
+        songLists.addAll(newSongLists);
+        notifyDataSetChanged(); // hoặc bạn dùng DiffUtil nếu cần tối ưu
+    }
+
 }

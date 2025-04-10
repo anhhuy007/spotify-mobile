@@ -55,6 +55,10 @@ public interface PlaylistService {
     @GET("song/popular/{id}")
     Call<APIResponse<PaginatedResponse<Song>>> getSongPopular(@Path("id") String playlist_id, @Query("limit") int limit);
 
+    @GET("playlist/random-songs/{id}")
+    Call<APIResponse<PaginatedResponse<Song>>> getRandomSongs(@Path("id") String playlist_id, @Query("limit") int limit);
+
+
     @POST("playlist/{playlistId}/update-info")
     @FormUrlEncoded
     Call<APIResponse<Void>> updateInfo(

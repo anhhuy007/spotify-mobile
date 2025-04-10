@@ -35,10 +35,10 @@ public class AddPlaylistBottomSheet extends BottomSheetDialogFragment {
     private boolean isList1Ready = false;
     private boolean isList2Ready = false;
 
-    private PlaylistViewModel viewModelList1;
-    private PlaylistViewModel viewModelList2;
+    private PlaylistViewModel viewModelList;
+    private ViewPagerAdapter adapter; // ✅ Thêm adapter toàn cục
 
-    public AddPlaylistBottomSheet(){}
+    public AddPlaylistBottomSheet() {}
 
     public AddPlaylistBottomSheet(List<Song> list1, List<Song> list2) {
         this.list1 = list1;
@@ -56,83 +56,78 @@ public class AddPlaylistBottomSheet extends BottomSheetDialogFragment {
 
         viewPager = view.findViewById(R.id.viewPager);
 
-
         Indicator(view);
 
-
-        // Using viewmodel
+        // ViewModel
         AddPlaylistBottomSheetArgs args = AddPlaylistBottomSheetArgs.fromBundle(getArguments());
-        playlistId=args.getPlaylistId();
-        viewModelList1=new ViewModelProvider(
-                requireActivity(),
-                new PlaylistViewModelFactory(requireContext())).get(PlaylistViewModel.class);
-        viewModelList2=new ViewModelProvider(
+        playlistId = args.getPlaylistId();
+        viewModelList = new ViewModelProvider(
                 requireActivity(),
                 new PlaylistViewModelFactory(requireContext())).get(PlaylistViewModel.class);
 
-        viewModelList1.fetchPopularSongs(playlistId);
-        viewModelList2.fetchPopularSongs(playlistId);
-        viewModelList1.getPopularSongs().observe(getViewLifecycleOwner(), songs -> {
-            list1=songs;
-            isList1Ready=true;
+        viewModelList.fetchPopularSongs(playlistId);
+        viewModelList.fetchRandomSongs(playlistId);
+
+        // ✅ Gán adapter 1 lần
+        adapter = new ViewPagerAdapter(new ArrayList<>(), 1, requireContext(), new OnSongClickListner() {
+            @Override
+            public void OnAddClickSong(Song song) {
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("Thêm bài hát vào Playlist")
+                        .setMessage("Bạn có chắc muốn thêm không?")
+                        .setPositiveButton("Thêm", (dialog, which) -> {
+                            viewModelList.addSongToPlaylist(playlistId, song.getId());
+                        })
+                        .setNegativeButton("Hủy", null)
+                        .show();
+            }
+
+            @Override
+            public void OnRemoveClickSong(Song song) {}
+
+            @Override
+            public void OnPlaySong(Song song) {}
+        });
+        viewPager.setAdapter(adapter);
+
+        // Quan sát dữ liệu
+        viewModelList.getPopularSongs().observe(getViewLifecycleOwner(), songs -> {
+            list1 = songs;
+            isList1Ready = true;
             tryInitAdapter();
         });
 
-        viewModelList2.getPopularSongs().observe(getViewLifecycleOwner(), songs -> {
-            list2=songs;
-            isList2Ready=true;
+        viewModelList.getRandomSongs().observe(getViewLifecycleOwner(), songs -> {
+            list2 = songs;
+            isList2Ready = true;
             tryInitAdapter();
         });
     }
+
     private void tryInitAdapter() {
         if (isList1Ready && isList2Ready) {
             SetData(list1, list2);
         }
     }
 
-    public void SetData(List<Song> list1, List<Song> list2){
-        // set data to adapter
+    public void SetData(List<Song> list1, List<Song> list2) {
         List<List<Song>> songLists = new ArrayList<>();
         songLists.add(list1);
         songLists.add(list2);
-        //
-
-        ViewPagerAdapter adapter = new ViewPagerAdapter(songLists, 1, requireContext(), new OnSongClickListner() {
-            @Override
-            public void OnAddClickSong(Song song){
-                new AlertDialog.Builder(requireContext())
-                        .setTitle("Thêm bài hát vào Playlist")
-                        .setMessage("Bạn có chắc muốn thêm không?")
-                        .setPositiveButton("Thêm", (dialog, which) -> {
-                            viewModelList1.addSongToPlaylist(playlistId, song.getId());
-                        })
-                        .setNegativeButton("Hủy", null)
-                        .show();
-
-            }
-            public void OnRemoveClickSong(Song song){}
-            public void OnPlaySong(Song song){} // for playing song
-
-        });
-        viewPager.setAdapter(adapter);
-
-
+        adapter.updateData(songLists); // ✅ Chỉ update dữ liệu
     }
 
-    public void Indicator(View view){
+    public void Indicator(View view) {
         ImageView inv1 = view.findViewById(R.id.inv1);
         ImageView inv2 = view.findViewById(R.id.inv2);
 
-        // Đặt trạng thái mặc định: indicator đầu tiên được chọn
         inv1.setImageResource(R.drawable.ic_indicator_active);
         inv2.setImageResource(R.drawable.ic_indicator_inactive);
 
-        // Lắng nghe sự kiện thay đổi trang
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-
                 if (position == 0) {
                     inv1.setImageResource(R.drawable.ic_indicator_active);
                     inv2.setImageResource(R.drawable.ic_indicator_inactive);
@@ -142,6 +137,5 @@ public class AddPlaylistBottomSheet extends BottomSheetDialogFragment {
                 }
             }
         });
-
     }
 }

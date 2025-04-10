@@ -37,6 +37,7 @@ public class PremiumFragment extends Fragment {
     private void initUser() {
         AuthRepository authRepository = new AuthRepository(getContext());
         currentUser = authRepository.getUser();
+
     }
 
     private void checkUserAndNavigate() {
