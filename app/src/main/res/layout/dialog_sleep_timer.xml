@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hẹn giờ ngủ"
+        android:text="@string/sleep_timer_title"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -38,7 +38,7 @@
                 android:id="@+id/btn_5_min"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="5 phút"
+                android:text="@string/timer_5_min"
                 android:textColor="@color/black"
                 
                 android:gravity="center"
@@ -51,7 +51,7 @@
                 android:id="@+id/btn_10_min"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="10 phút"
+                android:text="@string/timer_10_min"
                 android:textColor="@color/black"
                 
                 android:gravity="center"
@@ -64,7 +64,7 @@
                 android:id="@+id/btn_15_min"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="15 phút"
+                android:text="@string/timer_15_min"
                 android:textColor="@color/black"
                 
                 android:gravity="center"
@@ -77,7 +77,7 @@
                 android:id="@+id/btn_30_min"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="30 phút"
+                android:text="@string/timer_30_min"
                 android:textColor="@color/black"
                 
                 android:gravity="center"
@@ -90,7 +90,7 @@
                 android:id="@+id/btn_45_min"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="45 phút"
+                android:text="@string/timer_45_min"
                 android:textColor="@color/black"
                 
                 android:gravity="center"
@@ -103,7 +103,7 @@
                 android:id="@+id/btn_1_hour"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="1 giờ"
+                android:text="@string/timer_1_hour"
                 android:textColor="@color/black"
                 
                 android:gravity="center"
@@ -116,7 +116,7 @@
                 android:id="@+id/btn_end_of_track"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kết thúc bài hát"
+                android:text="@string/timer_end_of_track"
                 android:textColor="@color/black"
                 
                 android:gravity="center"
@@ -129,7 +129,7 @@
                 android:id="@+id/btn_cancel_timer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Huỷ hẹn giờ"
+                android:text="@string/cancel_sleep_timer"
                 android:textColor="@color/spotify_green"
                 android:gravity="center"
                 android:padding="12dp"

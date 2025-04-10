@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Thư viện"
+            android:text="@string/library_title"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -109,7 +109,7 @@
                 android:paddingEnd="16dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:text="Danh sách phát"
+                android:text="@string/tab_playlists"
                 android:textColor="@android:color/white"
                 android:layout_marginEnd="8dp" />
 
@@ -122,7 +122,7 @@
                 android:paddingEnd="16dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:text="Nghệ sĩ"
+                android:text="@string/tab_artists"
                 android:textColor="@android:color/white"
                 android:layout_marginEnd="8dp" />
 
@@ -165,7 +165,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gần đây"
+                android:text="@string/recent_section"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -233,7 +233,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bài hát đã thích"
+                        android:text="@string/liked_songs"
                         android:textColor="@android:color/white"
                         android:textSize="16sp" />
 
@@ -253,7 +253,7 @@
                             android:id="@+id/likedSongsCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Danh sách phát • 1 bài hát"
+                            android:text="@string/liked_songs_count"
                             android:textColor="#AAAAAA"
                             android:textSize="14sp"
                             android:layout_marginStart="4dp" />
@@ -266,7 +266,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Danh sách nghệ sĩ theo dõi"
+                android:text="@string/followed_artists"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -312,7 +312,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Thêm nghệ sĩ"
+                    android:text="@string/add_artist"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:layout_marginStart="16dp"
@@ -325,7 +325,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Danh sách playlist"
+                android:text="@string/playlist_list"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -371,7 +371,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Thêm podcast"
+                    android:text="@string/add_podcast"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:layout_marginStart="16dp"

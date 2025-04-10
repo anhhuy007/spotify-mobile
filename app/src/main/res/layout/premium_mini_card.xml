@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/avenir_next"
-                    android:text="Premium Mini"
+                    android:text="@string/premium_mini_title"
                     android:textColor="@android:color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -51,7 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/avenir_next"
-                        android:text="₫10,500"
+                        android:text="@string/premium_mini_price"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -60,7 +60,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/avenir_next"
-                        android:text="FOR 1 WEEK"
+                        android:text="@string/premium_mini_duration"
                         android:textColor="@android:color/white"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -73,7 +73,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/avenir_next"
                 android:lineSpacingExtra="4dp"
-                android:text="1 mobile-only Premium account • Offline listening of up to 30 songs on 1 device • One-time payment • Basic audio quality"
+                android:text="@string/premium_mini_description"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
@@ -85,7 +85,7 @@
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@android:color/white"
                 android:fontFamily="@font/avenir_next"
-                android:text="GET PREMIUM MINI"
+                android:text="@string/btn_get_premium_mini"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -98,10 +98,9 @@
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/avenir_next"
                 android:gravity="center"
-                android:text="Terms apply."
+                android:text="@string/terms_apply"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
         </LinearLayout>
     </FrameLayout>
 </androidx.cardview.widget.CardView>
-

@@ -18,25 +18,25 @@
         android:drawablePadding="8dp"
         android:fontFamily="@font/avenir_next"
         android:textSize="12sp"
-        android:hint="@string/search_text"
+        android:hint="@string/search_text1"
         android:padding="2dp"
         android:textColor="@color/text_color"
         android:focusable="true"
-        android:focusableInTouchMode="true"/>
+        android:focusableInTouchMode="true" />
+
     <Button
         android:id="@+id/search_by_voice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="press to speak"/>
-
+        android:text="@string/press_to_speak" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_color"
         android:fillViewport="true"
-        android:descendantFocusability="blocksDescendants"
-        android:id="@+id/nestedScrollview">
+        android:descendantFocusability="blocksDescendants">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,24 +46,22 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+                android:layout_height="wrap_content" />
+
             <TextView
                 android:id="@+id/noResult"
-                android:text="@string/noSearchResult"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_height="wrap_content"/>
+                android:text="@string/noSearchResult" />
 
             <Button
                 android:id="@+id/allresult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Xem tất cả các kết quả tìm kiếm ở đây"/>
+                android:text="@string/view_all_results" />
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
-
 
 </androidx.appcompat.widget.LinearLayoutCompat>

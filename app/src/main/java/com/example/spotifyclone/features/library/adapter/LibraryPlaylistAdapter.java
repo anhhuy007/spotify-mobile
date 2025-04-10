@@ -44,7 +44,7 @@ public class LibraryPlaylistAdapter extends RecyclerView.Adapter<LibraryPlaylist
         LibraryPlaylist playlist = playlistList.get(position);
 
         holder.playlistName.setText(playlist.getName());
-        holder.playlistInfo.setText(playlist.getPlaylistInfo());
+        holder.playlistInfo.setText(context.getString(R.string.playlist)+" • "+playlist.getPlaylistInfo());
 
         if (playlist.getImageUrl() != null && !playlist.getImageUrl().isEmpty()) {
             Glide.with(context)

@@ -1,36 +1,59 @@
 <resources>
     <string name="app_name">SpotifyClone</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 
-    <string name="genre_display_text">genre</string>
-    <string name="search_text">Bạn muốn nghe gì</string>
-
-    <string name="email_or_username">Email or username</string>
-    <string name="forgot_your_password">Forgot password</string>
-    <string name="Back">Back</string>
-    <string name="sign_in_with_facebook">Sign in with Facebook</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
-    <string name="log_in">Log in</string>
+    <string name="hello_blank_fragment">Xin chào blank fragment</string>
+    <string name="dummy_button">Nút mẫu</string>
+    <string name="dummy_content">NỘI DUNG\nMẪU</string>
+    <string name="email_or_username">Email hoặc tên người dùng</string>
+    <string name="forgot_your_password">Quên mật khẩu</string>
+    <string name="Back">Quay lại</string>
+    <string name="sign_in_with_facebook">Đăng nhập bằng Facebook</string>
+    <string name="sign_in_with_google">Đăng nhập bằng Google</string>
+    <string name="log_in">Đăng nhập</string>
     <string name="client_id">852149445936-52iej16juv24qafjsg3n3vu41n5of36h.apps.googleusercontent.com</string>
     <string name="facebook_app_id">576052045431275</string>
     <string name="facebook_client_token">154c501250c48510ad2780cd2140982a</string>
-    <string name="start_title">Miliion of Songs. Free on Spotify</string>
-    <string name="login_here">Login here</string>
-    <string name="sign_up_free">Sign up free</string>
-    <string name="continue_with_google">Continue with Google</string>
+    <string name="start_title">Hàng triệu bài hát. Miễn phí trên Spotify</string>
+    <string name="login_here">Đăng nhập tại đây</string>
+    <string name="sign_up_free">Đăng ký miễn phí</string>
+    <string name="continue_with_google">Tiếp tục với Google</string>
+    <string name="add_button_description">Thêm vào danh sách phát</string>
+    <string name="download_description">Tải xuống</string>
+    <string name="like_description">Thích</string>
+    <string name="more_option_description">Tùy chọn khác</string>
+    <string name="shuffle_button_description">Nút phát ngẫu nhiên</string>
+    <string name="play_button_description">Phát</string>
+    <string name="genre_display_text">thể loại</string>
+    <string name="email_password"><![CDATA[Bước 1: Nhập Email & Mật khẩu]]></string>
+    <string name="next">Tiếp theo</string>
+    <string name="email">Email</string>
+    <string name="choose_username">Bước 2: Chọn tên người dùng</string>
+    <string name="username">Tên người dùng</string>
+    <string name="add_a_profile_picture">Thêm ảnh đại diện</string>
+    <string name="help_you_friends_recognize_you">Giúp bạn bè nhận ra bạn</string>
+    <string name="choose_from_gallery">Chọn từ thư viện</string>
+    <string name="take_a_photo">Chụp ảnh</string>
+    <string name="take_photo">Chụp ảnh</string>
+    <string name="when_s_your_birthday">Sinh nhật của bạn là khi nào?</string>
+    <string name="your_birthday_won_t_be_shown_publicly_we_use_it_to_personalize_your_experience">Sinh nhật của bạn sẽ không được hiển thị công khai. Chúng tôi dùng nó để cá nhân hóa trải nghiệm của bạn.</string>
+    <string name="_continue">Tiếp tục</string>
+    <string name="profile_setup">Thiết lập hồ sơ</string>
+    <string name="create_a_username">Tạo tên người dùng</string>
+    <string name="don_t_have_an_account_sign_up">Chưa có tài khoản? <u>Đăng ký</u></string>
+    <string name="log_in_underline"><u>Đăng nhập</u></string>
+    <string name="skip_for_now"><u>Bỏ qua bây giờ</u></string>
+    <string name="didn_t_receive_a_code_resend">Không nhận được mã? <u>Gửi lại</u></string>
+    <string name="albums_in_genre">Các album thuộc thể loại</string>
+
+
+
+
+
+    <string name="search_text">Bạn muốn nghe gì</string>
     <string name="album_same_genre_string">Có thể bạn cũng thích</string>
     <string name="artist_string">Nghệ sĩ</string>
     <string name="follower_string">5.409 lượt lưu • 36phút</string>
-    <string name="add_button_description">Add to Playlist</string>
-    <string name="download_description">Download</string>
-    <string name="like_description">Like</string>
-    <string name="more_option_description">More Options</string>
-    <string name="shuffle_button_description">Shuffle button</string>
-    <string name="play_button_description">Play</string>
     <string name="same_genre_album_string">Những album cùng thể loại</string>
-
     <string name="test">Đây là màn hình Đăng nhập được tạo cho mục đích kiểm tra</string>
     <string name="theme">Giao diện</string>
     <string name="language">Ngôn ngữ</string>
@@ -104,25 +127,7 @@
     <string name="compilation">Tuyển tập</string>
     <string name="available_on">Có ở</string>
     <string name="you_may_also_like">Có thể bạn cũng thích</string>
-    <string name="email_password"><![CDATA[Step 1: Enter Email & Password]]></string>
-    <string name="next">Next</string>
-    <string name="email">Email</string>
-    <string name="choose_username">Step 2: Choose Your Username</string>
-    <string name="username">Username</string>
-    <string name="add_a_profile_picture">Add a profile picture</string>
-    <string name="help_you_friends_recognize_you">Help you friends recognize you</string>
-    <string name="choose_from_gallery">Choose from gallery</string>
-    <string name="take_a_photo">Take a photo</string>
-    <string name="take_photo">Take photo</string>
-    <string name="when_s_your_birthday">When\'s your birthday?</string>
-    <string name="your_birthday_won_t_be_shown_publicly_we_use_it_to_personalize_your_experience">Your birthday won\'t be shown publicly. We use it to personalize your experience.</string>
-    <string name="_continue">Continue</string>
-    <string name="profile_setup">Profile Setup</string>
-    <string name="create_a_username">Create a username</string>
-    <string name="don_t_have_an_account_sign_up">Don\'t have an account? <u>Sign up</u></string>
-    <string name="log_in_underline"><u>Login</u></string>
-    <string name="skip_for_now"><u>Skip for now</u></string>
-    <string name="didn_t_receive_a_code_resend">Didn\'t receive a code? <u>Resend</u></string>
+
     <string name="Search_all">Duyệt tìm tất cả</string>
     <string name="noSearchResult">Không tìm thấy kết quả nào</string>
     <string name="old_password">Mật khẩu cũ</string>
@@ -143,5 +148,195 @@
     <string name="play_songs_in_any_order">Phát bài hát theo thứ tự bất kỳ</string>
     <string name="high_audio_quality">Chất lượng âm thanh cao</string>
     <string name="organize_listening_queue">Sắp xếp hàng đợi phát</string>
+    <string name="playlist">Danh sách phát</string>
+    <string name="or">Hoặc</string>
+
+    <string name="new_playlist">Danh sách phát mới</string>
+    <string name="done">Xong</string>
+    <string name="about_artist">Giới thiệu về nghệ sĩ</string>
+    <string name="lyrics">Lời bài hát</string>
+
+    <string name="queue">Danh sách chờ</string>
+    <string name="now_playing_playlist">Đang phát: Tên Playlist</string>
+    <string name="song_title">Tên bài hát</string>
+    <string name="artist_name">Tên nghệ sĩ</string>
+    <string name="name_your_playlist">Đặt tên cho danh sách phát của bạn</string>
+    <string name="create">Tạo</string>
+
+    <string name="edit_playlist">Chỉnh sửa Playlist</string>
+
+    <string name="change_image">Thay đổi hình ảnh</string>
+    <string name="add_description">Thêm phần mô tả</string>
+    <string name="enter_description">Nhập mô tả</string>
+
+
+    <string name="no_ads_music">Nghe nhạc không quảng cáo</string>
+    <string name="premium_tag">Premium</string>
+    <string name="hide_song">Ẩn bài hát</string>
+    <string name="access_radio">Truy cập radio</string>
+    <string name="go_to_artist">Chuyển đến nghệ sĩ</string>
+    <string name="go_to_concert">Chuyển đến buổi biểu diễn của nghệ sĩ</string>
+
+    <string name="confirm_payment_title">Xác nhận thanh toán</string>
+    <string name="plan_name_premium_individual">Premium Cá nhân</string>
+    <string name="plan_details_promo">₫0 cho 3 tháng đầu, sau đó ₫59.000/tháng</string>
+    <string name="payment_method">Phương thức thanh toán</string>
+    <string name="payment_method_paypal">PayPal</string>
+    <string name="amount">Số tiền</string>
+    <string name="amount_zero">₫0.00</string>
+    <string name="confirm_terms_notice">Bằng cách xác nhận, bạn đồng ý với các điều khoản và điều kiện của gói đăng ký này.</string>
+
+    <string name="confirm">Xác nhận</string>
+
+    <string name="sleep_timer_title">Hẹn giờ ngủ</string>
+    <string name="timer_5_min">5 phút</string>
+    <string name="timer_10_min">10 phút</string>
+    <string name="timer_15_min">15 phút</string>
+    <string name="timer_30_min">30 phút</string>
+    <string name="timer_45_min">45 phút</string>
+    <string name="timer_1_hour">1 giờ</string>
+    <string name="timer_end_of_track">Kết thúc bài hát</string>
+    <string name="cancel_sleep_timer">Huỷ hẹn giờ</string>
+
+    <string name="subscription_summary">Tóm tắt gói đăng ký</string>
+    <string name="send">Gửi</string>
+    <string name="todays_charge">Phí hôm nay</string>
+    <string name="after_trial">Sau 3 tháng</string>
+    <string name="monthly_fee">₫59.000/tháng</string>
+    <string name="payment_details_title">Chi tiết thanh toán</string>
+    <string name="payment_details_subtitle">Hoàn tất thanh toán của bạn một cách an toàn.</string>
+    <string name="amount_placeholder">$ 0.00</string>
+    <string name="payment_method_title">Phương thức thanh toán</string>
+    <string name="payment_method_momo">Momo</string>
+    <string name="payment_method_credit_card">Thẻ tín dụng</string>
+    <string name="pay_button_text">Thanh toán ₫0.00</string>
+    <string name="secure_payment_message">Quá trình thanh toán an toàn</string>
+    <string name="fp_email_title">Đặt lại mật khẩu</string>
+    <string name="fp_email_subtitle">Nhập địa chỉ email và chúng tôi sẽ gửi mã OTP để bạn đặt lại mật khẩu</string>
+    <string name="email_hint">Địa chỉ email</string>
+    <string name="send_otp_button">Gửi OTP</string>
+    <string name="back_to_login">Quay lại đăng nhập</string>
+    <string name="fp_otp_title">Nhập mã xác minh</string>
+    <string name="fp_otp_subtitle">Chúng tôi đã gửi mã 6 chữ số đến email của bạn. Nhập mã bên dưới để xác minh danh tính.</string>
+    <string name="example_email">example@email.com</string>
+    <string name="otp_expiry_timer">Mã hết hạn sau: 05:00</string>
+    <string name="verify_button">Xác minh</string>
+    <string name="fp_reset_title">Tạo mật khẩu mới</string>
+    <string name="fp_reset_subtitle">Mật khẩu mới của bạn phải khác với các mật khẩu đã sử dụng trước đó</string>
+    <string name="new_password_hint">Mật khẩu mới</string>
+    <string name="password_hint_info">Sử dụng ít nhất 8 ký tự bao gồm chữ cái, số và ký hiệu.</string>
+    <string name="password_strength_weak">Độ mạnh mật khẩu: Yếu</string>
+    <string name="confirm_password_hint">Xác nhận mật khẩu</string>
+    <string name="reset_password_button">Đặt lại mật khẩu</string>
+    <string name="user_name_placeholder">Tên người dùng</string>
+    <string name="popular_artists">Nghệ sĩ nổi bật</string>
+    <string name="popular_albums">Album nổi bật</string>
+    <string name="latest_albums">Album mới nhất</string>
+    <string name="library_title">Thư viện</string>
+    <string name="tab_playlists">Danh sách phát</string>
+    <string name="tab_artists">Nghệ sĩ</string>
+    <string name="recent_section">Gần đây</string>
+    <string name="liked_songs">Bài hát đã thích</string>
+    <string name="liked_songs_count">Danh sách phát • 1 bài hát</string>
+    <string name="followed_artists">Danh sách nghệ sĩ theo dõi</string>
+    <string name="add_artist">Thêm nghệ sĩ</string>
+    <string name="playlist_list">Danh sách playlist</string>
+    <string name="add_podcast">Thêm podcast</string>
+
+    <string name="add_chip">Thêm</string>
+    <string name="edit_chip">Chỉnh sửa</string>
+    <string name="refresh_button">Làm mới</string>
+    <string name="suggested_songs_title">Các bài hát được đề xuất</string>
+    <string name="suggested_songs_subtitle">Dựa trên các bài hát trong playlist này</string>
+    <string name="album_same_genre_string1">Các album thuộc thể loại</string>
+
+    <string name="premium_subscription_title1">Trải nghiệm Premium</string>
+    <string name="get_started1">Bắt đầu</string>
+    <string name="mini_plan_description1">Gói Mini - Chỉ từ ₫10,500/tuần</string>
+    <string name="offer_ends_text">Ưu đãi kết thúc vào ngày 2 tháng 4, 2025.</string>
+    <string name="why_join_premium1">Tại sao nên dùng Premium?</string>
+    <string name="ad_free_music_listening1">Nghe nhạc không quảng cáo</string>
+    <string name="download_to_listen_offline1">Tải xuống để nghe khi không có mạng</string>
+    <string name="play_songs_in_any_order1">Phát bài hát theo bất kỳ thứ tự nào</string>
+    <string name="high_audio_quality1">Chất lượng âm thanh cao</string>
+    <string name="organize_listening_queue1">Quản lý hàng đợi phát nhạc</string>
+
+    <string name="premium_mini">Premium Mini</string>
+    <string name="mini_price">₫10,500</string>
+    <string name="mini_duration">FOR 1 WEEK</string>
+
+    <string name="get_premium_mini">Nhận Premium Mini</string>
+    <string name="terms_apply">Áp dụng điều khoản.</string>
+    <string name="three_months_zero">₫0 cho 3 tháng</string>
+    <string name="premium_individual">Premium Cá Nhân</string>
+    <string name="free">MIỄN PHÍ</string>
+    <string name="for_3_months">CHO 3 THÁNG</string>
+    <string name="try_three_months">DÙNG 3 THÁNG VỚI ₫0</string>
+    <string name="offer_ends_april_2">Ưu đãi kết thúc ngày 2 tháng 4, 2025.</string>
+    <string name="two_months_29500">₫29,500 cho 2 tháng</string>
+    <string name="premium_student">Premium Sinh Viên</string>
+    <string name="for_2_months">CHO 2 THÁNG</string>
+    <string name="try_two_months">DÙNG 2 THÁNG VỚI ₫29,500</string>
+
+    <string name="search_text1">Tìm kiếm bất kỳ điều gì</string>
+    <string name="Search_all1">Tìm tất cả</string>
+
+    <string name="press_to_speak">Press to speak</string>
+    <string name="view_all_results">View all search results here</string>
+
+        <string name="step_3_of_4">Bước 3 của 4</string>
+    <string name="continue1">Tiếp tục</string>
+    <string name="close">Đóng</string>
+
+        <string name="step_2_of_4">Bước 2 trên 4</string>
+        <string name="back">Quay lại</string>
+        <string name="must_be_13">Bạn phải từ 13 tuổi trở lên để sử dụng Spotify</string>
+
+    <string name="step_1_of_4">Bước 1 của 4</string>
+    <string name="create_account">Tạo tài khoản</string>
+    <string name="create_account_subtitle">Nhập email và tạo mật khẩu để bắt đầu</string>
+    <string name="email_address">Địa chỉ email</string>
+    <string name="password_hint">Sử dụng ít nhất 8 ký tự bao gồm chữ cái, số và ký hiệu.</string>
+    <string name="already_have_account">Đã có tài khoản? </string>
+    <string name="terms">Bằng cách tạo tài khoản, bạn đồng ý với Điều khoản Dịch vụ và Chính sách Bảo mật của Spotify.</string>
+
+    <string name="step_4_of_4">Bước 4 trên 4</string>
+    <string name="username_hint">Tên người dùng</string>
+    <string name="username_helper">Tên người dùng phải là duy nhất</string>
+    <string name="username_subtitle">Tên người dùng giúp người khác tìm và theo dõi bạn trên Spotify</string>
+    <string name="username_available">Tên người dùng này khả dụng</string>
+    <string name="suggested_usernames_label">Tên người dùng gợi ý:</string>
+    <string name="suggestion_1">nguoi_yeu_nhac123</string>
+    <string name="suggestion_2">cao_thu_giai_dieu</string>
+    <string name="suggestion_3">fan_nhip_dieu2023</string>
+    <string name="suggestion_4">kham_pha_giai_dieu</string>
+    <string name="complete_sign_up">Hoàn tất đăng ký</string>
+
+
+        <string name="premium_mini_title">Gói Premium Mini</string>
+        <string name="premium_mini_price">₫10.500</string>
+        <string name="premium_mini_duration">TRONG 1 TUẦN</string>
+        <string name="premium_mini_description">1 tài khoản Premium chỉ dùng trên di động • Nghe offline tối đa 30 bài hát trên 1 thiết bị • Thanh toán một lần • Chất lượng âm thanh cơ bản</string>
+        <string name="btn_get_premium_mini">NHẬN GÓI MINI</string>
+
+
+    <string name="step_counter">Bước 4 trong 4</string>
+    <string name="username_description">Tên người dùng giúp người khác tìm và theo dõi bạn trên Spotify</string>
+    <string name="suggested_usernames">Gợi ý tên người dùng:</string>
+    <string name="price_for_3_months">₫0 trong 3 tháng</string>
+    <string name="premium_individual1">Gói Cá nhân Premium</string>
+    <string name="free_label">MIỄN PHÍ</string>
+    <string name="for_3_months1">TRONG 3 THÁNG</string>
+    <string name="features_description">1 tài khoản Premium • Hủy bất cứ lúc nào • Đăng ký hoặc trả một lần</string>
+    <string name="try_button_text">DÙNG 3 THÁNG MIỄN PHÍ</string>
+    <string name="terms_text">₫0 trong 3 tháng, sau đó ₫59,000 mỗi tháng. Chỉ áp dụng nếu bạn chưa từng dùng Premium và đăng ký qua Spotify. Ưu đãi trên Google Play có thể khác. Áp dụng điều khoản.</string>
+
+    <string name="price_student_intro">₫29.500 cho 2 tháng</string>
+    <string name="premium_student_title">Gói Premium Sinh viên</string>
+    <string name="price_student">₫29.500</string>
+    <string name="duration_student">CHO 2 THÁNG</string>
+    <string name="features_student">1 tài khoản Premium đã xác minh • Giảm giá cho sinh viên đủ điều kiện • Hủy bất kỳ lúc nào • Đăng ký hoặc thanh toán một lần</string>
+    <string name="button_try_student">DÙNG 2 THÁNG VỚI ₫29.500</string>
+    <string name="terms_student">₫29.500 cho 2 tháng, sau đó ₫29.500 mỗi tháng. Chỉ áp dụng cho sinh viên đủ điều kiện. Có điều khoản đi kèm.</string>
 
 </resources>

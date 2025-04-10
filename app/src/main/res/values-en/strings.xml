@@ -75,9 +75,12 @@
     <string name="login_here">Login here</string>
     <string name="sign_up_free">Sign up free</string>
     <string name="continue_with_google">Continue with Google</string>
-    <string name="album_same_genre_string">Có thể bạn cũng thích</string>
-    <string name="artist_string">Nghệ sĩ</string>
-    <string name="follower_string">5.409 lượt lưu • 36phút</string>
+
+    <string name="album_same_genre_string">You might also like</string>
+    <string name="artist_string">Artist</string>
+    <string name="follower_string">5,409 saves • 36 minutes</string>
+
+
     <string name="add_button_description">Add to Playlist</string>
     <string name="download_description">Download</string>
     <string name="like_description">Like</string>
@@ -144,5 +147,192 @@
     <string name="organize_listening_queue">Organize listening queue</string>
     <string name="play_count">Play count</string>
     <string name="ranking">Ranking</string>
+    <string name="playlist">Playlist</string>
+    <string name="albums_in_genre">Albums of the genre</string>
+    <string name="or">OR</string>
+
+    <string name="new_playlist">New Playlist</string>
+    <string name="done">Done</string>
+    <string name="about_artist">About the Artist</string>
+    <string name="lyrics">Lyrics</string>
+
+    <string name="queue">Queue</string>
+    <string name="now_playing_playlist">Now Playing: Playlist Name</string>
+    <string name="song_title">Song Title</string>
+    <string name="artist_name">Artist Name</string>
+    <string name="name_your_playlist">Name your playlist</string>
+    <string name="create">Create</string>
+    <string name="edit_playlist">Edit Playlist</string>
+
+    <string name="change_image">Change Image</string>
+    <string name="add_description">Add Description</string>
+    <string name="enter_description">Enter description</string>
+
+    <string name="no_ads_music">Listen without ads</string>
+    <string name="premium_tag">Premium</string>
+    <string name="hide_song">Hide Song</string>
+    <string name="access_radio">Access Radio</string>
+    <string name="go_to_artist">Go to Artist</string>
+    <string name="go_to_concert">Go to Artist Concert</string>
+
+    <string name="confirm_payment_title">Confirm Payment</string>
+    <string name="plan_name_premium_individual">Premium Individual</string>
+    <string name="plan_details_promo">₫0 for 3 months, then ₫59,000/month</string>
+    <string name="payment_method">Payment method</string>
+    <string name="payment_method_paypal">PayPal</string>
+    <string name="amount">Amount</string>
+    <string name="amount_zero">₫0.00</string>
+    <string name="confirm_terms_notice">By confirming, you agree to the terms and conditions of this subscription.</string>
+
+    <string name="confirm">Confirm</string>
+
+    <string name="sleep_timer_title">Sleep Timer</string>
+    <string name="timer_5_min">5 minutes</string>
+    <string name="timer_10_min">10 minutes</string>
+    <string name="timer_15_min">15 minutes</string>
+    <string name="timer_30_min">30 minutes</string>
+    <string name="timer_45_min">45 minutes</string>
+    <string name="timer_1_hour">1 hour</string>
+    <string name="timer_end_of_track">End of track</string>
+    <string name="cancel_sleep_timer">Cancel timer</string>
+    <string name="subscription_summary">Subscription Summary</string>
+    <string name="todays_charge">Today charge</string>
+    <string name="after_trial">After 3 months</string>
+    <string name="monthly_fee">₫59,000/month</string>
+    <string name="payment_details_title">Payment Details</string>
+    <string name="payment_details_subtitle">Complete your payment securely.</string>
+    <string name="amount_placeholder">$ 0.00</string>
+    <string name="payment_method_title">Payment Method</string>
+    <string name="payment_method_momo">Momo</string>
+    <string name="payment_method_credit_card">Credit Card</string>
+    <string name="pay_button_text">Pay ₫0.00</string>
+    <string name="secure_payment_message">Secure payment processing</string>
+
+    <string name="send">Send</string>
+    <string name="fp_email_title">Reset your password</string>
+    <string name="fp_email_subtitle">Enter your email address and we\'ll send you an OTP code to reset your password</string>
+    <string name="email_hint">Email address</string>
+    <string name="send_otp_button">Send OTP</string>
+    <string name="back_to_login">Back to login</string>
+    <string name="fp_otp_title">Enter verification code</string>
+    <string name="fp_otp_subtitle">We have sent a 6-digit code to your email. Enter it below to verify your identity.</string>
+    <string name="example_email">example@email.com</string>
+    <string name="otp_expiry_timer">Code expires in: 05:00</string>
+    <string name="verify_button">Verify</string>
+    <string name="fp_reset_title">Create new password</string>
+    <string name="fp_reset_subtitle">Your new password must be different from previously used passwords</string>
+    <string name="new_password_hint">New password</string>
+    <string name="password_hint_info">Use at least 8 characters with a mix of letters, numbers, and symbols.</string>
+    <string name="password_strength_weak">Password strength: Weak</string>
+    <string name="confirm_password_hint">Confirm password</string>
+    <string name="reset_password_button">Reset Password</string>
+    <string name="user_name_placeholder">User Name</string>
+    <string name="popular_artists">Popular artists</string>
+    <string name="popular_albums">Popular albums</string>
+    <string name="latest_albums">Latest albums</string>
+    <string name="library_title">Library</string>
+    <string name="tab_playlists">Playlists</string>
+    <string name="tab_artists">Artists</string>
+    <string name="recent_section">Recently</string>
+    <string name="liked_songs">Liked Songs</string>
+    <string name="liked_songs_count">Playlist • 1 song</string>
+    <string name="followed_artists">Followed Artists</string>
+    <string name="add_artist">Add Artist</string>
+    <string name="playlist_list">Playlist List</string>
+    <string name="add_podcast">Add Podcast</string>
+
+    <string name="add_chip">Add</string>
+    <string name="edit_chip">Edit</string>
+    <string name="refresh_button">Refresh</string>
+    <string name="suggested_songs_title">Suggested Songs</string>
+    <string name="suggested_songs_subtitle">Based on the songs in this playlist</string>
+    <string name="album_same_genre_string1">Albums in the genre</string>
+
+    <string name="premium_subscription_title1">Enjoy Premium</string>
+    <string name="get_started1">Get Started</string>
+    <string name="mini_plan_description1">Mini plan - From ₫10,500/week</string>
+    <string name="offer_ends_text">Offer ends April 2, 2025.</string>
+    <string name="why_join_premium1">Why join Premium?</string>
+    <string name="ad_free_music_listening1">Ad-free music listening</string>
+    <string name="download_to_listen_offline1">Download to listen offline</string>
+    <string name="play_songs_in_any_order1">Play songs in any order</string>
+    <string name="high_audio_quality1">High audio quality</string>
+    <string name="organize_listening_queue1">Organize your listening queue</string>
+
+    <string name="premium_mini">Premium Mini</string>
+    <string name="mini_price">₫10,500</string>
+    <string name="mini_duration">FOR 1 WEEK</string>
+    <string name="get_premium_mini">GET PREMIUM MINI</string>
+    <string name="terms_apply">Terms apply.</string>
+    <string name="three_months_zero">₫0 for 3 months</string>
+    <string name="premium_individual">Premium Individual</string>
+    <string name="free">FREE</string>
+    <string name="for_3_months">FOR 3 MONTHS</string>
+    <string name="try_three_months">TRY 3 MONTHS FOR ₫0</string>
+    <string name="offer_ends_april_2">Offer ends April 2, 2025.</string>
+    <string name="two_months_29500">₫29,500 for 2 months</string>
+    <string name="premium_student">Premium Student</string>
+    <string name="for_2_months">FOR 2 MONTHS</string>
+    <string name="try_two_months">TRY 2 MONTHS FOR ₫29,500</string>
+
+    <string name="search_text1">Search for anything</string>
+    <string name="Search_all1">Search all</string>
+    <string name="press_to_speak">Nhấn để nói</string>
+    <string name="view_all_results">Xem tất cả các kết quả tìm kiếm ở đây</string>
+
+        <string name="step_3_of_4">Step 3 of 4</string>
+        <string name="continue1">Continue</string>
+    <string name="close">Close</string>
+
+        <string name="step_2_of_4">Step 2 of 4</string>
+        <string name="back">Back</string>
+        <string name="must_be_13">You must be at least 13 years old to use Spotify</string>
+
+    <string name="step_1_of_4">Step 1 of 4</string>
+    <string name="create_account">Create account</string>
+    <string name="create_account_subtitle">Enter your email and create a password to get started</string>
+    <string name="email_address">Email address</string>
+    <string name="password_hint">Use at least 8 characters with a mix of letters, numbers, and symbols.</string>
+    <string name="already_have_account">Already have an account? </string>
+    <string name="terms">By creating an account, you agree to Spotify\'s Terms of Service and Privacy Policy.</string>
+
+    <string name="step_4_of_4">Step 4 of 4</string>
+    <string name="username_hint">Username</string>
+    <string name="username_helper">Username must be unique</string>
+    <string name="username_subtitle">Your username is how other Spotify users can find and follow you</string>
+    <string name="username_available">This username is available</string>
+    <string name="suggested_usernames_label">Suggested usernames:</string>
+    <string name="suggestion_1">music_lover123</string>
+    <string name="suggestion_2">melody_master</string>
+    <string name="suggestion_3">rhythm_fan2023</string>
+    <string name="suggestion_4">tune_explorer</string>
+    <string name="complete_sign_up">Complete Sign Up</string>
+
+
+    <string name="step_counter">Step 4 of 4</string>
+    <string name="username_description">Your username is how other Spotify users can find and follow you</string>
+    <string name="suggested_usernames">Suggested usernames:</string>
+    <string name="price_for_3_months">₫0 for 3 months</string>
+    <string name="premium_individual1">Premium Individual</string>
+    <string name="free_label">FREE</string>
+    <string name="for_3_months1">FOR 3 MONTHS</string>
+    <string name="features_description">1 Premium account • Cancel anytime • Subscribe or one-time payment</string>
+    <string name="try_button_text">TRY 3 MONTHS FOR ₫0</string>
+    <string name="terms_text">₫0 for 3 months, then ₫59,000 per month after. Offer only available if you haven\'t tried Premium before and you subscribe via Spotify. Offers via Google Play may differ. Terms apply.</string>
+
+
+    <string name="premium_mini_title">Premium Mini</string>
+    <string name="premium_mini_price">₫10,500</string>
+    <string name="premium_mini_duration">FOR 1 WEEK</string>
+    <string name="premium_mini_description">1 mobile-only Premium account • Offline listening of up to 30 songs on 1 device • One-time payment • Basic audio quality</string>
+    <string name="btn_get_premium_mini">GET PREMIUM MINI</string>
+
+    <string name="price_student_intro">₫29,500 for 2 months</string>
+    <string name="premium_student_title">Premium Student</string>
+    <string name="price_student">₫29,500</string>
+    <string name="duration_student">FOR 2 MONTHS</string>
+    <string name="features_student">1 verified Premium account • Discount for eligible students • Cancel anytime • Subscribe or one-time payment</string>
+    <string name="button_try_student">TRY 2 MONTHS FOR ₫29,500</string>
+    <string name="terms_student">₫29,500 for 2 months, then ₫29,500 per month after. Offer only available for eligible students. Terms apply.</string>
 
 </resources>
