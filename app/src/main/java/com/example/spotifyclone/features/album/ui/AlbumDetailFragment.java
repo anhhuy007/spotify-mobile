@@ -64,7 +64,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     private TextView artist_album_text;
     private AlbumAdapter artist_albumAdapter;
     private MusicPlayerViewModel viewModel;
-    private ImageButton playButton;
+    private ImageButton playButton, imgStory;
 
     private AlbumAdapter related_albumAdapter;
     private Toolbar toolbar;
@@ -89,13 +89,13 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AlbumDetailFragmentArgs args=AlbumDetailFragmentArgs.fromBundle(getArguments());
+        AlbumDetailFragmentArgs args = AlbumDetailFragmentArgs.fromBundle(getArguments());
         if (args != null) {
-            coverUrl=args.getCoverUrl();
-            albumTitle=args.getTitle();
-            albumId=args.getId();
-            artistNames=Arrays.asList(args.getArtist());
-            artistUrl=args.getArtistUrl();
+            coverUrl = args.getCoverUrl();
+            albumTitle = args.getTitle();
+            albumId = args.getId();
+            artistNames = Arrays.asList(args.getArtist());
+            artistUrl = args.getArtistUrl();
         } else {
             Log.e("AlbumDetailFragment", "Arguments is null");
             NavHostFragment.findNavController(this).navigateUp();
@@ -113,7 +113,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     }
 
     private void setupListeners() {
-        playButton.setOnClickListener(v-> {
+        playButton.setOnClickListener(v -> {
             viewModel.togglePlayPause(albumId, albumTitle, MusicPlayerViewModel.PlaybackSourceType.ALBUM);
         });
     }
@@ -127,15 +127,15 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         artist_name2 = view.findViewById(R.id.artist);
         artist_image = view.findViewById(R.id.artist_image);
         artist_album_text = view.findViewById(R.id.artist_album_text);
-
         nestedScrollView = view.findViewById(R.id.nestedScrollview);
-
         playButton = view.findViewById(R.id.play_button);
+        imgStory = view.findViewById(R.id.imgStory);
     }
 
     private void setupUI() {
         // Load album image
-        artist_name.setText(String.join(" ,", artistNames));Glide.with(requireContext())
+        artist_name.setText(String.join(" ,", artistNames));
+        Glide.with(requireContext())
                 .load(coverUrl)
                 .into(albumImage);
 
@@ -145,8 +145,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
                 .load(artistUrl)
                 .into(artist_image);
         artist_album_text.setText("Thêm nữa từ " + String.join(" ,", artistNames));
-
-
     }
 
     private void setupToolbar(AppCompatActivity activity) {
@@ -179,7 +177,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         // Song of album
         recyclerView = view.findViewById(R.id.song_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        songAdapter = new AlbumSongAdapter(getContext(), albumSong, 3, (songId, songImage, songTitle,  authorNames, view1) -> {
+        songAdapter = new AlbumSongAdapter(getContext(), albumSong, 3, (songId, songImage, songTitle, authorNames, view1) -> {
             AlbumDetailFragmentDirections.ActionNavAlbumDetailToAlbumBottomSheet action =
                     AlbumDetailFragmentDirections.actionNavAlbumDetailToAlbumBottomSheet(
                             songId,
@@ -216,7 +214,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         related_album.setAdapter(related_albumAdapter);
     }
 
-    private void navigateToAlbumDetail(Album album){
+    private void navigateToAlbumDetail(Album album) {
         NavDirections action = AlbumDetailFragmentDirections.actionNavAlbumDetailSelf(
                 album.getId(),
                 album.getTitle(),
@@ -239,7 +237,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         ).get(AlbumViewModel.class);
 
         albumViewModel.getSongs().observe(getViewLifecycleOwner(), songs -> {
-            albumSong=songs;
+            albumSong = songs;
             songAdapter.setData(songs);
         });
 
@@ -316,6 +314,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
     @Override
     public void onItemClick(Song song) {
-        viewModel.playSongsFrom(albumId, albumTitle, MusicPlayerViewModel.PlaybackSourceType.ALBUM,song.getId());
+        viewModel.playSongsFrom(albumId, albumTitle, MusicPlayerViewModel.PlaybackSourceType.ALBUM, song.getId());
     }
 }

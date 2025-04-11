@@ -27,7 +27,6 @@ public class AlbumFragment extends Fragment {
     private RecyclerView recyclerView;
     private AlbumAdapter albumAdapter;
     private AlbumViewModel albumViewModel;
-    private NavController navController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,8 +43,7 @@ public class AlbumFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Setup NavController
-        navController = Navigation.findNavController(view);
-
+        NavController navController = Navigation.findNavController(view);
         setupViewModel();
         setupRecyclerView(view);
     }
@@ -61,7 +59,8 @@ public class AlbumFragment extends Fragment {
 
         recyclerView.setAdapter(albumAdapter);
     }
-    private void navigateToAlbumDetail(Album album){
+
+    private void navigateToAlbumDetail(Album album) {
         NavDirections action = AlbumFragmentDirections.actionAlbumFragmentToNavAlbumDetail(
                 album.getId(),
                 album.getTitle(),
@@ -72,8 +71,6 @@ public class AlbumFragment extends Fragment {
                 album.getLike_count(),
                 album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
                 album.getArtist_url().get(0) // Take the first url
-
-
         );
         Navigation.findNavController(requireView()).navigate(action);
 

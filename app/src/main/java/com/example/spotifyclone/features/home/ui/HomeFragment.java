@@ -125,7 +125,8 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         TextView userNameText = view.findViewById(R.id.tv_user_name);
 
         Picasso.get().load(currentUser.getAvatarUrl()).into(userAvatarImage);
-        userNameText.setText(currentUser.getUsername());
+//        userNameText.setText(currentUser.getUsername());
+        userNameText.setText("Welcome to Spotify Clone");
 
         // navigate to Chatbotfragment
         chatbotImage=view.findViewById(R.id.ic_chatbot);

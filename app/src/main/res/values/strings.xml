@@ -359,6 +359,7 @@
     <string name="no_details_available">No details available</string>
     <string name="unknown_date">Unknown Date</string>
     <string name="other_artists">Other Artists</string>
+    <string name="load_more">Load More</string>
 
 
 </resources>
