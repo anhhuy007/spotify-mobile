@@ -138,7 +138,7 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.spotifyclone.features.settings.ui.SettingsFragment"
         android:label="Settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -148,7 +148,7 @@
         android:id="@+id/profileFragment"
         android:name="com.example.spotifyclone.features.profile.ui.ProfileFragment"
         android:label="Settings"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment2"
             app:destination="@id/editProfileFragment" />
@@ -168,7 +168,7 @@
         android:id="@+id/artistFragment"
         android:name="com.example.spotifyclone.features.artist.ui.ArtistFragment"
         android:label="Artist"
-        tools:layout="@layout/fragment_artist_detail_ui" >
+        tools:layout="@layout/fragment_artist_detail_ui">
         <action
             android:id="@+id/action_artistFragment_to_artistOverallFragment"
             app:destination="@id/artistOverallFragment" />
@@ -181,7 +181,7 @@
         android:id="@+id/artistListFragment"
         android:name="com.example.spotifyclone.features.artist.ui.ArtistListFragment"
         android:label="Artist"
-        tools:layout="@layout/fragment_artist_list" >
+        tools:layout="@layout/fragment_artist_list">
         <action
             android:id="@+id/action_artistListFragment_to_artistFragment"
             app:destination="@id/artistFragment" />
@@ -194,7 +194,7 @@
         android:id="@+id/artistOverallFragment"
         android:name="com.example.spotifyclone.features.artist.ui.ArtistOverallFragment"
         android:label="Artist"
-        tools:layout="@layout/fragment_artist_detail" >
+        tools:layout="@layout/fragment_artist_detail">
         <action
             android:id="@+id/action_artistOverallFragment_to_artistDiscographyFragment"
             app:destination="@id/artistDiscographyFragment" />
@@ -254,8 +254,7 @@
             app:destination="@id/searchSuggestFragment" />
         <action
             android:id="@+id/action_searchAllResultFragment_to_nav_album_detail"
-            app:destination="@id/nav_album_detail"
-            />
+            app:destination="@id/nav_album_detail" />
     </fragment>
 
     <fragment
@@ -274,15 +273,9 @@
         android:label="PremiumSubscription"
         tools:layout="@layout/fragment_premium_redirect">
         <action
-            android:id="@+id/action_nav_premiumfm_to_checkoutfm"
-            app:destination="@id/nav_checkout" />
-        <action
             android:id="@+id/action_nav_premium_to_subscriptionDetailFragment"
             app:destination="@id/subscriptionDetailFragment" />
     </fragment>
-
-
-
 
 
     <dialog
@@ -303,16 +296,16 @@
         tools:layout="@layout/bottom_sheet_song_option">
         <argument
             android:name="_id"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="song_image"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="song_name"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="song_artist"
-            app:argType="string[]"/>
+            app:argType="string[]" />
 
     </dialog>
 
@@ -323,16 +316,16 @@
         tools:layout="@layout/bottom_sheet_playlist_edit">
         <argument
             android:name="playlist_id"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="playlist_name"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="playlist_image"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="playlist_description"
-            app:argType="string"/>
+            app:argType="string" />
     </dialog>
     <fragment
         android:id="@+id/playlistDetailFragment"
@@ -341,28 +334,28 @@
         tools:layout="@layout/fragment_playlist_detail">
         <argument
             android:name="user_name"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="user_image"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="playlist_id"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="playlist_name"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="playlist_image"
-            app:argType="string"/>
+            app:argType="string" />
         <action
             android:id="@+id/action_playlistDetailFragment_to_editPlaylistBottomSheet"
             app:destination="@id/editPlaylistBottomSheet" />
         <action
             android:id="@+id/action_playlistDetailFragment_to_album_detail"
-            app:destination="@id/nav_album_detail"/>
+            app:destination="@id/nav_album_detail" />
         <action
             android:id="@+id/action_playlistDetailFragment_to_album_playlistmoreoption"
-            app:destination="@id/playlist_moreoption"/>
+            app:destination="@id/playlist_moreoption" />
         <action
             android:id="@+id/action_playlistDetailFragment_to_addPlaylistBottomSheet"
             app:destination="@id/addPlaylistBottomSheet" />
@@ -375,19 +368,19 @@
         tools:layout="@layout/fragment_playlist_detail">
         <argument
             android:name="user_name"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="user_image"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="playlist_id"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="playlist_name"
-            app:argType="string"/>
+            app:argType="string" />
         <argument
             android:name="playlist_image"
-            app:argType="string"/>
+            app:argType="string" />
 
     </dialog>
     <dialog
@@ -397,7 +390,7 @@
         tools:layout="@layout/bottom_sheet_playlist_detail_add">
         <argument
             android:name="playlist_id"
-            app:argType="string"/>
+            app:argType="string" />
     </dialog>
     <fragment
         android:id="@+id/chatbotFragment"
@@ -412,15 +405,28 @@
         android:id="@+id/subscriptionDetailFragment"
         android:name="com.example.spotifyclone.features.premium.ui.SubscriptionDetailFragment"
         android:label="SubscriptionDetailFragment"
-        tools:layout="@layout/fragment_subscription_detail"/>
+        tools:layout="@layout/fragment_subscription_detail" />
     <fragment
         android:id="@+id/subscriptionPlanFragment"
         android:name="com.example.spotifyclone.features.premium.ui.SubscriptionPlanFragment"
         android:label="SubscriptionPlanFragment"
-        tools:layout="@layout/fragment_premium"/>
+        tools:layout="@layout/fragment_subscription_plans">
+        <action
+            android:id="@+id/action_nav_planfm_to_checkoutfm"
+            app:destination="@id/nav_checkout" />
+    </fragment>
 
-
-
+    <fragment
+        android:id="@+id/premiumFragment"
+        android:name="com.example.spotifyclone.features.premium.ui.PremiumFragment"
+        android:label="Premium">
+        <action
+            android:id="@+id/action_premiumFragment_to_subscriptionDetailFragment"
+            app:destination="@id/subscriptionDetailFragment" />
+        <action
+            android:id="@+id/action_premiumFragment_to_subscriptionPlanFragment"
+            app:destination="@id/subscriptionPlanFragment" />
+    </fragment>
 
 
 </navigation>

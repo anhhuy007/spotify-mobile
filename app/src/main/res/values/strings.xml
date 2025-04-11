@@ -355,6 +355,9 @@
     <string name="view_receipt"><u>Xem hoá đơn</u></string>
     <string name="cancel_subscription">Huỷ gói đăng ký</string>
     <string name="chatbot_string">ChatBot</string>
+    <string name="unknown_plan">Unknown Plan</string>
+    <string name="no_details_available">No details available</string>
+    <string name="unknown_date">Unknown Date</string>
 
 
 </resources>

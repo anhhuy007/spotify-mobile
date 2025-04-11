@@ -8,7 +8,7 @@ public class Subscription {
     private Date endDate;
     private boolean isActive;
     private String subscriptionType;
-    private String id;
+    private String _id;
     private Date createdAt;
     private Date updatedAt;
     private Integer total;
@@ -56,11 +56,11 @@ public class Subscription {
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public Date getCreatedAt() {

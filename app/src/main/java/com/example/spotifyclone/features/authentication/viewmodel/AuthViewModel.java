@@ -87,6 +87,10 @@ public class AuthViewModel extends ViewModel {
 
     }
 
+    public User getCurrentUser() {
+        return authRepo.getUser();
+    }
+
     public void checkUsernameAvailability(String username, CheckUserExistCallBack callBack) {
         authRepo.checkUsernameExist(username, callBack);
     }
