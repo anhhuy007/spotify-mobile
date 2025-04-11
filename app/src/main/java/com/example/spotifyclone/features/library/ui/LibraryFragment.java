@@ -28,7 +28,6 @@ import com.example.spotifyclone.features.library.model.LibraryArtist;
 import com.example.spotifyclone.features.library.model.LibraryPlaylist;
 import com.example.spotifyclone.features.library.viewModel.LibraryArtistsViewModel;
 import com.example.spotifyclone.features.library.viewModel.LibraryPlaylistsViewModel;
-import com.example.spotifyclone.features.library.viewModel.LikedSongsViewModel;
 import com.example.spotifyclone.features.playlist.ui.PlaylistDetailFragment;
 import com.example.spotifyclone.features.profile.ui.EditProfileFragment;
 import com.example.spotifyclone.shared.model.User;
@@ -38,10 +37,10 @@ public class LibraryFragment extends Fragment  {
     private Context context;
     private User currentUser;
     private RecyclerView artistsRecyclerView, playlistsRecyclerView;
-    private TextView playlistTab, artistTab, likedSongsCount;
+    private TextView playlistTab, artistTab;
     private TextView profileInitial;
     private ImageView profileImageI, clearFilterButton;
-    private View likedSongsContainer;
+
     private View tabContainer;
     private boolean isFilterActive = false;
     private ConstraintLayout addArtistContainer,addPodcastContainer;
@@ -91,9 +90,6 @@ public class LibraryFragment extends Fragment  {
         profileInitial = view.findViewById(R.id.profileInitial);
         profileImageI = view.findViewById(R.id.profileImageI);
 
-        // Initialize liked songs container
-        likedSongsContainer = view.findViewById(R.id.likedSongsContainer);
-        likedSongsCount = view.findViewById(R.id.likedSongsCount);
 
         addArtistContainer = view.findViewById(R.id.addArtistContainer);
         addPodcastContainer = view.findViewById(R.id.addPodcastContainer);
@@ -144,11 +140,10 @@ public class LibraryFragment extends Fragment  {
         addArtistContainer.setOnClickListener(v -> {
 
 
+            ArtistSelectionFragment bottomSheet = ArtistSelectionFragment.newInstance();
+            bottomSheet.setViewModel(viewModelArtist);
             if (getActivity() != null) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(((ViewGroup) requireView().getParent()).getId(), ArtistSelectionFragment.newInstance())
-                        .addToBackStack(null)
-                        .commit();
+                bottomSheet.show(getActivity().getSupportFragmentManager(), "ArtistSelectionBottomSheet");
             }
 
         });
@@ -182,10 +177,6 @@ newPlaylistBottomSheet.show(getParentFragmentManager(), "NewPlaylistBottomSheet"
         // Default state - no filter active
         deactivateFilter();
 
-        // Setup liked songs click listener
-        likedSongsContainer.setOnClickListener(v -> {
-            navigateToLikedSongs();
-        });
     }
 
     private void activateFilter(boolean isPlaylistSelected) {
@@ -243,27 +234,7 @@ newPlaylistBottomSheet.show(getParentFragmentManager(), "NewPlaylistBottomSheet"
     private void fetchData() {
         viewModelArtist.fetchArtists();
         viewModelPlaylist.fetchPlaylists();
-        fetchLikedSongsCount();
     }
-
-    private void fetchLikedSongsCount() {
-        LikedSongsViewModel viewModel = new ViewModelProvider(this,
-                new LikedSongsViewModel.Factory(requireActivity().getApplication()))
-                .get(LikedSongsViewModel.class);
-
-        viewModel.getLikedSongsCount().observe(getViewLifecycleOwner(), count -> {
-            if (count != null) {
-                TextView songsCountText = likedSongsContainer.findViewById(R.id.likedSongsCount);
-                if (songsCountText != null) {
-                    songsCountText.setText("Danh sách phát • " + count + " bài hát");
-                }
-            }
-        });
-
-        viewModel.fetchLikedSongsCount();
-    }
-
-
 
     private void navigateToArtistDetail(String artistId) {
         if (artistId != null && !artistId.isEmpty()) {
@@ -292,14 +263,5 @@ newPlaylistBottomSheet.show(getParentFragmentManager(), "NewPlaylistBottomSheet"
         }
     }
 
-    private void navigateToLikedSongs() {
-        // Navigate to liked songs fragment/activity
-        // Commented out as in original code
-        // Fragment fragment = LikedSongsFragment.newInstance();
-        // requireActivity().getSupportFragmentManager()
-        //         .beginTransaction()
-        //         .replace(R.id.fragmentContainer, fragment)
-        //         .addToBackStack(null)
-        //         .commit();
-    }
+
 }

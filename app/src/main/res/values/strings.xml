@@ -353,6 +353,7 @@
     <string name="start_listening">Bắt đầu nghe</string>
     <string name="manage_subscription">Quản lý gói đăng ký</string>
     <string name="view_receipt"><u>Xem hoá đơn</u></string>
+    <string name="select_artist_like">Chọn thêm các nghệ sĩ bạn thích</string>
     <string name="cancel_subscription">Huỷ gói đăng ký</string>
     <string name="chatbot_string">ChatBot</string>
 

@@ -33,8 +33,6 @@ public interface LibraryService {
     Call<APIResponse<List<SelectableArtist>>> getListFollowedArtists();
     @GET("follower/list")
     Call<APIResponse<List<LibraryArtist>>> getFollowedArtists();
-    @GET("library/getLikedSongsCount")
-    Call<APIResponse<Integer>> getLikedSongsCount();
 
 
 }

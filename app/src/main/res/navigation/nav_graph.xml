@@ -45,20 +45,20 @@
         <action
             android:id="@+id/action_lib_to_playlistDetailFragment"
             app:destination="@id/playlistDetailFragment" />
-        <action
-            android:id="@+id/action_nav_library_to_add_fl_artist"
-            app:destination="@id/add_fl_artist" />
+<!--        <action-->
+<!--            android:id="@+id/action_nav_library_to_add_fl_artist"-->
+<!--            app:destination="@id/add_fl_artist" />-->
 
     </fragment>
 
-    <fragment
-        android:id="@+id/add_fl_artist"
-        android:name="com.example.spotifyclone.features.library.ui.ArtistSelectionFragment"
-        android:label="Library"
-        tools:layout="@layout/fragment_artist_selection">
+<!--    <fragment-->
+<!--        android:id="@+id/add_fl_artist"-->
+<!--        android:name="com.example.spotifyclone.features.library.ui.ArtistSelectionFragment"-->
+<!--        android:label="Library"-->
+<!--        tools:layout="@layout/fragment_artist_selection">-->
 
 
-    </fragment>
+<!--    </fragment>-->
 
 
     <!-- Additional fragment outside bottom navigation -->
