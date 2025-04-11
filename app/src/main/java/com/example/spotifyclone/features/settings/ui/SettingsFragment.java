@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,6 +57,7 @@ public class SettingsFragment extends Fragment {
     private Switch switchTheme, switchLang, switchNoti;
     private LinearLayout accountInfoContainer, logoutContainer, freeAccountContainer, premiumAccountContainer;
     private ImageButton backButton;
+    private Button btnUpgradeToPremium;
     private static final int NOTIFICATION_PERMISSION_CODE = 123;
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private ImageView ava;
@@ -81,8 +83,6 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         // Apply saved settings before inflating layout
         AuthRepository authRepo = new AuthRepository(getContext());
         User user = authRepo.getUser();
@@ -100,13 +100,11 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initializeViews(view);
-
         initSetting();
-
         setupListeners();
     }
 
-    private void initSetting(){
+    private void initSetting() {
         settingViewModel = new ViewModelProvider(this).get(SettingViewModel.class);
 
         SharedPreferences prefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
@@ -194,6 +192,7 @@ public class SettingsFragment extends Fragment {
 
         // Buttons
         backButton = view.findViewById(R.id.back_button);
+        btnUpgradeToPremium = view.findViewById(R.id.premiumButton);
     }
 
     private void setupListeners() {
@@ -204,15 +203,21 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+//        btnUpgradeToPremium.setOnClickListener(v -> {
+//            NavController navController = Navigation.findNavController(requireView());
+//            NavDirections action = SettingsFragmentDirections.actionSettingsFragmentToPremiumFragment();
+//            navController.navigate(action);
+//        });
+
         // Switches
         switchTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            settingViewModel.updateTheme(isChecked ? "dark":"light");
+            settingViewModel.updateTheme(isChecked ? "dark" : "light");
             setLocale(isChecked ? "en" : "vi");
         });
 
         switchLang.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            settingViewModel.updateLanguage(isChecked ? "en":"vi");
-                   setLocale(isChecked ? "en" : "vi");
+            settingViewModel.updateLanguage(isChecked ? "en" : "vi");
+            setLocale(isChecked ? "en" : "vi");
 //                     requireActivity().recreate();
 
         });
@@ -327,6 +332,7 @@ public class SettingsFragment extends Fragment {
         switchNoti.setChecked(hasNotificationPermission);
         setupNotificationSwitchListener();
     }
+
     private void setLocale(String languageCode) {
         Locale locale = new Locale(languageCode);
         Locale.setDefault(locale);

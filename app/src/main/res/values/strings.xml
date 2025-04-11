@@ -69,7 +69,7 @@
     <string name="unfollow">Bỏ theo dõi</string>
     <string name="edit">Chỉnh sửa</string>
     <string name="noActivity">Không có hoạt động nào gần đây</string>
-    <string name="setting">CÀI ĐẶT</string>
+    <string name="setting">Cài đặt</string>
     <string name="account">Tài khoản</string>
     <string name="account_information">Thông tin cá nhân</string>
     <string name="logout">Đăng xuất</string>
@@ -358,6 +358,7 @@
     <string name="unknown_plan">Unknown Plan</string>
     <string name="no_details_available">No details available</string>
     <string name="unknown_date">Unknown Date</string>
+    <string name="other_artists">Other Artists</string>
 
 
 </resources>

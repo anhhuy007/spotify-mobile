@@ -4,48 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:background="@color/gray"
         android:gravity="center_vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:background="@color/gray">
+        android:orientation="horizontal"
+        >
+
         <ImageButton
             android:id="@+id/back_button_overall"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
-
-
-            android:padding="8dp"
-
             android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp"
             android:src="@drawable/ic_back_btn" />
-
 
 
         <TextView
             android:id="@+id/artist_name_overall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="48dp"
             android:gravity="center"
             android:text="SOOBIN"
-            android:layout_marginEnd="48dp"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
-
-
-
     </LinearLayout>
-
-
 
 
     <ImageView
@@ -53,7 +44,6 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:scaleType="centerCrop"
-        android:layout_margin="20dp"
         android:src="@drawable/loading" />
 
     <!-- Monthly Listeners -->
@@ -61,53 +51,53 @@
         android:id="@+id/monthly_listeners_overall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1.528.502"
-        android:textSize="32sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp" />
+        android:text="1.528.502"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/monthly_listeners_label_overall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:text="@string/monthly_listeners"
-        android:textSize="14sp"
         android:textColor="#B3B3B3"
-        android:layout_marginStart="16dp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/artist_description_overall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SOOBIN is a singer and songwriter of various genres..."
-        android:textSize="16sp"
-        android:textColor="@color/black"
+        android:layout_margin="16dp"
         android:lineSpacingExtra="4dp"
-        android:layout_margin="16dp" />
+        android:text="SOOBIN is a singer and songwriter of various genres..."
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
     <!-- Ảnh đại diện và tên người đăng -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_round"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:cardCornerRadius="20dp"
-            android:layout_marginHorizontal="18dp">
+            android:layout_marginHorizontal="18dp"
+            app:cardCornerRadius="20dp">
 
             <ImageView
                 android:id="@+id/artist_logo_overall"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/loading"
                 android:background="@color/black"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                android:src="@drawable/loading" />
         </androidx.cardview.widget.CardView>
 
 
@@ -118,30 +108,30 @@
             android:text="Đăng bởi SOOBIN"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingVertical="8dp">
 
             <ImageView
                 android:id="@+id/instagram_icon"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:src="@drawable/ic_instagram"
                 android:layout_marginHorizontal="14dp"
                 android:background="?android:attr/selectableItemBackground"
-                android:padding="4dp"/>
+                android:padding="4dp"
+                android:src="@drawable/ic_instagram" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -149,14 +139,14 @@
                 android:text="Instagram"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingVertical="8dp">
 
             <ImageView
@@ -165,9 +155,9 @@
                 android:layout_height="36dp"
                 android:layout_marginHorizontal="14dp"
 
-                android:src="@drawable/ic_facebook"
                 android:background="?android:attr/selectableItemBackground"
-                android:padding="4dp"/>
+                android:padding="4dp"
+                android:src="@drawable/ic_facebook" />
 
 
             <TextView
@@ -176,15 +166,15 @@
                 android:text="Facebook"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Wikipedia -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
 
             android:paddingVertical="8dp">
 
@@ -194,9 +184,9 @@
                 android:layout_height="36dp"
                 android:layout_marginHorizontal="14dp"
 
-                android:src="@drawable/ic_wiki"
                 android:background="?android:attr/selectableItemBackground"
-                android:padding="4dp"/>
+                android:padding="4dp"
+                android:src="@drawable/ic_wiki" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -204,7 +194,7 @@
                 android:text="Wikipedia"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 

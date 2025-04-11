@@ -69,14 +69,10 @@ public class ChatbotFragment extends Fragment {
     private LottieAnimationView animationView;
     private ImageView micButton;
     private AppBarLayout appBarLayout;
-
     private MaterialToolbar topAppBar;
-
-
-
-
     private ImageView gifView;
     private ProgressBar progressBar;
+
     // logic
     private ChatBotViewModel chatBotViewModel;
     private ChatbotService chatbotService;
@@ -88,10 +84,6 @@ public class ChatbotFragment extends Fragment {
     private static final int REQUEST_CODE_SPEECH_INPUT = 101;
 
 
-
-
-
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_chatbot, container, false);
@@ -100,33 +92,31 @@ public class ChatbotFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        messages=new ArrayList<>();
+        messages = new ArrayList<>();
 
         initViews(view);
         setupViewModel();
         setupUI();
         setupRecyclerView(view);
 
-        editText.requestFocus(); // Đặt focus vào EditText
         // Mở bàn phím
         InputMethodManager imm = (InputMethodManager) requireContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-
     }
 
-    private void initViews(View view){
-        recyclerView=view.findViewById(R.id.chatRecyclerView);
-        editText=view.findViewById(R.id.inputEditText);
-        sendButton=view.findViewById(R.id.sendButton);
-        animationView=view.findViewById(R.id.animationView);
-        micButton=view.findViewById(R.id.micButton);
+    private void initViews(View view) {
+        recyclerView = view.findViewById(R.id.chatRecyclerView);
+        editText = view.findViewById(R.id.inputEditText);
+        sendButton = view.findViewById(R.id.sendButton);
+        animationView = view.findViewById(R.id.animationView);
+        micButton = view.findViewById(R.id.micButton);
         appBarLayout = view.findViewById(R.id.appBarLayout);
         topAppBar = view.findViewById(R.id.topAppBar);
-        progressBar=view.findViewById(R.id.progressBar);
-
+        progressBar = view.findViewById(R.id.progressBar);
 
 
     }
+
     private void setupViewModel() {
         chatBotViewModel = new ViewModelProvider(
                 requireActivity(),
@@ -206,12 +196,11 @@ public class ChatbotFragment extends Fragment {
         topAppBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavDirections action=ChatbotFragmentDirections.actionChatbotFragmentToNavHome();
+                NavDirections action = ChatbotFragmentDirections.actionChatbotFragmentToNavHome();
                 Navigation.findNavController(view).navigate(action);
 
             }
         });
-
 
 
     }
@@ -232,7 +221,7 @@ public class ChatbotFragment extends Fragment {
 
     }
 
-    private  void setupRecyclerView(View view){
+    private void setupRecyclerView(View view) {
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         chatAdapter = new ChatAdapter(messages);
         recyclerView.setAdapter(chatAdapter);

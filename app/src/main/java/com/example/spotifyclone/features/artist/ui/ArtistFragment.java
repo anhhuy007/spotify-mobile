@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.artist.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -63,10 +64,9 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
     private Context context;
     private ImageButton btnBack, btnPlay;
     private TextView tv_artist_name, tv_artist_info, tv_monthly_listeners,
-            participant_artist_detail, artist_name,
-            tv_playlist_title_artist_detail;
+            participant_artist_detail, artist_name;
     private ImageView img_artist_artist_detail, img_artist_cover,
-            img_playlist_artist_detail, img_album_artist_detail,
+            img_album_artist_detail,
             btn_artist_detail_ui_background;
     private ScrollView scrollView;
     private ConstraintLayout artist_detail_info_container;
@@ -77,7 +77,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
     // Data and state variables
     private String artistId;
     private String artistName = "Test name";
-    private String userID;
 
     // ViewModels
     private MusicPlayerViewModel viewModel;
@@ -137,7 +136,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         rv_similar_artists = view.findViewById(R.id.rv_similar_artists);
 
         tv_monthly_listeners = view.findViewById(R.id.tv_monthly_listeners);
-        tv_monthly_listeners.setText("100000000 " + getString(R.string.monthly_listeners));
+        tv_monthly_listeners.setText(getString(R.string.monthly_listeners));
 
         artist_name = view.findViewById(R.id.artist_name);
         tv_artist_name = view.findViewById(R.id.tv_artist_name);
@@ -182,7 +181,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         // Observe follow status
         checkFollowerViewModel.getIsFollowing().observe(getViewLifecycleOwner(), follow -> {
-            updateFollowButtonState(follow != null && follow.getId()!= null);
+            updateFollowButtonState(follow != null && follow.getId() != null);
         });
 
         // Observe add follower response
@@ -244,10 +243,10 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
     private void updateFollowButtonState(boolean isFollowing) {
         if (isFollowing) {
             btn_follow.setText(getString(R.string.unfollow));
-            btn_follow.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+            btn_follow.setBackgroundColor(getResources().getColor(R.color.gray));
         } else {
             btn_follow.setText(getString(R.string.follow));
-            btn_follow.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+            btn_follow.setBackgroundColor(getResources().getColor(R.color.spotify_green));
         }
     }
 
@@ -259,7 +258,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         // Fix button listener
         fix.setOnClickListener(v -> {
-            Toast.makeText(context, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
             try {
                 Navigation.findNavController(v).navigateUp();
             } catch (Exception e) {
@@ -281,7 +279,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         // Play button listener
         btnPlay.setOnClickListener(v -> {
-            Log.d("ArtistId" , artistId + " " + artistName);
+            Log.d("ArtistId", artistId + " " + artistName);
             viewModel.togglePlayPause(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST);
         });
 
@@ -322,6 +320,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         rv_similar_artists.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
     }
 
+    @SuppressLint("SetTextI18n")
     private void loadData() {
         AtomicInteger sizeHide = new AtomicInteger();
 
@@ -357,7 +356,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
             tv_artist_info = rootView.findViewById(R.id.tv_artist_info);
             tv_artist_info.setText(data.getDescription());
             participant_artist_detail = rootView.findViewById(R.id.participant_artist_detail);
-            participant_artist_detail.setText(getString(R.string.participant_text) + data.getName());
+            participant_artist_detail.setText(getString(R.string.fans_also_like) + " " +  data.getName());
 
             // Load artist images
             loadArtistImages(data.getAvatarUrl());
@@ -451,7 +450,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
                 .get(FansAlsoLikeViewModel.class);
         similarArtistsViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
-                ArtistSimilarAdapter similarArtistsAdapter = new ArtistSimilarAdapter(context,getActivity(), artists);
+                ArtistSimilarAdapter similarArtistsAdapter = new ArtistSimilarAdapter(context, getActivity(), artists);
                 similarArtistsAdapter.setRootView(rootView);
 
                 rv_similar_artists.setAdapter(similarArtistsAdapter);
@@ -513,6 +512,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
     @Override
     public void onSongClick(PopularSong song) {
-        viewModel.playSongsFrom(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST,song.getId());
+        viewModel.playSongsFrom(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST, song.getId());
     }
 }
