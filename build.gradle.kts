@@ -8,10 +8,13 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+
     }
     dependencies {
         val nav_version = "2.7.5" // hoặc phiên bản mới nhất
         classpath ("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
     }
 }
+
+
 

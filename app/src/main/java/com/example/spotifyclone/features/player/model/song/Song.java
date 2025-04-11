@@ -78,6 +78,7 @@ public class Song implements Parcelable {
         this.singers = singers;
         this.authors = authors;
         this.genres = genres;
+
     }
 
     // Parcelable implementation
@@ -252,8 +253,6 @@ public class Song implements Parcelable {
                 ? singers.get(index).getDescription()
                 : "";
     }
-
-    // Setters
     public void setId(String _id) {
         this._id = _id;
     }
@@ -281,7 +280,6 @@ public class Song implements Parcelable {
     public void setImageUrl(String image_url) {
         this.image_url = image_url;
     }
-
     public String getSingerIdAt(int index) {
         return (authors != null && index >= 0 && index < authors.size()) ? authors.get(index).getId() : null;
     }

@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,18 +23,21 @@ import androidx.annotation.Nullable;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.authentication.repository.AuthRepository;
+import com.example.spotifyclone.features.album.ui.AlbumBottomSheet;
 import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.shared.model.User;
+import com.example.spotifyclone.features.playlist.ui.NewPlaylistBottomSheet;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.squareup.picasso.Picasso;
 
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -41,8 +46,11 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.Objects;
 
 public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     public static final String TAG = "PlayerBottomSheetFragment";
@@ -171,7 +179,23 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void setupListeners() {
         btnDown.setOnClickListener(v -> dismiss());
-        btnOptions.setOnClickListener(v -> { });
+        btnOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    try {
+                        AlbumBottomSheet albumBottomSheet = AlbumBottomSheet.newInstance(song.getId(),song.getImageUrl(), song.getTitle(), song.getAuthorNames());
+                        albumBottomSheet.show(fragmentManager, "AlbumBottomSheet");
+                    } catch (Exception e) {
+                        Log.e("", "Error showing AlbumBottomSheet", e);
+                    }
+                });
+
+            }
+        });
+
         btnAdd.setOnClickListener(v -> { });
         btnPlay.setOnClickListener(v -> {
             if (song != null) {
@@ -182,6 +206,10 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         btnNext.setOnClickListener(v -> viewModel.playNext());
         btnShuffle.setOnClickListener(v -> viewModel.cycleShuffleMode());
         btnRepeat.setOnClickListener(v -> viewModel.cycleRepeatMode());
+        btnMultiMedia.setOnClickListener(v -> {
+            SleepTimerDialog sleepTimerDialog = SleepTimerDialog.newInstance();
+            sleepTimerDialog.show(getParentFragmentManager(), "SleepTimerDialog");
+        });
         progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -274,104 +302,123 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         });
 
         viewModel.getUpcomingSongs().observe(getViewLifecycleOwner(), this::updateUpcomingSongsList);
+        // Set up observers for play type changes
         viewModel.getPlayType().observe(getViewLifecycleOwner(), type -> {
             Log.d(TAG, "Play type: " + type);
+            updatePlayTypeAndVisibility(type, viewModel.isAdPlaying().getValue());
+        });
 
-            String playTypeText;
-                    if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
-                        playTypeText = "ĐANG PHÁT TỪ ALBUM";
-                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.RANDOM) {
-                        Log.d(TAG, "RANDOM");
-                        playTypeText = "ĐANG PHÁT CÁC BÀI HÁT ĐƯỢC ĐỀ XUẤT CHO BẠN";
-                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.ARTIST) {
-                        playTypeText = "ĐANG PHÁT TỪ NGHỆ SĨ";
-                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.PLAYLIST) {
-                        playTypeText = "ĐANG PHÁT TỪ DANH SÁCH PHÁT";
-                    }
-                    else {
-                        playTypeText = "ĐANG PHÁT";
-                    }
-                    tvPlayType.setText(playTypeText);
-                });
-
+        // Set up observers for play name changes
         viewModel.getPlayName().observe(getViewLifecycleOwner(), name -> {
-            if (name != null && !name.isEmpty()) {
-                tvPlayName.setText(name);
-                tvPlayName.setVisibility(View.VISIBLE);
-            } else {
-                tvPlayName.setVisibility(View.GONE);
-            }
+            updatePlayNameVisibility(name, viewModel.getPlayType().getValue(), viewModel.isAdPlaying().getValue());
         });
 
+        // Set up observers for ad playing status
         viewModel.isAdPlaying().observe(getViewLifecycleOwner(), isAdPlaying -> {
-            if (isAdPlaying) {
-                tvPlayType.setText("ĐANG PHÁT QUẢNG CÁO");
-
-                btnPrevious.setEnabled(false);
-                btnNext.setEnabled(false);
-                btnShuffle.setEnabled(false);
-                btnRepeat.setEnabled(false);
-
-                btnPrevious.setAlpha(0.5f);
-                btnNext.setAlpha(0.5f);
-                btnShuffle.setAlpha(0.5f);
-                btnRepeat.setAlpha(0.5f);
-
-                artistCard.setVisibility(View.GONE);
-                lyricsCard.setVisibility(View.GONE);
-
-                progressBar.setEnabled(false);
-                tvPlayName.setVisibility(View.GONE);
-            } else {
-                btnPrevious.setEnabled(true);
-                btnNext.setEnabled(true);
-                btnShuffle.setEnabled(true);
-                btnRepeat.setEnabled(true);
-
-                btnPrevious.setAlpha(1.0f);
-                btnNext.setAlpha(1.0f);
-                btnShuffle.setAlpha(1.0f);
-                btnRepeat.setAlpha(1.0f);
-
-                artistCard.setVisibility(View.VISIBLE);
-                lyricsCard.setVisibility(View.VISIBLE);
-
-                progressBar.setEnabled(true);
-                tvPlayName.setVisibility(View.VISIBLE);
-
-                viewModel.getPlayType().observe(getViewLifecycleOwner(), type -> {
-                    Log.d(TAG, "Play type: " + type);
-
-                    String playTypeText;
-                    if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
-                        playTypeText = "ĐANG PHÁT TỪ ALBUM";
-                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.RANDOM) {
-                        playTypeText = "ĐANG PHÁT CÁC BÀI HÁT ĐƯỢC ĐỀ XUẤT CHO BẠN";
-                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.ARTIST) {
-                        playTypeText = "ĐANG PHÁT TỪ NGHỆ SĨ";
-                    } else if (type == MusicPlayerViewModel.PlaybackSourceType.PLAYLIST) {
-                        playTypeText = "ĐANG PHÁT TỪ DANH SÁCH PHÁT";
-                    }
-                    else {
-                        playTypeText = "ĐANG PHÁT";
-                    }
-                    tvPlayType.setText(playTypeText);
-                });
-
-                viewModel.getPlayName().observe(getViewLifecycleOwner(), name -> {
-                    if (name != null && !name.isEmpty()) {
-                        tvPlayName.setText(name);
-                        tvPlayName.setVisibility(View.VISIBLE);
-                    } else {
-                        tvPlayName.setVisibility(View.GONE);
-                    }
-                });
-
-            }
+            updateUIForAdPlayback(isAdPlaying, viewModel.getPlayType().getValue());
         });
-
     }
 
+    private void updatePlayTypeAndVisibility(MusicPlayerViewModel.PlaybackSourceType type, Boolean isAdPlaying) {
+        if (Boolean.TRUE.equals(isAdPlaying)) {
+            return; // Let the ad observer handle this case
+        }
+
+        String playTypeText;
+
+        if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
+            playTypeText = "ĐANG PHÁT TỪ ALBUM";
+            artistCard.setVisibility(View.VISIBLE);
+        } else if (type == MusicPlayerViewModel.PlaybackSourceType.RANDOM) {
+            playTypeText = "ĐANG PHÁT CÁC BÀI HÁT ĐƯỢC ĐỀ XUẤT CHO BẠN";
+            tvPlayName.setVisibility(View.GONE);
+            artistCard.setVisibility(View.VISIBLE);
+        } else if (type == MusicPlayerViewModel.PlaybackSourceType.ARTIST) {
+            playTypeText = "ĐANG PHÁT TỪ NGHỆ SĨ";
+            artistCard.setVisibility(View.VISIBLE);
+        } else if (type == MusicPlayerViewModel.PlaybackSourceType.PLAYLIST) {
+            playTypeText = "ĐANG PHÁT TỪ DANH SÁCH PHÁT";
+            artistCard.setVisibility(View.VISIBLE);
+        } else if (type == MusicPlayerViewModel.PlaybackSourceType.LOCAL) {
+            playTypeText = "ĐANG PHÁT NHẠC NGOẠI TUYẾN";
+            tvPlayName.setVisibility(View.GONE);
+            artistCard.setVisibility(View.GONE);
+        } else {
+            playTypeText = "ĐANG PHÁT";
+            artistCard.setVisibility(View.VISIBLE);
+        }
+
+        tvPlayType.setText(playTypeText);
+    }
+
+    private void updatePlayNameVisibility(String name, MusicPlayerViewModel.PlaybackSourceType type, Boolean isAdPlaying) {
+        if (Boolean.TRUE.equals(isAdPlaying)) {
+            tvPlayName.setVisibility(View.GONE);
+            return;
+        }
+
+        // Always hide for RANDOM and LOCAL types
+        if (type == MusicPlayerViewModel.PlaybackSourceType.RANDOM ||
+                type == MusicPlayerViewModel.PlaybackSourceType.LOCAL) {
+            tvPlayName.setVisibility(View.GONE);
+            return;
+        }
+
+        // For other types, show only if name exists
+        if (name != null && !name.isEmpty()) {
+            tvPlayName.setText(name);
+            tvPlayName.setVisibility(View.VISIBLE);
+        } else {
+            tvPlayName.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateUIForAdPlayback(boolean isAdPlaying, MusicPlayerViewModel.PlaybackSourceType type) {
+        if (isAdPlaying) {
+            // Ad is playing - disable controls and update UI
+            tvPlayType.setText("ĐANG PHÁT QUẢNG CÁO");
+
+            // Disable controls
+            btnPrevious.setEnabled(false);
+            btnNext.setEnabled(false);
+            btnShuffle.setEnabled(false);
+            btnRepeat.setEnabled(false);
+            progressBar.setEnabled(false);
+
+            // Adjust visuals
+            btnPrevious.setAlpha(0.5f);
+            btnNext.setAlpha(0.5f);
+            btnShuffle.setAlpha(0.5f);
+            btnRepeat.setAlpha(0.5f);
+
+            // Hide elements
+            artistCard.setVisibility(View.GONE);
+            lyricsCard.setVisibility(View.GONE);
+            tvPlayName.setVisibility(View.GONE);
+        } else {
+            // Regular playback - enable controls
+            btnPrevious.setEnabled(true);
+            btnNext.setEnabled(true);
+            btnShuffle.setEnabled(true);
+            btnRepeat.setEnabled(true);
+            progressBar.setEnabled(true);
+
+            // Restore visuals
+            btnPrevious.setAlpha(1.0f);
+            btnNext.setAlpha(1.0f);
+            btnShuffle.setAlpha(1.0f);
+            btnRepeat.setAlpha(1.0f);
+
+            // Show elements (visibility depends on current play type)
+            lyricsCard.setVisibility(View.VISIBLE);
+
+            // Update UI based on current play type
+            updatePlayTypeAndVisibility(type, false);
+
+            // Update play name visibility
+            updatePlayNameVisibility(viewModel.getPlayName().getValue(), type, false);
+        }
+    }
     private void updateUI() {
         if (song != null) {
             tvSongTitle.setText(song.getTitle());
@@ -381,9 +428,16 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             if (lyrics != null && lyrics.length() > 3) {
                 lyrics = lyrics.substring(3);
             }
-            tvLyricsContent.setText(lyrics.replace("\\n", "\n"));
+            if(lyrics!=null){
+                tvLyricsContent.setText(lyrics.replace("\\n", "\n"));
+
+            }
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
-                Picasso.get().load(song.getImageUrl()).into(ivSongCover);
+                if(song.getImageUrl().contains("http")) {
+                    Picasso.get().load(song.getImageUrl()).placeholder(R.drawable.progress_drawable).into(ivSongCover);
+                } else {
+                    Picasso.get().load(new File(song.getImageUrl())).placeholder(R.drawable.progress_drawable).into(ivSongCover);
+                }
             }
             tvCurrentTime.setText("0:00");
             tvTotalTime.setText("0:00");
@@ -393,8 +447,12 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             if(song.getSingerImageUrlAt(0) != null && !song.getSingerImageUrlAt(0).isEmpty()) {
                 Picasso.get().load(song.getSingerImageUrlAt(0)).placeholder(R.drawable.progress_drawable).into(ivArtistImage);
             }
-            Log.d("Artist Image", song.getSingerImageUrlAt(0));
-//            Picasso.get().load(song.getSingerImageUrlAt(0)).placeholder(R.drawable.progress_drawable).into(ivArtistImage);
+//            Log.d("Artist Image", song.getSingerImageUrlAt(0));
+            if(viewModel.getPlayType().getValue() == MusicPlayerViewModel.PlaybackSourceType.LOCAL) {
+                artistCard.setVisibility(View.GONE);
+            } else {
+                if(song.getSingerImageUrlAt(0) != null && !song.getSingerImageUrlAt(0).isEmpty())  Picasso.get().load(song.getSingerImageUrlAt(0)).placeholder(R.drawable.progress_drawable).into(ivArtistImage);
+            }
             tvArtistFullName.setText(song.getSingerNameAt(0));
             tvArtistDescription.setText(song.getSingerBioAt(0));
             tvListenersCount.setText(String.valueOf(song.getSingerFollowersAt(0)) + " người nghe hằng tháng");
@@ -402,6 +460,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             setupGradientBackground(rootView, song.getImageUrl());
         }
     }
+
 
     private void updatePlayButton(boolean isPlaying) {
         if (isPlaying) {
@@ -433,12 +492,22 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void updateUpcomingSongsList(List<Song> newSongList) {
-        if (upcomingSongsBottomSheetFragment != null && upcomingSongsBottomSheetFragment.isVisible()) {
-            upcomingSongsBottomSheetFragment.updateSongList(newSongList);
+        if (newSongList == null) return;
+
+        List<Song> safeNewList;
+        try {
+            safeNewList = new ArrayList<>(newSongList);
+        } catch (ConcurrentModificationException e) {
+            Log.e(TAG, "ConcurrentModificationException while copying newSongList", e);
+            return;
         }
 
-        if (newSongList != null && !newSongList.equals(upcomingSongs)) {
-            upcomingSongs = new ArrayList<>(newSongList);
+        if (upcomingSongsBottomSheetFragment != null && upcomingSongsBottomSheetFragment.isVisible()) {
+            upcomingSongsBottomSheetFragment.updateSongList(safeNewList);
+        }
+
+        if (!safeNewList.equals(upcomingSongs)) {
+            upcomingSongs = new ArrayList<>(safeNewList);
         }
     }
 

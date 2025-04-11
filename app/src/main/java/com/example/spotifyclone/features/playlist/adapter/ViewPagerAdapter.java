@@ -1,41 +1,42 @@
 package com.example.spotifyclone.features.playlist.adapter;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.album.adapter.AlbumSongAdapter;
-import com.example.spotifyclone.features.album.inter.OnSongMoreIconClickListener;
-import com.example.spotifyclone.features.album.model.Album;
-import com.example.spotifyclone.features.genre.adapter.GenreAdapter;
-import com.example.spotifyclone.features.genre.model.Genre;
-import com.example.spotifyclone.features.home.adapter.SongAdapter;
 import com.example.spotifyclone.features.player.model.song.Song;
-import com.example.spotifyclone.features.search.inter.OnClassifyItemClickListener;
+import com.example.spotifyclone.features.playlist.inter.OnSongClickListner;
+import com.example.spotifyclone.features.playlist.viewmodel.PlaylistViewModel;
+import com.example.spotifyclone.features.playlist.viewmodel.PlaylistViewModelFactory;
 
 import java.util.List;
 
 public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.ViewHolder> {
     private final List<List<Song>> songLists;
-
-    private final OnSongMoreIconClickListener listener;
+    private final OnSongClickListner listener;
     private final Context context;
-    private int page; //for text view
+    private final int page; // Có thể dùng để hiển thị tiêu đề khác nhau theo page
+    private PlaylistSongAdapter adapter;
 
-    public ViewPagerAdapter(List<List<Song>> songLists, int page, OnSongMoreIconClickListener listener, Context context) {
+    public ViewPagerAdapter(List<List<Song>> songLists, int page, Context context, OnSongClickListner listener) {
         this.songLists = songLists;
         this.page = page;
-        this.listener=listener;
-        this.context=context;
+        this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -50,21 +51,30 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
     public void onBindViewHolder(@NonNull ViewPagerAdapter.ViewHolder holder, int position) {
         List<Song> currentList = songLists.get(position);
 
-        // Ví dụ set TextView title cho mỗi page
-        holder.title.setText("hehe");
+        // Thiết lập tiêu đề tùy theo page
+        if (position == 0) {
+            holder.title.setText("Bài hát mới");
 
-        // Gắn RecyclerView bên trong mỗi page
-        AlbumSongAdapter adapter = new AlbumSongAdapter(context, currentList, 3, listener ); // bạn tự tạo adapter cho bài hát
-        holder.recyclerView.setAdapter(adapter);
+
+        } else if (position == 1) {
+            holder.title.setText("Mới phát gần đây");
+        }
+
+        // Set up RecyclerView cho mỗi trang
+//        PlaylistSongAdapter adapter = new PlaylistSongAdapter(context, currentList, listener, 0);
+
+        // set up vỉewmodel
+
+        adapter = new PlaylistSongAdapter(context, currentList, listener, PlaylistSongAdapter.ADD_TYPE);
+
         holder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        holder.recyclerView.setAdapter(adapter);
     }
-
 
     @Override
     public int getItemCount() {
-        return 2; //contain 2 pages
+        return songLists.size(); // Đảm bảo linh hoạt nếu số trang thay đổi
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
@@ -76,5 +86,4 @@ public class ViewPagerAdapter extends RecyclerView.Adapter<ViewPagerAdapter.View
             recyclerView = itemView.findViewById(R.id.recyclerView);
         }
     }
-    
 }

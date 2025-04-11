@@ -63,6 +63,13 @@ public interface PlaylistService {
             @Field("description") String playlist_description
     );
 
+    @DELETE("playlist/remove-playlist/{playlistId}")
+    Call<APIResponse<Void>> removePlaylist(
+            @Path("playlistId") String playlistId
+
+    );
+
+
 
 
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.spotifyclone.features.album.model.Album;
+import com.example.spotifyclone.features.download.SongDatabaseHelper;
 import com.example.spotifyclone.features.home.network.HomeService;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.artist.model.Artist;
@@ -27,20 +28,33 @@ public class HomeViewModel extends ViewModel {
     private final MutableLiveData<List<Song>> newSongs = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<List<Song>> popularSongs = new MutableLiveData<>(new ArrayList<>());
     private final MutableLiveData<List<Artist>> popularArtist = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<Song>> localSongs = new MutableLiveData<>(new ArrayList<>());
     private final HomeService homeService;
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private SongDatabaseHelper songDatabaseHelper;
 
     public HomeViewModel(Context context) {
         homeService = RetrofitClient.getClient(context).create(HomeService.class);
+        songDatabaseHelper = new SongDatabaseHelper(context);
         fetchData();
     }
 
     void fetchData() {
+        fetchLocalSongs();
         fetchNewSongs();
         fetchPopularSongs();
         fetchPopularAlbums();
         fetchLatestAlbums();
         fetchPopularArtists();
+    }
+
+    private void fetchLocalSongs() {
+        List<Song> songs = songDatabaseHelper.getAllSavedSongs();
+        if (songs != null && !songs.isEmpty()) {
+            localSongs.setValue(songs);
+        } else {
+            errorMessage.setValue("No local songs found");
+        }
     }
 
     private void fetchPopularArtists() {
@@ -152,5 +166,8 @@ public class HomeViewModel extends ViewModel {
 
     public LiveData<List<Artist>> getPopularArtists() {
         return popularArtist;
+    }
+    public LiveData<List<Song>> getLocalSongs() {
+        return localSongs;
     }
 }

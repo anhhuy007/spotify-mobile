@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.spotifyclone.features.genre.model.Album;
+import com.example.spotifyclone.features.album.model.Album;
 import com.example.spotifyclone.features.genre.model.Genre;
 import com.example.spotifyclone.features.genre.network.GenreService;
 import com.example.spotifyclone.shared.model.APIResponse;

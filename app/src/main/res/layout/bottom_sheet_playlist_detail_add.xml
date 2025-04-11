@@ -6,6 +6,15 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:text="Thêm vào danh sách phát này"
+        android:textColor="@color/text_color"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/avenir_next_bold"/>
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
@@ -21,10 +30,10 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal">
         <androidx.cardview.widget.CardView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             app:cardElevation="0dp"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="10dp"
             android:layout_margin="10dp">
             <ImageView
                 android:layout_width="match_parent"
@@ -33,15 +42,16 @@
                 />
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             app:cardElevation="0dp"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="10dp"
             android:layout_margin="10dp">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/inv2"
+
                 />
         </androidx.cardview.widget.CardView>
 

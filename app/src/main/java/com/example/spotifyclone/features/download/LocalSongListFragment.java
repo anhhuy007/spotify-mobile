@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -66,11 +67,13 @@ public class LocalSongListFragment extends Fragment implements LocalSongAdapter.
 
     private void initData() {
         songDatabaseHelper = new SongDatabaseHelper(requireContext());
-        localSongs = songDatabaseHelper.getAllSavedSongs();
-        if (localSongs == null) {
-            localSongs = new ArrayList<>();
+        if(songDatabaseHelper.getAllSavedSongs() != null) {
+            localSongs = songDatabaseHelper.getAllSavedSongs();
         } else {
-            localSongs = new ArrayList<>(localSongs);
+            localSongs = new ArrayList<>();
+        }
+        for (Song song : localSongs) {
+            Log.d("LocalSongListFragment", "Song: " + song.toString());
         }
     }
 
@@ -91,8 +94,10 @@ public class LocalSongListFragment extends Fragment implements LocalSongAdapter.
         }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
 
         musicPlayerViewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
-            if (playbackState != null) {
-                updatePlayButton(playbackState == PlaybackState.PLAYING);
+            if (playbackState == PlaybackState.PLAYING && musicPlayerViewModel.getPlayType().getValue() == MusicPlayerViewModel.PlaybackSourceType.LOCAL) {
+                updatePlayButton(true);
+            } else {
+                updatePlayButton(false);
             }
         });
     }
@@ -107,7 +112,7 @@ public class LocalSongListFragment extends Fragment implements LocalSongAdapter.
     private  void setupRecyclerView(View view){
         localSongRecyclerView=view.findViewById(R.id.song_recyclerview);
         localSongRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        localSongAdapter = new LocalSongAdapter(getContext(), new ArrayList<>(), this);
+        localSongAdapter = new LocalSongAdapter(new ArrayList<>(), this);
         localSongRecyclerView.setAdapter(localSongAdapter);
         localSongAdapter.setSongs(localSongs);
     }
@@ -140,8 +145,9 @@ public class LocalSongListFragment extends Fragment implements LocalSongAdapter.
 
     private void setupListeners() {
         play_button.setOnClickListener(v-> {
-            if (localSongs != null && !localSongs.isEmpty()) {
-                musicPlayerViewModel.togglePlayPauseLocal(localSongs);
+            if (localSongs != null
+                    && !localSongs.isEmpty()) {
+                musicPlayerViewModel.togglePlayPauseLocal();
             }
         });
     }
@@ -178,9 +184,10 @@ public class LocalSongListFragment extends Fragment implements LocalSongAdapter.
     }
     @Override
     public void onSongClick(Song song) {
+        Log.d("LocalSongListFragment", "Song clicked: " + song.toString());
         if(localSongs == null || localSongs.isEmpty()) {
             return;
         }
-        musicPlayerViewModel.playLocalSongs(localSongs, song);
+        musicPlayerViewModel.playLocalSongs(song);
     }
 }

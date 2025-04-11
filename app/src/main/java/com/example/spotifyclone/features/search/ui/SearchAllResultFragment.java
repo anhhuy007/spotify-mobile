@@ -151,6 +151,9 @@ public class SearchAllResultFragment extends Fragment {
             classify = type;
             currentClassifyPage = 1;
 
+            // set button to green
+            classifyAdapter.setSelectedType(type);
+
 
             // Clear current data
             searchAdapter.setData(new ArrayList<>());

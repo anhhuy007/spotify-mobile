@@ -2,6 +2,7 @@ package com.example.spotifyclone.features.download;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.player.model.song.LocalSong;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 public class LocalSongAdapter extends RecyclerView.Adapter<LocalSongAdapter.LocalSongViewHolder> {
     private List<Song> songs;
-    private final Context context;
     private OnSongClickListener listener;
 
     public void setOnSongClickListener(OnSongClickListener onSongClickListener) {
@@ -32,8 +32,7 @@ public class LocalSongAdapter extends RecyclerView.Adapter<LocalSongAdapter.Loca
         void onSongClick(Song song);
     }
 
-    public LocalSongAdapter(Context context, List<Song> songs, OnSongClickListener listener) {
-        this.context = context;
+    public LocalSongAdapter(List<Song> songs, OnSongClickListener listener) {
         this.songs = songs;
         this.listener = listener;
     }
@@ -77,18 +76,21 @@ public class LocalSongAdapter extends RecyclerView.Adapter<LocalSongAdapter.Loca
             super(itemView);
             songImageView = itemView.findViewById(R.id.song_image);
             songTitleTextView = itemView.findViewById(R.id.song_name);
-            artistNameTextView = itemView.findViewById(R.id.artist_name);
+            artistNameTextView = itemView.findViewById(R.id.song_artist);
             moreButton = itemView.findViewById(R.id.moreOptionsButton);
         }
         public void bind(Song song) {
             // Bind the song data to the views
             songTitleTextView.setText(song.getTitle());
-            artistNameTextView.setText(song.getSingersString());
-            // Load image using your preferred image loading library (e.g., Glide, Picasso)
-            // Glide.with(itemView.getContext()).load(song.getImageUrl()).into(songImageView);
+            if(song.getSingersString() != null) {
+                artistNameTextView.setText(song.getSingersString());
+            } else {
+                artistNameTextView.setText("Unknown Artist");
+            }
             Picasso.get()
-                    .load(song.getImageUrl())
+                    .load(new File(song.getImageUrl()))
                     .into(songImageView);
+
         }
     }
 }

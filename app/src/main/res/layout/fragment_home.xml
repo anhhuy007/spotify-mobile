@@ -40,6 +40,20 @@
                 android:layout_marginStart="12dp"
                 android:textColor="@color/textColorPrimary"
                 />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ic_chatbot"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_chatbot"
+                android:clickable="true"
+                android:focusable="true" />
+
+
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -225,6 +239,20 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_latest_albums"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Local Songs"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_local_songs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"/>

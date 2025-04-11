@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
+import com.example.spotifyclone.features.player.ui.SleepTimerDialog;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.features.premium.ui.PremiumFragment;
 import com.example.spotifyclone.features.search.ui.SearchFragment;
@@ -48,12 +50,15 @@ import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.repository.PlayerRepository;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 import android.Manifest;
 
 import android.util.Log;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private CardView miniPlayer;
@@ -134,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_settings) {
              navController.navigate(R.id.settingsFragment);
+
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -245,7 +251,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     song.getSingersString() != null && !song.getSingersString().isEmpty() ? song.getSingersString() : "Spotify"
             );
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
-                Picasso.get().load(song.getImageUrl()).into(miniPlayerImage);
+                if (viewModel.getPlayType().getValue() != MusicPlayerViewModel.PlaybackSourceType.LOCAL) {
+                    Picasso.get().load(song.getImageUrl()).into(miniPlayerImage);
+                }
+                else {
+                    Picasso.get().load(new File(song.getImageUrl())).into(miniPlayerImage);
+                }
             } else {
                 miniPlayerImage.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
             }

@@ -68,7 +68,9 @@ public class AudioPlayer implements AutoCloseable {
                 exoPlayer.setMediaItem(mediaItem);
                 exoPlayer.prepare();
 
-                exoPlayer.seekTo(currentPosition);
+                if (currentPosition != 0) {
+                    exoPlayer.seekTo(currentPosition);
+                }
                 exoPlayer.pause();
 
             } catch (Exception e) {
