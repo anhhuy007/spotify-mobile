@@ -25,16 +25,14 @@ public class SpotifyCloneApplication extends Application {
 
         registerActivityLifecycleCallbacks(new AppLifecycleHandler(this));
 
-        // Create a single controller instance
-        musicPlayerController = MusicPlayerController.getInstance(this);
-
         // Initialize ViewModelStore
         appViewModelStore = new ViewModelStore();
 
         // Initialize the factory once
         musicPlayerViewModelFactory = new MusicPlayerViewModelFactory(this);
 
-        // Initialize notification channel
+        // Create a single controller instance
+        musicPlayerController = MusicPlayerController.getInstance(this);
     }
 
     public static SpotifyCloneApplication getInstance() {

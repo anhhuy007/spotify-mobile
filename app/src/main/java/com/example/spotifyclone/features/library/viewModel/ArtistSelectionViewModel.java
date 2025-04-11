@@ -29,7 +29,12 @@ import retrofit2.Retrofit;
 
 public class ArtistSelectionViewModel extends AndroidViewModel {
     private final Context context;
+    private LibraryArtistsViewModel subViewModel;
     private final MutableLiveData<List<SelectableArtist>> artistsList = new MutableLiveData<>();
+
+    public void setSubViewModel(LibraryArtistsViewModel subVM){
+        this.subViewModel= subVM;
+    }
 
     public ArtistSelectionViewModel(@NonNull Application application) {
         super(application);
@@ -91,6 +96,7 @@ public class ArtistSelectionViewModel extends AndroidViewModel {
             public void onResponse(Call<APIResponse<Follow>> call, Response<APIResponse<Follow>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     fetchSuggestedArtists();
+                    subViewModel.fetchArtists();
                 } else {
                     Toast.makeText(context, "Failed to add follower", Toast.LENGTH_SHORT).show();
                 }
@@ -113,6 +119,8 @@ public class ArtistSelectionViewModel extends AndroidViewModel {
             public void onResponse(Call<APIResponse<Follow>> call, Response<APIResponse<Follow>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     fetchSuggestedArtists();
+                    subViewModel.fetchArtists();
+
                 } else {
                     Toast.makeText(context, "Failed to add follower", Toast.LENGTH_SHORT).show();
                 }

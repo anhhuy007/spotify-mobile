@@ -48,7 +48,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-
     public interface OnAlbumClickListener {
         void onAlbumClick(Album album);
         void onPlayClick(Album album);

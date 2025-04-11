@@ -15,6 +15,7 @@ import com.example.spotifyclone.features.player.model.song.Song;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.List;
 
 public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -107,7 +108,14 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             // Load image with Picasso
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
-                Picasso.get().load(song.getImageUrl()).into(ivSongCover);
+                if(song.getImageUrl().contains("http")) {
+                    // Load image from URL
+                    Picasso.get().load(song.getImageUrl()).into(ivSongCover);
+                } else {
+                    // Load image from local file
+                    Picasso.get().load(new File(song.getImageUrl())).into(ivSongCover);
+
+                }
             } else {
                 // Set a placeholder if no image available
 //                ivSongCover.setImageResource(R.drawable.placeholder_album);
@@ -152,14 +160,15 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             // Load song cover image
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
                 // Load as song cover
-                Picasso.get().load(song.getImageUrl()).into(ivSongCover);
-
-                // Also load as background image (blurred or darkened by overlay)
-                Picasso.get().load(song.getImageUrl()).into(ivBackgroundImage);
-            } else {
-                 /*Set placeholders if no image available
-                ivSongCover.setImageResource(R.drawable.placeholder_album);
-                ivBackgroundImage.setImageResource(R.drawable.placeholder_album_bg);*/
+                if(song.getImageUrl().contains("http")) {
+                    // Load image from URL
+                    Picasso.get().load(song.getImageUrl()).into(ivSongCover);
+                    Picasso.get().load(song.getImageUrl()).into(ivBackgroundImage);
+                } else {
+                    // Load image from local file
+                    Picasso.get().load(new File(song.getImageUrl())).into(ivSongCover);
+                    Picasso.get().load(new File(song.getImageUrl())).into(ivBackgroundImage);
+                }
             }
 
             // Update play button based on playback state

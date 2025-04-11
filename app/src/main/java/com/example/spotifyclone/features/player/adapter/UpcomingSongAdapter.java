@@ -14,6 +14,7 @@ import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,9 +88,16 @@ public class UpcomingSongAdapter extends RecyclerView.Adapter<UpcomingSongAdapte
                 );
 
                 if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
-                    Picasso.get()
-                            .load(song.getImageUrl())
-                            .into(imgSong);
+                    if(song.getImageUrl().contains("http")) {
+                        Picasso.get()
+                                .load(song.getImageUrl())
+                                .into(imgSong);
+                    } else {
+                        // Load local image
+                        Picasso.get()
+                                .load(new File(song.getImageUrl()))
+                                .into(imgSong);
+                    }
                 } else {
 //                    imgSong.setImageResource(R.drawable.placeholder_album);
                 }

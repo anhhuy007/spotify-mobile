@@ -26,6 +26,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -55,6 +57,8 @@ import android.Manifest;
 import android.util.Log;
 
 import java.util.Locale;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private CardView miniPlayer;
@@ -120,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setupNavigation() {
-        // Setup Bottom Navigation
         BottomNavigationView navView = findViewById(R.id.bottom_nav);
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
@@ -214,7 +217,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return app.getAppViewModelStore();
             }
         }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
-        }
+        SpotifyCloneApplication.getInstance()
+                .getMusicPlayerController()
+                .attachViewModel(viewModel);
+    }
 
     private void setupListeners() {
         miniPlayerPlayPauseButton.setOnClickListener(v -> viewModel.togglePlayPause());
@@ -242,6 +248,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             });
         });
+        viewModel.isAdPlaying().observe(this, isAdPlaying -> {
+            if (isAdPlaying) {
+                miniPlayerNextButton.setEnabled(false);
+                miniPlayerPreviousButton.setEnabled(false);
+
+                miniPlayerNextButton.setAlpha(0.5f);
+                miniPlayerPreviousButton.setAlpha(0.5f);
+            } else {
+                miniPlayerNextButton.setEnabled(true);
+                miniPlayerPreviousButton.setEnabled(true);
+
+                miniPlayerNextButton.setAlpha(1f);
+                miniPlayerPreviousButton.setAlpha(1f);
+            }
+        });
     }
 
     private void updatePlaybackState(PlaybackState state) {
@@ -257,10 +278,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             miniPlayer.setVisibility(View.VISIBLE);
             miniPlayerSongName.setText(song.getTitle() != null ? song.getTitle() : "No Title");
             miniPlayerArtistName.setText(
-                    song.getSingersString() != null && !song.getSingersString().isEmpty() ? song.getSingersString() : "Unknown Artist"
+                    song.getSingersString() != null && !song.getSingersString().isEmpty() ? song.getSingersString() : "Spotify"
             );
             if (song.getImageUrl() != null && !song.getImageUrl().isEmpty()) {
-                Picasso.get().load(song.getImageUrl()).into(miniPlayerImage);
+                if (viewModel.getPlayType().getValue() != MusicPlayerViewModel.PlaybackSourceType.LOCAL) {
+                    Picasso.get().load(song.getImageUrl()).into(miniPlayerImage);
+                }
+                else {
+                    Picasso.get().load(new File(song.getImageUrl())).into(miniPlayerImage);
+                }
             } else {
                 miniPlayerImage.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
             }
@@ -334,9 +360,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onPause() {
         super.onPause();
         Log.d("PAUSE", "test");
-        savePlayerState();
+        saveNow();
     }
     private void savePlayerState(){
+        if (Boolean.FALSE.equals(viewModel.isAdPlaying().getValue())) {
+            saveNow();
+            return;
+        }
+
+        viewModel.setAdPlaying(false);
+        viewModel.playNext();
+
+        Observer<PlaybackState> playbackObserver = new Observer<PlaybackState>() {
+            @Override
+            public void onChanged(PlaybackState state) {
+                if (state == PlaybackState.PLAYING) {
+                    viewModel.getPlaybackState().removeObserver(this);
+                    saveNow();
+                }
+            }
+        };
+        viewModel.getPlaybackState().observeForever(playbackObserver);
+    }
+    private void saveNow() {
         PlayerState currentPlayerState = new PlayerState(
                 viewModel.getCurrentSong().getValue(),
                 viewModel.getUpcomingSongs().getValue(),

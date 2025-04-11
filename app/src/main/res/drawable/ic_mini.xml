@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="30"
+    android:viewportHeight="30">
+
+    <path
+        android:fillColor="#1DB954"
+        android:pathData="M15,0A15,15 0 1,0 15,30A15,15 0 1,0 15,0Z"/>
+
+    <group android:translateX="15" android:translateY="15">
+        <path
+            android:fillColor="#FFFFFF"
+            android:text="M"
+            android:name="miniText" />
+    </group>
+</vector>

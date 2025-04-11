@@ -4,7 +4,6 @@ import android.util.Log;
 import com.example.spotifyclone.features.player.model.song.Song;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class PlayList {
@@ -29,10 +28,11 @@ public class PlayList {
         return (currentIndex >= 0 && currentIndex < songList.size()) ? songList.get(currentIndex) : null;
     }
 
-    public Song getNextSong() {
+    public Song moveToNextSong() {
         if (currentIndex == songList.size() - 1) {
             return null;
         }
+        printPlaylist();
         currentIndex++;
         return songList.get(currentIndex);
     }
@@ -154,5 +154,9 @@ public class PlayList {
     public void clear() {
         songList.clear();
         currentIndex = 0;
+    }
+
+    public boolean checkNextSong() {
+        return currentIndex + 1 < songList.size();
     }
 }

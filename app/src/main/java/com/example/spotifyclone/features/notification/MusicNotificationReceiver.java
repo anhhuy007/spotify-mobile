@@ -48,15 +48,21 @@ public class MusicNotificationReceiver extends BroadcastReceiver {
                     viewModel.togglePlayPause();
                     break;
                 case ACTION_NEXT:
-                    viewModel.playNext();
+                    if(Boolean.FALSE.equals(viewModel.isAdPlaying().getValue())) {
+                        viewModel.playNext();
+                    }
                     break;
                 case ACTION_PREVIOUS:
-                    viewModel.playPrevious();
+                    if(Boolean.FALSE.equals(viewModel.isAdPlaying().getValue())) {
+                        viewModel.playPrevious();
+                    }
                     break;
                 case ACTION_SEEK_TO:
-                    long seekPosition = intent.getLongExtra(EXTRA_SEEK_POSITION, -1);
-                    if (seekPosition >= 0) {
-                        viewModel.seekTo((int) seekPosition);
+                    if(Boolean.FALSE.equals(viewModel.isAdPlaying().getValue())) {
+                        long seekPosition = intent.getLongExtra(EXTRA_SEEK_POSITION, -1);
+                        if (seekPosition >= 0) {
+                            viewModel.seekTo((int) seekPosition);
+                        }
                     }
                     break;
                 default:

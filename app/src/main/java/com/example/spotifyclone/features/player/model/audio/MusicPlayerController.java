@@ -2,15 +2,23 @@ package com.example.spotifyclone.features.player.model.audio;
 
 import android.content.Context;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 
+import com.example.spotifyclone.R;
+import com.example.spotifyclone.SpotifyCloneApplication;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
+import com.example.spotifyclone.features.download.SongDatabaseHelper;
 import com.example.spotifyclone.features.player.model.playlist.PlayList;
 import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.network.SongService;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.network.RetrofitClient;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -36,12 +44,19 @@ public class MusicPlayerController {
 
     private volatile boolean isReleased;
     private final PlayerNotification playerNotification;
+    private final Song adSong = new Song("", "Quảng cáo của Spotify", "", false, 0, String.valueOf(R.raw.ads), "https://res.cloudinary.com/dndmj9oid/image/upload/v1744005550/download_i9ti4i.jpg", null, null, null);
     private static final int REFILL_THRESHOLD = 1;
     private static final int REFILL_COUNT = 15;
+    private MusicPlayerViewModel musicPlayerViewModel;
+    private User currentUser;
+
+    private SongDatabaseHelper songDatabaseHelper;
 
     public void setStopAtEndOfTrack(boolean isOn){
         this.isStopAtEndOfTrack =isOn;
     }
+    private static final int MAX_SONGS_TO_ADS = 3;
+    private int count_ads = 0;
 
     private MusicPlayerController(@NonNull Context context) {
         Context applicationContext = context.getApplicationContext();
@@ -52,8 +67,24 @@ public class MusicPlayerController {
         this.shuffleMode = ShuffleMode.SHUFFLE_OFF;
         this.playList = new PlayList(List.of(), ShuffleMode.SHUFFLE_OFF);
         this.isReleased = false;
+        songDatabaseHelper = new SongDatabaseHelper(getApplicationContext());
         this.songService = RetrofitClient.getClient(context).create(SongService.class);
         setupInternalPlaybackListener();
+        initUser();
+    }
+
+    private void initUser() {
+        AuthRepository authRepository = new AuthRepository(getApplicationContext());
+        currentUser = authRepository.getUser();
+        if (currentUser == null) {
+            Log.e(TAG, "Current user is null");
+            return;
+        }
+        Log.d(TAG, "Current user: " + currentUser.isPremium());
+    }
+
+    private Context getApplicationContext() {
+        return SpotifyCloneApplication.getInstance().getApplicationContext();
     }
 
     public static MusicPlayerController getInstance(@NonNull Context context) {
@@ -67,6 +98,12 @@ public class MusicPlayerController {
         }
         return instance;
     }
+
+    public void attachViewModel(MusicPlayerViewModel viewModel) {
+        this.musicPlayerViewModel = viewModel;
+    }
+
+
 
     private void checkReleased() {
         if (isReleased) {
@@ -90,6 +127,10 @@ public class MusicPlayerController {
 
             @Override
             public void onCompleted(@NonNull Song song) {
+                if (Boolean.TRUE.equals(musicPlayerViewModel.isAdPlaying().getValue())) {
+                    musicPlayerViewModel.setAdPlaying(false);
+                    Log.d(TAG, "Ad finished playing");
+                }
                 handleSongCompletion();
             }
 
@@ -182,17 +223,18 @@ public class MusicPlayerController {
         playNextSong();
     }
 
-    public void playPlaylist(PlayList newPlayList) {
-        checkReleased();
-        synchronized (playlistLock) {
-            playList.insertPlaylist(newPlayList);
-            checkAndFetchMoreSongs();
-            play();
-        }
-    }
+//    public void playPlaylist(PlayList newPlayList) {
+//        checkReleased();
+//        synchronized (playlistLock) {
+//            playList.insertPlaylist(newPlayList);
+//            checkAndFetchMoreSongs();
+//            play();
+//        }
+//    }
 
     public void play() {
         checkReleased();
+        if(Boolean.TRUE.equals(musicPlayerViewModel.isAdPlaying().getValue())) return;
         Song currentSong = playList.getCurrentSong();
         if (currentSong != null) {
             audioPlayer.loadAndPlay(currentSong);
@@ -244,15 +286,47 @@ public class MusicPlayerController {
     public boolean playNextSong() {
         checkReleased();
         synchronized (playlistLock) {
-            Song nextSong = playList.getNextSong();
+            if(playList.checkNextSong()) {
+                if (!currentUser.isPremium()) {
+                    count_ads++;
+                    if (count_ads >= MAX_SONGS_TO_ADS) {
+                        count_ads = 0;
+                        audioPlayer.loadAndPlayOffline(adSong);
+                        musicPlayerViewModel.setAdPlaying(true);
+                        return true;
+                    }
+                }
+            }
+            Song nextSong = playList.moveToNextSong();
             if (nextSong != null) {
+                Log.d(TAG, "Next song found: " + nextSong.getTitle());
                 audioPlayer.loadAndPlay(nextSong);
                 return true;
             } else {
-                fetchMoreSongsAndPlayNext();
+                Log.d(TAG, "No next song found");
+                if(musicPlayerViewModel.getPlayType().getValue() == MusicPlayerViewModel.PlaybackSourceType.LOCAL) {
+                    Log.d(TAG, "No next song found, fetching local songs");
+                    fetchLocalSongsAndPlayNext();
+                }
+                else {
+                    fetchMoreSongsAndPlayNext();
+                }
+                Log.d(TAG, "No next song found, fetching more songs");
                 return false;
             }
         }
+    }
+
+
+    private void fetchLocalSongsAndPlayNext() {
+        List<Song> localSongs;
+        if(songDatabaseHelper.getAllSavedSongs() != null) {
+            localSongs = songDatabaseHelper.getAllSavedSongs();
+        } else {
+            localSongs = new ArrayList<>();
+        }
+        playList.addSongs(localSongs);
+        playNextSong();
     }
 
     public boolean playPreviousSong() {
@@ -519,6 +593,35 @@ public class MusicPlayerController {
                     } else {
                         fetchPlaylistSongWithPriority(sourceId, prioritizedSongId);
                     }
+            }
+        }
+    }
+    public void playLocalSongs(Song prioritizedLocalSong) {
+        List<Song> localSongs;
+        if(songDatabaseHelper.getAllSavedSongs() != null) {
+            localSongs = songDatabaseHelper.getAllSavedSongs();
+        } else {
+            localSongs = new ArrayList<>();
+        }
+        checkReleased();
+        synchronized (playlistLock) {
+            playList.clear();
+            if (prioritizedLocalSong != null) {
+                playList.addFirstSong(prioritizedLocalSong);
+
+                List<Song> filteredSongs = new ArrayList<>();
+                for (Song song : localSongs) {
+                    if (!song.getId().equals(prioritizedLocalSong.getId())) {
+                        filteredSongs.add(song);
+                    }
+                }
+
+                playList.addSongs(filteredSongs);
+                play();
+            }
+            else {
+                playList.addSongs(localSongs);
+                play();
             }
         }
     }

@@ -49,12 +49,14 @@ import com.example.spotifyclone.features.follow.viewModel.AddFollowerViewModel;
 import com.example.spotifyclone.features.follow.viewModel.CheckFollowerViewModel;
 import com.example.spotifyclone.features.follow.viewModel.DeleteFollowerViewModel;
 import com.example.spotifyclone.features.follow.viewModel.FollowedArtistsCountViewModel;
+import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSongClickListener {
@@ -62,7 +64,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
     private MaterialButton btn_follow;
     private RecyclerView rv_popular_songs, rv_albums, rv_playlists, rv_similar_artists;
     private Context context;
-    private ImageButton btnBack, btnPlay;
+    private ImageButton btnBack, btnPlay, btnShuffle;
     private TextView tv_artist_name, tv_artist_info, tv_monthly_listeners,
             participant_artist_detail, artist_name;
     private ImageView img_artist_artist_detail, img_artist_cover,
@@ -154,6 +156,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         btn_follow = view.findViewById(R.id.btn_follow);
 
         btnPlay = view.findViewById(R.id.btn_play_artist_detail);
+        btnShuffle = view.findViewById(R.id.btn_shuffle_artist_detail);
         fix = view.findViewById(R.id.fix_detailUI);
     }
 
@@ -282,6 +285,9 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
             Log.d("ArtistId", artistId + " " + artistName);
             viewModel.togglePlayPause(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST);
         });
+        btnShuffle.setOnClickListener(v -> {
+            viewModel.cycleShuffleMode();
+        });
 
         setupScrollListener();
     }
@@ -301,14 +307,30 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
                 updatePlayButton(playbackState == PlaybackState.PLAYING);
             }
         });
+        viewModel.getShuffleMode().observe(getViewLifecycleOwner(), shuffleMode -> {
+            if (shuffleMode != null) {
+                updateShuffleButton(shuffleMode);
+            }
+        });
+
+    }
+
+    private void updateShuffleButton(ShuffleMode shuffleMode) {
+        if (shuffleMode == ShuffleMode.SHUFFLE_ON) {
+            btnShuffle.setImageResource(R.drawable.ic_shuffle_on);
+            btnShuffle.setTag("shuffle_on");
+        } else {
+            btnShuffle.setImageResource(R.drawable.ic_shuffle_off);
+            btnShuffle.setTag("shuffle_off");
+        }
     }
 
     private void updatePlayButton(boolean isPlaying) {
-        if (isPlaying) {
-            btnPlay.setImageResource(R.drawable.play_button);
+        if (isPlaying && viewModel.getCurrentArtistId() != null && Objects.equals(viewModel.getCurrentArtistId().getValue(), artistId)) {
+            btnPlay.setImageResource(R.drawable.ic_pause_circle);
             btnPlay.setTag("pause");
         } else {
-            btnPlay.setImageResource(R.drawable.play_button);
+            btnPlay.setImageResource(R.drawable.ic_play_circle);
             btnPlay.setTag("play");
         }
     }

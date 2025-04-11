@@ -1,18 +1,22 @@
 package com.example.spotifyclone.features.library.ui;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+
+import com.example.spotifyclone.features.library.viewModel.LibraryArtistsViewModel;
+import com.example.spotifyclone.features.library.viewModel.LibraryPlaylistsViewModel;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,27 +25,55 @@ import com.example.spotifyclone.features.authentication.repository.AuthRepositor
 import com.example.spotifyclone.features.library.adapter.ArtistSelectionAdapter;
 import com.example.spotifyclone.features.library.model.SelectableArtist;
 import com.example.spotifyclone.features.library.viewModel.ArtistSelectionViewModel;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistSelectionFragment extends Fragment implements ArtistSelectionAdapter.OnArtistClickListener {
+public class ArtistSelectionFragment extends BottomSheetDialogFragment implements ArtistSelectionAdapter.OnArtistClickListener {
 
     private RecyclerView artistsRecyclerView;
-    private Button doneButton;
+    private MaterialButton doneButton;
     private View rootView;
     private ArtistSelectionAdapter adapter;
     private ArtistSelectionViewModel viewModel;
     private List<SelectableArtist> selectedArtists = new ArrayList<>();
 
+    private LibraryArtistsViewModel playlistViewModel;
+
+
     public static ArtistSelectionFragment newInstance() {
         return new ArtistSelectionFragment();
+    }
+
+    public void setViewModel(LibraryArtistsViewModel viewModel) {
+        this.playlistViewModel = viewModel;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.setOnShowListener(dialogInterface -> {
+            BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+            FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            if (bottomSheet != null) {
+                BottomSheetBehavior<FrameLayout> behavior = BottomSheetBehavior.from(bottomSheet);
+                behavior.setSkipCollapsed(true);
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+                // Set the height to match the screen height
+                ViewGroup.LayoutParams layoutParams = bottomSheet.getLayoutParams();
+                layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                bottomSheet.setLayoutParams(layoutParams);
+            }
+        });
+        return dialog;
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         rootView = inflater.inflate(R.layout.fragment_artist_selection, container, false);
         return rootView;
     }
@@ -54,6 +86,7 @@ public class ArtistSelectionFragment extends Fragment implements ArtistSelection
         viewModel = new ViewModelProvider(this,
                 new ArtistSelectionViewModel.Factory(requireActivity().getApplication()))
                 .get(ArtistSelectionViewModel.class);
+        viewModel.setSubViewModel(playlistViewModel);
 
         // Initialize views
         artistsRecyclerView = view.findViewById(R.id.artistsRecyclerView);
@@ -79,19 +112,14 @@ public class ArtistSelectionFragment extends Fragment implements ArtistSelection
         });
 
         // Setup click listeners
-       doneButton.setOnClickListener(v -> onDoneButtonClicked());
+        doneButton.setOnClickListener(v -> onDoneButtonClicked());
 
         // Fetch artists data
         viewModel.fetchSuggestedArtists();
     }
 
     private void onDoneButtonClicked() {
-//            Navigation.findNavController(rootView).navigateUp();
-
-                getActivity().onBackPressed();
-
-
-
+        dismiss(); // Use dismiss() instead of navigating back
     }
 
     @Override
