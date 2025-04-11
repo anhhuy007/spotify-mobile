@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,7 +26,6 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -46,7 +44,6 @@ import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
-import com.example.spotifyclone.features.playlist.ui.PlaylistDetailFragmentDirections;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.ArrayList;
@@ -99,7 +96,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
             artistNames = Arrays.asList(args.getArtist());
             artistUrl = args.getArtistUrl();
         } else {
-            Log.e("AlbumDetailFragment", "Arguments is null");
             NavHostFragment.findNavController(this).navigateUp();
             return;
         }
@@ -130,11 +126,10 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
         // Artist info
         artist_name2 = view.findViewById(R.id.artist);
-        artist_image = view.findViewById(R.id.artist_image);
-        artist_album_text = view.findViewById(R.id.artist_album_text);
+        artist_image = view.findViewById(R.id.artist_image);artist_album_text = view.findViewById(R.id.artist_album_text);
 
         nestedScrollView = view.findViewById(R.id.nestedScrollview);
-
+        shuffleButton = view.findViewById(R.id.shuffle_button);
         playButton = view.findViewById(R.id.play_button);
     }
 
@@ -286,7 +281,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
     private void updateShuffleButton(ShuffleMode shuffleMode) {
         if (shuffleMode == ShuffleMode.SHUFFLE_ON) {
-            shuffleButton.setImageResource(R.drawable.ic_shuffle_on);
+            shuffleButton.setImageResource(R.drawable.ic_baseline_shuffle_24);
             shuffleButton.setTag("shuffle_on");
         } else {
             shuffleButton.setImageResource(R.drawable.ic_shuffle_off);
@@ -296,10 +291,10 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
     private void updatePlayButton(boolean isPlaying) {
         if (isPlaying && viewModel.getCurrentAlbumId() != null && Objects.equals(viewModel.getCurrentAlbumId().getValue(), albumId)) {
-            playButton.setImageResource(R.drawable.ic_pause_circle);
+            playButton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
             playButton.setTag("pause");
         } else {
-            playButton.setImageResource(R.drawable.ic_play_circle);
+            playButton.setImageResource(R.drawable.ic_baseline_play_circle_filled_24);
             playButton.setTag("play");
 
         }

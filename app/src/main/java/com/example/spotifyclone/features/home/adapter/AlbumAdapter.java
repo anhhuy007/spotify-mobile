@@ -89,8 +89,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     class HorizontalAlbumViewHolder extends RecyclerView.ViewHolder {
-        private ImageView ivAlbumCover;
-        private TextView tvAlbumTitle, tvAlbumArtist;
+        private final ImageView ivAlbumCover;
+        private final TextView tvAlbumTitle, tvAlbumArtist;
 
         public HorizontalAlbumViewHolder(@NonNull View itemView) {
             super(itemView);

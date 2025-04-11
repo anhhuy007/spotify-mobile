@@ -50,9 +50,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnAlbumClickListener, ArtistAdapter.OnArtistClickListener, SongAdapter.OnSongClickListener {
-    private RecyclerView newSongsRecyclerView, popularSongsRecyclerView, localSongRecyclerView;
     private SongAdapter localSongsAdapter;
-    private ImageView chatbotImage;
 
     //    private SongAdapter newSongsAdapter, popularSongsAdapter;
     private AlbumAdapter popularAlbumsAdapter, latestAlbumsAdapter;
@@ -110,18 +108,6 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         int spacing = 20; // dp spacing
         boolean includeEdge = true;
 
-//        newSongsRecyclerView = view.findViewById(R.id.rv_top_songs);
-//        newSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-//        newSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.VERTICAL, this);
-//        newSongsRecyclerView.setAdapter(newSongsAdapter);
-//        newSongsRecyclerView.setNestedScrollingEnabled(false);
-//
-//        popularSongsRecyclerView = view.findViewById(R.id.rv_popular_songs);
-//        popularSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-//        popularSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.HORIZONTAL, this);
-//        popularSongsRecyclerView.setAdapter(popularSongsAdapter);
-//        popularSongsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
-
         // Popular albums with horizontal layout
         RecyclerView popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
         popularAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -130,11 +116,11 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         // Latest albums with vertical layout
-        RecyclerView latestAlbumsRecylerView = view.findViewById(R.id.rv_latest_albums);
-        latestAlbumsRecylerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        RecyclerView latestAlbumsRecyclerview = view.findViewById(R.id.rv_latest_albums);
+        latestAlbumsRecyclerview.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         latestAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.VERTICAL, this);
-        latestAlbumsRecylerView.setAdapter(latestAlbumsAdapter);
-        latestAlbumsRecylerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
+        latestAlbumsRecyclerview.setAdapter(latestAlbumsAdapter);
+        latestAlbumsRecyclerview.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         RecyclerView popularArtistsRecyclerView = view.findViewById(R.id.rv_popular_artists);
         popularArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -142,7 +128,7 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         popularArtistsRecyclerView.setAdapter(popularArtistAdapter);
         popularArtistsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
-        localSongRecyclerView = view.findViewById(R.id.rv_local_songs);
+        RecyclerView localSongRecyclerView = view.findViewById(R.id.rv_local_songs);
         localSongRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         localSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.VERTICAL, this);
         localSongRecyclerView.setAdapter(localSongsAdapter);
@@ -152,14 +138,13 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         TextView userNameText = view.findViewById(R.id.tv_user_name);
 
         Picasso.get().load(currentUser.getAvatarUrl()).into(userAvatarImage);
-//        userNameText.setText(currentUser.getUsername());
-        userNameText.setText("Welcome to Spotify Clone");
+        userNameText.setText(currentUser.getUsername());
 
         localSongsCardView = view.findViewById(R.id.cardViewLocalSongList);
         playLocalSongsButton = view.findViewById(R.id.btnPlay);
 
-        // navigate to Chatbotfragment
-        chatbotImage=view.findViewById(R.id.ic_chatbot);
+        // navigate to Chatbot fragment
+        ImageView chatbotImage = view.findViewById(R.id.ic_chatbot);
         chatbotImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -240,16 +225,6 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         });
 
     }
-
-//    @Override
-//    public void onSongClick(Song song) {
-//        musicPlayerViewModel.playSong(song);
-//    }
-//
-//    @Override
-//    public void onPlayClick(Song song) {
-//        musicPlayerViewModel.togglePlayPause(song);
-//    }
 
     @Override
     public void onAlbumClick(Album album) {

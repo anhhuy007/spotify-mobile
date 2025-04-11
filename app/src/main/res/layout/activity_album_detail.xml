@@ -195,17 +195,16 @@
 
                     <ImageButton
                         android:id="@+id/play_button"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="16dp"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/play_button_description"
                         android:padding="8dp"
-                        android:src="@drawable/play_button" />
+                        android:src="@drawable/ic_pause_circle" />
+
                 </LinearLayout>
-
-
             </LinearLayout>
 
 
@@ -235,8 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                >
+                android:layout_marginBottom="20dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/artist_image"
@@ -254,8 +252,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:gravity="center"
                     android:fontFamily="@font/avenir_next_bold"
+                    android:gravity="center"
                     android:textColor="@color/text_color"
                     android:textSize="14sp" />
             </LinearLayout>
