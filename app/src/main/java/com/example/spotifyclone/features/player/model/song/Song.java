@@ -23,6 +23,32 @@ public class Song implements Parcelable {
     private List<Artist> authors;
     private List<Genre> genres;
 
+    public Song(Song song) {
+        this._id = song._id;
+        this.title = song.title;
+        this.lyric = song.lyric;
+        this.is_premium = song.is_premium;
+        this.like_count = song.like_count;
+        this.mp3_url = song.mp3_url;
+        this.image_url = song.image_url;
+        this.singers = new ArrayList<>(song.singers);
+        this.authors = new ArrayList<>(song.authors);
+        this.genres = new ArrayList<>(song.genres);
+    }
+
+    public Song() {
+        this._id = "";
+        this.title = "";
+        this.lyric = "";
+        this.is_premium = false;
+        this.like_count = 0;
+        this.mp3_url = "";
+        this.image_url = "";
+        this.singers = new ArrayList<>();
+        this.authors = new ArrayList<>();
+        this.genres = new ArrayList<>();
+    }
+
     @Override
     public String toString() {
         return "Song{" +
@@ -39,17 +65,6 @@ public class Song implements Parcelable {
                 '}';
     }
 
-    private String getArtistNames(List<Artist> artists) {
-        if (artists == null || artists.isEmpty()) return "None";
-        return artists.stream().map(Artist::getName).collect(Collectors.joining(", "));
-    }
-
-    private String getGenreNames(List<Genre> genres) {
-        if (genres == null || genres.isEmpty()) return "None";
-        return genres.stream().map(Genre::getName).collect(Collectors.joining(", "));
-    }
-
-
     // Constructor
     public Song(String _id, String title, String lyrics, boolean is_premium, int like_count,
                 String mp3_url, String image_url, List<Artist> authors, List<Artist> singers, List<Genre> genres) {
@@ -63,10 +78,11 @@ public class Song implements Parcelable {
         this.singers = singers;
         this.authors = authors;
         this.genres = genres;
+
     }
 
     // Parcelable implementation
-    protected Song(Parcel in) {
+    public Song(Parcel in) {
         _id = in.readString();
         title = in.readString();
         lyric = in.readString();
@@ -142,63 +158,101 @@ public class Song implements Parcelable {
         return image_url;
     }
 
+    private String getArtistNames(List<Artist> artists) {
+        return (artists != null && !artists.isEmpty())
+                ? artists.stream().map(Artist::getName).collect(Collectors.joining(", "))
+                : "";
+    }
+
+    private String getGenreNames(List<Genre> genres) {
+        return (genres != null && !genres.isEmpty())
+                ? genres.stream().map(Genre::getName).collect(Collectors.joining(", "))
+                : "";
+    }
+
     public List<String> getSingerNames() {
-        return singers != null ? singers.stream().map(Artist::getName).collect(Collectors.toList()) : new ArrayList<>();
+        return (singers != null)
+                ? singers.stream().map(Artist::getName).collect(Collectors.toList())
+                : new ArrayList<>();
     }
 
     public String getSingersString() {
-        return singers != null ? singers.stream().map(Artist::getName).collect(Collectors.joining(", ")) : "Unknown";
+        return (singers != null && !singers.isEmpty())
+                ? singers.stream().map(Artist::getName).collect(Collectors.joining(", "))
+                : "";
     }
 
     public List<String> getAuthorNames() {
-        return authors != null ? authors.stream().map(Artist::getName).collect(Collectors.toList()) : new ArrayList<>();
+        return (authors != null)
+                ? authors.stream().map(Artist::getName).collect(Collectors.toList())
+                : new ArrayList<>();
     }
 
     public String getAuthorsString() {
-        return authors != null ? authors.stream().map(Artist::getName).collect(Collectors.joining(", ")) : "Unknown";
+        return (authors != null && !authors.isEmpty())
+                ? authors.stream().map(Artist::getName).collect(Collectors.joining(", "))
+                : "";
     }
 
     public List<String> getGenreNames() {
-        return genres != null ? genres.stream().map(Genre::getName).collect(Collectors.toList()) : new ArrayList<>();
+        return (genres != null)
+                ? genres.stream().map(Genre::getName).collect(Collectors.toList())
+                : new ArrayList<>();
     }
 
     public String getGenresString() {
-        return genres != null ? genres.stream().map(Genre::getName).collect(Collectors.joining(", ")) : "Unknown";
+        return (genres != null && !genres.isEmpty())
+                ? genres.stream().map(Genre::getName).collect(Collectors.joining(", "))
+                : "";
     }
 
     public String getSingerNameAt(int index) {
-        return (singers != null && index >= 0 && index < singers.size()) ? singers.get(index).getName() : "Unknown";
+        return (singers != null && index >= 0 && index < singers.size())
+                ? singers.get(index).getName()
+                : "";
     }
 
     public String getSingerImageUrlAt(int index) {
-        return (singers != null && index >= 0 && index < singers.size()) ? singers.get(index).getAvatarUrl() : null;
+        return (singers != null && index >= 0 && index < singers.size())
+                ? singers.get(index).getAvatarUrl()
+                : "";
     }
 
     public String getAuthorNameAt(int index) {
-        return (authors != null && index >= 0 && index < authors.size()) ? authors.get(index).getName() : "Unknown";
+        return (authors != null && index >= 0 && index < authors.size())
+                ? authors.get(index).getName()
+                : "";
     }
 
     public String getAuthorImageUrlAt(int index) {
-        return (authors != null && index >= 0 && index < authors.size()) ? authors.get(index).getAvatarUrl() : null;
+        return (authors != null && index >= 0 && index < authors.size())
+                ? authors.get(index).getAvatarUrl()
+                : "";
     }
 
     public String getAuthorBioAt(int index) {
-        return (authors != null && index >= 0 && index < authors.size()) ? authors.get(index).getDescription() : null;
+        return (authors != null && index >= 0 && index < authors.size())
+                ? authors.get(index).getDescription()
+                : "";
     }
 
     public int getSingerFollowersAt(int index) {
-        return (singers != null && index >= 0 && index < singers.size()) ? singers.get(index).getFollowers() : 0;
+        return (singers != null && index >= 0 && index < singers.size())
+                ? singers.get(index).getFollowers()
+                : 0;
     }
 
     public int getAuthorFollowersAt(int index) {
-        return (authors != null && index >= 0 && index < authors.size()) ? authors.get(index).getFollowers() : 0;
+        return (authors != null && index >= 0 && index < authors.size())
+                ? authors.get(index).getFollowers()
+                : 0;
     }
 
     public String getSingerBioAt(int index) {
-        return (singers != null && index >= 0 && index < singers.size()) ? singers.get(index).getDescription() : null;
+        return (singers != null && index >= 0 && index < singers.size())
+                ? singers.get(index).getDescription()
+                : "";
     }
-
-    // Setters
     public void setId(String _id) {
         this._id = _id;
     }
@@ -226,8 +280,30 @@ public class Song implements Parcelable {
     public void setImageUrl(String image_url) {
         this.image_url = image_url;
     }
-
     public String getSingerIdAt(int index) {
         return (authors != null && index >= 0 && index < authors.size()) ? authors.get(index).getId() : null;
+    }
+
+    public List<Artist> getSingers() {
+        return singers;
+    }
+    public void setSingers(List<Artist> singers) {
+        this.singers = singers;
+    }
+    public List<Artist> getAuthors() {
+        return authors;
+    }
+    public void setAuthors(List<Artist> authors) {
+        this.authors = authors;
+    }
+    public List<Genre> getGenres() {
+        return genres;
+    }
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public void setIs_premium(boolean b) {
+        this.is_premium = b;
     }
 }

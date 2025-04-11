@@ -29,6 +29,7 @@ public class PlayerRepository {
     }
 
     public synchronized void savePlayerState(PlayerState playerState) {
+        Log.d("PlayerRepository", "Lưu trạng thái: " + playerState.toString());
         try {
             String playerStateJson = gson.toJson(playerState);
             editor.putString(KEY_PLAYER_STATE, playerStateJson);

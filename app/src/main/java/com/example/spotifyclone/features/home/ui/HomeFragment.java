@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ import com.example.spotifyclone.features.home.viewmodel.HomeViewModel;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.home.adapter.SongAdapter;
 import com.example.spotifyclone.features.home.adapter.SongItemType;
+import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.ui.BaseOnlineFragment;
@@ -45,11 +47,11 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnAlbumClickListener, ArtistAdapter.OnArtistClickListener {
-    private RecyclerView newSongsRecyclerView;
-    private RecyclerView popularSongsRecyclerView;
-
+public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnAlbumClickListener, ArtistAdapter.OnArtistClickListener, SongAdapter.OnSongClickListener {
+    private RecyclerView newSongsRecyclerView, popularSongsRecyclerView, localSongRecyclerView;
+    private SongAdapter localSongsAdapter;
     private ImageView chatbotImage;
 
     //    private SongAdapter newSongsAdapter, popularSongsAdapter;
@@ -58,6 +60,9 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
     private MusicPlayerViewModel musicPlayerViewModel;
     private User currentUser;
     private ImageView userAvatarImage;
+    private TextView userNameText;
+    private CardView localSongsCardView;
+    private ImageButton playLocalSongsButton;
     private HomeViewModel homeViewModel;
     @Nullable
     @Override
@@ -77,6 +82,22 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
             @Override
             public void onClick(View v) {
                 ((MainActivity) requireActivity()).openDrawer();
+            }
+        });
+
+        localSongsCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavDirections action = HomeFragmentDirections.actionHomeFragmentToLocalSongListFragment();
+                Navigation.findNavController(requireView()).navigate(action);
+            }
+        });
+
+        playLocalSongsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavDirections action = HomeFragmentDirections.actionHomeFragmentToLocalSongListFragment();
+                Navigation.findNavController(requireView()).navigate(action);
             }
         });
     }
@@ -121,11 +142,20 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         popularArtistsRecyclerView.setAdapter(popularArtistAdapter);
         popularArtistsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
+        localSongRecyclerView = view.findViewById(R.id.rv_local_songs);
+        localSongRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        localSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.VERTICAL, this);
+        localSongRecyclerView.setAdapter(localSongsAdapter);
+        localSongRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
+
         userAvatarImage = view.findViewById(R.id.iv_user_avatar);
         TextView userNameText = view.findViewById(R.id.tv_user_name);
 
         Picasso.get().load(currentUser.getAvatarUrl()).into(userAvatarImage);
         userNameText.setText(currentUser.getUsername());
+
+        localSongsCardView = view.findViewById(R.id.cardViewLocalSongList);
+        playLocalSongsButton = view.findViewById(R.id.btnPlay);
 
         // navigate to Chatbotfragment
         chatbotImage=view.findViewById(R.id.ic_chatbot);
@@ -166,6 +196,22 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
             }
         });
 
+        musicPlayerViewModel.getPlaybackState().observe(getViewLifecycleOwner(), playbackState -> {
+            if (playbackState != null) {
+                musicPlayerViewModel.getPlayType().observe(getViewLifecycleOwner(), type -> {
+                    if(type != null) {
+                        if (type == MusicPlayerViewModel.PlaybackSourceType.ALBUM) {
+                          musicPlayerViewModel.getCurrentSong().observe(getViewLifecycleOwner(), song -> {
+                                if (song != null) {
+                                    localSongsAdapter.updateUI(playbackState, song);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
         musicPlayerViewModel.getError().observe(getViewLifecycleOwner(), errorMessage ->
                 Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_SHORT).show());
 
@@ -183,6 +229,12 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         homeViewModel.getPopularArtists().observe(getViewLifecycleOwner(), artists -> {
             if(artists != null){
                 popularArtistAdapter.setArtists(artists);
+            }
+        });
+
+        homeViewModel.getLocalSongs().observe(getViewLifecycleOwner(), songs -> {
+            if(songs != null) {
+                localSongsAdapter.setSongs(songs);
             }
         });
 
@@ -227,6 +279,19 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
 
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         navController.navigate(R.id.action_homeFragment_to_artistDetailFragment, args);
+    }
+
+    @Override
+    public void onSongClick(Song currentSong) {
+        if (currentSong != null) {
+            PlayerBottomSheetFragment playerSheet = PlayerBottomSheetFragment.newInstance(currentSong);
+            playerSheet.show(requireActivity().getSupportFragmentManager(), PlayerBottomSheetFragment.TAG);
+        }
+    }
+
+    @Override
+    public void onPlayClick(Song song) {
+        musicPlayerViewModel.playLocalSongs(song);
     }
 }
 

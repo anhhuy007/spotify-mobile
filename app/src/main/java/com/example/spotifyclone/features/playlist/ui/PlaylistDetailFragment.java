@@ -51,6 +51,7 @@ import com.example.spotifyclone.features.album.ui.AlbumFragmentDirections;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
 import com.example.spotifyclone.features.album.viewmodel.AlbumViewModelFactory;
 import com.example.spotifyclone.features.home.adapter.SongAdapter;
+import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
@@ -65,6 +66,7 @@ import com.google.android.material.chip.Chip;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter.OnItemClickListener {
     private String user_name;
@@ -94,8 +96,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
     private RecyclerView song_recommend_recyclerview;
     private RecyclerView recommend_albums_recyclerview;
     private Button new_button;
-    private ImageButton play_button;
-    private ImageButton moreoption;
+    private ImageButton play_button, shuffle_button, moreoption;
     //
     private ImageView userImage;
     private TextView userName;
@@ -142,6 +143,9 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
         play_button.setOnClickListener(v-> {
             musicPlayerViewModel.togglePlayPause(playlist_id, playlistTitle, MusicPlayerViewModel.PlaybackSourceType.PLAYLIST);
         });
+        shuffle_button.setOnClickListener(v -> {
+            musicPlayerViewModel.cycleShuffleMode();
+        });
     }
 
     private void setupUI() {
@@ -178,7 +182,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
         add_chip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavDirections action=PlaylistDetailFragmentDirections.actionPlaylistDetailFragmentToAddPlaylistBottomSheet(
+                NavDirections action= PlaylistDetailFragmentDirections.actionPlaylistDetailFragmentToAddPlaylistBottomSheet(
                         playlist_id
                 );
                 NavController navController = Navigation.findNavController(view);
@@ -306,6 +310,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
 
     private void initViews(View view){
         play_button = view.findViewById(R.id.play_button);
+        shuffle_button = view.findViewById(R.id.shuffle_button);
 
         playlist_image = view.findViewById(R.id.playlist_image);
 
@@ -380,16 +385,32 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
                 updatePlayButton(playbackState == PlaybackState.PLAYING);
             }
         });
+
+        musicPlayerViewModel.getShuffleMode().observe(getViewLifecycleOwner(), shuffleMode -> {
+            if (shuffleMode != null) {
+                updateShuffleButton(shuffleMode);
+            }
+        });
+    }
+
+    private void updateShuffleButton(ShuffleMode shuffleMode) {
+        if(shuffleMode == ShuffleMode.SHUFFLE_ON) {
+            shuffle_button.setImageResource(R.drawable.ic_shuffle_on);
+            shuffle_button.setTag("shuffle_on");
+        } else {
+            shuffle_button.setImageResource(R.drawable.ic_shuffle_off);
+            shuffle_button.setTag("shuffle_off");
+        }
     }
 
     private void updatePlayButton(boolean isPlaying) {
-//        if (isPlaying) {
-//            playButton.setImageResource(R.drawable.play_button);
-//            playButton.setTag("pause");
-//        } else {
-//            playButton.setImageResource(R.drawable.play_button);
-//            playButton.setTag("play");
-//        }
+        if (isPlaying && Objects.equals(musicPlayerViewModel.getCurrentPlaylistId().getValue(), playlist_id)) {
+            play_button.setImageResource(R.drawable.ic_pause_circle);
+            play_button.setTag("pause");
+        } else {
+            play_button.setImageResource(R.drawable.ic_play_circle);
+            play_button.setTag("play");
+        }
     }
 
     private void setupScrollListener() {
