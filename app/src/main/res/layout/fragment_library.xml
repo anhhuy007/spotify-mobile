@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue">
+    android:background="@color/white">
 
     <!-- Top Bar with User Profile -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="N"
-            android:textColor="@android:color/black"
+            android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/profileImage"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/library_title"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/profileImage"
@@ -110,7 +110,7 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:text="@string/tab_playlists"
-                android:textColor="@android:color/white"
+                android:textColor="@color/white"
                 android:layout_marginEnd="8dp" />
 
             <TextView
@@ -123,7 +123,7 @@
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:text="@string/tab_artists"
-                android:textColor="@android:color/white"
+                android:textColor="@color/white"
                 android:layout_marginEnd="8dp" />
 
             <ImageView
@@ -132,7 +132,7 @@
                 android:layout_height="32dp"
                 android:padding="4dp"
                 android:src="@android:drawable/ic_menu_close_clear_cancel"
-                app:tint="@android:color/white"
+                app:tint="@color/black"
                 android:background="@drawable/rounded_button_background"
                 android:visibility="gone"
                 android:layout_gravity="center_vertical" />
@@ -166,7 +166,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/recent_section"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginStart="8dp" />
@@ -234,7 +234,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/liked_songs"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <LinearLayout
@@ -267,7 +267,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/followed_artists"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:paddingStart="16dp"
@@ -295,7 +295,7 @@
                     android:id="@+id/addArtistImage"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
-                    android:src="#333333"
+                    android:src="@color/gray_600"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -313,7 +313,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/add_artist"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:layout_marginStart="16dp"
                     app:layout_constraintStart_toEndOf="@id/addArtistImage"
@@ -326,7 +326,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/playlist_list"
-                android:textColor="@android:color/white"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:paddingStart="16dp"
@@ -372,7 +372,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/add_podcast"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:layout_marginStart="16dp"
                     app:layout_constraintStart_toEndOf="@id/addPodcastImage"

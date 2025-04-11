@@ -2,6 +2,7 @@ package com.example.spotifyclone;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.content.pm.PackageManager;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -59,6 +61,8 @@ import android.Manifest;
 
 import android.util.Log;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private CardView miniPlayer;
     private ImageView miniPlayerImage;
@@ -97,6 +101,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initUser() {
         AuthRepository authRepository = new AuthRepository(getApplicationContext());
         currentUser = authRepository.getUser();
+
+        AppCompatDelegate.setDefaultNightMode(currentUser.getTheme().equals("dark") ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+
+        setLocale(currentUser.getLanguage());
+    }
+
+    private void setLocale(String languageCode) {
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+
+        Resources resources = getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
     }
 
     @Override

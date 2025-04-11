@@ -30,6 +30,7 @@ import com.example.spotifyclone.features.library.viewModel.LibraryArtistsViewMod
 import com.example.spotifyclone.features.library.viewModel.LibraryPlaylistsViewModel;
 import com.example.spotifyclone.features.library.viewModel.LikedSongsViewModel;
 import com.example.spotifyclone.features.playlist.ui.PlaylistDetailFragment;
+import com.example.spotifyclone.features.profile.ui.EditProfileFragment;
 import com.example.spotifyclone.shared.model.User;
 
 public class LibraryFragment extends Fragment  {
@@ -141,6 +142,14 @@ public class LibraryFragment extends Fragment  {
     private void setupListeners() {
 
         addArtistContainer.setOnClickListener(v -> {
+
+
+            if (getActivity() != null) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(((ViewGroup) requireView().getParent()).getId(), ArtistSelectionFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+            }
 
         });
         addPodcastContainer.setOnClickListener(v -> {

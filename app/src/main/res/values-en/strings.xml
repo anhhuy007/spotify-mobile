@@ -337,4 +337,16 @@
     <string name="button_try_student">TRY 2 MONTHS FOR ₫29,500</string>
     <string name="terms_student">₫29,500 for 2 months, then ₫29,500 per month after. Offer only available for eligible students. Terms apply.</string>
 
+
+    <string name="you_re_all_set">You\'re all set!</string>
+    <string name="your_premium_subscription_is_now_active">Your Premium subscription is now active</string>
+    <string name="subscription_details">Subscription Details</string>
+    <string name="subscription_id">Subscription ID</string>
+    <string name="start_date">Start Date</string>
+    <string name="next_billing_date">Next Billing Date</string>
+    <string name="enjoy_premium_benefits">Enjoy Premium Benefits</string>
+    <string name="start_listening">Start Listening</string>
+    <string name="manage_subscription">Manage Subscription</string>
+    <string name="view_receipt"><u>View Receipt</u></string>
+    <string name="cancel_subscription">Cancel Subscription</string>
 </resources>

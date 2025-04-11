@@ -23,6 +23,9 @@ public interface FolowService {
     @POST("follower/add")
     Call<APIResponse<Follow>> addFollower(@Body Follow follow);
 
+    @POST("follower/delete")
+    Call<APIResponse<Follow>> deleteFollower1(@Body Follow follow);
+
     @POST("follower/check")
     Call<APIResponse<Follow>> checkFollower(@Body Follow follow);
 
