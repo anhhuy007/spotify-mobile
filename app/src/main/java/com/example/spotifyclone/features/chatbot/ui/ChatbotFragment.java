@@ -1,5 +1,7 @@
 package com.example.spotifyclone.features.chatbot.ui;
 
+import static java.lang.Thread.sleep;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -8,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,12 +76,14 @@ public class ChatbotFragment extends Fragment {
 
 
     private ImageView gifView;
+    private ProgressBar progressBar;
     // logic
     private ChatBotViewModel chatBotViewModel;
     private ChatbotService chatbotService;
     private ChatAdapter chatAdapter;
     private List<String> messages;
     private String ask;
+
 
     private static final int REQUEST_CODE_SPEECH_INPUT = 101;
 
@@ -115,6 +122,7 @@ public class ChatbotFragment extends Fragment {
         micButton=view.findViewById(R.id.micButton);
         appBarLayout = view.findViewById(R.id.appBarLayout);
         topAppBar = view.findViewById(R.id.topAppBar);
+        progressBar=view.findViewById(R.id.progressBar);
 
 
 
@@ -126,15 +134,15 @@ public class ChatbotFragment extends Fragment {
 //        chatBotViewModel.fetchChatbotResponse(ask);
         chatBotViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
             if (ask != null && !ask.isEmpty() && response != null && !response.isEmpty()) {
-                messages.add(response);
-                chatAdapter.setData(messages);
-                recyclerView.scrollToPosition(messages.size() - 1);
-                // Nếu đủ số lượng tin nhắn thì hiện AppBar
-                if (messages.size() > 4 && appBarLayout.getVisibility() != View.VISIBLE) {
-                    appBarLayout.setVisibility(View.VISIBLE);
-                    appBarLayout.setAlpha(0f);
-                    appBarLayout.animate().alpha(1f).setDuration(300).start();
-                }
+                // Delay bot trả lời 1-2 giây
+                showLoading();
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    hideLoading();
+                    messages.add(response);
+                    chatAdapter.setData(messages);
+                    recyclerView.scrollToPosition(messages.size() - 1);
+
+                }, 1500); // ⏱ Delay 1.5 giây
             }
         });
 
@@ -144,7 +152,6 @@ public class ChatbotFragment extends Fragment {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recyclerView.scrollToPosition(messages.size() - 1);
                 sendMessage();
             }
         });
@@ -214,6 +221,10 @@ public class ChatbotFragment extends Fragment {
         ask = editText.getText().toString().trim();
         if (!ask.isEmpty()) {
             messages.add(ask);
+
+            chatAdapter.setData(messages); // Update giao diện ngay
+            recyclerView.scrollToPosition(messages.size() - 1); // Scroll xuống cuối sau khi gửi
+
             chatAdapter.setData(messages); // Update giao diện ngay
             chatBotViewModel.fetchChatbotResponse(ask); // Gọi API
             editText.setText(""); // Xóa nội dung
@@ -235,10 +246,37 @@ public class ChatbotFragment extends Fragment {
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (result != null && !result.isEmpty()) {
                 String spokenText = result.get(0);
-                editText.setText(spokenText);
-                editText.setSelection(spokenText.length()); // Đưa con trỏ về cuối chuỗi
+//                showLoading();
+
+
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    updateEditTextWithAnimation(spokenText);
+                    hideLoading();
+                    sendMessage();
+                }, 500);
             }
         }
+    }
+
+    // Hiệu ứng fade-in khi cập nhật EditText
+    private void updateEditTextWithAnimation(String text) {
+        editText.setAlpha(0f);
+        editText.setText(text);
+        editText.setSelection(text.length());
+
+        editText.animate()
+                .alpha(1f)
+                .setDuration(300)
+                .start();
+    }
+
+    // Hiển thị loading (ví dụ: ProgressBar)
+    private void showLoading() {
+        progressBar.setVisibility(View.VISIBLE); // cần có progressBar trong layout
+    }
+
+    private void hideLoading() {
+        progressBar.setVisibility(View.GONE);
     }
 
 }

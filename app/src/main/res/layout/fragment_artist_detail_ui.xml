@@ -37,7 +37,8 @@
 
                     <FrameLayout
                         android:layout_width="48dp"
-                        android:layout_height="48dp">
+                        android:layout_height="48dp"
+                        android:layout_marginLeft="8dp">
 
 
                         <ImageView
@@ -56,6 +57,7 @@
                             android:background="@android:color/transparent"
                             android:src="@drawable/back_btn_white"
                             android:layout_gravity="center"
+
                             android:contentDescription="Back button"
                             android:clickable="false"/>
                     </FrameLayout>

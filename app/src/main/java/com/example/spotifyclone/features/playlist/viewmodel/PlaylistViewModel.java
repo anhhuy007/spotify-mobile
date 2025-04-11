@@ -26,6 +26,8 @@ public class PlaylistViewModel extends ViewModel {
     private final MutableLiveData<List<Playlist>> userPlaylists=new MutableLiveData<>();
     private final MutableLiveData<List<Song>> playlistSongs=new MutableLiveData<>();
     private final MutableLiveData<List<Song>> popularSongs=new MutableLiveData<>();
+    private final MutableLiveData<List<Song>> randomSongs=new MutableLiveData<>();
+
     private final MutableLiveData<Playlist> playlsitById=new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading=new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage=new MutableLiveData<>();
@@ -240,6 +242,41 @@ public class PlaylistViewModel extends ViewModel {
 
     }
 
+    public void fetchRandomSongs(String playlistId)
+    {
+        isLoading.setValue(true);
+        playlistService.getRandomSongs(playlistId, 5).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+                isLoading.setValue(false);
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body().isSuccess()) {
+                        randomSongs.setValue(response.body().getData().getItems());
+                    } else {
+                        errorMessage.setValue("Failed to load songs");
+                    }
+                } else {
+                    if (response.errorBody() != null) {
+                        try {
+                            Log.e("PlaylistViewModel", "Response Error: " + response.errorBody().string());
+                        } catch (Exception e) {
+                            Log.e("PlaylistViewModel", "Lỗi khi đọc errorBody", e);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+                isLoading.setValue(false);
+                errorMessage.setValue(t.getMessage());
+                Log.e("PlaylistViewModel", "onFailure: API không gọi được - " + t.getMessage(), t);
+            }
+        });
+
+    }
+
+
     public void updatePlaylistInfo(String playlistId, String playlist_name, String playlist_description) {
         playlistService.updateInfo(playlistId, playlist_name, playlist_description).enqueue(new Callback<APIResponse<Void>>() {
             @Override
@@ -287,6 +324,8 @@ public class PlaylistViewModel extends ViewModel {
     public LiveData<List<Playlist>> getUserPlaylist(){return userPlaylists;}
     public LiveData<List<Song>> getPlaylistSongs(){return playlistSongs;}
     public LiveData<List<Song>> getPopularSongs(){return popularSongs;}
+    public LiveData<List<Song>> getRandomSongs(){return randomSongs;}
+
     public LiveData<Playlist> getPlaylistById(){
         return playlsitById;
     }
