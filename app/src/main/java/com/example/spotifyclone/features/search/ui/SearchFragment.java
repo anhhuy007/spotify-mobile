@@ -132,13 +132,7 @@ public class SearchFragment extends Fragment {
     private void navigateToGenreDetail(Genre genre){
         SearchFragmentDirections.ActionNavSearchToGenreDetailFragment action=
                 SearchFragmentDirections.actionNavSearchToGenreDetailFragment(
-                        genre.get_id(),
-                        genre.getName(),
-                        genre.getDescription(),
-                        genre.getImage_url(),
-                        genre.getCreate_at().getTime(),
-                        genre.getCreate_at().getTime()
-                );
+                        genre.get_id());
 
         Navigation.findNavController(requireView()).navigate(action);
 

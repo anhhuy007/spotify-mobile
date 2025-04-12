@@ -24,12 +24,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.SpotifyCloneApplication;
+import com.example.spotifyclone.features.genre.model.Genre;
+import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.features.search.adapter.SearchAdapter;
 import com.example.spotifyclone.features.search.inter.SearchMainCallbacks;
 import com.example.spotifyclone.features.search.model.SearchItem;
@@ -48,11 +54,15 @@ public class SearchSuggestFragment extends Fragment {
     private RecyclerView recyclerView;
     private SearchAdapter searchAdapter;
     private SearchViewModel searchViewModel;
+    private MusicPlayerViewModel musicPlayerViewModel;
+
     private EditText searchInput;
     private TextView noResultText;
     private Chip allresult;
     private ImageButton searchByVoice;
     private TextView cancelTextView;
+    private List<SearchItem> searchResult;
+    private String searchQuery;
     private static final int REQUEST_CODE_SPEECH_INPUT = 101;
 
     @Override
@@ -128,6 +138,9 @@ public class SearchSuggestFragment extends Fragment {
         setupSearchListener(searchInput);
 
     }
+
+
+
     private void setupRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false));
@@ -138,17 +151,55 @@ public class SearchSuggestFragment extends Fragment {
 
                 // id, title, image_url
                 //->naviagte tới song
+                List<String> searchIds=new ArrayList<>();
+                for (SearchItem searchItem:searchResult ){
+                    if("song".equals(searchItem.getType()))
+                    {
+                        searchIds.add(searchItem.get_id());
+                    }
+                }
+                musicPlayerViewModel.playSearchSongs(searchIds, item.get_id(), searchQuery);
+
             }
             if ("album".equals(item.getType())) {
                 navigateToAlbumDetail(item);
             }
             if ("genre".equals(item.getType())) {
+                navigateToGenreDetail(item);
             }
             if ("artist".equals(item.getType())) {
+
+                navigateToArtistDetail(item, view);
             }
         });
         recyclerView.setAdapter(searchAdapter);
     }
+    private void navigateToArtistDetail(SearchItem item, View view){
+        if (view != null) {
+            // Get the NavController from the rootView
+            NavController navController = Navigation.findNavController(view);
+
+            // Create the navigation action with the required argument
+            Bundle args = new Bundle();
+            args.putString("ARTIST_ID", item.get_id());
+
+            // Navigate to the ArtistFragment
+            navController.navigate(R.id.artistFragment, args);
+        }
+
+    }
+
+
+    private void navigateToGenreDetail(SearchItem item) {
+        SearchSuggestFragmentDirections.ActionSearchSuggestToGenreDetailFragment action =
+                SearchSuggestFragmentDirections.actionSearchSuggestToGenreDetailFragment(
+                        item.get_id()
+                );
+
+        Navigation.findNavController(requireView()).navigate(action);
+    }
+
+
     private void navigateToAlbumDetail(SearchItem item){
         SearchSuggestFragmentDirections.ActionSearchSuggestFragmentToNavAlbumDetail action=
                 SearchSuggestFragmentDirections.actionSearchSuggestFragmentToNavAlbumDetail(
@@ -181,6 +232,7 @@ public class SearchSuggestFragment extends Fragment {
 
 //            List<SearchItem> items = searchResult.getItems();
             if (items != null && !items.isEmpty()) {
+                searchResult=items;
                 searchAdapter.setData(items);
                 recyclerView.setVisibility(View.VISIBLE);
                 noResultText.setVisibility(View.GONE);
@@ -193,6 +245,17 @@ public class SearchSuggestFragment extends Fragment {
                 searchAdapter.setData(new ArrayList<>());
             }
         });
+
+
+        SpotifyCloneApplication app = SpotifyCloneApplication.getInstance();
+        musicPlayerViewModel = new ViewModelProvider(new ViewModelStoreOwner() {
+            @NonNull
+            @Override
+            public ViewModelStore getViewModelStore() {
+                return app.getAppViewModelStore();
+            }
+        }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
+
 
     }
 
@@ -216,6 +279,7 @@ public class SearchSuggestFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 String query = s.toString().trim();
                 if (!query.isEmpty()) {
+                    searchQuery=query;
                     workRunnable[0] = () -> searchViewModel.fetchSearchResults(query, null, null, 1, 10);
                     handler.postDelayed(workRunnable[0], 500); // Gửi request sau 500ms
                 }
@@ -232,6 +296,7 @@ public class SearchSuggestFragment extends Fragment {
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (result != null && !result.isEmpty()) {
                 String spokenText = result.get(0);
+                searchQuery=spokenText;
                 searchInput.setText(spokenText);
                 searchInput.setSelection(spokenText.length()); // Đưa con trỏ về cuối chuỗi
             }

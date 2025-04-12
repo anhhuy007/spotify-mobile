@@ -22,7 +22,9 @@ import com.example.spotifyclone.shared.network.RetrofitClient;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -719,42 +721,63 @@ public class MusicPlayerController {
     }
 
 
-    private List<Song> fetchSearchSongs(List<String> song_ids, String first_song_id) {
-        List<Song> result = new ArrayList<>();
-        if (song_ids == null || song_ids.isEmpty()) {
-            return result;
-        }
-
-        for (String id : song_ids) {
-            try {
-                Response<APIResponse<Song>> response = songService.getSongById(id).execute();
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Song song = response.body().getData();
-                    if (song != null) {
-                        if (song.getId().equals(first_song_id)) {
-                            result.add(0, song); // add to the beginning
-                        } else {
-                            result.add(song); // add to the end
-                        }
-                    }
-                } else {
-                    Log.w("SongFetch", "Failed to fetch song with ID: " + id);
-                }
-            } catch (IOException e) {
-                Log.e("SongFetch", "IOException while fetching song with ID: " + id, e);
-            }
-        }
-        return result;
+    public interface FetchSongsCallback {
+        void onSongsFetched(List<Song> songs);
     }
 
+    private void fetchSearchSongs(List<String> song_ids, String first_song_id, FetchSongsCallback callback) {
+        if (song_ids == null || song_ids.isEmpty()) {
+            callback.onSongsFetched(new ArrayList<>());
+            return;
+        }
+
+        List<Song> result = new ArrayList<>();
+        AtomicInteger pendingCalls = new AtomicInteger(song_ids.size());
+
+        for (String id : song_ids) {
+            Call<APIResponse<Song>> call = songService.getSongById(id);
+            call.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(@NonNull Call<APIResponse<Song>> call, @NonNull Response<APIResponse<Song>> response) {
+                    if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                        Song song = response.body().getData();
+                        synchronized (result) {
+                            if(Objects.equals(song.getId(), first_song_id)) {
+                                result.add(0, song);
+                            } else {
+                                result.add(song);
+                            }
+                        }
+                    } else {
+                        Log.d("DEBUG", "onFailure: " + response.message());
+                    }
+
+                    if (pendingCalls.decrementAndGet() == 0) {
+                        callback.onSongsFetched(result);
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<APIResponse<Song>> call, @NonNull Throwable t) {
+                    Log.d("DEBUG", "onFailure: " + t.getMessage());
+                    if (pendingCalls.decrementAndGet() == 0) {
+                        callback.onSongsFetched(result);
+                    }
+                }
+            });
+        }
+    }
 
     public void playSearchSongs(List<String> song_ids, String first_song_id) {
         checkReleased();
-        List<Song> songs = fetchSearchSongs(song_ids, first_song_id);
-        synchronized (playlistLock) {
-            playList.clear();
-            playList.addSongs(songs);
-            play();
-        }
+        fetchSearchSongs(song_ids, first_song_id, songs -> {
+            synchronized (playlistLock) {
+                playList.clear();
+                playList.addSongs(songs);
+                play();
+            }
+        });
     }
+
+
 }
