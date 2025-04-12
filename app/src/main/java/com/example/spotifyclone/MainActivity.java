@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setupNavigation();
             checkNotificationPermission();
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
     }
 
     private void setupPlayerRepositoryAndRestorePlayerViewModel() {
