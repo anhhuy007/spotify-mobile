@@ -277,7 +277,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         btn_see_view_discography.setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(((ViewGroup) getView().getParent()).getId(), DiscographyFragment.newInstance(artistId))
+                        .replace(((ViewGroup) getView().getParent()).getId(), DiscographyFragment.newInstance(artistId,artistName))
                         .addToBackStack(null)
                         .commit();
             }
@@ -320,20 +320,22 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
     private void updateShuffleButton(ShuffleMode shuffleMode) {
         if (shuffleMode == ShuffleMode.SHUFFLE_ON) {
-            btnShuffle.setImageResource(R.drawable.ic_baseline_shuffle_24);
+            btnShuffle.setImageResource(R.drawable.ic_shuffle_on);
             btnShuffle.setTag("shuffle_on");
+            Log.d("ShuffleMode", shuffleMode.toString());
         } else {
             btnShuffle.setImageResource(R.drawable.ic_shuffle_off);
+            Log.d("ShuffleMode", shuffleMode.toString());
             btnShuffle.setTag("shuffle_off");
         }
     }
 
     private void updatePlayButton(boolean isPlaying) {
-        if (isPlaying && viewModel.getCurrentArtistId() != null && Objects.equals(viewModel.getCurrentArtistId().getValue(), artistId)) {
-            btnPlay.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
+        if (isPlaying && viewModel.getCurrentArtistId() != null && Objects.equals(viewModel.getCurrentArtistId().getValue(), artistId) && Objects.equals(viewModel.getPlayType().getValue(), MusicPlayerViewModel.PlaybackSourceType.ARTIST)) {
+            btnPlay.setImageResource(R.drawable.ic_pause_circle);
             btnPlay.setTag("pause");
         } else {
-            btnPlay.setImageResource(R.drawable.ic_baseline_play_circle_filled_24);
+            btnPlay.setImageResource(R.drawable.ic_play_circle);
             btnPlay.setTag("play");
         }
     }
@@ -353,6 +355,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         PopularViewModel artistListViewModel = new ViewModelProvider(this,
                 new PopularViewModel.Factory(requireActivity().getApplication(), artistId))
                 .get(PopularViewModel.class);
+
         artistListViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
                 SongArtistAdapter rvPopularSongsAdapter = new SongArtistAdapter(getContext(), artists, this);
@@ -537,7 +540,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
     @Override
     public void onSongClick(PopularSong song) {
-        viewModel.playSongsFrom(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST, song.getId());
+        viewModel.playSongsFrom(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST,song.getId());
     }
 
     private static String formatListeners(int listeners) {

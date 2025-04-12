@@ -199,6 +199,7 @@
             <!-- The rest of the content remains unchanged -->
             <!-- Artists RecyclerView -->
             <TextView
+                android:id="@+id/artistTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/followed_artists"
@@ -258,6 +259,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!-- Playlists RecyclerView -->
             <TextView
+                android:id="@+id/playlistTitle"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/playlist_list"

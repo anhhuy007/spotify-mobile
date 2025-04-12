@@ -15,6 +15,7 @@ import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.network.SongService;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.features.premium.network.PremiumService;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.network.RetrofitClient;
 
@@ -38,20 +39,17 @@ public class MusicPlayerController {
     private RepeatMode repeatMode;
     private ShuffleMode shuffleMode;
     private final Object playlistLock = new Object();
-    private PlayList playList;
-
+    private final PlayList playList;
     private boolean isStopAtEndOfTrack  = false;
-
     private volatile boolean isReleased;
     private final PlayerNotification playerNotification;
     private final Song adSong = new Song("", "Quảng cáo của Spotify", "", false, 0, String.valueOf(R.raw.ads), "https://res.cloudinary.com/dndmj9oid/image/upload/v1744005550/download_i9ti4i.jpg", null, null, null);
     private static final int REFILL_THRESHOLD = 1;
     private static final int REFILL_COUNT = 15;
     private MusicPlayerViewModel musicPlayerViewModel;
+    private PremiumService premiumService;
     private User currentUser;
-
-    private SongDatabaseHelper songDatabaseHelper;
-
+    private final SongDatabaseHelper songDatabaseHelper;
     public void setStopAtEndOfTrack(boolean isOn){
         this.isStopAtEndOfTrack =isOn;
     }
@@ -137,6 +135,7 @@ public class MusicPlayerController {
             @Override
             public void onError(@NonNull Song song, @NonNull String error) {
                 handlePlaybackError(error);
+                musicPlayerViewModel.playLocalSongs(null);
             }
         });
     }
@@ -287,7 +286,7 @@ public class MusicPlayerController {
         checkReleased();
         synchronized (playlistLock) {
             if(playList.checkNextSong()) {
-                if (!currentUser.isPremium()) {
+                if (checkUserPremium()) {
                     count_ads++;
                     if (count_ads >= MAX_SONGS_TO_ADS) {
                         count_ads = 0;
@@ -317,6 +316,30 @@ public class MusicPlayerController {
         }
     }
 
+    private boolean checkUserPremium() {
+        if (currentUser == null) {
+            Log.e(TAG, "Current user is null");
+            return false;
+        }
+//        PremiumService.getInstance(getApplicationContext()).checkSubscription(currentUser.getId()).enqueue(new Callback<>() {
+//            @Override
+//            public void onResponse(@NonNull Call<APIResponse<Subscription>> call, @NonNull Response<APIResponse<Subscription>> response) {
+//                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+//                    currentUser.setPremium(response.body().getData().isPremium());
+//                    Log.d(TAG, "User is premium: " + currentUser.isPremium());
+//                } else {
+//                    Log.d(TAG, "Failed to check subscription: " + response.message());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<APIResponse<Subscription>> call, @NonNull Throwable t) {
+//                Log.d(TAG, "Failed to check subscription: " + t.getMessage());
+//            }
+//        });
+        return true;
+    }
+
 
     private void fetchLocalSongsAndPlayNext() {
         List<Song> localSongs;
@@ -342,9 +365,9 @@ public class MusicPlayerController {
     }
 
     private void fetchMoreSongsAndPlayNext() {
-        songService.getRandomSongs(REFILL_COUNT).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
+        songService.getRandomSongs(REFILL_COUNT).enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+            public void onResponse(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Response<APIResponse<PaginatedResponse<Song>>> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     List<Song> songs = response.body().getData().getItems();
                     if (songs != null && !songs.isEmpty()) {
@@ -362,7 +385,7 @@ public class MusicPlayerController {
                 }
             }
             @Override
-            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
                 Log.d("DEBUG", "onFailure: " + t.getMessage());            }
         });
     }
@@ -412,7 +435,7 @@ public class MusicPlayerController {
     private void fetchAlbumSongWithPriority(String id, String first_song_id) {
         songService.getAlbumSongs(id).enqueue(new Callback<>() {
             @Override
-            public void onResponse(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+            public void onResponse(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Response<APIResponse<PaginatedResponse<Song>>> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     List<Song> songs = response.body().getData().getItems();
                     if (songs != null && !songs.isEmpty()) {
@@ -516,7 +539,7 @@ public class MusicPlayerController {
             }
 
             @Override
-            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
                 Log.d("DEBUG", "onFailure: " + t.getMessage());
             }
         });
@@ -545,7 +568,7 @@ public class MusicPlayerController {
             }
 
             @Override
-            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
                 Log.d("DEBUG", "onFailure: " + t.getMessage());
             }
         });
@@ -662,7 +685,7 @@ public class MusicPlayerController {
             }
 
             @Override
-            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
                 Log.d("DEBUG", "onFailure: " + t.getMessage());
             }
         });
@@ -690,7 +713,7 @@ public class MusicPlayerController {
             }
 
             @Override
-            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
                 Log.d("DEBUG", "onFailure: " + t.getMessage());
             }
         });

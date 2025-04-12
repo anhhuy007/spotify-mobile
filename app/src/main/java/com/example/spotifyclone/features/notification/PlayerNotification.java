@@ -45,7 +45,6 @@ public class PlayerNotification {
     private static final int NOTIFICATION_ID = 101;
     private static final String TAG = "PlayerNotification";
 
-
     private final Context context;
     private final NotificationManager notificationManager;
     private final MediaSessionCompat mediaSession;
@@ -148,6 +147,7 @@ public class PlayerNotification {
             public void onSkipToNext() {
                 Log.d("MediaSession", "Next button pressed");
                 try {
+                    Log.d("MediaSession", "Next button pressed");
                     MusicNotificationIntents.createNextIntent(context).send();
                 } catch (PendingIntent.CanceledException e) {
                     throw new RuntimeException(e);

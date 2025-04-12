@@ -186,8 +186,8 @@
                                     android:layout_height="48dp"
                                     android:layout_gravity="center_vertical"
                                     android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/ic_baseline_shuffle_24"
-                                    app:tint="@color/spotify_green" />
+                                    android:src="@drawable/ic_shuffle_off"
+                                    />
 
 
                                 <ImageButton
@@ -196,7 +196,7 @@
                                     android:layout_height="48dp"
                                     android:layout_gravity="center_vertical"
                                     android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/ic_baseline_play_circle_filled_24" />
+                                    android:src="@drawable/ic_play_circle" />
 
                             </LinearLayout>
 

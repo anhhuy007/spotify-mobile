@@ -45,6 +45,18 @@
         <action
             android:id="@+id/action_lib_to_playlistDetailFragment"
             app:destination="@id/playlistDetailFragment" />
+        <action
+            android:id="@+id/action_nav_library_to_add_fl_artist"
+            app:destination="@id/add_fl_artist" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/add_fl_artist"
+        android:name="com.example.spotifyclone.features.library.ui.ArtistSelectionFragment"
+        android:label="Library"
+        tools:layout="@layout/fragment_artist_selection">
+<!--        Home navigation   -->
 <!--        <action-->
 <!--            android:id="@+id/action_nav_library_to_add_fl_artist"-->
 <!--            app:destination="@id/add_fl_artist" />-->
@@ -186,7 +198,7 @@
         android:id="@+id/artistFragment"
         android:name="com.example.spotifyclone.features.artist.ui.ArtistFragment"
         android:label="Artist"
-        tools:layout="@layout/fragment_artist_detail_ui">
+        tools:layout="@layout/fragment_artist_detail_ui" >
         <action
             android:id="@+id/action_artistFragment_to_artistOverallFragment"
             app:destination="@id/artistOverallFragment" />
@@ -199,7 +211,7 @@
         android:id="@+id/artistListFragment"
         android:name="com.example.spotifyclone.features.artist.ui.ArtistListFragment"
         android:label="Artist"
-        tools:layout="@layout/fragment_artist_list">
+        tools:layout="@layout/fragment_artist_list" >
         <action
             android:id="@+id/action_artistListFragment_to_artistFragment"
             app:destination="@id/artistFragment" />
@@ -296,6 +308,9 @@
     </fragment>
 
 
+
+
+
     <dialog
         android:id="@+id/playerBottomSheetFragment"
         android:name="com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment"
@@ -314,16 +329,16 @@
         tools:layout="@layout/bottom_sheet_song_option">
         <argument
             android:name="_id"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="song_image"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="song_name"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="song_artist"
-            app:argType="string[]" />
+            app:argType="string[]"/>
 
     </dialog>
 
@@ -334,16 +349,16 @@
         tools:layout="@layout/bottom_sheet_playlist_edit">
         <argument
             android:name="playlist_id"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="playlist_name"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="playlist_image"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="playlist_description"
-            app:argType="string" />
+            app:argType="string"/>
     </dialog>
     <fragment
         android:id="@+id/playlistDetailFragment"
@@ -352,28 +367,28 @@
         tools:layout="@layout/fragment_playlist_detail">
         <argument
             android:name="user_name"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="user_image"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="playlist_id"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="playlist_name"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="playlist_image"
-            app:argType="string" />
+            app:argType="string"/>
         <action
             android:id="@+id/action_playlistDetailFragment_to_editPlaylistBottomSheet"
             app:destination="@id/editPlaylistBottomSheet" />
         <action
             android:id="@+id/action_playlistDetailFragment_to_album_detail"
-            app:destination="@id/nav_album_detail" />
+            app:destination="@id/nav_album_detail"/>
         <action
             android:id="@+id/action_playlistDetailFragment_to_album_playlistmoreoption"
-            app:destination="@id/playlist_moreoption" />
+            app:destination="@id/playlist_moreoption"/>
         <action
             android:id="@+id/action_playlistDetailFragment_to_addPlaylistBottomSheet"
             app:destination="@id/addPlaylistBottomSheet" />
@@ -403,19 +418,19 @@
         tools:layout="@layout/fragment_playlist_detail">
         <argument
             android:name="user_name"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="user_image"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="playlist_id"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="playlist_name"
-            app:argType="string" />
+            app:argType="string"/>
         <argument
             android:name="playlist_image"
-            app:argType="string" />
+            app:argType="string"/>
 
     </dialog>
     <dialog
@@ -425,7 +440,7 @@
         tools:layout="@layout/bottom_sheet_playlist_detail_add">
         <argument
             android:name="playlist_id"
-            app:argType="string" />
+            app:argType="string"/>
     </dialog>
     <fragment
         android:id="@+id/chatbotFragment"

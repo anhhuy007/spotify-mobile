@@ -107,7 +107,7 @@ public class SettingsFragment extends Fragment {
     private void initSetting() {
         settingViewModel = new ViewModelProvider(this).get(SettingViewModel.class);
 
-        SharedPreferences prefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+//        SharedPreferences prefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
         AuthRepository authRepo = new AuthRepository(getContext());
         User user = authRepo.getUser();
         settingViewModel.getTheme().observe(getViewLifecycleOwner(), updatedUser -> {
@@ -123,10 +123,11 @@ public class SettingsFragment extends Fragment {
             if (updatedUser != null) {
                 setLocale(updatedUser);
             }
+
         });
         switchTheme.setChecked(user.getTheme().equals("dark"));
         switchLang.setChecked(user.getLanguage().equals("en"));
-        switchNoti.setChecked(prefs.getBoolean("notificationEnabled", false));
+//        switchNoti.setChecked(prefs.getBoolean("notificationEnabled", false));
 
         if (user.isPremium()) {
             freeAccountContainer.setVisibility(View.GONE);
@@ -218,6 +219,11 @@ public class SettingsFragment extends Fragment {
         switchLang.setOnCheckedChangeListener((buttonView, isChecked) -> {
             settingViewModel.updateLanguage(isChecked ? "en" : "vi");
             setLocale(isChecked ? "en" : "vi");
+
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+
 //                     requireActivity().recreate();
 
         });

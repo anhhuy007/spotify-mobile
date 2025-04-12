@@ -2,6 +2,7 @@ package com.example.spotifyclone.features.home.viewmodel;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -48,7 +49,7 @@ public class HomeViewModel extends ViewModel {
         fetchPopularArtists();
     }
 
-    private void fetchLocalSongs() {
+    public void fetchLocalSongs() {
         List<Song> songs = songDatabaseHelper.getAllSavedSongs();
         if (songs != null && !songs.isEmpty()) {
             localSongs.setValue(songs);
@@ -57,10 +58,10 @@ public class HomeViewModel extends ViewModel {
         }
     }
 
-    private void fetchPopularArtists() {
+    public void fetchPopularArtists() {
         homeService.getPopularArtists().enqueue(new Callback<APIResponse<PaginatedResponse<Artist>>>() {
             @Override
-            public void onResponse(Call<APIResponse<PaginatedResponse<Artist>>> call, Response<APIResponse<PaginatedResponse<Artist>>> response) {
+            public void onResponse(@NonNull Call<APIResponse<PaginatedResponse<Artist>>> call, @NonNull Response<APIResponse<PaginatedResponse<Artist>>> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     popularArtist.setValue(response.body().getData().getItems());
                 } else {
@@ -69,16 +70,16 @@ public class HomeViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<APIResponse<PaginatedResponse<Artist>>> call, Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Artist>>> call, @NonNull Throwable t) {
                 errorMessage.setValue(t.getMessage());
             }
         });
     }
 
-    private void fetchLatestAlbums() {
+    public void fetchLatestAlbums() {
         homeService.getLatestAlbums().enqueue(new Callback<APIResponse<PaginatedResponse<Album>>>() {
             @Override
-            public void onResponse(Call<APIResponse<PaginatedResponse<Album>>> call, Response<APIResponse<PaginatedResponse<Album>>> response) {
+            public void onResponse(@NonNull Call<APIResponse<PaginatedResponse<Album>>> call, @NonNull Response<APIResponse<PaginatedResponse<Album>>> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     latestAlbums.setValue(response.body().getData().getItems());
                 } else {
@@ -87,16 +88,16 @@ public class HomeViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<APIResponse<PaginatedResponse<Album>>> call, Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Album>>> call, @NonNull Throwable t) {
                 errorMessage.setValue(t.getMessage());
             }
         });
     }
 
-    private void fetchPopularAlbums() {
+    public void fetchPopularAlbums() {
         homeService.getPopularAlbums().enqueue(new Callback<APIResponse<PaginatedResponse<Album>>>() {
             @Override
-            public void onResponse(Call<APIResponse<PaginatedResponse<Album>>> call, Response<APIResponse<PaginatedResponse<Album>>> response) {
+            public void onResponse(@NonNull Call<APIResponse<PaginatedResponse<Album>>> call, @NonNull Response<APIResponse<PaginatedResponse<Album>>> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     popularAlbums.setValue(response.body().getData().getItems());
                 } else {
@@ -105,16 +106,16 @@ public class HomeViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<APIResponse<PaginatedResponse<Album>>> call, Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Album>>> call, @NonNull Throwable t) {
                 errorMessage.setValue(t.getMessage());
             }
         });
     }
 
-    private void fetchPopularSongs() {
+    public void fetchPopularSongs() {
         homeService.getPopularSongs().enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
             @Override
-            public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+            public void onResponse(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Response<APIResponse<PaginatedResponse<Song>>> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     popularSongs.setValue(response.body().getData().getItems());
                 } else {
@@ -123,16 +124,16 @@ public class HomeViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
                 errorMessage.setValue(t.getMessage());
             }
         });
     }
 
-    private void fetchNewSongs() {
+    public void fetchNewSongs() {
         homeService.getNewSongs().enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() {
             @Override
-            public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
+            public void onResponse(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Response<APIResponse<PaginatedResponse<Song>>> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     newSongs.setValue(response.body().getData().getItems());
                 } else {
@@ -141,7 +142,7 @@ public class HomeViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<APIResponse<PaginatedResponse<Song>>> call, Throwable t) {
+            public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
                 errorMessage.setValue(t.getMessage());
             }
         });

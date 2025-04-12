@@ -361,6 +361,12 @@
     <string name="unknown_date">Unknown Date</string>
     <string name="other_artists">Other Artists</string>
     <string name="load_more">Load More</string>
+    <string name="recentActivity">Hoạt động gần đây</string>
+    <string name="offline_banner">Dù không có mạng, giai điệu vẫn vang</string>
+    <string name="popular_artist">Nghệ sĩ phổ biến</string>
+    <string name="local_songs">Nhạc trong máy</string>
+    <string name="offline_intro">Những bản nhạc bạn có thể nghe ngoại tuyến nên dù không có kết nối mạng thì nhạc vẫn ngân vang.</string>
+    <string name="offline_songs">Nhạc ngoại tuyến</string>
 
 
 </resources>

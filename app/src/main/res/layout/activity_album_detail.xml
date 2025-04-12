@@ -185,13 +185,12 @@
                     <ImageButton
                         android:id="@+id/shuffle_button"
                         android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/shuffle_button_description"
                         android:padding="8dp"
-                        android:src="@drawable/ic_baseline_shuffle_24"
-                        app:tint="@color/spotify_green" />
+                        android:src="@drawable/ic_shuffle_off" />
 
                     <ImageButton
                         android:id="@+id/play_button"

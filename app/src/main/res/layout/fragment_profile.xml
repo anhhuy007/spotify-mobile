@@ -105,7 +105,18 @@
 
 
 
-
+    <!-- Add this TextView for "Recent Activity" title -->
+    <TextView
+        android:id="@+id/recent_activity_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/recentActivity"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"/>
 
 
     <TextView

@@ -23,9 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * ViewModel that manages the state and business logic for the music player
- */
 public class MusicPlayerViewModel extends ViewModel {
     private final MusicPlayerController playerController;
     private PlaybackListener playbackListener;

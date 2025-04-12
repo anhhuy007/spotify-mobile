@@ -37,7 +37,7 @@ public class LibraryFragment extends Fragment  {
     private Context context;
     private User currentUser;
     private RecyclerView artistsRecyclerView, playlistsRecyclerView;
-    private TextView playlistTab, artistTab;
+    private TextView playlistTab, artistTab, artistTitle,playlistTitle;
     private TextView profileInitial;
     private ImageView profileImageI, clearFilterButton;
 
@@ -90,6 +90,9 @@ public class LibraryFragment extends Fragment  {
         profileInitial = view.findViewById(R.id.profileInitial);
         profileImageI = view.findViewById(R.id.profileImageI);
 
+
+        artistTitle= view.findViewById(R.id.artistTitle);
+        playlistTitle= view.findViewById(R.id.playlistTitle);
 
         addArtistContainer = view.findViewById(R.id.addArtistContainer);
         addPodcastContainer = view.findViewById(R.id.addPodcastContainer);
@@ -188,12 +191,20 @@ newPlaylistBottomSheet.show(getParentFragmentManager(), "NewPlaylistBottomSheet"
 //            playlistTab.setBackgroundResource(R.drawable.green_rounded_button_background);
             artistTab.setVisibility(View.GONE);
             artistsRecyclerView.setVisibility(View.GONE);
+            addArtistContainer.setVisibility(View.GONE);
+            artistTitle.setVisibility(View.GONE);
             playlistsRecyclerView.setVisibility(View.VISIBLE);
+            addPodcastContainer.setVisibility(View.VISIBLE);
+            playlistTitle.setVisibility(View.VISIBLE);
         } else {
 //            artistTab.setBackgroundResource(R.drawable.green_rounded_button_background);
             playlistTab.setVisibility(View.GONE);
             artistsRecyclerView.setVisibility(View.VISIBLE);
+            addArtistContainer.setVisibility(View.VISIBLE);
+            artistTitle.setVisibility(View.VISIBLE);
             playlistsRecyclerView.setVisibility(View.GONE);
+            addPodcastContainer.setVisibility(View.GONE);
+            playlistTitle.setVisibility(View.GONE);
         }
     }
 
@@ -209,7 +220,11 @@ newPlaylistBottomSheet.show(getParentFragmentManager(), "NewPlaylistBottomSheet"
 
         // Show both content sections
         artistsRecyclerView.setVisibility(View.VISIBLE);
+        addArtistContainer.setVisibility(View.VISIBLE);
+        artistTitle.setVisibility(View.VISIBLE);
         playlistsRecyclerView.setVisibility(View.VISIBLE);
+        addPodcastContainer.setVisibility(View.VISIBLE);
+        playlistTitle.setVisibility(View.VISIBLE);
     }
 
     private void loadUserProfile() {

@@ -254,9 +254,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
 
         }, PlaylistSongAdapter.ADD_TYPE);
 
-        albumAdapter=new AlbumAdapter(requireContext(),recommend_albums, album->{
-            navigateToAlbumDetail(album);
-        }, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        albumAdapter=new AlbumAdapter(requireContext(),recommend_albums, this::navigateToAlbumDetail, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         song_recyclerview.setAdapter(songAdapter);
         song_recommend_recyclerview.setAdapter(addSongAdapter);
@@ -404,7 +402,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
     }
 
     private void updatePlayButton(boolean isPlaying) {
-        if (isPlaying && Objects.equals(musicPlayerViewModel.getCurrentPlaylistId().getValue(), playlist_id)) {
+        if (isPlaying && Objects.equals(musicPlayerViewModel.getCurrentPlaylistId().getValue(), playlist_id) && Objects.equals(musicPlayerViewModel.getPlayType().getValue(), MusicPlayerViewModel.PlaybackSourceType.PLAYLIST)) {
             play_button.setImageResource(R.drawable.ic_pause_circle);
             play_button.setTag("pause");
         } else {
@@ -416,7 +414,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
     private void setupScrollListener() {
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY > oldScrollY) {
                     DominantColorExtractor.getDominantColor(requireContext(), playlistUrl, color -> {
                         toolbar.setBackgroundColor(color);

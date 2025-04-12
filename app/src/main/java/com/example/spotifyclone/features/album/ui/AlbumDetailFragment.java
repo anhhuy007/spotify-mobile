@@ -1,10 +1,12 @@
 package com.example.spotifyclone.features.album.ui;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,9 +56,7 @@ import java.util.Objects;
 public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.OnItemClickListener {
     private ImageView albumImage;
     private TextView artist_name;
-    private RecyclerView recyclerView;
-    private RecyclerView artist_album;
-    private RecyclerView related_album;
+    private RecyclerView recyclerView, artist_album, related_album;
     private AlbumSongAdapter songAdapter;
     private ImageView artist_image;
     private TextView artist_name2;
@@ -68,8 +68,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     private AlbumAdapter related_albumAdapter;
     private Toolbar toolbar;
     private NestedScrollView nestedScrollView;
-
-    // Arguments từ navigation
     private String coverUrl;
     private String albumTitle;
     private String albumId;
@@ -77,7 +75,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     private List<String> artistNames;
     private String artistUrl;
     private List<Song> albumSong;
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,6 +93,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
             artistNames = Arrays.asList(args.getArtist());
             artistUrl = args.getArtistUrl();
         } else {
+            Log.e("AlbumDetailFragment", "Arguments is null");
             NavHostFragment.findNavController(this).navigateUp();
             return;
         }
@@ -126,13 +124,15 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
         // Artist info
         artist_name2 = view.findViewById(R.id.artist);
-        artist_image = view.findViewById(R.id.artist_image);artist_album_text = view.findViewById(R.id.artist_album_text);
+        artist_image = view.findViewById(R.id.artist_image);
+        artist_album_text = view.findViewById(R.id.artist_album_text);
 
         nestedScrollView = view.findViewById(R.id.nestedScrollview);
-        shuffleButton = view.findViewById(R.id.shuffle_button);
-        playButton = view.findViewById(R.id.play_button);
-    }
 
+        playButton = view.findViewById(R.id.play_button);
+        shuffleButton = view.findViewById(R.id.shuffle_button);
+    }
+    @SuppressLint("SetTextI18n")
     private void setupUI() {
         // Load album image
         artist_name.setText(String.join(" ,", artistNames));
@@ -180,7 +180,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         // Song of album
         recyclerView = view.findViewById(R.id.song_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        songAdapter = new AlbumSongAdapter(getContext(), albumSong, 3, (songId, songImage, songTitle, authorNames, view1) -> {
+        songAdapter = new AlbumSongAdapter(getContext(), albumSong, 3, (songId, songImage, songTitle,  authorNames, view1) -> {
             AlbumDetailFragmentDirections.ActionNavAlbumDetailToAlbumBottomSheet action =
                     AlbumDetailFragmentDirections.actionNavAlbumDetailToAlbumBottomSheet(
                             songId,
@@ -201,23 +201,19 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
                 TypedValue.COMPLEX_UNIT_DIP, 200, requireContext().getResources().getDisplayMetrics()
         );
 
-        artist_albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), album -> {
-            navigateToAlbumDetail(album);
-        }, widthInPx, ViewGroup.LayoutParams.WRAP_CONTENT);
+        artist_albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), this::navigateToAlbumDetail, widthInPx, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         artist_album.setAdapter(artist_albumAdapter);
 
         // Related albums
         related_album = view.findViewById(R.id.related_album);
         related_album.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        related_albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), album -> {
-            navigateToAlbumDetail(album);
-        }, widthInPx, ViewGroup.LayoutParams.WRAP_CONTENT);
+        related_albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), this::navigateToAlbumDetail, widthInPx, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         related_album.setAdapter(related_albumAdapter);
     }
 
-    private void navigateToAlbumDetail(Album album) {
+    private void navigateToAlbumDetail(Album album){
         NavDirections action = AlbumDetailFragmentDirections.actionNavAlbumDetailSelf(
                 album.getId(),
                 album.getTitle(),
@@ -281,7 +277,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
     private void updateShuffleButton(ShuffleMode shuffleMode) {
         if (shuffleMode == ShuffleMode.SHUFFLE_ON) {
-            shuffleButton.setImageResource(R.drawable.ic_baseline_shuffle_24);
+            shuffleButton.setImageResource(R.drawable.ic_shuffle_on);
             shuffleButton.setTag("shuffle_on");
         } else {
             shuffleButton.setImageResource(R.drawable.ic_shuffle_off);
@@ -290,20 +286,19 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     }
 
     private void updatePlayButton(boolean isPlaying) {
-        if (isPlaying && viewModel.getCurrentAlbumId() != null && Objects.equals(viewModel.getCurrentAlbumId().getValue(), albumId)) {
-            playButton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
+        if (isPlaying && viewModel.getCurrentAlbumId() != null && Objects.equals(viewModel.getCurrentAlbumId().getValue(), albumId) && Objects.equals(viewModel.getPlayType().getValue(), MusicPlayerViewModel.PlaybackSourceType.ALBUM)) {
+            playButton.setImageResource(R.drawable.ic_pause_circle);
             playButton.setTag("pause");
         } else {
-            playButton.setImageResource(R.drawable.ic_baseline_play_circle_filled_24);
+            playButton.setImageResource(R.drawable.ic_play_circle);
             playButton.setTag("play");
 
         }
     }
-
     private void setupScrollListener() {
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY > oldScrollY) {
                     DominantColorExtractor.getDominantColor(requireContext(), coverUrl, color -> {
                         toolbar.setBackgroundColor(color);

@@ -218,7 +218,8 @@
                         android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/play_button_description"
                         android:padding="0dp"
-                        android:src="@drawable/ic_play_circle" />
+                        android:src="@drawable/ic_play_circle"
+                        app:tint="@color/colorPrimary" />
                 </LinearLayout>
 
 

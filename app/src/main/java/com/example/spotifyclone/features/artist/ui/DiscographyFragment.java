@@ -12,26 +12,66 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.artist.adapter.ItemDiscographyAlbumAdapter;
 import com.example.spotifyclone.features.artist.adapter.ItemDiscographyEPAdapter;
+import com.example.spotifyclone.features.artist.adapter.SongArtistAdapter;
+import com.example.spotifyclone.features.artist.model.ItemDiscographyEP;
+import com.example.spotifyclone.features.artist.model.PopularSong;
 import com.example.spotifyclone.features.artist.viewModel.ListDiscographyAlbumViewModel;
 import com.example.spotifyclone.features.artist.viewModel.ListDiscographyEPViewModel;
+import com.example.spotifyclone.features.player.model.song.PlaybackState;
+import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 
-public class DiscographyFragment extends Fragment {
+public class DiscographyFragment extends Fragment implements ItemDiscographyEPAdapter.OnSongClickListener {
 
     private RecyclerView rvAlbums, rvEPs, rvCollection, rvHave;
     private Context context;
     private ImageButton btnBackDiscography;
     private String artistId;
+    private String artistName;
+    private MusicPlayerViewModel viewModel;
 
-    public static DiscographyFragment newInstance(String artistId) {
+    public void onSongClick(ItemDiscographyEP song) {
+        viewModel.playSongsFrom(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST, song.getId());
+    }
+
+    private void navigateToSong(String artistId) {
+        if (artistId != null && !artistId.isEmpty()) {
+            if (getActivity() != null) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(((ViewGroup) requireView().getParent()).getId(), ArtistFragment.newInstance(artistId))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        } else {
+            Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setupViewModel() {
+        SpotifyCloneApplication app = SpotifyCloneApplication.getInstance();
+        viewModel = new ViewModelProvider(new ViewModelStoreOwner() {
+            @NonNull
+            @Override
+            public ViewModelStore getViewModelStore() {
+                return app.getAppViewModelStore();
+            }
+        }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
+
+    }
+
+    public static DiscographyFragment newInstance(String artistId, String artistName) {
         DiscographyFragment fragment = new DiscographyFragment();
         Bundle args = new Bundle();
         args.putString("ARTIST_ID", artistId);
+        args.putString("ARTIST_NAME", artistName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -41,6 +81,7 @@ public class DiscographyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             artistId = getArguments().getString("ARTIST_ID");
+            artistName = getArguments().getString("ARTIST_NAME");
         }
     }
 
@@ -60,12 +101,14 @@ public class DiscographyFragment extends Fragment {
             return;
         }
 
+        setupViewModel();
         // Initialize RecyclerViews
         rvAlbums = view.findViewById(R.id.rvAlbums);
         rvEPs = view.findViewById(R.id.rvEPs);
         rvCollection = view.findViewById(R.id.rvCollection);
         rvHave = view.findViewById(R.id.rvHave);
         btnBackDiscography = view.findViewById(R.id.btnBackDiscography);
+
 
         // Set layout managers
         rvAlbums.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
@@ -100,7 +143,7 @@ public class DiscographyFragment extends Fragment {
                 .get(ListDiscographyEPViewModel.class);
         listDiscographyViewModelEP.getListDiscography().observe(getViewLifecycleOwner(), item -> {
             if (item != null) {
-                ItemDiscographyEPAdapter rvPopularSongsAdapter = new ItemDiscographyEPAdapter(context, item);
+                ItemDiscographyEPAdapter rvPopularSongsAdapter = new ItemDiscographyEPAdapter(context, item,this);
                 rvEPs.setAdapter(rvPopularSongsAdapter);
             }
             ViewGroup.LayoutParams params = rvEPs.getLayoutParams();
@@ -130,7 +173,7 @@ public class DiscographyFragment extends Fragment {
                 .get(ListDiscographyEPViewModel.class);
         listDiscographyViewModelHave.getListDiscography().observe(getViewLifecycleOwner(), item -> {
             if (item != null) {
-                ItemDiscographyEPAdapter rvPopularSongsAdapter = new ItemDiscographyEPAdapter(context, item);
+                ItemDiscographyEPAdapter rvPopularSongsAdapter = new ItemDiscographyEPAdapter(context, item,this);
                 rvHave.setAdapter(rvPopularSongsAdapter);
             }
             ViewGroup.LayoutParams params = rvHave.getLayoutParams();
