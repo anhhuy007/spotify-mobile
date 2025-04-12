@@ -48,7 +48,6 @@ public class MusicPlayerController {
     private static final int REFILL_COUNT = 15;
     private MusicPlayerViewModel musicPlayerViewModel;
     private PremiumService premiumService;
-    private User currentUser;
     private final SongDatabaseHelper songDatabaseHelper;
     public void setStopAtEndOfTrack(boolean isOn){
         this.isStopAtEndOfTrack =isOn;
@@ -68,17 +67,6 @@ public class MusicPlayerController {
         songDatabaseHelper = new SongDatabaseHelper(getApplicationContext());
         this.songService = RetrofitClient.getClient(context).create(SongService.class);
         setupInternalPlaybackListener();
-        initUser();
-    }
-
-    private void initUser() {
-        AuthRepository authRepository = new AuthRepository(getApplicationContext());
-        currentUser = authRepository.getUser();
-        if (currentUser == null) {
-            Log.e(TAG, "Current user is null");
-            return;
-        }
-        Log.d(TAG, "Current user: " + currentUser.isPremium());
     }
 
     private Context getApplicationContext() {
@@ -285,8 +273,16 @@ public class MusicPlayerController {
     public boolean playNextSong() {
         checkReleased();
         synchronized (playlistLock) {
+            AuthRepository authRepository = new AuthRepository(getApplicationContext());
+            User currentUser = authRepository.getUser();
+
+            if (currentUser == null) {
+                Log.e(TAG, "Current user is null");
+                return false;
+            }
+            
             if(playList.checkNextSong()) {
-                if (checkUserPremium()) {
+                if (!currentUser.isPremium()) {
                     count_ads++;
                     if (count_ads >= MAX_SONGS_TO_ADS) {
                         count_ads = 0;
@@ -315,31 +311,6 @@ public class MusicPlayerController {
             }
         }
     }
-
-    private boolean checkUserPremium() {
-        if (currentUser == null) {
-            Log.e(TAG, "Current user is null");
-            return false;
-        }
-//        PremiumService.getInstance(getApplicationContext()).checkSubscription(currentUser.getId()).enqueue(new Callback<>() {
-//            @Override
-//            public void onResponse(@NonNull Call<APIResponse<Subscription>> call, @NonNull Response<APIResponse<Subscription>> response) {
-//                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-//                    currentUser.setPremium(response.body().getData().isPremium());
-//                    Log.d(TAG, "User is premium: " + currentUser.isPremium());
-//                } else {
-//                    Log.d(TAG, "Failed to check subscription: " + response.message());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(@NonNull Call<APIResponse<Subscription>> call, @NonNull Throwable t) {
-//                Log.d(TAG, "Failed to check subscription: " + t.getMessage());
-//            }
-//        });
-        return true;
-    }
-
 
     private void fetchLocalSongsAndPlayNext() {
         List<Song> localSongs;
