@@ -477,7 +477,4 @@
             android:id="@+id/action_premiumFragment_to_subscriptionPlanFragment"
             app:destination="@id/subscriptionPlanFragment" />
     </fragment>
-
-
-
 </navigation>

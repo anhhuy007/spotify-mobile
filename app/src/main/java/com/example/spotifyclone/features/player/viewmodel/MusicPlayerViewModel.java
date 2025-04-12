@@ -42,15 +42,13 @@ public class MusicPlayerViewModel extends ViewModel {
 //    private final MutableLiveData<PlayList> currentPlaylist = new MutableLiveData<>(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
     private final MutableLiveData<PlaybackSourceType> currentPlaybackSourceType = new MutableLiveData<>(PlaybackSourceType.RANDOM);
     private final MutableLiveData<String> currentName = new MutableLiveData<>();
-
-
-
     public enum PlaybackSourceType {
         RANDOM,
         ALBUM,
         ARTIST,
         PLAYLIST,
-        LOCAL
+        LOCAL,
+        SEARCH
     }
     private final MutableLiveData<Boolean> isAdPlaying = new MutableLiveData<>(false);
 
@@ -199,6 +197,21 @@ public class MusicPlayerViewModel extends ViewModel {
         }
     }
 
+    public void playSearchSongs(List<String> songIds, String firstSongId, String sourceName) {
+        if (isAdPlaying.getValue() != null && isAdPlaying.getValue()) {
+            errorMessage.setValue("Ad is playing");
+            return;
+        }
+        currentAlbumId.setValue(null);
+        currentArtistId.setValue(null);
+        currentPlaylistId.setValue(null);
+        currentPlaybackSourceType.setValue(PlaybackSourceType.SEARCH);
+        currentName.setValue(sourceName);
+        playerController.playSearchSongs(songIds, firstSongId);
+        playbackState.setValue(PlaybackState.LOADING);
+        handler.post(updateProgressRunnable);
+    }
+
     public void playSongsFrom(String sourceId, String sourceName, PlaybackSourceType type, String prioritizedSongId) {
         if (isAdPlaying.getValue() != null && isAdPlaying.getValue()) {
             errorMessage.setValue("Ad is playing");
@@ -212,7 +225,6 @@ public class MusicPlayerViewModel extends ViewModel {
             case ALBUM:
                 currentAlbumId.setValue(sourceId);
                 break;
-
             case ARTIST:
                 currentArtistId.setValue(sourceId);
                 break;
