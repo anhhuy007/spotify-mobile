@@ -304,15 +304,15 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
     @Override
     public void onAlbumClick(Album album) {
         NavDirections action = HomeFragmentDirections.actionNavHomeToNavAlbumDetail(
-                album.getId(),
-                album.getTitle(),
-                album.getArtists_name().toArray(new String[0]), // List<String> → String[]
-                album.getReleaseDate() != null ? album.getReleaseDate().getTime() : 0L, // Date → long
-                album.getCoverUrl(),
-                album.getCreatedAt() != null ? album.getCreatedAt().getTime() : 0L, // Date → long
-                album.getLike_count(),
-                album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
-                album.getArtist_url().get(0)// Take the first url
+                album.getId()
+//                album.getTitle(),
+//                album.getArtists_name().toArray(new String[0]), // List<String> → String[]
+//                album.getReleaseDate() != null ? album.getReleaseDate().getTime() : 0L, // Date → long
+//                album.getCoverUrl(),
+//                album.getCreatedAt() != null ? album.getCreatedAt().getTime() : 0L, // Date → long
+//                album.getLike_count(),
+//                album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
+//                album.getArtist_url().get(0)// Take the first url
 
         );
         Navigation.findNavController(requireView()).navigate(action);
