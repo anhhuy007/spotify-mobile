@@ -49,6 +49,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.chatbot.adapter.ChatAdapter;
+import com.example.spotifyclone.features.chatbot.model.ChatMessage;
 import com.example.spotifyclone.features.chatbot.network.ChatbotService;
 import com.example.spotifyclone.features.chatbot.viewmodel.ChatBotViewModel;
 import com.example.spotifyclone.features.chatbot.viewmodel.ChatbotViewmodelFactory;
@@ -71,18 +72,14 @@ public class ChatbotFragment extends Fragment {
     private AppBarLayout appBarLayout;
     private MaterialToolbar topAppBar;
     private ImageView gifView;
-    private ProgressBar progressBar;
 
     // logic
     private ChatBotViewModel chatBotViewModel;
     private ChatbotService chatbotService;
     private ChatAdapter chatAdapter;
-    private List<String> messages;
+    private List<ChatMessage> messages;
     private String ask;
-
-
     private static final int REQUEST_CODE_SPEECH_INPUT = 101;
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,26 +109,27 @@ public class ChatbotFragment extends Fragment {
         micButton = view.findViewById(R.id.micButton);
         appBarLayout = view.findViewById(R.id.appBarLayout);
         topAppBar = view.findViewById(R.id.topAppBar);
-        progressBar = view.findViewById(R.id.progressBar);
-
-
     }
 
     private void setupViewModel() {
         chatBotViewModel = new ViewModelProvider(
                 requireActivity(),
                 new ChatbotViewmodelFactory(requireContext())).get(ChatBotViewModel.class);
-//        chatBotViewModel.fetchChatbotResponse(ask);
+
         chatBotViewModel.getResponseLiveData().observe(getViewLifecycleOwner(), response -> {
             if (ask != null && !ask.isEmpty() && response != null && !response.isEmpty()) {
-                // Delay bot trả lời 1-2 giây
-                showLoading();
+                // show typing animation
+                addMessage("Đang suy nghĩ...", ChatMessage.TYPE_TYPING);
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    hideLoading();
-                    messages.add(response);
+                    // remove typing animation
+                    messages.remove(messages.size() - 1);
+
+                    // add AI message
+                    addMessage(response, ChatMessage.TYPE_BOT);
+
+                    // scroll to the last message
                     chatAdapter.setData(messages);
                     recyclerView.scrollToPosition(messages.size() - 1);
-
                 }, 1500); // ⏱ Delay 1.5 giây
             }
         });
@@ -198,23 +196,17 @@ public class ChatbotFragment extends Fragment {
             public void onClick(View view) {
                 NavDirections action = ChatbotFragmentDirections.actionChatbotFragmentToNavHome();
                 Navigation.findNavController(view).navigate(action);
-
             }
         });
-
-
     }
 
     private void sendMessage() {
         animationView.setVisibility(View.GONE); // Ẩn animation nếu có
         ask = editText.getText().toString().trim();
         if (!ask.isEmpty()) {
-            messages.add(ask);
-
-            chatAdapter.setData(messages); // Update giao diện ngay
+            // create user message
+            addMessage(ask, ChatMessage.TYPE_USER);
             recyclerView.scrollToPosition(messages.size() - 1); // Scroll xuống cuối sau khi gửi
-
-            chatAdapter.setData(messages); // Update giao diện ngay
             chatBotViewModel.fetchChatbotResponse(ask); // Gọi API
             editText.setText(""); // Xóa nội dung
         }
@@ -235,12 +227,9 @@ public class ChatbotFragment extends Fragment {
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (result != null && !result.isEmpty()) {
                 String spokenText = result.get(0);
-//                showLoading();
-
 
                 new Handler(Looper.getMainLooper()).postDelayed(() -> {
                     updateEditTextWithAnimation(spokenText);
-                    hideLoading();
                     sendMessage();
                 }, 500);
             }
@@ -259,13 +248,10 @@ public class ChatbotFragment extends Fragment {
                 .start();
     }
 
-    // Hiển thị loading (ví dụ: ProgressBar)
-    private void showLoading() {
-        progressBar.setVisibility(View.VISIBLE); // cần có progressBar trong layout
+    private void addMessage(String message, int type) {
+        ChatMessage chatMessage = new ChatMessage(message, type);
+        messages.add(chatMessage);
+        chatAdapter.notifyItemInserted(messages.size() - 1);
+        recyclerView.scrollToPosition(messages.size() - 1);
     }
-
-    private void hideLoading() {
-        progressBar.setVisibility(View.GONE);
-    }
-
 }

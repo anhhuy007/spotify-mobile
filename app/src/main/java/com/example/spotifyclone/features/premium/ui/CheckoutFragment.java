@@ -166,6 +166,11 @@ public class CheckoutFragment extends Fragment {
                 User newUser = authRepository.getUser();
                 Log.d("CheckoutFragment", "User premium status: " + newUser.isPremium());
 
+                // dismiss loading dialog
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+
                 // Redirect to home
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
                 navController.navigate(R.id.nav_home);

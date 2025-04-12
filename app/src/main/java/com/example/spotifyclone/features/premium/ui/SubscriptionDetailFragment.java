@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.premium.ui;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class SubscriptionDetailFragment extends Fragment {
     TextView tvPlanName, tvPlanDetail, tvSubscriptionId, tvStartDate, tvEndDate;
     Button btnManageSubscription, btnCancelSubscription;
     PremiumViewModel premiumViewModel;
+    AlertDialog confirmationDialog;
 
     public SubscriptionDetailFragment() {
         // Required empty public constructor
@@ -69,7 +71,7 @@ public class SubscriptionDetailFragment extends Fragment {
 
         // Set up click listeners for buttons
         btnManageSubscription.setOnClickListener(v -> manageSubscription());
-        btnCancelSubscription.setOnClickListener(v -> cancelSubscription());
+        btnCancelSubscription.setOnClickListener(v -> showConfirmationDialog());
     }
 
     private void handleSubscriptionType(String subscriptionType) {
@@ -124,8 +126,20 @@ public class SubscriptionDetailFragment extends Fragment {
         });
     }
 
-    private void manageSubscription() {
+    private void showConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Cancel Subscription")
+                .setMessage("Are you sure you want to cancel your subscription?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    cancelSubscription();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss());
 
+        confirmationDialog = builder.create();
+        confirmationDialog.show();
+    }
+
+    private void manageSubscription() {
     }
 
     private String convertDate(Date date) {

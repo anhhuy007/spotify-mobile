@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <!-- AppBar -->
+    <!-- AppBar with Gradient -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="0dp"
@@ -14,13 +14,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="visible"
         android:layout_gravity="center"
-        android:background="@color/gray"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        android:background="@drawable/gradient_appbar"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        android:elevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gray">
+            android:background="@android:color/transparent">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar"
@@ -45,7 +46,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Lottie Animation -->
