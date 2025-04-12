@@ -14,6 +14,6 @@
         android:icon="@drawable/nav_library_selector"/>
     <item
         android:id="@+id/nav_premium"
-        android:title="Profile"
+        android:title="Premium"
         android:icon="@drawable/ic_spotify"/>
 </menu>

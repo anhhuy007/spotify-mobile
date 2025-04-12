@@ -8,13 +8,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+//import com.example.spotifyclone.features.notification.MusicNotificationManager;
 import com.example.spotifyclone.features.player.model.audio.MusicPlayerController;
 import com.example.spotifyclone.features.player.model.audio.PlaybackListener;
+import com.example.spotifyclone.features.player.model.playlist.PlayList;
 import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.shared.model.PlayerState;
+
+import java.net.HttpCookie;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,8 +39,12 @@ public class MusicPlayerViewModel extends ViewModel {
     private final MutableLiveData<String> currentAlbumId = new MutableLiveData<>();
     private final MutableLiveData<String> currentArtistId = new MutableLiveData<>();
     private final MutableLiveData<String> currentPlaylistId = new MutableLiveData<>();
+//    private final MutableLiveData<PlayList> currentPlaylist = new MutableLiveData<>(new PlayList(new ArrayList<>(), ShuffleMode.SHUFFLE_OFF));
     private final MutableLiveData<PlaybackSourceType> currentPlaybackSourceType = new MutableLiveData<>(PlaybackSourceType.RANDOM);
     private final MutableLiveData<String> currentName = new MutableLiveData<>();
+
+
+
     public enum PlaybackSourceType {
         RANDOM,
         ALBUM,
@@ -46,10 +54,11 @@ public class MusicPlayerViewModel extends ViewModel {
     }
     private final MutableLiveData<Boolean> isAdPlaying = new MutableLiveData<>(false);
 
-    public void setStopAtEndOfTrack(boolean isOn){
+    public void setStopAtEndOfTrack(boolean isOn) {
         playerController.setStopAtEndOfTrack(isOn);
     }
-    private final Handler handler = new Handler(Looper. getMainLooper());
+
+    private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable updateProgressRunnable = new Runnable() {
         @Override
         public void run() {
@@ -113,13 +122,13 @@ public class MusicPlayerViewModel extends ViewModel {
 
         playbackState.setValue(PlaybackState.PAUSED);
 
+        upcomingSongs.setValue(state.getUpcomingSongs());
+        setUpcomingSongs(state.getUpcomingSongs(), state.getCurrentSong(), Math.toIntExact(state.getCurrentDuration()));
 
         currentName.setValue(state.getCurrentName());
 
         PlaybackSourceType sourceType = state.getCurrentPlaybackSourceType();
         currentPlaybackSourceType.setValue(sourceType);
-
-        Log.d("VM","Current playback source type: " + sourceType);
 
         if (sourceType == PlaybackSourceType.ALBUM) {
             currentAlbumId.setValue(state.getCurrentAlbumId());
@@ -144,8 +153,6 @@ public class MusicPlayerViewModel extends ViewModel {
         List<Song> songs = new ArrayList<>();
         songs.add(currentSong);
         songs.addAll(upcomingSongs);
-
-        Log.d("VM", "Current position is: " + currentPosition);
 
         playerController.setSongs(songs, currentPosition);
     }
@@ -287,10 +294,12 @@ public class MusicPlayerViewModel extends ViewModel {
         playerController.continuePlaying();
         handler.post(updateProgressRunnable);
     }
+
     public void pausePlayback() {
         playerController.pause();
         handler.removeCallbacks(updateProgressRunnable);
     }
+
     public void playSong(Song song) {
         playerController.playSong(song);
         playbackState.setValue(PlaybackState.LOADING);
@@ -301,6 +310,28 @@ public class MusicPlayerViewModel extends ViewModel {
         playerController.prioritizeSong(song);
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
+    }
+//    public void playPlaylist(PlayList playlist) {
+//        if (playlist == null || playlist.isEmpty()) {
+//            return;
+//        }
+//        // Clear current album info and artist
+//        currentAlbumId.setValue(null);
+//
+//        // Set current playlist info
+//        currentPlaylist.setValue(playlist);
+//        currentPlaybackSourceType.setValue(PlaybackSourceType.PLAYLIST);
+//
+//        // Start playback
+//        playerController.playPlaylist(playlist);
+//        playbackState.setValue(PlaybackState.LOADING);
+//        handler.post(updateProgressRunnable);
+//    }
+
+    public void stop() {
+        playerController.stop();
+        playbackState.setValue(PlaybackState.STOPPED);
+        handler.removeCallbacks(updateProgressRunnable);
     }
 
     public void playNext() {
@@ -347,21 +378,21 @@ public class MusicPlayerViewModel extends ViewModel {
         RepeatMode currentMode = repeatMode.getValue();
         RepeatMode nextMode;
 
-        switch (Objects.requireNonNull(currentMode)) {
-            case REPEAT_OFF:
-                nextMode = RepeatMode.REPEAT_INFINITE;
-                break;
-            default:
-                nextMode = RepeatMode.REPEAT_OFF;
+        if (Objects.requireNonNull(currentMode) == RepeatMode.REPEAT_OFF) {
+            nextMode = RepeatMode.REPEAT_INFINITE;
+        } else {
+            nextMode = RepeatMode.REPEAT_OFF;
         }
 
         repeatMode.setValue(nextMode);
         playerController.setRepeatMode(nextMode);
     }
+
     public void setRepeatMode(RepeatMode mode) {
         repeatMode.setValue(mode);
         playerController.setRepeatMode(mode);
     }
+
 
     public void seekTo(int position) {
         playerController.seekTo(position);
@@ -385,6 +416,10 @@ public class MusicPlayerViewModel extends ViewModel {
     public LiveData<List<Song>> getUpcomingSongs() {
         return upcomingSongs;
     }
+
+//    public LiveData<PlayList> getCurrentPlaylist() {
+//        return currentPlaylist;
+//    }
 
     public LiveData<String> getCurrentAlbumId() {
         return currentAlbumId;

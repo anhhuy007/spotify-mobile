@@ -90,7 +90,7 @@
                             android:id="@+id/tv_plan_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Premium Individual"
+                            android:text="@string/unknown_plan"
                             android:textColor="@android:color/white"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -99,7 +99,7 @@
                             android:id="@+id/tv_plan_details"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="₫0 for 3 months, then ₫59,000/month"
+                            android:text="@string/no_details_available"
                             android:textColor="@color/gray_300"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -136,7 +136,7 @@
                             android:id="@+id/tv_subscription_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="SPT-12345678"
+                            android:text="SPT-XXXXXXX"
                             android:textColor="@android:color/white"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -159,7 +159,7 @@
                             android:id="@+id/tv_start_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="March 26, 2025"
+                            android:text="@string/unknown_date"
                             android:textColor="@android:color/white"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -182,29 +182,7 @@
                             android:id="@+id/tv_next_billing_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="June 26, 2025"
-                            android:textColor="@android:color/white"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/payment_method"
-                            android:textColor="@color/gray_300"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/tv_payment_method"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="PayPal"
+                            android:text="@string/unknown_date"
                             android:textColor="@android:color/white"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -217,7 +195,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/enjoy_premium_benefits"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
 

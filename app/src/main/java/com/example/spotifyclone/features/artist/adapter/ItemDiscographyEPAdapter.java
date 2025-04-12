@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 
 import com.example.spotifyclone.features.artist.model.ItemDiscographyEP;
+import com.example.spotifyclone.features.artist.model.PopularSong;
 
 import java.util.List;
 
@@ -22,9 +23,16 @@ public class ItemDiscographyEPAdapter extends RecyclerView.Adapter<ItemDiscograp
     private Context context;
     private List<ItemDiscographyEP> albumList;
 
-    public ItemDiscographyEPAdapter(Context context, List<ItemDiscographyEP> albumList) {
+    private final OnSongClickListener listener;
+
+    public interface OnSongClickListener {
+        void onSongClick(ItemDiscographyEP song);
+    }
+
+    public ItemDiscographyEPAdapter(Context context, List<ItemDiscographyEP> albumList, OnSongClickListener listener) {
         this.context = context;
         this.albumList = albumList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -45,6 +53,12 @@ public class ItemDiscographyEPAdapter extends RecyclerView.Adapter<ItemDiscograp
                 .load(item.getCoverUrl())
                 .placeholder(R.drawable.loading)
                 .into(holder.imgAlbumCover);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onSongClick(item);
+            }
+        });
     }
 
     @Override

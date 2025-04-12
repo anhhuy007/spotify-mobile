@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.artist.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,19 +20,20 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.List;
 
 public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.ViewHolder> {
-    private Context context;
-    private List<PopularSong> artistList;
-    private OnSongClickListener listener;
+    private final Context context;
+    private final List<PopularSong> artistList;
+    private final OnSongClickListener listener;
+
     public interface OnSongClickListener {
         void onSongClick(PopularSong song);
     }
-
 
     public SongArtistAdapter(Context context, List<PopularSong> artistList, OnSongClickListener listener) {
         this.context = context;
         this.artistList = artistList;
         this.listener = listener;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,10 +41,11 @@ public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.Vi
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         PopularSong item = artistList.get(position);
-        holder.tv_song_number.setText(Integer.toString(position+1) );
+        holder.tv_song_number.setText(Integer.toString(position + 1));
         holder.tv_song_title.setText(item.getName());
         holder.tv_song_plays.setText(item.getDescription());
         Glide.with(context)
@@ -86,7 +89,7 @@ public class SongArtistAdapter extends RecyclerView.Adapter<SongArtistAdapter.Vi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_song_title,tv_song_plays,tv_song_number;
+        TextView tv_song_title, tv_song_plays, tv_song_number;
         ImageView img_song_cover;
 
         ImageButton btn_more_options;

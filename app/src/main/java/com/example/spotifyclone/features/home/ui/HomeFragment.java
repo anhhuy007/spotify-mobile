@@ -111,18 +111,6 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         int spacing = 20; // dp spacing
         boolean includeEdge = true;
 
-//        newSongsRecyclerView = view.findViewById(R.id.rv_top_songs);
-//        newSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-//        newSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.VERTICAL, this);
-//        newSongsRecyclerView.setAdapter(newSongsAdapter);
-//        newSongsRecyclerView.setNestedScrollingEnabled(false);
-//
-//        popularSongsRecyclerView = view.findViewById(R.id.rv_popular_songs);
-//        popularSongsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-//        popularSongsAdapter = new SongAdapter(new ArrayList<>(), SongItemType.HORIZONTAL, this);
-//        popularSongsRecyclerView.setAdapter(popularSongsAdapter);
-//        popularSongsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
-
         // Popular albums with horizontal layout
         popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
         popularAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -289,7 +277,7 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
             localSongRecyclerView.setVisibility(View.GONE);
             localSongsCardView.setVisibility(View.GONE);
 
-            popularAlbumsRecyclerView.setVisibility(View.VISIBLE);
+//            popularAlbumsRecyclerView.setVisibility(View.VISIBLE);
             latestAlbumsRecylerView.setVisibility(View.VISIBLE);
             popularArtistsRecyclerView.setVisibility(View.VISIBLE);
             tvPopularArtists.setVisibility(View.VISIBLE);

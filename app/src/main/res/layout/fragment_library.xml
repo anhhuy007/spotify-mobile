@@ -195,75 +195,11 @@
             android:orientation="vertical"
             android:paddingBottom="16dp">
 
-            <!-- Liked Songs Item -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/likedSongsContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/likedSongsImage"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:background="#6A4CAF"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/btn_star"
-                    app:tint="@color/black"
-                    app:layout_constraintBottom_toBottomOf="@id/likedSongsImage"
-                    app:layout_constraintEnd_toEndOf="@id/likedSongsImage"
-                    app:layout_constraintStart_toStartOf="@id/likedSongsImage"
-                    app:layout_constraintTop_toTopOf="@id/likedSongsImage" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="16dp"
-                    app:layout_constraintStart_toEndOf="@id/likedSongsImage"
-                    app:layout_constraintTop_toTopOf="@id/likedSongsImage"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/liked_songs"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@android:drawable/ic_media_play"
-                            app:tint="#1DB954" />
-
-                        <TextView
-                            android:id="@+id/likedSongsCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/liked_songs_count"
-                            android:textColor="#AAAAAA"
-                            android:textSize="14sp"
-                            android:layout_marginStart="4dp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- The rest of the content remains unchanged -->
             <!-- Artists RecyclerView -->
             <TextView
+                android:id="@+id/artistTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/followed_artists"
@@ -323,6 +259,8 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!-- Playlists RecyclerView -->
             <TextView
+                android:id="@+id/playlistTitle"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/playlist_list"

@@ -15,6 +15,7 @@ import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.network.SongService;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.features.premium.network.PremiumService;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.network.RetrofitClient;
 
@@ -46,6 +47,7 @@ public class MusicPlayerController {
     private static final int REFILL_THRESHOLD = 1;
     private static final int REFILL_COUNT = 15;
     private MusicPlayerViewModel musicPlayerViewModel;
+    private PremiumService premiumService;
     private User currentUser;
     private final SongDatabaseHelper songDatabaseHelper;
     public void setStopAtEndOfTrack(boolean isOn){
@@ -284,7 +286,7 @@ public class MusicPlayerController {
         checkReleased();
         synchronized (playlistLock) {
             if(playList.checkNextSong()) {
-                if (!currentUser.isPremium()) {
+                if (checkUserPremium()) {
                     count_ads++;
                     if (count_ads >= MAX_SONGS_TO_ADS) {
                         count_ads = 0;
@@ -312,6 +314,30 @@ public class MusicPlayerController {
                 return false;
             }
         }
+    }
+
+    private boolean checkUserPremium() {
+        if (currentUser == null) {
+            Log.e(TAG, "Current user is null");
+            return false;
+        }
+//        PremiumService.getInstance(getApplicationContext()).checkSubscription(currentUser.getId()).enqueue(new Callback<>() {
+//            @Override
+//            public void onResponse(@NonNull Call<APIResponse<Subscription>> call, @NonNull Response<APIResponse<Subscription>> response) {
+//                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+//                    currentUser.setPremium(response.body().getData().isPremium());
+//                    Log.d(TAG, "User is premium: " + currentUser.isPremium());
+//                } else {
+//                    Log.d(TAG, "Failed to check subscription: " + response.message());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<APIResponse<Subscription>> call, @NonNull Throwable t) {
+//                Log.d(TAG, "Failed to check subscription: " + t.getMessage());
+//            }
+//        });
+        return true;
     }
 
 

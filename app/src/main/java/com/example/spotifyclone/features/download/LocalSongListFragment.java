@@ -104,9 +104,9 @@ public class LocalSongListFragment extends Fragment implements LocalSongAdapter.
 
     private void updatePlayButton(boolean isPlaying) {
         if (isPlaying) {
-            play_button.setImageResource(R.drawable.ic_pause_circle);
+            play_button.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
         } else {
-            play_button.setImageResource(R.drawable.ic_play_circle);
+            play_button.setImageResource(R.drawable.ic_baseline_play_circle_filled_24);
         }
     }
     private  void setupRecyclerView(View view){

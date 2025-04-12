@@ -28,7 +28,6 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -47,7 +46,6 @@ import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
-import com.example.spotifyclone.features.playlist.ui.PlaylistDetailFragmentDirections;
 import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 import java.util.ArrayList;
@@ -65,7 +63,8 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     private TextView artist_album_text;
     private AlbumAdapter artist_albumAdapter;
     private MusicPlayerViewModel viewModel;
-    private ImageButton playButton, shuffleButton;
+    private ImageButton playButton, imgStory, shuffleButton;
+
     private AlbumAdapter related_albumAdapter;
     private Toolbar toolbar;
     private NestedScrollView nestedScrollView;
@@ -86,13 +85,13 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AlbumDetailFragmentArgs args=AlbumDetailFragmentArgs.fromBundle(getArguments());
+        AlbumDetailFragmentArgs args = AlbumDetailFragmentArgs.fromBundle(getArguments());
         if (args != null) {
-            coverUrl=args.getCoverUrl();
-            albumTitle=args.getTitle();
-            albumId=args.getId();
-            artistNames=Arrays.asList(args.getArtist());
-            artistUrl=args.getArtistUrl();
+            coverUrl = args.getCoverUrl();
+            albumTitle = args.getTitle();
+            albumId = args.getId();
+            artistNames = Arrays.asList(args.getArtist());
+            artistUrl = args.getArtistUrl();
         } else {
             Log.e("AlbumDetailFragment", "Arguments is null");
             NavHostFragment.findNavController(this).navigateUp();
@@ -110,7 +109,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     }
 
     private void setupListeners() {
-        playButton.setOnClickListener(v-> {
+        playButton.setOnClickListener(v -> {
             viewModel.togglePlayPause(albumId, albumTitle, MusicPlayerViewModel.PlaybackSourceType.ALBUM);
         });
         shuffleButton.setOnClickListener(v -> {
@@ -136,7 +135,8 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     @SuppressLint("SetTextI18n")
     private void setupUI() {
         // Load album image
-        artist_name.setText(String.join(" ,", artistNames));Glide.with(requireContext())
+        artist_name.setText(String.join(" ,", artistNames));
+        Glide.with(requireContext())
                 .load(coverUrl)
                 .into(albumImage);
 
@@ -212,6 +212,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
         related_album.setAdapter(related_albumAdapter);
     }
+
     private void navigateToAlbumDetail(Album album){
         NavDirections action = AlbumDetailFragmentDirections.actionNavAlbumDetailSelf(
                 album.getId(),
@@ -235,7 +236,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         ).get(AlbumViewModel.class);
 
         albumViewModel.getSongs().observe(getViewLifecycleOwner(), songs -> {
-            albumSong=songs;
+            albumSong = songs;
             songAdapter.setData(songs);
         });
 
@@ -327,6 +328,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
     @Override
     public void onItemClick(Song song) {
-        viewModel.playSongsFrom(albumId, albumTitle, MusicPlayerViewModel.PlaybackSourceType.ALBUM,song.getId());
+        viewModel.playSongsFrom(albumId, albumTitle, MusicPlayerViewModel.PlaybackSourceType.ALBUM, song.getId());
     }
 }

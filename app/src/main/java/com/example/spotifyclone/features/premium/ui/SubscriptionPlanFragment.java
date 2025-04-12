@@ -24,11 +24,6 @@ public class SubscriptionPlanFragment extends Fragment {
     public SubscriptionPlanFragment() {
     }
 
-    public static SubscriptionPlanFragment newInstance(String param1, String param2) {
-        SubscriptionPlanFragment fragment = new SubscriptionPlanFragment();
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +33,7 @@ public class SubscriptionPlanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_premium, container, false);
+        View view = inflater.inflate(R.layout.fragment_subscription_plans, container, false);
 
         // Create a list of plans
         plans.add(new Plan("Premium Mini", "mini", getString(R.string.mini_plan_description), "", 10500, 10500, 1));
@@ -75,7 +70,7 @@ public class SubscriptionPlanFragment extends Fragment {
                 break;
         }
 
-        NavDirections action = PremiumFragmentDirections.actionNavPremiumfmToCheckoutfm(
+        NavDirections action = SubscriptionPlanFragmentDirections.actionNavPlanfmToCheckoutfm(
                 bundle.getString("planJson")
         );
         NavController navController = NavHostFragment.findNavController(this);

@@ -42,15 +42,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
-import java.util.Objects;
 
 public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     public static final String TAG = "PlayerBottomSheetFragment";
@@ -67,7 +63,6 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     private View rootView;
     private UpcomingSongsBottomSheetFragment upcomingSongsBottomSheetFragment;
     private CardView artistCard, lyricsCard;
-    private NavController navController;
     private User currentUser;
 
 
@@ -110,7 +105,6 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        navController = NavHostFragment.findNavController(this);
         initUI();
         setupListeners();
         observeViewModel();

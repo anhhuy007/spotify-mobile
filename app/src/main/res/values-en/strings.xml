@@ -16,7 +16,7 @@
     <string name="noActivity">No recent activity</string>
     <string name="unfollow">Unfollow</string>
 
-    <string name="setting">SETTINGS</string>
+    <string name="setting">Settings</string>
     <string name="account">Account</string>
     <string name="account_information">Account information</string>
     <string name="logout">Log out</string>
@@ -47,7 +47,7 @@
     <string name="premium_account">Premium Account</string>
     <string name="go_premium">Go Premium</string>
     <string name="popular">Popular</string>
-    <string name="new_releases_popular">Popular New Releases</string>
+    <string name="new_releases_popular">New Releases</string>
     <string name="see_more">See More</string>
     <string name="show_all">Show All</string>
     <string name="view_discography">View Discography</string>
@@ -55,7 +55,7 @@
     <string name="verified_artist">Verified Artist</string>
     <string name="playlist_based_on_artist">Playlist Based on Artist</string>
     <string name="fans_also_like">Fans Also Like</string>
-    <string name="participant_text">Featuring </string>
+    <string name="participant_text">Featuring</string>
     <string name="hide">Hide</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dummy_button">Dummy Button</string>
@@ -349,5 +349,20 @@
     <string name="manage_subscription">Manage Subscription</string>
     <string name="view_receipt"><u>View Receipt</u></string>
     <string name="cancel_subscription">Cancel Subscription</string>
+    <string name="select_artist_like">Select more artists you like</string>
+    <string name="chatbot_string">ChatBot</string>
+
+    <string name="unknown_plan">Unknown Plan</string>
+    <string name="no_details_available">No details available</string>
+    <string name="unknown_date">Unknown Date</string>
+    <string name="other_artists">Other Artists</string>
+    <string name="load_more">Load More</string>
+    <string name="recentActivity">Recent activity</string>
+
+    <string name="offline_banner">Even without internet, the music still plays</string>
+    <string name="popular_artist">Popular artists</string>
+    <string name="local_songs">Local songs</string>
+    <string name="offline_intro">These are songs you can enjoy offline, so even without a connection, the music goes on.</string>
+    <string name="offline_songs">Offline songs</string>
 
 </resources>

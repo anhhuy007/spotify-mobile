@@ -69,7 +69,7 @@
     <string name="unfollow">Bỏ theo dõi</string>
     <string name="edit">Chỉnh sửa</string>
     <string name="noActivity">Không có hoạt động nào gần đây</string>
-    <string name="setting">CÀI ĐẶT</string>
+    <string name="setting">Cài đặt</string>
     <string name="account">Tài khoản</string>
     <string name="account_information">Thông tin cá nhân</string>
     <string name="logout">Đăng xuất</string>
@@ -353,13 +353,20 @@
     <string name="start_listening">Bắt đầu nghe</string>
     <string name="manage_subscription">Quản lý gói đăng ký</string>
     <string name="view_receipt"><u>Xem hoá đơn</u></string>
+    <string name="select_artist_like">Chọn thêm các nghệ sĩ bạn thích</string>
     <string name="cancel_subscription">Huỷ gói đăng ký</string>
     <string name="chatbot_string">ChatBot</string>
+    <string name="unknown_plan">Unknown Plan</string>
+    <string name="no_details_available">No details available</string>
+    <string name="unknown_date">Unknown Date</string>
+    <string name="other_artists">Other Artists</string>
+    <string name="load_more">Load More</string>
+    <string name="recentActivity">Hoạt động gần đây</string>
     <string name="offline_banner">Dù không có mạng, giai điệu vẫn vang</string>
-    <string name="popular_artist">Popular artists</string>
-    <string name="local_songs">Local Songs</string>
-    <string name="offline_intro">Những bản nhạc bạn có thể nghe ngoại tuyến nên dù không có kết nối mạng thì nhạc vẫn n...</string>
-    <string name="offline_songs">Offline Songs</string>
+    <string name="popular_artist">Nghệ sĩ phổ biến</string>
+    <string name="local_songs">Nhạc trong máy</string>
+    <string name="offline_intro">Những bản nhạc bạn có thể nghe ngoại tuyến nên dù không có kết nối mạng thì nhạc vẫn ngân vang.</string>
+    <string name="offline_songs">Nhạc ngoại tuyến</string>
 
 
 </resources>

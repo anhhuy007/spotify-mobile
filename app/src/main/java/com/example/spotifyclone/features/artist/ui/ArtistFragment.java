@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.artist.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -65,10 +66,9 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
     private Context context;
     private ImageButton btnBack, btnPlay, btnShuffle;
     private TextView tv_artist_name, tv_artist_info, tv_monthly_listeners,
-            participant_artist_detail, artist_name,
-            tv_playlist_title_artist_detail;
+            participant_artist_detail, artist_name;
     private ImageView img_artist_artist_detail, img_artist_cover,
-            img_playlist_artist_detail, img_album_artist_detail,
+            img_album_artist_detail,
             btn_artist_detail_ui_background;
     private ScrollView scrollView;
     private ConstraintLayout artist_detail_info_container;
@@ -79,7 +79,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
     // Data and state variables
     private String artistId;
     private String artistName = "Test name";
-    private String userID;
 
     // ViewModels
     private MusicPlayerViewModel viewModel;
@@ -131,6 +130,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         loadData();
     }
 
+    @SuppressLint("SetTextI18n")
     private void initViews(View view) {
         // Initialize all view components
         rv_popular_songs = view.findViewById(R.id.rv_popular_songs);
@@ -139,8 +139,10 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         rv_similar_artists = view.findViewById(R.id.rv_similar_artists);
 
         tv_monthly_listeners = view.findViewById(R.id.tv_monthly_listeners);
-        tv_monthly_listeners.setText("100000000 " + getString(R.string.monthly_listeners));
 
+        // set random text for monthly listeners
+        int randomMonthlyListeners = (int) (Math.random() * 1000000);
+        tv_monthly_listeners.setText(formatListeners(randomMonthlyListeners) + " " + getString(R.string.monthly_listeners));
         artist_name = view.findViewById(R.id.artist_name);
         tv_artist_name = view.findViewById(R.id.tv_artist_name);
         img_artist_cover = view.findViewById(R.id.img_artist_cover);
@@ -185,7 +187,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         // Observe follow status
         checkFollowerViewModel.getIsFollowing().observe(getViewLifecycleOwner(), follow -> {
-            updateFollowButtonState(follow != null && follow.getId()!= null);
+            updateFollowButtonState(follow != null && follow.getId() != null);
         });
 
         // Observe add follower response
@@ -247,10 +249,10 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
     private void updateFollowButtonState(boolean isFollowing) {
         if (isFollowing) {
             btn_follow.setText(getString(R.string.unfollow));
-            btn_follow.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+            btn_follow.setBackgroundColor(getResources().getColor(R.color.gray));
         } else {
             btn_follow.setText(getString(R.string.follow));
-            btn_follow.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+            btn_follow.setBackgroundColor(getResources().getColor(R.color.spotify_green));
         }
     }
 
@@ -262,7 +264,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         // Fix button listener
         fix.setOnClickListener(v -> {
-            Toast.makeText(context, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", Toast.LENGTH_SHORT).show();
             try {
                 Navigation.findNavController(v).navigateUp();
             } catch (Exception e) {
@@ -276,7 +277,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         btn_see_view_discography.setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(((ViewGroup) getView().getParent()).getId(), DiscographyFragment.newInstance(artistId))
+                        .replace(((ViewGroup) getView().getParent()).getId(), DiscographyFragment.newInstance(artistId,artistName))
                         .addToBackStack(null)
                         .commit();
             }
@@ -284,7 +285,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         // Play button listener
         btnPlay.setOnClickListener(v -> {
-            Log.d("ArtistId" , artistId + " " + artistName);
+            Log.d("ArtistId", artistId + " " + artistName);
             viewModel.togglePlayPause(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST);
         });
         btnShuffle.setOnClickListener(v -> {
@@ -321,8 +322,10 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         if (shuffleMode == ShuffleMode.SHUFFLE_ON) {
             btnShuffle.setImageResource(R.drawable.ic_shuffle_on);
             btnShuffle.setTag("shuffle_on");
+            Log.d("ShuffleMode", shuffleMode.toString());
         } else {
             btnShuffle.setImageResource(R.drawable.ic_shuffle_off);
+            Log.d("ShuffleMode", shuffleMode.toString());
             btnShuffle.setTag("shuffle_off");
         }
     }
@@ -344,6 +347,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         rv_similar_artists.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
     }
 
+    @SuppressLint("SetTextI18n")
     private void loadData() {
         AtomicInteger sizeHide = new AtomicInteger();
 
@@ -351,6 +355,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         PopularViewModel artistListViewModel = new ViewModelProvider(this,
                 new PopularViewModel.Factory(requireActivity().getApplication(), artistId))
                 .get(PopularViewModel.class);
+
         artistListViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
                 SongArtistAdapter rvPopularSongsAdapter = new SongArtistAdapter(getContext(), artists, this);
@@ -379,7 +384,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
             tv_artist_info = rootView.findViewById(R.id.tv_artist_info);
             tv_artist_info.setText(data.getDescription());
             participant_artist_detail = rootView.findViewById(R.id.participant_artist_detail);
-            participant_artist_detail.setText(getString(R.string.participant_text) + data.getName());
+            participant_artist_detail.setText(getString(R.string.fans_also_like) + " " +  data.getName());
 
             // Load artist images
             loadArtistImages(data.getAvatarUrl());
@@ -473,7 +478,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
                 .get(FansAlsoLikeViewModel.class);
         similarArtistsViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
-                ArtistSimilarAdapter similarArtistsAdapter = new ArtistSimilarAdapter(context,getActivity(), artists);
+                ArtistSimilarAdapter similarArtistsAdapter = new ArtistSimilarAdapter(context, getActivity(), artists);
                 similarArtistsAdapter.setRootView(rootView);
 
                 rv_similar_artists.setAdapter(similarArtistsAdapter);
@@ -536,5 +541,20 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
     @Override
     public void onSongClick(PopularSong song) {
         viewModel.playSongsFrom(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST,song.getId());
+    }
+
+    private static String formatListeners(int listeners) {
+        // add dot for every 3 digits
+        StringBuilder formatted = new StringBuilder();
+        String str = String.valueOf(listeners);
+        int length = str.length();
+        for (int i = 0; i < length; i++) {
+            formatted.append(str.charAt(i));
+            if ((length - i - 1) % 3 == 0 && i != length - 1) {
+                formatted.append(".");
+            }
+        }
+
+        return formatted.toString();
     }
 }

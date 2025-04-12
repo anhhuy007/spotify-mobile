@@ -1,6 +1,7 @@
 package com.example.spotifyclone.features.premium.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,38 +13,43 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.authentication.repository.AuthRepository;
-import com.example.spotifyclone.shared.model.User;
+import com.example.spotifyclone.features.premium.viewmodel.PremiumViewModel;
 
 public class PremiumFragment extends Fragment {
-    private User currentUser;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        initUser();
+        initState();
         checkUserAndNavigate();
         return inflater.inflate(R.layout.fragment_premium_redirect, container, false);
     }
+
+    private PremiumViewModel premiumViewModel;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initUser();
+        initState();
         checkUserAndNavigate();
     }
 
-
-    private void initUser() {
-        AuthRepository authRepository = new AuthRepository(getContext());
-        currentUser = authRepository.getUser();
-
+    private void initState() {
+        premiumViewModel = new PremiumViewModel(getContext());
+        premiumViewModel.checkSubscription();
     }
 
     private void checkUserAndNavigate() {
-        if (currentUser != null) {
-        }
+        premiumViewModel.getIsPremiumUser().observe(getViewLifecycleOwner(), isPremium -> {
+            NavController navController = NavHostFragment.findNavController(this);
+            if (isPremium) {
+                Log.d("TAG", "User is premium");
+                navController.navigate(R.id.subscriptionDetailFragment);
+            }
+            else {
+                Log.d("TAG", "User is not premium");
+                navController.navigate(R.id.subscriptionPlanFragment);
+            }
+        });
     }
-
-
 }

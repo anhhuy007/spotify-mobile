@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            >
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/tv_offline"
@@ -212,7 +212,7 @@
                 android:id="@+id/rv_popular_artists"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"/>
+                android:nestedScrollingEnabled="false" />
 
             <TextView
                 android:id="@+id/tv_popular_albums"
