@@ -473,10 +473,6 @@ public class MusicPlayerController {
             }
         });
     }
-    private void fetchSearchSongs(List<String> songs, String first_song_id){
-
-    }
-
     private void fetchAlbumSongs(String id) {
         songService.getAlbumSongs(id).enqueue(new Callback<>() {
             @Override
@@ -723,7 +719,7 @@ public class MusicPlayerController {
     }
 
 
-    public List<Song> fetchSearchSongs(List<String> song_ids, String first_song_id) {
+    private List<Song> fetchSearchSongs(List<String> song_ids, String first_song_id) {
         List<Song> result = new ArrayList<>();
         if (song_ids == null || song_ids.isEmpty()) {
             return result;
