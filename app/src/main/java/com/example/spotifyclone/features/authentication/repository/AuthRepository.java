@@ -71,8 +71,6 @@ public class AuthRepository {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     LoginResponse loginResponse = response.body().getData();
 
-                    Log.d("DEBUG", "Response: " + response.body().getData().toString());
-
                     // Save user and tokens
                     saveUser(loginResponse.getUser());
                     saveTokens(loginResponse.getTokens().getAccessToken(), loginResponse.getTokens().getRefreshToken());
@@ -135,10 +133,6 @@ public class AuthRepository {
                 Log.d("DEBUG", "Failure: " + t.getMessage());
             }
         });
-    }
-
-    public void updateUser(User user) {
-        // update new user data
     }
 
     private void setIsLoggedIn(boolean b) {

@@ -23,9 +23,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.premium.model.Plan;
 import com.example.spotifyclone.features.premium.viewmodel.PremiumVMFactory;
 import com.example.spotifyclone.features.premium.viewmodel.PremiumViewModel;
+import com.example.spotifyclone.shared.model.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 
@@ -151,6 +153,14 @@ public class CheckoutFragment extends Fragment {
             if (isSuccess) {
                 // Payment success
                 Toast.makeText(requireContext(), "Payment success", Toast.LENGTH_SHORT).show();
+
+                // Update user premium status
+                AuthRepository authRepository = new AuthRepository(requireContext());
+                User updatedUser = authRepository.getUser();
+                updatedUser.setPremium(true);
+
+                // Save updated user to SharedPreferences
+                authRepository.saveUser(updatedUser);
 
                 // Redirect to home
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
