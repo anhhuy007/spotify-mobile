@@ -1,6 +1,6 @@
 <!-- res/drawable/user_message_bg.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#DDFFDD"/>
+    <solid android:color="@color/gray"/>
     <corners android:radius="10dp"/>
     <padding
         android:left="10dp"

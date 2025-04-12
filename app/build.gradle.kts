@@ -86,37 +86,23 @@ dependencies {
     // coordinatorlayoyt
     implementation(libs.androidx.coordinatorlayout)
     implementation(libs.material.v1110)
-    implementation (libs.glide.v4151)
-    annotationProcessor (libs.compiler)
+    implementation(libs.glide.v4151)
+    annotationProcessor(libs.compiler)
 
     // navigation fragment
-    implementation (libs.androidx.navigation.fragment)
-    implementation (libs.androidx.navigation.ui)
-    implementation (libs.material)
-    implementation (libs.androidx.drawerlayout)
-    implementation (libs.material)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+    implementation(libs.material)
+    implementation(libs.androidx.drawerlayout)
+    implementation(libs.material)
 
     // push notification FCM
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.core)
 
 //    implementation ("com.android.support:support-compat:27.1.1")
-    implementation (libs.picasso)
-
-    implementation (libs.circleindicator)
-    implementation (libs.lottie)
-
-
-    implementation (libs.core)
-
-
-
-
-
-
-
-
-
-
-
+    implementation(libs.picasso)
+    implementation(libs.circleindicator)
+    implementation(libs.lottie)
+    implementation(libs.core)
 }

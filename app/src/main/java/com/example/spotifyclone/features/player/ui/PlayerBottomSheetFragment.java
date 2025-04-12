@@ -152,12 +152,12 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         tvListenersCount = rootView.findViewById(R.id.tvListenersCount);
         tvArtistDescription = rootView.findViewById(R.id.tvArtistDescription);
 
-//        if(currentUser != null && !currentUser.isPremium()) {
-//            btnPlaylist.setAlpha(0.5f);
-//            btnPlaylist.setEnabled(false);
-//        } else {
-//            btnShareLyrics.setVisibility(View.GONE);
-//        }
+        if(currentUser != null && !currentUser.isPremium()) {
+            btnPlaylist.setAlpha(0.5f);
+            btnPlaylist.setEnabled(false);
+        } else {
+            btnShareLyrics.setVisibility(View.GONE);
+        }
     }
 
     private void initViewModel() {
