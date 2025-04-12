@@ -351,4 +351,11 @@
     <string name="cancel_subscription">Cancel Subscription</string>
     <string name="select_artist_like">Select more artists you like</string>
     <string name="chatbot_string">ChatBot</string>
+
+    <string name="unknown_plan">Unknown Plan</string>
+    <string name="no_details_available">No details available</string>
+    <string name="unknown_date">Unknown Date</string>
+    <string name="other_artists">Other Artists</string>
+    <string name="load_more">Load More</string>
+    <string name="recentActivity">Recent activity</string>
 </resources>

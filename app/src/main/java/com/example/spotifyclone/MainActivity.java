@@ -44,6 +44,8 @@ import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
+import com.example.spotifyclone.features.profile.ui.EditProfileFragment;
+import com.example.spotifyclone.features.profile.ui.ProfileFragment;
 import com.example.spotifyclone.shared.model.PlayerState;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.repository.PlayerRepository;
@@ -123,19 +125,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
 
-    private void setupNavigation() {
-        BottomNavigationView navView = findViewById(R.id.bottom_nav);
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nav_host_fragment);
-        assert navHostFragment != null;
-        navController = navHostFragment.getNavController();
-        NavigationUI.setupWithNavController(navView, navController);
-
-        // Setup Navigation Drawer
-        drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
+//    private void setupNavigation() {
+//        BottomNavigationView navView = findViewById(R.id.bottom_nav);
+//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.nav_host_fragment);
+//        assert navHostFragment != null;
+//        navController = navHostFragment.getNavController();
+//        NavigationUI.setupWithNavController(navView, navController);
+//
+//        // Setup Navigation Drawer
+//        drawerLayout = findViewById(R.id.drawer_layout);
+//        navigationView = findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+//    }
 
     // Method to open drawer from fragments
     public void openDrawer() {
@@ -144,6 +146,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    private void setupNavigation() {
+        BottomNavigationView navView = findViewById(R.id.bottom_nav);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.nav_host_fragment);
+        assert navHostFragment != null;
+        navController = navHostFragment.getNavController();
+        NavigationUI.setupWithNavController(navView, navController);
+
+        // Add custom click listener for the premium/profile button
+        navView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_premium) {
+                // Use the custom fragment transaction
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, ProfileFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+                return true;
+            }
+            // For other menu items, use the Navigation Component
+            return NavigationUI.onNavDestinationSelected(item, navController)
+                    || super.onOptionsItemSelected(item);
+        });
+
+        // Setup Navigation Drawer
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation drawer item clicks
@@ -200,6 +230,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View headerView = navigationView.getHeaderView(0);
 
         ImageView userAvatar =  headerView.findViewById(R.id.drawer_header_avatar);
+        userAvatar.setOnClickListener(
+                v -> {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.nav_host_fragment, ProfileFragment.newInstance())
+                            .addToBackStack(null)
+                            .commit();
+                }
+        );
         TextView userName = headerView.findViewById(R.id.drawer_header_username);
         TextView userEmail = headerView.findViewById(R.id.drawer_header_email);
 

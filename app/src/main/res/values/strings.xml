@@ -361,6 +361,7 @@
     <string name="unknown_date">Unknown Date</string>
     <string name="other_artists">Other Artists</string>
     <string name="load_more">Load More</string>
+    <string name="recentActivity">Hoạt động gần đây</string>
 
 
 </resources>

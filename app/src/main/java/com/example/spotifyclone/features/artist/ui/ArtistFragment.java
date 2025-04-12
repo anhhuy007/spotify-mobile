@@ -277,7 +277,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         btn_see_view_discography.setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(((ViewGroup) getView().getParent()).getId(), DiscographyFragment.newInstance(artistId))
+                        .replace(((ViewGroup) getView().getParent()).getId(), DiscographyFragment.newInstance(artistId,artistName))
                         .addToBackStack(null)
                         .commit();
             }
@@ -353,6 +353,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         PopularViewModel artistListViewModel = new ViewModelProvider(this,
                 new PopularViewModel.Factory(requireActivity().getApplication(), artistId))
                 .get(PopularViewModel.class);
+
         artistListViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
                 SongArtistAdapter rvPopularSongsAdapter = new SongArtistAdapter(getContext(), artists, this);
@@ -447,7 +448,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
     private void loadAdditionalArtistData() {
         // Load EPs
         ListDiscographyEPViewModel epViewModel = new ViewModelProvider(this,
-                new ListDiscographyEPViewModel.Factory(requireActivity().getApplication(), artistId, 1))
+                new ListDiscographyEPViewModel.Factory(requireActivity().getApplication(), artistId,1))
                 .get(ListDiscographyEPViewModel.class);
         epViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
