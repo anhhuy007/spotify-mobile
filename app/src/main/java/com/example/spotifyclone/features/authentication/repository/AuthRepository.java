@@ -135,10 +135,6 @@ public class AuthRepository {
         });
     }
 
-    public void updateUser(User user) {
-        // update new user data
-    }
-
     private void setIsLoggedIn(boolean b) {
         editor.putBoolean(KEY_IS_LOGGED_IN, b);
         editor.apply();

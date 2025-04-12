@@ -14,7 +14,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.premium.viewmodel.PremiumViewModel;
+import com.example.spotifyclone.shared.model.User;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -103,6 +105,14 @@ public class SubscriptionDetailFragment extends Fragment {
             if (isSuccess) {
                 // Handle successful cancellation
                 Toast.makeText(getContext(), "Subscription cancelled successfully", Toast.LENGTH_SHORT).show();
+
+                // Update user premium status
+                AuthRepository authRepository = new AuthRepository(requireContext());
+                User updatedUser = authRepository.getUser();
+                updatedUser.setPremium(false);
+
+                // Save updated user to SharedPreferences
+                authRepository.saveUser(updatedUser);
 
                 // navigate back to home screen
                 NavController navController = NavHostFragment.findNavController(this);
