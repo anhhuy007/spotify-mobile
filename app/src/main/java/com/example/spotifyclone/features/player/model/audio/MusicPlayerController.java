@@ -442,7 +442,6 @@ public class MusicPlayerController {
                     if (songs != null && !songs.isEmpty()) {
                         synchronized (playlistLock) {
                             playList.clear();
-
                             Song first_song = null;
                             for (Song song : songs) {
                                 if (song.getId().equals(first_song_id)) {
@@ -473,6 +472,9 @@ public class MusicPlayerController {
                 Log.d("DEBUG", "onFailure: " + t.getMessage());
             }
         });
+    }
+    private void fetchSearchSongs(List<String> songs, String first_song_id){
+
     }
 
     private void fetchAlbumSongs(String id) {

@@ -26,6 +26,7 @@ public class AlbumViewModel extends ViewModel {
     private final MutableLiveData<List<Song>> album_songs=new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoading=new MutableLiveData<>();
     private final MutableLiveData<String > errorMessage=new MutableLiveData<>();
+    private final MutableLiveData<Album> albumById=new MutableLiveData<>();
 
     public AlbumViewModel(AlbumService albumService)
     {
@@ -98,15 +99,12 @@ public class AlbumViewModel extends ViewModel {
     public void fetchAlbumSongs(String album_id)//return list of album_songs
     {
         isLoading.setValue(true);
-        Log.d("AlbumViewModel", "fetch album song"+album_id);
-
         albumService.getSongs(album_id).enqueue(new Callback<APIResponse<PaginatedResponse<Song>>>() { // Load genre data
             @Override
             public void onResponse(Call<APIResponse<PaginatedResponse<Song>>> call, Response<APIResponse<PaginatedResponse<Song>>> response) {
                 try {
                     isLoading.setValue(false);
                     if (response.isSuccessful()) {
-                        Log.d("AlbumViewModel", "Response successful");
                         if (response.body().getData().getItems() != null) {
                             if (response.body().isSuccess()) {
                                 album_songs.setValue(response.body().getData().getItems());
@@ -130,6 +128,39 @@ public class AlbumViewModel extends ViewModel {
             }
         });
     }
+    public void fetchAlbumById(String album_id)//return list of album_songs
+    {
+        isLoading.setValue(true);
+        albumService.getAlbumById(album_id).enqueue(new Callback<APIResponse<Album>>() { // Load genre data
+            @Override
+            public void onResponse(Call<APIResponse<Album>> call, Response<APIResponse<Album>> response) {
+                try {
+                    isLoading.setValue(false);
+                    if (response.isSuccessful()) {
+                        if (response.body().getData() != null) {
+                            if (response.body().isSuccess()) {
+                                albumById.setValue(response.body().getData());
+                            } else {
+                                Log.d("AlbumViewModel", "API success flag false");
+                            }
+                        } else {
+                            Log.d("AlbumViewModel", "Response body is null");
+                        }
+                    } else {
+                        Log.d("AlbumViewModel", "Response not successful: " + response.code());
+                    }
+                } catch (Exception e) {
+                    errorMessage.setValue("Error processing response: " + e.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<APIResponse<Album>> call, Throwable t) {
+                isLoading.setValue(false);
+                errorMessage.setValue(t.getMessage());
+            }
+        });
+    }
+
 
     public LiveData<List<Song>> getSongs(){
         return album_songs;
@@ -138,6 +169,10 @@ public class AlbumViewModel extends ViewModel {
     public LiveData<List<Album>> getAlbums(){
         return popular_albums;
     }
+    public LiveData<Album> getAlbumById(){
+        return albumById;
+    }
+
     public LiveData<List<Album>> getArtistAlbums(){
         return artist_albums;
     }

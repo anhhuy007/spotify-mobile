@@ -19,6 +19,10 @@ public interface AlbumService {
     @GET("album/popular")
     Call <APIResponse<PaginatedResponse<Album>>> getAlbums();
 
+    @GET("album/{id}")
+    Call <APIResponse<Album>> getAlbumById(@Path("id") String albumId);
+
+
     @GET("album/{id}/songs")
     Call<APIResponse<PaginatedResponse<Song>>> getSongs(@Path("id") String albumId);
 

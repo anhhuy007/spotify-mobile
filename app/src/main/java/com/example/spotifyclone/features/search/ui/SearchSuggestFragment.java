@@ -136,6 +136,8 @@ public class SearchSuggestFragment extends Fragment {
         searchAdapter = new SearchAdapter(requireContext(), new ArrayList<>(), item -> {
             if ("song".equals(item.getType())) {
 
+                // id, title, image_url
+                //->naviagte tới song
             }
             if ("album".equals(item.getType())) {
                 navigateToAlbumDetail(item);
@@ -150,15 +152,15 @@ public class SearchSuggestFragment extends Fragment {
     private void navigateToAlbumDetail(SearchItem item){
         SearchSuggestFragmentDirections.ActionSearchSuggestFragmentToNavAlbumDetail action=
                 SearchSuggestFragmentDirections.actionSearchSuggestFragmentToNavAlbumDetail(
-                        item.get_id(),
-                        item.getName(),
-                        item.getArtists_name().toArray(new String[0]),  // Đúng kiểu String[]
-                        0L,           // release_date (giả sử 0 nếu không có)
-                        item.getImage_url(),
-                        0L,           // create_at
-                        0,            // like_count
-                        0L,           // updatedAt
-                        ""            // artist_url
+                        item.get_id()
+//                        item.getName(),
+//                        item.getArtists_name().toArray(new String[0]),  // Đúng kiểu String[]
+//                        0L,           // release_date (giả sử 0 nếu không có)
+//                        item.getImage_url(),
+//                        0L,           // create_at
+//                        0,            // like_count
+//                        0L,           // updatedAt
+//                        ""            // artist_url
                 );
         Navigation.findNavController(requireView()).navigate(action);
 

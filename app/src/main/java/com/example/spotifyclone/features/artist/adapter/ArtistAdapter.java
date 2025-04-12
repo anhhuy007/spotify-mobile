@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,11 +61,16 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
                 .into(holder.imageView);
 
         holder.artistItem.setOnClickListener(v -> {
-            if (FragActi != null) {
-                FragActi.getSupportFragmentManager().beginTransaction()
-                        .replace(((ViewGroup) rootView.getParent()).getId(), ArtistFragment.newInstance(item.getId()))
-                        .addToBackStack(null)
-                        .commit();
+            if (rootView != null) {
+                // Get the NavController from the rootView
+                NavController navController = Navigation.findNavController(rootView);
+
+                // Create the navigation action with the required argument
+                Bundle args = new Bundle();
+                args.putString("ARTIST_ID", item.getId());
+
+                // Navigate to the ArtistFragment
+                navController.navigate(R.id.artistFragment, args);
             }
         });
 

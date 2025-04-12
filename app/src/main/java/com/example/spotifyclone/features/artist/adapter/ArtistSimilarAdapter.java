@@ -1,6 +1,7 @@
 package com.example.spotifyclone.features.artist.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +28,9 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
     private List<FansAlsoLike> artistList;
     private View rootView;
 
+    public void setRootView(View rootView) {
+        this.rootView = rootView;
+    }
 
 
     public ArtistSimilarAdapter(Context context,FragmentActivity FragActi, List<FansAlsoLike> artistList) {
@@ -33,9 +39,7 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
         this.artistList = artistList;
     }
 
-    public void setRootView(View rootView) {
-        this.rootView = rootView;
-    }
+
 
     @NonNull
     @Override
@@ -54,11 +58,16 @@ public class ArtistSimilarAdapter extends RecyclerView.Adapter<ArtistSimilarAdap
                 .into(holder.artist_logo);
 
         holder.artist_logo.setOnClickListener(v -> {
-            if (FragActi != null) {
-                FragActi.getSupportFragmentManager().beginTransaction()
-                        .replace(((ViewGroup) rootView.getParent()).getId(), ArtistFragment.newInstance(item.getId()))
-                        .addToBackStack(null)
-                        .commit();
+            if (rootView != null) {
+                // Get the NavController from the rootView
+                NavController navController = Navigation.findNavController(rootView);
+
+                // Create the navigation action with the required argument
+                Bundle args = new Bundle();
+                args.putString("ARTIST_ID", item.getId());
+
+                // Navigate to the ArtistFragment
+                navController.navigate(R.id.artistFragment, args);
             }
         });
 
