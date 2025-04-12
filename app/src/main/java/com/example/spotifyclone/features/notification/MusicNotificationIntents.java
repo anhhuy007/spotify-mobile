@@ -3,6 +3,7 @@ package com.example.spotifyclone.features.notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 public class MusicNotificationIntents {
     public static PendingIntent createPlayPauseIntent(Context context) {
@@ -17,11 +18,13 @@ public class MusicNotificationIntents {
     }
 
     public static PendingIntent createNextIntent(Context context) {
+        Log.d("MediaSession", "Next button pressed intents");
         Intent intent = new Intent(MusicNotificationReceiver.ACTION_NEXT);
+        intent.setClass(context, MusicNotificationReceiver.class);
         intent.setPackage(context.getPackageName());
         return PendingIntent.getBroadcast(
                 context,
-                0,
+                1,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );

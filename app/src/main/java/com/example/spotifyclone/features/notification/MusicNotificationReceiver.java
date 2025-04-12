@@ -16,7 +16,6 @@ import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 
 public class MusicNotificationReceiver extends BroadcastReceiver {
     private static final String TAG = "MusicNotificationReceiver";
-
     public static final String ACTION_PLAY_PAUSE = "com.example.spotifyclone.ACTION_PLAY_PAUSE";
     public static final String ACTION_NEXT = "com.example.spotifyclone.ACTION_NEXT";
     public static final String ACTION_PREVIOUS = "com.example.spotifyclone.ACTION_PREVIOUS";
@@ -45,9 +44,13 @@ public class MusicNotificationReceiver extends BroadcastReceiver {
             String action = intent.getAction();
             switch (action) {
                 case ACTION_PLAY_PAUSE:
+                    Log.d("MediaSession", "Páe button pressed receiver");
+
                     viewModel.togglePlayPause();
                     break;
                 case ACTION_NEXT:
+                    Log.d("MediaSession", "Next button pressed receiver");
+
                     if(Boolean.FALSE.equals(viewModel.isAdPlaying().getValue())) {
                         viewModel.playNext();
                     }

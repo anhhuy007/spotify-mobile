@@ -31,5 +31,4 @@ public abstract class BaseOnlineFragment extends Fragment {
         Log.d("BaseOnlineFragment", "Offline state detected --> navigating to offline fragment");
 //        NavHostFragment.findNavController(this).navigate(R.id.action_global_offlineFragment);
     }
-
 }

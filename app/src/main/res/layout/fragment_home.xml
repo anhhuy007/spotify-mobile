@@ -68,12 +68,14 @@
             >
 
             <TextView
+                android:id="@+id/tv_offline"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text= "Dù không có mạng, giai điệu vẫn vang"
+                android:text= "@string/offline_banner"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp"
+                tools:ignore="HardcodedText" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewLocalSongList"
@@ -109,7 +111,6 @@
                                 android:layout_height="0dp"
                                 android:scaleType="centerCrop"
                                 android:src="@raw/local"
-                                android:contentDescription="Album Cover"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintDimensionRatio="1:1"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -134,7 +135,7 @@
                             android:id="@+id/txtTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Nhạc ngoại tuyến"
+                            android:text="@string/offline_songs"
                             android:textColor="#FFFFFF"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -149,7 +150,7 @@
                             android:layout_marginTop="8dp"
                             android:ellipsize="end"
                             android:maxLines="2"
-                            android:text="Những bản nhạc bạn có thể nghe ngoại tuyến nên dù không có kết nối mạng thì nhạc vẫn n..."
+                            android:text="@string/offline_intro"
                             android:textColor="#AAAAAA"
                             android:textSize="14sp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -170,7 +171,6 @@
                                 android:layout_width="0dp"
                                 android:layout_height="@dimen/icon_size_small"
                                 android:layout_weight="1.5"
-                                android:contentDescription="Play/Pause"
                                 android:src="@drawable/ic_add_circle"
                                 android:scaleType="fitCenter"
                                 android:background="@android:color/transparent"
@@ -186,7 +186,6 @@
                                 android:layout_width="0dp"
                                 android:layout_height="@dimen/icon_size_small"
                                 android:layout_weight="1.5"
-                                android:contentDescription="Play/Pause"
                                 android:src="@drawable/ic_play_circle"
                                 android:scaleType="fitCenter"
                                 android:background="@android:color/transparent"
@@ -201,9 +200,10 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/tv_popular_artist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Popular artists"
+                android:text="@string/popular_artist"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -215,6 +215,7 @@
                 android:nestedScrollingEnabled="false"/>
 
             <TextView
+                android:id="@+id/tv_popular_albums"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/popular_albums"
@@ -229,6 +230,7 @@
                 android:nestedScrollingEnabled="false"/>
 
             <TextView
+                android:id="@+id/tv_latest_albums"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/latest_albums"
@@ -243,9 +245,10 @@
                 android:nestedScrollingEnabled="false"/>
 
             <TextView
+                android:id="@+id/tv_local_songs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Local Songs"
+                android:text="@string/local_songs"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>

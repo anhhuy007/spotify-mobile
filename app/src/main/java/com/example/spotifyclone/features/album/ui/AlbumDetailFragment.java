@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.album.ui;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -57,9 +58,7 @@ import java.util.Objects;
 public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.OnItemClickListener {
     private ImageView albumImage;
     private TextView artist_name;
-    private RecyclerView recyclerView;
-    private RecyclerView artist_album;
-    private RecyclerView related_album;
+    private RecyclerView recyclerView, artist_album, related_album;
     private AlbumSongAdapter songAdapter;
     private ImageView artist_image;
     private TextView artist_name2;
@@ -67,12 +66,9 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     private AlbumAdapter artist_albumAdapter;
     private MusicPlayerViewModel viewModel;
     private ImageButton playButton, shuffleButton;
-
     private AlbumAdapter related_albumAdapter;
     private Toolbar toolbar;
     private NestedScrollView nestedScrollView;
-
-    // Arguments từ navigation
     private String coverUrl;
     private String albumTitle;
     private String albumId;
@@ -80,7 +76,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     private List<String> artistNames;
     private String artistUrl;
     private List<Song> albumSong;
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -138,7 +133,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         playButton = view.findViewById(R.id.play_button);
         shuffleButton = view.findViewById(R.id.shuffle_button);
     }
-
+    @SuppressLint("SetTextI18n")
     private void setupUI() {
         // Load album image
         artist_name.setText(String.join(" ,", artistNames));Glide.with(requireContext())
@@ -206,22 +201,17 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
                 TypedValue.COMPLEX_UNIT_DIP, 200, requireContext().getResources().getDisplayMetrics()
         );
 
-        artist_albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), album -> {
-            navigateToAlbumDetail(album);
-        }, widthInPx, ViewGroup.LayoutParams.WRAP_CONTENT);
+        artist_albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), this::navigateToAlbumDetail, widthInPx, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         artist_album.setAdapter(artist_albumAdapter);
 
         // Related albums
         related_album = view.findViewById(R.id.related_album);
         related_album.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        related_albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), album -> {
-            navigateToAlbumDetail(album);
-        }, widthInPx, ViewGroup.LayoutParams.WRAP_CONTENT);
+        related_albumAdapter = new AlbumAdapter(requireContext(), new ArrayList<>(), this::navigateToAlbumDetail, widthInPx, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         related_album.setAdapter(related_albumAdapter);
     }
-
     private void navigateToAlbumDetail(Album album){
         NavDirections action = AlbumDetailFragmentDirections.actionNavAlbumDetailSelf(
                 album.getId(),
@@ -295,7 +285,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     }
 
     private void updatePlayButton(boolean isPlaying) {
-        if (isPlaying && viewModel.getCurrentAlbumId() != null && Objects.equals(viewModel.getCurrentAlbumId().getValue(), albumId)) {
+        if (isPlaying && viewModel.getCurrentAlbumId() != null && Objects.equals(viewModel.getCurrentAlbumId().getValue(), albumId) && Objects.equals(viewModel.getPlayType().getValue(), MusicPlayerViewModel.PlaybackSourceType.ALBUM)) {
             playButton.setImageResource(R.drawable.ic_pause_circle);
             playButton.setTag("pause");
         } else {
@@ -304,11 +294,10 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
         }
     }
-
     private void setupScrollListener() {
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY > oldScrollY) {
                     DominantColorExtractor.getDominantColor(requireContext(), coverUrl, color -> {
                         toolbar.setBackgroundColor(color);

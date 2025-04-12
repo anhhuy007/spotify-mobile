@@ -328,7 +328,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
     }
 
     private void updatePlayButton(boolean isPlaying) {
-        if (isPlaying && viewModel.getCurrentArtistId() != null && Objects.equals(viewModel.getCurrentArtistId().getValue(), artistId)) {
+        if (isPlaying && viewModel.getCurrentArtistId() != null && Objects.equals(viewModel.getCurrentArtistId().getValue(), artistId) && Objects.equals(viewModel.getPlayType().getValue(), MusicPlayerViewModel.PlaybackSourceType.ARTIST)) {
             btnPlay.setImageResource(R.drawable.ic_pause_circle);
             btnPlay.setTag("pause");
         } else {

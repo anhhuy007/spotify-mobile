@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.home.ui;
 
+import android.net.Network;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.ui.BaseOnlineFragment;
+import com.example.spotifyclone.shared.utils.NetworkStatusLiveData;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -50,20 +52,19 @@ import java.util.List;
 import java.util.Objects;
 
 public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnAlbumClickListener, ArtistAdapter.OnArtistClickListener, SongAdapter.OnSongClickListener {
-    private RecyclerView newSongsRecyclerView, popularSongsRecyclerView, localSongRecyclerView;
+    private RecyclerView localSongRecyclerView, popularAlbumsRecyclerView, latestAlbumsRecylerView, popularArtistsRecyclerView;
     private SongAdapter localSongsAdapter;
     private ImageView chatbotImage;
-
-    //    private SongAdapter newSongsAdapter, popularSongsAdapter;
     private AlbumAdapter popularAlbumsAdapter, latestAlbumsAdapter;
     private ArtistAdapter popularArtistAdapter;
     private MusicPlayerViewModel musicPlayerViewModel;
     private User currentUser;
     private ImageView userAvatarImage;
-    private TextView userNameText;
+    private TextView userNameText, tvPopularArtists, tvLatestAlbums, tvPopularAlbums, tvLocalSongs, tvLocal;
     private CardView localSongsCardView;
     private ImageButton playLocalSongsButton;
     private HomeViewModel homeViewModel;
+    private NetworkStatusLiveData networkStatusLiveData;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -123,20 +124,20 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
 //        popularSongsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         // Popular albums with horizontal layout
-        RecyclerView popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
+        popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
         popularAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         popularAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.HORIZONTAL, this);
         popularAlbumsRecyclerView.setAdapter(popularAlbumsAdapter);
         popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         // Latest albums with vertical layout
-        RecyclerView latestAlbumsRecylerView = view.findViewById(R.id.rv_latest_albums);
+        latestAlbumsRecylerView = view.findViewById(R.id.rv_latest_albums);
         latestAlbumsRecylerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         latestAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.VERTICAL, this);
         latestAlbumsRecylerView.setAdapter(latestAlbumsAdapter);
         latestAlbumsRecylerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
-        RecyclerView popularArtistsRecyclerView = view.findViewById(R.id.rv_popular_artists);
+        popularArtistsRecyclerView = view.findViewById(R.id.rv_popular_artists);
         popularArtistsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         popularArtistAdapter = new ArtistAdapter(new ArrayList<>(), this);
         popularArtistsRecyclerView.setAdapter(popularArtistAdapter);
@@ -162,10 +163,15 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         chatbotImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 navigateToChatbotFragment();
             }
         });
+
+        tvPopularArtists = view.findViewById(R.id.tv_popular_artist);
+        tvLatestAlbums = view.findViewById(R.id.tv_latest_albums);
+        tvPopularAlbums = view.findViewById(R.id.tv_popular_albums);
+        tvLocalSongs = view.findViewById(R.id.tv_local_songs);
+        tvLocal = view.findViewById(R.id.tv_offline);
     }
     public void navigateToChatbotFragment() {
         NavDirections action = HomeFragmentDirections.actionNavHomeToChatbotFragment();
@@ -183,6 +189,7 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
 
         homeViewModel = new ViewModelProvider(this, new HomeVMFactory(getContext())).get(HomeViewModel.class);
+        networkStatusLiveData = new NetworkStatusLiveData(requireContext());
     }
 
     private void observeViewModel() {
@@ -233,22 +240,78 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         });
 
         homeViewModel.getLocalSongs().observe(getViewLifecycleOwner(), songs -> {
-            if(songs != null) {
+            if(!songs.isEmpty()) {
                 localSongsAdapter.setSongs(songs);
+            } else {
+                localSongRecyclerView.setVisibility(View.GONE);
+                tvLocalSongs.setVisibility(View.GONE);
+            }
+        });
+
+        networkStatusLiveData.observe(getViewLifecycleOwner(), isConnected -> {
+            if (isConnected) {
+                // Update UI online
+                Log.d("HomeFragment", "Online state detected");
+                homeViewModel.getLatestAlbums().observe(getViewLifecycleOwner(), albums -> {
+                    if(albums != null) {
+                        latestAlbumsAdapter.setAlbums(albums);
+                    }
+                });
+                homeViewModel.getPopularAlbums().observe(getViewLifecycleOwner(), albums -> {
+                    if(albums != null) {
+                        popularAlbumsAdapter.setAlbums(albums);
+                    }
+                });
+
+                homeViewModel.getPopularArtists().observe(getViewLifecycleOwner(), artists -> {
+                    if(artists != null){
+                        popularArtistAdapter.setArtists(artists);
+                    }
+                });
+                updateOnlineOfflineUI(true);
+            } else {
+                updateOnlineOfflineUI(false);
+                homeViewModel.getLocalSongs().observe(getViewLifecycleOwner(), songs -> {
+                    if(songs != null) {
+                        localSongsAdapter.setSongs(songs);
+                    }
+                });
             }
         });
 
     }
 
-//    @Override
-//    public void onSongClick(Song song) {
-//        musicPlayerViewModel.playSong(song);
-//    }
-//
-//    @Override
-//    public void onPlayClick(Song song) {
-//        musicPlayerViewModel.togglePlayPause(song);
-//    }
+    private void updateOnlineOfflineUI(boolean isConnected) {
+        if (isConnected) {
+            Log.d("HomeFragment", "updateOnlineOfflineUI: Online");
+            tvLocal.setVisibility(View.GONE);
+            tvLocalSongs.setVisibility(View.GONE);
+            localSongRecyclerView.setVisibility(View.GONE);
+            localSongsCardView.setVisibility(View.GONE);
+
+            popularAlbumsRecyclerView.setVisibility(View.VISIBLE);
+            latestAlbumsRecylerView.setVisibility(View.VISIBLE);
+            popularArtistsRecyclerView.setVisibility(View.VISIBLE);
+            tvPopularArtists.setVisibility(View.VISIBLE);
+            tvLatestAlbums.setVisibility(View.VISIBLE);
+            tvPopularAlbums.setVisibility(View.VISIBLE);
+
+        } else {
+            Log.d("HomeFragment", "updateOnlineOfflineUI: Offline");
+            tvLocalSongs.setVisibility(View.VISIBLE);
+            tvLocal.setVisibility(View.VISIBLE);
+            localSongRecyclerView.setVisibility(View.VISIBLE);
+            localSongsCardView.setVisibility(View.VISIBLE);
+
+            popularAlbumsRecyclerView.setVisibility(View.GONE);
+            latestAlbumsRecylerView.setVisibility(View.GONE);
+            popularArtistsRecyclerView.setVisibility(View.GONE);
+            tvPopularArtists.setVisibility(View.GONE);
+            tvLatestAlbums.setVisibility(View.GONE);
+            tvPopularAlbums.setVisibility(View.GONE);
+
+        }
+    }
 
     @Override
     public void onAlbumClick(Album album) {

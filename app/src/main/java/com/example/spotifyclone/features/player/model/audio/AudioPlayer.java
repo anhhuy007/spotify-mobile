@@ -49,6 +49,7 @@ public class AudioPlayer implements AutoCloseable {
             public void onPlayerError(@NonNull PlaybackException error) {
                 if (playbackListener != null) {
                     playbackListener.onError(currentSong, error.getMessage());
+
                 }
             }
         });
@@ -76,6 +77,7 @@ public class AudioPlayer implements AutoCloseable {
             } catch (Exception e) {
                 if (playbackListener != null) {
                     playbackListener.onError(song, "Failed to load media: " + e.getMessage());
+                    Log.e("AudioPlayer", "Error loading media: " + e.getMessage());
                 }
             }
         }
@@ -93,6 +95,7 @@ public class AudioPlayer implements AutoCloseable {
         } catch (Exception e) {
             if (playbackListener != null) {
                 playbackListener.onError(song, "Failed to load media: " + e.getMessage());
+                Log.e("AudioPlayer", "Error loading media: " + e.getMessage());
             }
         }
     }

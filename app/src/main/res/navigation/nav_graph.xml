@@ -56,8 +56,7 @@
         android:name="com.example.spotifyclone.features.library.ui.ArtistSelectionFragment"
         android:label="Library"
         tools:layout="@layout/fragment_artist_selection">
-
-
+<!--        Home navigation   -->
     </fragment>
 
 
