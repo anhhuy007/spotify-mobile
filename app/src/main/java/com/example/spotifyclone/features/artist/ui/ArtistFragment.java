@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,7 +49,6 @@ import com.example.spotifyclone.features.follow.model.Follow;
 import com.example.spotifyclone.features.follow.viewModel.AddFollowerViewModel;
 import com.example.spotifyclone.features.follow.viewModel.CheckFollowerViewModel;
 import com.example.spotifyclone.features.follow.viewModel.DeleteFollowerViewModel;
-import com.example.spotifyclone.features.follow.viewModel.FollowedArtistsCountViewModel;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
@@ -275,11 +275,18 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         // Discography button listener
         btn_see_view_discography.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(((ViewGroup) getView().getParent()).getId(), DiscographyFragment.newInstance(artistId,artistName))
-                        .addToBackStack(null)
-                        .commit();
+
+            if (rootView != null) {
+                // Get the NavController from the rootView
+                NavController navController = Navigation.findNavController(rootView);
+
+                // Create the navigation action with the required argument
+                Bundle args = new Bundle();
+                args.putString("ARTIST_ID", artistId);
+                args.putString("ARTIST_NAME", artistName);
+
+                // Navigate to the ArtistFragment
+                navController.navigate(R.id.artistDiscographyFragment, args);
             }
         });
 
@@ -425,11 +432,23 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
     }
 
     private void navigateToArtistOverallFragment(String artistId) {
-        if (getActivity() != null) {
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(((ViewGroup) getView().getParent()).getId(), ArtistOverallFragment.newInstance(artistId))
-                    .addToBackStack(null)
-                    .commit();
+//        if (getActivity() != null) {
+//            getActivity().getSupportFragmentManager().beginTransaction()
+//                    .replace(((ViewGroup) getView().getParent()).getId(), ArtistOverallFragment.newInstance(artistId))
+//                    .addToBackStack(null)
+//                    .commit();
+//        }
+
+        if (rootView != null) {
+            // Get the NavController from the rootView
+            NavController navController = Navigation.findNavController(rootView);
+
+            // Create the navigation action with the required argument
+            Bundle args = new Bundle();
+            args.putString("ARTIST_ID", artistId);
+
+            // Navigate to the ArtistFragment
+            navController.navigate(R.id.artistOverallFragment, args);
         }
     }
 
@@ -468,6 +487,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         albumViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
                 ArtistPlaylistAdapter playlistAdapter = new ArtistPlaylistAdapter(context, artists);
+                playlistAdapter.setRootView(rootView);
                 rv_playlists.setAdapter(playlistAdapter);
             }
         });

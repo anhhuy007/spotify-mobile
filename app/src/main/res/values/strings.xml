@@ -124,6 +124,9 @@
     <string name="show_spotify_code">Hiển thị mã Spotify</string>
     <string name="single">Đĩa đơn</string>
 
+    <string name="artist_ranking">Nghệ sĩ</string>
+    <string name="song_ranking">Bài hát</string>
+    <string name="album_ranking">Album</string>
 
     <string name="release">Bản phát hành</string>
     <string name="single1">Đĩa đơn và Đĩa mở rộng</string>

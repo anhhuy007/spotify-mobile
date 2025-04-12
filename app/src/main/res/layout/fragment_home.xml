@@ -200,6 +200,70 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/tv_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ranking"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_artist_ranking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/artist_ranking"
+                    app:icon="@drawable/ic_artist"
+                    app:iconGravity="textStart"
+                    app:iconPadding="6dp"
+                    app:backgroundTint="#FF4C4C"
+                    app:cornerRadius="24dp"
+                    android:textColor="@android:color/white"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_song_ranking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="@string/song_ranking"
+                    app:icon="@drawable/music_note_24px"
+                    app:iconGravity="textStart"
+                    app:iconPadding="6dp"
+                    app:backgroundTint="#4285F4"
+                    app:cornerRadius="24dp"
+                    android:textColor="@android:color/white"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_album_ranking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="@string/album_ranking"
+                    app:icon="@drawable/library_music_24px"
+                    app:iconGravity="textStart"
+                    app:iconPadding="6dp"
+                    app:backgroundTint="#1DB954"
+                    app:cornerRadius="24dp"
+                    android:textColor="@android:color/white"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp" />
+            </LinearLayout>
+
+
+
+
+            <TextView
                 android:id="@+id/tv_popular_artist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -10,8 +10,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.spotifyclone.features.artist.model.Item;
-import com.example.spotifyclone.features.artist.network.ArtistService;
 import com.example.spotifyclone.shared.model.APIResponse;
 import com.example.spotifyclone.shared.network.RetrofitClient;
 

@@ -1,6 +1,7 @@
 package com.example.spotifyclone.features.artist.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 
+import com.example.spotifyclone.features.album.ui.AlbumDetailFragmentDirections;
 import com.example.spotifyclone.features.artist.model.ItemDiscographyAlbum;
 
 import java.util.List;
@@ -50,6 +55,25 @@ public class ItemDiscographyAlbumAdapter extends RecyclerView.Adapter<ItemDiscog
                 .load(item.getCoverUrl())
                 .placeholder(R.drawable.loading)
                 .into(holder.imgAlbumCover);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (rootView != null) {
+                NavController navController = Navigation.findNavController(rootView);
+                int currentDestId = navController.getCurrentDestination().getId();
+
+                if (currentDestId == R.id.nav_album_detail) {
+                    NavDirections action = AlbumDetailFragmentDirections.actionNavAlbumDetailSelf(
+                            item.getId()
+                    );
+                    navController.navigate(action);
+                } else {
+                    Bundle args = new Bundle();
+                    args.putString("_id", item.getId());
+
+                    navController.navigate(R.id.nav_album_detail, args);
+                }
+            }
+        });
     }
 
     @Override

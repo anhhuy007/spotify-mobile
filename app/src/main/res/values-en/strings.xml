@@ -336,6 +336,9 @@
     <string name="features_student">1 verified Premium account • Discount for eligible students • Cancel anytime • Subscribe or one-time payment</string>
     <string name="button_try_student">TRY 2 MONTHS FOR ₫29,500</string>
     <string name="terms_student">₫29,500 for 2 months, then ₫29,500 per month after. Offer only available for eligible students. Terms apply.</string>
+    <string name="artist_ranking">Artist</string>
+    <string name="song_ranking">Song</string>
+    <string name="album_ranking">Album</string>
 
 
     <string name="you_re_all_set">You\'re all set!</string>
