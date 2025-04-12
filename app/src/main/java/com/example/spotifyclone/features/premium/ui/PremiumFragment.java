@@ -43,11 +43,9 @@ public class PremiumFragment extends Fragment {
         premiumViewModel.getIsPremiumUser().observe(getViewLifecycleOwner(), isPremium -> {
             NavController navController = NavHostFragment.findNavController(this);
             if (isPremium) {
-                Log.d("TAG", "User is premium");
                 navController.navigate(R.id.subscriptionDetailFragment);
             }
             else {
-                Log.d("TAG", "User is not premium");
                 navController.navigate(R.id.subscriptionPlanFragment);
             }
         });

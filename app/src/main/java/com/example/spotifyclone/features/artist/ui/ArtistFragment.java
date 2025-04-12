@@ -455,6 +455,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         epViewModel.getListDiscography().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
                 AlbumArtistAdapter albumAdapter = new AlbumArtistAdapter(context, artists);
+                albumAdapter.setRootView(rootView);
                 rv_albums.setAdapter(albumAdapter);
             }
         });

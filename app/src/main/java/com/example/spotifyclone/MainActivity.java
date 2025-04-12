@@ -154,21 +154,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(navView, navController);
 
-//        // Add custom click listener for the premium/profile button
-//        navView.setOnItemSelectedListener(item -> {
-//            if (item.getItemId() == R.id.nav_premium) {
-//                // Use the custom fragment transaction
-//                getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.nav_host_fragment, ProfileFragment.newInstance())
-//                        .addToBackStack(null)
-//                        .commit();
-//                return true;
-//            }
-//            // For other menu items, use the Navigation Component
-//            return NavigationUI.onNavDestinationSelected(item, navController)
-//                    || super.onOptionsItemSelected(item);
-//        });
-
         // Setup Navigation Drawer
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);

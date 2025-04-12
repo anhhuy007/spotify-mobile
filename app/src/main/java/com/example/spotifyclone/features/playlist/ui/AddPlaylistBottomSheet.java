@@ -36,7 +36,7 @@ public class AddPlaylistBottomSheet extends BottomSheetDialogFragment {
     private boolean isList2Ready = false;
 
     private PlaylistViewModel viewModelList;
-    private ViewPagerAdapter adapter; // ✅ Thêm adapter toàn cục
+    private ViewPagerAdapter adapter;
 
     public AddPlaylistBottomSheet() {}
 
@@ -68,7 +68,6 @@ public class AddPlaylistBottomSheet extends BottomSheetDialogFragment {
         viewModelList.fetchPopularSongs(playlistId);
         viewModelList.fetchRandomSongs(playlistId);
 
-        // ✅ Gán adapter 1 lần
         adapter = new ViewPagerAdapter(new ArrayList<>(), 1, requireContext(), new OnSongClickListner() {
             @Override
             public void OnAddClickSong(Song song) {
@@ -114,7 +113,7 @@ public class AddPlaylistBottomSheet extends BottomSheetDialogFragment {
         List<List<Song>> songLists = new ArrayList<>();
         songLists.add(list1);
         songLists.add(list2);
-        adapter.updateData(songLists); // ✅ Chỉ update dữ liệu
+        adapter.updateData(songLists); // Chỉ update dữ liệu
     }
 
     public void Indicator(View view) {

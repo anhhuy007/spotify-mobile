@@ -76,6 +76,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     private String artistUrl;
     private List<Song> albumSong;
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_album_detail, container, false);
@@ -87,25 +88,26 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
         AlbumDetailFragmentArgs args = AlbumDetailFragmentArgs.fromBundle(getArguments());
         if (args != null) {
-            coverUrl = args.getCoverUrl();
-            albumTitle = args.getTitle();
+//            coverUrl = args.getCoverUrl();
+//            albumTitle = args.getTitle();
             albumId = args.getId();
-            artistNames = Arrays.asList(args.getArtist());
-            artistUrl = args.getArtistUrl();
+//            artistNames = Arrays.asList(args.getArtist());
+//            artistUrl = args.getArtistUrl();
+
+
+
         } else {
             Log.e("AlbumDetailFragment", "Arguments is null");
             NavHostFragment.findNavController(this).navigateUp();
             return;
         }
 
+
         initViews(view);
-        setupUI();
-        setupViewModel();
+        setupViewModel(view);
         setupRecyclerView(view);
-        setupToolbar((AppCompatActivity) requireActivity());
         setupListeners();
         setupScrollListener();
-        setupGradientBackground(view);
     }
 
     private void setupListeners() {
@@ -135,17 +137,26 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     @SuppressLint("SetTextI18n")
     private void setupUI() {
         // Load album image
-        artist_name.setText(String.join(" ,", artistNames));
+        if (artistNames!=null){
+            artist_name.setText(String.join(" ,", artistNames));
+
+        }
         Glide.with(requireContext())
                 .load(coverUrl)
                 .into(albumImage);
 
         // Artist info
-        artist_name2.setText(String.join(" ,", artistNames));
+        if(artistNames!=null)
+        {
+            artist_name2.setText(String.join(" ,", artistNames));
+
+        }
         Glide.with(requireContext())
                 .load(artistUrl)
                 .into(artist_image);
-        artist_album_text.setText("Thêm nữa từ " + String.join(" ,", artistNames));
+        if(artistNames!=null){
+            artist_album_text.setText("Thêm nữa từ " + String.join(" ,", artistNames));
+        }
 
 
     }
@@ -215,21 +226,21 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
     private void navigateToAlbumDetail(Album album){
         NavDirections action = AlbumDetailFragmentDirections.actionNavAlbumDetailSelf(
-                album.getId(),
-                album.getTitle(),
-                album.getArtists_name().toArray(new String[0]), // List<String> → String[]
-                album.getReleaseDate() != null ? album.getReleaseDate().getTime() : 0L, // Date → long
-                album.getCoverUrl(),
-                album.getCreatedAt() != null ? album.getCreatedAt().getTime() : 0L, // Date → long
-                album.getLike_count(),
-                album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
-                album.getArtist_url().get(0) // Take the first url
+                album.getId()
+//                album.getTitle(),
+//                album.getArtists_name().toArray(new String[0]), // List<String> → String[]
+//                album.getReleaseDate() != null ? album.getReleaseDate().getTime() : 0L, // Date → long
+//                album.getCoverUrl(),
+//                album.getCreatedAt() != null ? album.getCreatedAt().getTime() : 0L, // Date → long
+//                album.getLike_count(),
+//                album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
+//                album.getArtist_url().get(0) // Take the first url
         );
         Navigation.findNavController(requireView()).navigate(action);
 
     }
 
-    private void setupViewModel() {
+    private void setupViewModel(View view) {
         AlbumViewModel albumViewModel = new ViewModelProvider(
                 this,
                 new AlbumViewModelFactory(requireContext())
@@ -247,12 +258,29 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         albumViewModel.getArtistAlbums().observe(getViewLifecycleOwner(), albums -> {
             artist_albumAdapter.setData(albums);
         });
+        albumViewModel.getAlbumById().observe(getViewLifecycleOwner(), album -> {
+
+            coverUrl = album.getCoverUrl();
+            albumTitle = album.getTitle();
+            albumId = album.getId();
+            artistNames = album.getArtists_name();
+            artistUrl = album.getArtist_url().get(0);// take first artist
+
+            setupUI();
+            setupToolbar((AppCompatActivity) requireActivity());
+            setupGradientBackground(view);
+
+
+
+        });
 
 
         // Fetch data
         albumViewModel.fetchAlbumSongs(albumId);
         albumViewModel.fetchAlbumsByIds();
         albumViewModel.fetchAlbumsByArtists(artistNames);
+        albumViewModel.fetchAlbumById(albumId);
+
 
         SpotifyCloneApplication app = SpotifyCloneApplication.getInstance();
         viewModel = new ViewModelProvider(new ViewModelStoreOwner() {

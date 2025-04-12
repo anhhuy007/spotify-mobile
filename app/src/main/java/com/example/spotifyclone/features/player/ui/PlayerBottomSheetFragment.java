@@ -337,6 +337,9 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             playTypeText = "ĐANG PHÁT NHẠC NGOẠI TUYẾN";
             tvPlayName.setVisibility(View.GONE);
             artistCard.setVisibility(View.GONE);
+        } else if (type == MusicPlayerViewModel.PlaybackSourceType.SEARCH) {
+            playTypeText = "ĐANG PHÁT TỪ TÌM KIẾM";
+            artistCard.setVisibility(View.VISIBLE);
         } else {
             playTypeText = "ĐANG PHÁT";
             artistCard.setVisibility(View.VISIBLE);

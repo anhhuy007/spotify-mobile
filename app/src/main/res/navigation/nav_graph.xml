@@ -84,32 +84,32 @@
             android:name="_id"
             app:argType="string"
             app:nullable="false" />
-        <argument
-            android:name="title"
-            app:argType="string"
-            app:nullable="false" />
-        <argument
-            android:name="artist"
-            app:argType="string[]" />
-        <argument
-            android:name="release_date"
-            app:argType="long" />
-        <argument
-            android:name="cover_url"
-            app:argType="string"
-            app:nullable="false" />
-        <argument
-            android:name="create_at"
-            app:argType="long" />
-        <argument
-            android:name="like_count"
-            app:argType="integer" />
-        <argument
-            android:name="updatedAt"
-            app:argType="long" />
-        <argument
-            android:name="artist_url"
-            app:argType="string" />
+<!--        <argument-->
+<!--            android:name="title"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="false" />-->
+<!--        <argument-->
+<!--            android:name="artist"-->
+<!--            app:argType="string[]" />-->
+<!--        <argument-->
+<!--            android:name="release_date"-->
+<!--            app:argType="long" />-->
+<!--        <argument-->
+<!--            android:name="cover_url"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="false" />-->
+<!--        <argument-->
+<!--            android:name="create_at"-->
+<!--            app:argType="long" />-->
+<!--        <argument-->
+<!--            android:name="like_count"-->
+<!--            app:argType="integer" />-->
+<!--        <argument-->
+<!--            android:name="updatedAt"-->
+<!--            app:argType="long" />-->
+<!--        <argument-->
+<!--            android:name="artist_url"-->
+<!--            app:argType="string" />-->
         <action
             android:id="@+id/action_nav_album_detail_to_albumBottomSheet"
             app:destination="@id/albumBottomSheet" />
@@ -477,7 +477,4 @@
             android:id="@+id/action_premiumFragment_to_subscriptionPlanFragment"
             app:destination="@id/subscriptionPlanFragment" />
     </fragment>
-
-
-
 </navigation>
