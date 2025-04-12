@@ -22,6 +22,11 @@ import java.util.List;
 public class ArtistPlaylistAdapter extends RecyclerView.Adapter<ArtistPlaylistAdapter.ViewHolder> {
     private Context context;
     private List<ItemDiscographyAlbum> artistList;
+    private View rootView;
+
+    public void setRootView(View rootView) {
+        this.rootView = rootView;
+    }
 
     public ArtistPlaylistAdapter(Context context, List<ItemDiscographyAlbum> artistList) {
         this.context = context;

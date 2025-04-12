@@ -21,6 +21,11 @@ public class ItemDiscographyAlbumAdapter extends RecyclerView.Adapter<ItemDiscog
 
     private Context context;
     private List<ItemDiscographyAlbum> albumList;
+    private View rootView;
+
+    public void setRootView(View rootView) {
+        this.rootView = rootView;
+    }
 
     public ItemDiscographyAlbumAdapter(Context context, List<ItemDiscographyAlbum> albumList) {
         this.context = context;
