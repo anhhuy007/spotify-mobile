@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,7 +63,6 @@ public class ArtistOverallFragment extends Fragment {
         setupBackButton();
 
         if (artistId == null || artistId.isEmpty()) {
-            Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
             return;
         }
 

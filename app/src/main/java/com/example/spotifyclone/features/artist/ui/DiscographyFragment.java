@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,7 +50,6 @@ public class DiscographyFragment extends Fragment implements ItemDiscographyEPAd
                         .commit();
             }
         } else {
-            Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -97,7 +95,6 @@ public class DiscographyFragment extends Fragment implements ItemDiscographyEPAd
         context = requireContext();
 
         if (artistId == null || artistId.isEmpty()) {
-            Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
             return;
         }
 

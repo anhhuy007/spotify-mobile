@@ -2,7 +2,6 @@ package com.example.spotifyclone.features.artist.viewModel;
 
 import android.app.Application;
 import android.content.Context;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -48,7 +47,6 @@ public class ArtistListViewModel extends AndroidViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     artists.setValue(response.body().getData());
                 } else {
-                    Toast.makeText(context, "Failed to load data", Toast.LENGTH_SHORT).show();
                 }
             }
 

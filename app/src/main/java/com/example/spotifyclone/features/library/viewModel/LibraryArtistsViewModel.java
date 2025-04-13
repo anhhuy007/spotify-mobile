@@ -3,7 +3,6 @@ package com.example.spotifyclone.features.library.viewModel;
 
 import android.app.Application;
 import android.content.Context;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -68,13 +67,11 @@ public class LibraryArtistsViewModel extends AndroidViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     artistsList.setValue(response.body().getData());
                 } else {
-                    Toast.makeText(context, "Failed to load artists", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponse<List<LibraryArtist>>> call, Throwable t) {
-                Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
