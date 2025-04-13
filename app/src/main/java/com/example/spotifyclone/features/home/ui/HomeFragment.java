@@ -61,8 +61,8 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
     private MusicPlayerViewModel musicPlayerViewModel;
     private User currentUser;
     private ImageView userAvatarImage;
-    private TextView userNameText, tvPopularArtists, tvLatestAlbums, tvPopularAlbums, tvLocalSongs, tvLocal;
-    private CardView localSongsCardView;
+    private TextView userNameText, tvPopularArtists, tvLatestAlbums, tvPopularAlbums, tvLocalSongs, tvLocal, tvRanking;
+    private CardView localSongsCardView, cardViewArtistRanking, cardViewSongRanking, cardViewAlbumRanking;
     private ImageButton playLocalSongsButton;
     private HomeViewModel homeViewModel;
     private NetworkStatusLiveData networkStatusLiveData;
@@ -121,9 +121,9 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         // CardView for ranking
-        CardView cardViewArtistRanking = view.findViewById(R.id.cardViewArtistRanking);
-        CardView cardViewSongRanking = view.findViewById(R.id.cardViewSongRanking);
-        CardView cardViewAlbumRanking = view.findViewById(R.id.cardViewAlbumRanking);
+        cardViewArtistRanking = view.findViewById(R.id.cardViewArtistRanking);
+        cardViewSongRanking = view.findViewById(R.id.cardViewSongRanking);
+        cardViewAlbumRanking = view.findViewById(R.id.cardViewAlbumRanking);
 
         cardViewArtistRanking.setOnClickListener(v -> {
             NavDirections action = HomeFragmentDirections.actionNavHomeToTopArtist();
@@ -183,6 +183,9 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         tvPopularAlbums = view.findViewById(R.id.tv_popular_albums);
         tvLocalSongs = view.findViewById(R.id.tv_local_songs);
         tvLocal = view.findViewById(R.id.tv_offline);
+
+        tvRanking = view.findViewById(R.id.tv_top);
+
     }
     public void navigateToChatbotFragment() {
         NavDirections action = HomeFragmentDirections.actionNavHomeToChatbotFragment();
@@ -306,7 +309,11 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
             tvPopularArtists.setVisibility(View.VISIBLE);
             tvLatestAlbums.setVisibility(View.VISIBLE);
             tvPopularAlbums.setVisibility(View.VISIBLE);
-
+            chatbotImage.setVisibility(View.VISIBLE);
+            cardViewAlbumRanking.setVisibility(View.VISIBLE);
+            cardViewArtistRanking.setVisibility(View.VISIBLE);
+            cardViewSongRanking.setVisibility(View.VISIBLE);
+            tvRanking.setVisibility(View.VISIBLE);
         } else {
             Log.d("HomeFragment", "updateOnlineOfflineUI: Offline");
             tvLocalSongs.setVisibility(View.VISIBLE);
@@ -320,7 +327,11 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
             tvPopularArtists.setVisibility(View.GONE);
             tvLatestAlbums.setVisibility(View.GONE);
             tvPopularAlbums.setVisibility(View.GONE);
-
+            chatbotImage.setVisibility(View.GONE);
+            cardViewAlbumRanking.setVisibility(View.GONE);
+            cardViewArtistRanking.setVisibility(View.GONE);
+            cardViewSongRanking.setVisibility(View.GONE);
+            tvRanking.setVisibility(View.GONE);
         }
     }
 
