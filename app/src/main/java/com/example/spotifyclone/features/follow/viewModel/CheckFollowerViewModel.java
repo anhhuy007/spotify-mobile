@@ -2,7 +2,6 @@ package com.example.spotifyclone.features.follow.viewModel;
 
 import android.app.Application;
 import android.content.Context;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -43,13 +42,11 @@ public class CheckFollowerViewModel extends AndroidViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     isFollowing.setValue(response.body().getData());
                 } else {
-                    Toast.makeText(context, "Failed to check follower status", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponse<Follow>> call, Throwable t) {
-                Toast.makeText(context, "Network error", Toast.LENGTH_SHORT).show();
             }
         });
     }

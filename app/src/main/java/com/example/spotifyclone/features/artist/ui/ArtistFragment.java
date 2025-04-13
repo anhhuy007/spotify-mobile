@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -117,7 +116,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         super.onViewCreated(view, savedInstanceState);
 
         if (artistId == null || artistId.isEmpty()) {
-            Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -194,7 +192,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         addFollowerViewModel.getAddedFollow().observe(getViewLifecycleOwner(), follow -> {
             if (follow != null) {
                 updateFollowButtonState(true);
-                Toast.makeText(requireContext(), "Followed successfully", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -202,7 +199,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         deleteFollowerViewModel.getIsDeleted().observe(getViewLifecycleOwner(), isDeleted -> {
             if (isDeleted) {
                 updateFollowButtonState(false);
-                Toast.makeText(requireContext(), "Unfollowed successfully", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -239,10 +235,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
             // Trigger the check
             checkFollowerViewModel.checkFollower(follow);
         } else {
-            // Handle case where artistId or currentUserId is null
-            Toast.makeText(requireContext(),
-                    "Unable to perform follow action. Please try again.",
-                    Toast.LENGTH_SHORT).show();
         }
     }
 

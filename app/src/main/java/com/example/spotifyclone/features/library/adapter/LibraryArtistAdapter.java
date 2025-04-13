@@ -59,6 +59,7 @@ public class LibraryArtistAdapter extends RecyclerView.Adapter<LibraryArtistAdap
                     .into(holder.artistImage);
         }
 
+
         holder.itemView.setOnClickListener(v -> {
             if (rootView != null) {
                 // Get the NavController from the rootView
