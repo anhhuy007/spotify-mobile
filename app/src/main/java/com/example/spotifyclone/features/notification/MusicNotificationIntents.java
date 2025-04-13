@@ -52,4 +52,15 @@ public class MusicNotificationIntents {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
     }
+    public static PendingIntent createShuffleIntent(Context context) {
+        Intent intent = new Intent(MusicNotificationReceiver.ACTION_TOGGLE_SHUFFLE);
+        intent.setClass(context, MusicNotificationReceiver.class);
+        intent.setPackage(context.getPackageName());
+        return PendingIntent.getBroadcast(
+                context,
+                2,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+    }
 }
