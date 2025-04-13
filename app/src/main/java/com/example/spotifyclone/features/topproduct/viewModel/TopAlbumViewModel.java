@@ -1,8 +1,6 @@
 package com.example.spotifyclone.features.topproduct.viewModel;
 
 
-
-
 import android.app.Application;
 import android.content.Context;
 import android.widget.Toast;
@@ -45,7 +43,7 @@ public class TopAlbumViewModel extends AndroidViewModel {
         Retrofit retrofit = RetrofitClient.getClient(context);
         ApiTopProduct apiService = retrofit.create(ApiTopProduct.class);
 
-        Call<APIResponse<List<TopAlbum>>> call =  apiService.getTopAlbum();
+        Call<APIResponse<List<TopAlbum>>> call = apiService.getTopAlbum();
 
         call.enqueue((new Callback<APIResponse<List<TopAlbum>>>() {
             @Override

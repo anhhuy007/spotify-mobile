@@ -77,7 +77,6 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
     private void initUser() {
         AuthRepository authRepository = new AuthRepository(getApplicationContext());
         currentUser = authRepository.getUser();
-        Log.d(TAG, "Current user: " + currentUser.isPremium());
     }
 
     private Context getApplicationContext() {

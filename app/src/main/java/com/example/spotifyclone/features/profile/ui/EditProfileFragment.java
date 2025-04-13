@@ -113,6 +113,10 @@ public class EditProfileFragment extends Fragment {
                         .load(updatedUser.getAvatarUrl())
                         .placeholder(R.drawable.loading)
                         .into(avatar);
+
+                // update local user data
+                AuthRepository authRepository = new AuthRepository(getContext());
+                authRepository.saveUser(updatedUser);
             }
         });
     }

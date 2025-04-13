@@ -108,6 +108,8 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
     private void initUser() {
         AuthRepository authRepository = new AuthRepository(getContext());
         currentUser = authRepository.getUser();
+
+        Log.d("HomeFragment", "initUser: " + currentUser.getAvatarUrl());
     }
     private void initUI(View view) {
         int spacing = 20; // dp spacing

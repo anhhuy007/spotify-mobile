@@ -385,7 +385,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("PAUSE", "test");
         saveNow();
     }
     private void savePlayerState(){

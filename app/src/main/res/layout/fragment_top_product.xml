@@ -139,13 +139,13 @@
 
                                 <ImageView
                                     android:id="@+id/img_album_artist_detail_top"
-                                    android:layout_width="24dp"
+                                    android:layout_width="30dp"
                                     android:layout_height="36dp"
                                     android:layout_gravity="center_vertical"
                                     android:layout_marginRight="12dp"
                                     android:background="@drawable/button_outline"
                                     android:padding="4dp"
-                                    android:scaleType="fitXY"
+                                    android:scaleType="centerCrop"
                                     android:src="@drawable/loading" />
 
 
@@ -169,7 +169,7 @@
                                     android:layout_height="48dp"
                                     android:layout_gravity="center_vertical"
                                     android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/ic_baseline_shuffle_24" />
+                                    android:src="@drawable/ic_shuffle_on" />
 
                                 <ImageButton
                                     android:id="@+id/btn_play_artist_detail_top"

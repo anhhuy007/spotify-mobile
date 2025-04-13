@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                             messagingService.sendTokenToServer(this, token);
                         });
 
-                Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
             }

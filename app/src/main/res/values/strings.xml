@@ -376,6 +376,7 @@
     <string name="song">Song</string>
     <string name="album">Album</string>
     <string name="artist">Artist</string>
+    <string name="processing_subscription">Processing subscription...</string>
 
 
 </resources>
