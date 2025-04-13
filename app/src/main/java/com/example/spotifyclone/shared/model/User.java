@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
     @SerializedName("_id")
-    private String id;
+    private String _id;
     private String email;
     private String username;
     @SerializedName("avatar_url")
@@ -14,14 +14,16 @@ public class User {
     private String theme;
     private String createdAt;
     private String updatedAt;
+    private String googleId;
+    private String dob;
 
     // Getters and setters
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getEmail() {
@@ -86,5 +88,21 @@ public class User {
 
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 }

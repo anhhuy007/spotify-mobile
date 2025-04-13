@@ -1,0 +1,14 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Màu nền trùng với màu nền tổng thể (thay đổi nếu nền của bạn khác) -->
+    <solid android:color="@color/background_color" /> <!-- Nền trắng -->
+
+    <!-- Viền màu xám nhạt -->
+    <stroke
+        android:width="1dp"
+        android:color="@color/gray" /> <!-- Viền xám nhẹ -->
+
+    <!-- Bo góc nhẹ cho đẹp -->
+    <corners android:radius="20dp" />
+</shape>

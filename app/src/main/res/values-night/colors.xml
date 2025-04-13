@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spotify brand colors -->
+    <color name="colorPrimary">#1DB954</color> <!-- Signature green color -->
+    <color name="colorPrimaryDark">#191414</color> <!-- Spotify's dark background -->
+    <color name="colorAccent">#1DB954</color> <!-- Accent color (same green as primary) -->
+    <color name="inputEditTextBg">#282828</color>
+
+    <!-- Dark Theme Colors -->
+    <color name="colorBackground">#121212</color> <!-- Main dark background -->
+    <color name="colorBackgroundLight">#181818</color> <!-- Slightly lighter background for depth -->
+    <color name="colorCardBackground">#232323</color> <!-- Background color for cards -->
+    <color name="background_color">#000000</color> <!-- Background color from other version -->
+    <color name="bottom_sheet">#222222</color> <!-- Bottom sheet color -->
+
+    <!-- Text Colors -->
+    <color name="textColorPrimary">#FFFFFF</color> <!-- Primary text color (white) -->
+    <color name="textColorSecondary">#B3B3B3</color> <!-- Secondary text color (light gray) -->
+    <color name="textColorTertiary">#808080</color> <!-- Tertiary text color (muted gray for descriptions) -->
+    <color name="iconTintColor">#E0E0E0</color> <!-- Icon tint for better contrast -->
+    <color name="text_color">#FFFFFFFF</color> <!-- Additional text color from other version -->
+
+    <color name="black">#FFFFFFFF</color>
+    <color name="blackAlpha">#88FFFFFF</color>
+
+    <color name="white">#FF000000</color>
+    <color name="gray">#949494</color>
+    <color name="lightGrey">#D1D1D1</color>
+    <color name="darkGrey">#262626</color>
+    <color name="darkGrey1">#808080</color>
+    <color name="blue">#2196F3</color>
+
+
+</resources>

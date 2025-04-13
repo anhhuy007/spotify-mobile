@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_color"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/search"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_foreground" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/search_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_next_bold"
+                android:textColor="@color/text_color"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_verify" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/search_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_next"
+            android:textColor="@color/text_color"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <com.google.android.material.chip.Chip
+        style="@style/Widget.MaterialComponents.Chip.Action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="16dp"
+        android:text="@string/follow"
+        android:textColor="@color/text_color"
+        android:textSize="12sp"
+        app:chipBackgroundColor="@color/background_color"
+        app:chipStrokeColor="@color/text_color"
+        app:chipStrokeWidth="2dp" />
+
+
+</LinearLayout>

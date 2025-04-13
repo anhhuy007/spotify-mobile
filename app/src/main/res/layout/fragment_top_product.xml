@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_artist_cover_top"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/loading" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/navbar_artist_UI_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:background="@android:color/transparent" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent">
+
+                    <FrameLayout
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginLeft="8dp">
+
+                        <ImageView
+                            android:id="@+id/btn_artist_detail_ui_background_top"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/circle_brown_background" />
+                        <!-- Nút bấm giữ nguyên -->
+                        <ImageButton
+
+                            android:id="@+id/btn_artist_detail_ui_back_top"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="Back button"
+                            android:src="@drawable/back_btn_white" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/artist_name_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="60dp"
+                        android:alpha="0"
+                        android:fontFamily="@font/avenir_next_bold"
+                        android:gravity="center_vertical"
+                        android:text="SOOBIN"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                </RelativeLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ScrollView
+                    android:id="@+id/artist_detail_scrollview_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <View
+
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@android:color/transparent" />
+
+                        <TextView
+                            android:id="@+id/tv_artist_name_top"
+                            android:layout_width="match_parent"
+                            android:layout_height="118dp"
+                            android:fontFamily="@font/avenir_next_bold"
+                            android:gravity="bottom"
+                            android:paddingLeft="12dp"
+                            android:text="Noo Phước Thịnh"
+                            android:textColor="@android:color/white"
+                            android:textSize="50dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:orientation="vertical"
+                                android:paddingHorizontal="16dp"
+                                android:paddingTop="16dp">
+
+                                <TextView
+                                    android:id="@+id/tv_monthly_listeners_top"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="5.462.891 người nghe hàng tháng"
+                                    android:textColor="@color/gray"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:gravity="center_vertical"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:padding="12dp">-->
+
+<!--                                <ImageView-->
+<!--                                    android:id="@+id/img_album_artist_detail_top"-->
+<!--                                    android:layout_width="24dp"-->
+<!--                                    android:layout_height="36dp"-->
+<!--                                    android:layout_gravity="center_vertical"-->
+<!--                                    android:layout_marginRight="12dp"-->
+<!--                                    android:background="@drawable/button_outline"-->
+<!--                                    android:padding="4dp"-->
+<!--                                    android:scaleType="fitXY"-->
+<!--                                    android:src="@drawable/loading" />-->
+
+
+<!--                                <ImageButton-->
+<!--                                    android:id="@+id/btn_more_options_artist_detail_top"-->
+<!--                                    android:layout_width="36dp"-->
+<!--                                    android:layout_height="36dp"-->
+<!--                                    android:layout_gravity="center_vertical"-->
+<!--                                    android:layout_marginLeft="10dp"-->
+<!--                                    android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--                                    android:src="@drawable/ic_baseline_more_vert_24" />-->
+
+<!--                                <View-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:layout_weight="1" />-->
+
+<!--                                <ImageButton-->
+<!--                                    android:id="@+id/btn_shuffle_artist_detail_top"-->
+<!--                                    android:layout_width="48dp"-->
+<!--                                    android:layout_height="48dp"-->
+<!--                                    android:layout_gravity="center_vertical"-->
+<!--                                    android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--                                    android:src="@drawable/ic_baseline_shuffle_24" />-->
+
+<!--                                <ImageButton-->
+<!--                                    android:id="@+id/btn_play_artist_detail_top"-->
+<!--                                    android:layout_width="48dp"-->
+<!--                                    android:layout_height="48dp"-->
+<!--                                    android:layout_gravity="center_vertical"-->
+<!--                                    android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--                                    android:src="@drawable/ic_baseline_play_circle_filled_24" />-->
+
+<!--                            </LinearLayout>-->
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_next_bold"
+                                android:gravity="center_vertical"
+                                android:paddingStart="16dp"
+                                android:paddingTop="16dp"
+                                android:paddingEnd="16dp"
+                                android:text="@string/ranking"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_albums_top"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clipToPadding="false"
+                                android:nestedScrollingEnabled="false"
+                                android:orientation="vertical"
+                                android:paddingStart="8dp"
+                                android:paddingTop="8dp"
+                                android:paddingEnd="8dp"
+                                android:paddingBottom="16dp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_next_bold"
+                                android:gravity="center_vertical"
+                                android:paddingStart="16dp"
+                                android:paddingTop="16dp"
+                                android:paddingEnd="16dp"
+                                android:text="@string/you_may_also_like"
+                                android:textColor="@color/black"
+                                android:textSize="18sp" />
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_also_like_top"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:nestedScrollingEnabled="false" />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </ScrollView>
+            </FrameLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</LinearLayout>
+
+
+

@@ -1,5 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#1DB954</color> <!-- Signature green color -->
+    <color name="colorPrimaryDark">#191414</color> <!-- Spotify's dark background -->
+    <color name="colorAccent">#1DB954</color> <!-- Accent color (same green as primary) -->
+    <color name="inputEditTextBg">#F5F5F5</color>
+
+    <!-- Light Theme colors -->
+    <color name="colorBackground">#FFFFFF</color> <!-- White background -->
+    <color name="secondaryBackground">#212121</color> <!-- Secondary text color (light gray) -->
+
+    <color name="textColorPrimary">#191414</color> <!-- Primary text color (dark black) -->
+    <color name="textColorSecondary">#666666</color> <!-- Secondary text color (light gray) -->
+
+    <!-- Additional colors for Spotify Light Theme -->
+    <color name="colorBackgroundLight">#F8F8F8
+    </color> <!-- Slightly lighter background for depth -->
+    <color name="colorCardBackground">#EFEFEF</color> <!-- Background color for cards -->
+    <color name="textColorTertiary">#999999
+    </color> <!-- Tertiary text color (lighter gray for descriptions) -->
+    <color name="iconTintColor">#555555</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="light_blue_A200">#FF40C4FF</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="black_overlay">#66000000</color> <!-- Tint color for icons to match light theme -->
+
+    <color name="text_color">#000000</color>
+    <color name="background_color">#FFFFFFFF</color>
+    <color name="bottom_sheet">#DDDDDD</color>
+
+    <color name="blackAlpha">#88000000</color>
+    <color name="gray">#595959</color>
+    <color name="lightGrey">#E0E0E0</color>
+    <color name="darkGrey1">#808080</color>
+
+    <color name="darkGrey">#262626</color>
+
+    <color name="blue">#2196F3</color>
+
+    <color name="spotify_green">#1DB954</color>
+    <color name="spotify_green_dark">#1AA34A</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray_200">#E5E7EB</color>
+    <color name="gray_300">#D1D5DB</color>
+    <color name="gray_600">#4B5563</color>
+    <color name="gray_800">#1F2937</color>
+
+    <!-- Password strength colors -->
+    <color name="red_500">#EF4444</color>
+    <color name="orange_500">#F97316</color>
+    <color name="yellow_500">#EAB308</color>
 </resources>

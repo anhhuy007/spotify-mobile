@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".features.premium.ui.SubscriptionPlanFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/white"
+                app:expandedTitleMarginBottom="32dp"
+                app:expandedTitleMarginStart="16dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="parallax">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/spotify_premium_bg"
+                        app:layout_collapseMode="parallax" />
+
+                </FrameLayout>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_next"
+                    android:text="@string/premium_subscription_title1"
+                    android:textColor="@color/black"
+                    android:textSize="27dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_get_started"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="20dp"
+                    android:backgroundTint="@android:color/white"
+                    android:text="@string/get_started1"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="28dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/mini_plan_description1"
+                    android:textColor="#9E9E9E"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/offer_ends_text"
+                    android:textColor="#9E9E9E"
+                    android:textSize="14sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="20dp"
+                    android:layout_marginTop="24dp"
+                    app:cardBackgroundColor="#212121"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:text="@string/why_join_premium"
+                            android:textColor="@android:color/white"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <!-- Premium features list -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginEnd="16dp"
+                                android:src="@drawable/ic_checkmark" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/ad_free_music_listening"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginEnd="16dp"
+                                android:src="@drawable/ic_checkmark" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/download_to_listen_offline"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginEnd="16dp"
+                                android:src="@drawable/ic_checkmark" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/play_songs_in_any_order"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginEnd="16dp"
+                                android:src="@drawable/ic_checkmark" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/high_audio_quality"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="24dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginEnd="16dp"
+                                android:src="@drawable/ic_checkmark" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/organize_listening_queue"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="20dp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/premium_mini_gradient"
+                        android:padding="24dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!-- Header: Premium Mini and Price -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/avenir_next"
+                                    android:text="@string/premium_mini"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_next"
+                                        android:text="@string/mini_price"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="24sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_next"
+                                        android:text="@string/mini_duration"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!-- Features description -->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
+                                android:fontFamily="@font/avenir_next"
+                                android:lineSpacingExtra="4dp"
+                                android:text="@string/mini_plan_description"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp" />
+
+                            <!-- Get Premium Mini button -->
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_get_premium_mini"
+                                android:layout_width="match_parent"
+                                android:layout_height="56dp"
+                                android:layout_marginTop="24dp"
+                                android:backgroundTint="@android:color/white"
+                                android:fontFamily="@font/avenir_next"
+                                android:text="@string/get_premium_mini"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:cornerRadius="28dp" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:fontFamily="@font/avenir_next"
+                                android:gravity="center"
+                                android:text="@string/terms_apply"
+                                android:textColor="@android:color/white"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="20dp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/premium_individual_gradient"
+                        android:padding="24dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!-- Top text -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_next"
+                                android:text="@string/three_months_zero"
+                                android:textColor="@android:color/white"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <!-- Header: Premium Individual and FREE -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/avenir_next"
+                                    android:text="@string/premium_individual"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_next"
+                                        android:text="@string/free"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="25sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_next"
+                                        android:text="@string/for_3_months"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!-- Features description -->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
+                                android:fontFamily="@font/avenir_next"
+                                android:gravity="center"
+                                android:lineSpacingExtra="4dp"
+                                android:text="@string/individual_plan_description"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp" />
+
+                            <!-- Try 3 months button -->
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_try_individual"
+                                android:layout_width="match_parent"
+                                android:layout_height="56dp"
+                                android:layout_marginTop="24dp"
+                                android:backgroundTint="@android:color/white"
+                                android:fontFamily="@font/avenir_next"
+                                android:text="@string/try_three_months"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:cornerRadius="28dp" />
+
+                            <!-- Terms text -->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:fontFamily="@font/avenir_next"
+                                android:gravity="center"
+                                android:lineSpacingExtra="4dp"
+                                android:text="@string/individual_plan_term"
+                                android:textColor="@android:color/white"
+                                android:textSize="12sp" />
+
+                            <!-- Offer ends text -->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:fontFamily="@font/avenir_next"
+                                android:gravity="center"
+                                android:text="@string/offer_ends_april_2"
+                                android:textColor="@android:color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="20dp"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="0dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/premium_student_gradient"
+                        android:padding="24dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!-- Top text -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_next"
+                                android:text="@string/two_months_29500"
+                                android:textColor="@android:color/white"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+
+                            <!-- Header: Premium Student and Price -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/avenir_next"
+                                    android:text="@string/premium_student"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="24sp"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="end"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_next"
+                                        android:text="@string/two_months_29500"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="25sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/avenir_next"
+                                        android:text="@string/for_2_months"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <!-- Features description -->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="24dp"
+                                android:fontFamily="@font/avenir_next"
+                                android:gravity="center"
+                                android:lineSpacingExtra="4dp"
+                                android:text="@string/student_plan_description"
+                                android:textColor="@android:color/white"
+                                android:textSize="16sp" />
+
+                            <!-- Try 2 months button -->
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_try_student"
+                                android:layout_width="match_parent"
+                                android:layout_height="56dp"
+                                android:layout_marginTop="24dp"
+                                android:backgroundTint="@android:color/white"
+                                android:fontFamily="@font/avenir_next"
+                                android:text="@string/try_two_months"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:cornerRadius="28dp" />
+
+
+                            <!-- Terms text -->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:fontFamily="@font/avenir_next"
+                                android:gravity="center"
+                                android:lineSpacingExtra="4dp"
+                                android:text="@string/student_plan_term"
+                                android:textColor="@android:color/white"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

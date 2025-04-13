@@ -1,0 +1,164 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <!-- AppBar with Gradient -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"
+        android:layout_gravity="center"
+        android:background="@drawable/gradient_appbar"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        android:elevation="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:navigationIcon="@drawable/ic_back_button"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/toolbarCenteredTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chatbot_string"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="@id/topAppBar"
+                app:layout_constraintBottom_toBottomOf="@id/topAppBar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Lottie Animation -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:lottie_rawRes="@raw/hello"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyleLarge"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+        app:layout_constraintTop_toBottomOf="@id/animationView"
+        app:layout_constraintBottom_toTopOf="@id/messageInputLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Message Input Layout -->
+    <LinearLayout
+        android:id="@+id/messageInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp">
+
+            <!-- EditText -->
+            <EditText
+                android:id="@+id/inputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập tin nhắn"
+                android:textColorHint="@color/text_color"
+                android:background="@drawable/chatbot_shape"
+                android:paddingEnd="100dp"
+                android:paddingStart="15dp"
+                android:paddingTop="18dp"
+                android:paddingBottom="18dp"
+                android:textColor="@color/text_color"
+                android:textSize="16sp"
+                android:inputType="textMultiLine"
+                android:maxLines="4"
+                android:minHeight="48dp"
+                android:gravity="start|center_vertical" />
+
+            <!-- Buttons on the right -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="end|center_vertical"
+                android:paddingEnd="10dp">
+
+                <!-- Mic Button -->
+                <ImageButton
+                    android:id="@+id/micButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:src="@drawable/image_voice"
+                    android:background="@android:color/transparent"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Gửi" />
+            </LinearLayout>
+
+            <!-- Send Button -->
+            <ImageButton
+                android:id="@+id/sendButton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/image_send"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                android:background="@android:color/transparent"
+                android:contentDescription="Gửi" />
+        </FrameLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

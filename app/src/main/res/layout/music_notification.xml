@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- ImageView làm background -->
+    <ImageView
+        android:id="@+id/notification_song_art"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:alpha="0.3"/> <!-- Giảm opacity để thấy nội dung phía trên -->
+
+    <!-- Container cho các thành phần khác -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#80000000"> <!-- Màu overlay tối để text dễ đọc -->
+
+        <LinearLayout
+            android:id="@+id/notification_text_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/notification_song_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mưa Giữa Bài"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/notification_song_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thắng, NÂN"
+                android:textColor="#B3FFFFFF"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/notification_controls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical|end">
+
+            <ImageButton
+                android:id="@+id/notification_prev"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_skip_prev"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:contentDescription="Previous"/>
+
+            <ImageButton
+                android:id="@+id/notification_play_pause"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_play_circle"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:contentDescription="Play/Pause"
+                android:layout_marginHorizontal="8dp"/>
+
+            <ImageButton
+                android:id="@+id/notification_next"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_skip_next"
+                android:background="?android:selectableItemBackgroundBorderless"
+                android:contentDescription="Next"/>
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/notification_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignParentBottom="true"
+            android:thumb="@null"
+            android:max="100"/>
+    </RelativeLayout>
+</RelativeLayout>

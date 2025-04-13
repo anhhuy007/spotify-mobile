@@ -12,35 +12,35 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.spotifyclone.MainActivity;
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.authentication.network.AuthService;
-import com.example.spotifyclone.features.authentication.network.TokenManager;
+import com.example.spotifyclone.features.authentication.viewmodel.AuthVMFactory;
 import com.example.spotifyclone.features.authentication.viewmodel.AuthViewModel;
-import com.example.spotifyclone.shared.network.RetrofitClient;
+import com.example.spotifyclone.shared.utils.MyFirebaseMessagingService;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class LoginActivity extends AppCompatActivity {
 
     private AuthViewModel authViewModel;
+
+    //    ui elements
     private EditText emailInput, passwordInput;
-    private Button loginButton, googleLoginBtn, backButton;
+    private Button loginButton, googleLoginBtn;
     private ProgressBar progressBar;
-    private TextView forgotPasswordText;
+    private TextView forgotPasswordText, signUpText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.auth_login);
+        setContentView(R.layout.activity_login);
 
         var gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.client_id))
@@ -51,40 +51,35 @@ public class LoginActivity extends AppCompatActivity {
         initializeViews();
 
         // initialize view model
-        authViewModel = new ViewModelProvider(
-                this,
-                new ViewModelProvider.Factory() {
-                    @NonNull
-                    @Override
-                    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                        return (T) new AuthViewModel(RetrofitClient.getClient(LoginActivity.this).create(AuthService.class), new TokenManager(LoginActivity.this));
-                    }
-                }
-        ).get(AuthViewModel.class);
+        authViewModel = new ViewModelProvider(this, new AuthVMFactory(this)).get(AuthViewModel.class);
 
         googleLoginBtn.setOnClickListener(v -> {
             var signInIntent = mGoogleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, 1);
         });
 
-        backButton.setOnClickListener(v -> {
-            finish();
-        });
-
         loginButton.setOnClickListener(v -> {
             loginUser();
+        });
+
+        forgotPasswordText.setOnClickListener(v -> {
+            startActivity(new Intent(this, ForgotPasswordActivity.class));
+        });
+
+        signUpText.setOnClickListener(v -> {
+            startActivity(new Intent(this, SignupActivity.class));
         });
 
         observeViewModel();
     }
 
     private void initializeViews() {
-        emailInput = findViewById(R.id.emailInput);
-        passwordInput = findViewById(R.id.passwordInput);
-        loginButton = findViewById(R.id.loginButton);
-        googleLoginBtn = findViewById(R.id.googleLoginBtn);
-        backButton = findViewById(R.id.backButton);
-        forgotPasswordText = findViewById(R.id.forgotPasswordText);
+        emailInput = findViewById(R.id.etEmail);
+        passwordInput = findViewById(R.id.etPassword);
+        loginButton = findViewById(R.id.btnLogin);
+        googleLoginBtn = findViewById(R.id.btnGoogleSignIn);
+        forgotPasswordText = findViewById(R.id.tvForgotPassword);
+        signUpText = findViewById(R.id.tvSignUp);
         progressBar = findViewById(R.id.progressBar);
     }
 
@@ -102,14 +97,37 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void observeViewModel() {
-        authViewModel.getIsLoggedIn().observe(this, result -> {
+        authViewModel.getIsSuccess().observe(this, result -> {
             progressBar.setVisibility(View.GONE);
 
             if (result) {
-                Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show();
+                // add new FCM token to server
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(task -> {
+                            if (!task.isSuccessful()) {
+                                Log.w("FCM", "Fetching FCM registration token failed", task.getException());
+                                return;
+                            }
+                            String token = task.getResult();
+
+                            MyFirebaseMessagingService messagingService = new MyFirebaseMessagingService();
+                            messagingService.sendTokenToServer(this, token);
+                        });
+
+//                Toast.makeText(this, "Logged in successfully", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
             }
+        });
+
+        authViewModel.getErrorMessage().observe(this, errorMessage -> {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+        });
+
+        authViewModel.getIsLoading().observe(this, isLoading -> {
+            progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            loginButton.setEnabled(!isLoading);
         });
     }
 
@@ -122,8 +140,10 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 var account = task.getResult();
                 firebaseAuthWithGoogle(account.getIdToken());
-                // Signed in successfully, show authenticated UI.
-                // updateUI(account);
+
+                // pass token id to server to login with google account
+                authViewModel.googleLogin(account.getIdToken());
+
             } catch (Exception e) {
                 // The ApiException status code indicates the detailed failure reason.
                 // Please refer to the GoogleSignInStatusCodes class reference for more information.

@@ -7,57 +7,92 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.spotifyclone.features.authentication.model.LoginResponse;
-import com.example.spotifyclone.features.authentication.network.AuthService;
-import com.example.spotifyclone.features.authentication.network.TokenManager;
-import com.example.spotifyclone.shared.model.APIResponse;
-import com.example.spotifyclone.shared.network.RetrofitClient;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.spotifyclone.features.authentication.model.CheckUserExistCallBack;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
+import com.example.spotifyclone.shared.model.User;
 
 public class AuthViewModel extends ViewModel {
-    private final AuthService authService;
-    private final TokenManager tokenManager;
+    private final AuthRepository authRepo;
+
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
     private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> isLoggedIn = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> isSuccess = new MutableLiveData<>();
+    private final MutableLiveData<User> userLiveData = new MutableLiveData<>();
 
-    public AuthViewModel(AuthService authService, TokenManager tokenManager) {
-        this.authService = authService;
-        this.tokenManager = tokenManager;
+
+    public AuthViewModel(Context context) {
+        this.authRepo = new AuthRepository(context);
+
+        if (authRepo.isLoggedIn()) {
+            isSuccess.setValue(true);
+            userLiveData.setValue(authRepo.getUser());
+        } else {
+            isSuccess.setValue(false);
+        }
+
     }
 
     public void login(String email, String password) {
         isLoading.setValue(true);
-        Log.d("DEBUG", "login: " + email + " " + password);
-        authService.login(email, password).enqueue(new Callback<APIResponse<LoginResponse>>() {
+        authRepo.login(email, password, new AuthRepository.AuthCallback() {
             @Override
-            public void onResponse(Call<APIResponse<LoginResponse>> call, Response<APIResponse<LoginResponse>> response) {
-                Log.d("DEBUG", "onResponse: " + response);
+            public void onSuccess(User user) {
                 isLoading.setValue(false);
-                if (response.isSuccessful()) {
-                    APIResponse<LoginResponse> apiResponse = response.body();
-                    if (apiResponse != null && apiResponse.isSuccess()) {
-                        LoginResponse loginResponse = apiResponse.getData();
-                        tokenManager.saveTokens(loginResponse.getTokens().getAccessToken(), loginResponse.getTokens().getRefreshToken());
-                        isLoggedIn.setValue(true);
-                    } else {
-                        errorMessage.setValue(apiResponse != null ? apiResponse.getMessage() : "An error occurred");
-                    }
-                } else {
-                    errorMessage.setValue("An error occurred");
-                }
+                isSuccess.setValue(true);
+                userLiveData.setValue(user);
             }
 
             @Override
-            public void onFailure(Call<APIResponse<LoginResponse>> call, Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+            public void onFailure(String error) {
                 isLoading.setValue(false);
-                errorMessage.setValue(t.getMessage());
+                errorMessage.setValue(error);
             }
         });
+    }
+
+    public void googleLogin(String idToken) {
+        isLoading.setValue(true);
+        authRepo.googleLogin(idToken, new AuthRepository.AuthCallback() {
+            @Override
+            public void onSuccess(User user) {
+                isLoading.setValue(false);
+                isSuccess.setValue(true);
+                userLiveData.setValue(user);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                isLoading.setValue(false);
+                errorMessage.setValue(error);
+            }
+        });
+    }
+
+    public void signup(String username, String email, String password, String dob, String avatarUrl) {
+        isLoading.setValue(true);
+        authRepo.signup(username, email, password, dob, avatarUrl, new AuthRepository.AuthCallback() {
+            @Override
+            public void onSuccess(User user) {
+                isLoading.setValue(false);
+                isSuccess.setValue(true);
+                userLiveData.setValue(user);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                isLoading.setValue(false);
+                errorMessage.setValue(error);
+            }
+        });
+
+    }
+
+    public User getCurrentUser() {
+        return authRepo.getUser();
+    }
+
+    public void checkUsernameAvailability(String username, CheckUserExistCallBack callBack) {
+        authRepo.checkUsernameExist(username, callBack);
     }
 
     public LiveData<Boolean> getIsLoading() {
@@ -68,7 +103,7 @@ public class AuthViewModel extends ViewModel {
         return errorMessage;
     }
 
-    public LiveData<Boolean> getIsLoggedIn() {
-        return isLoggedIn;
+    public LiveData<Boolean> getIsSuccess() {
+        return isSuccess;
     }
 }

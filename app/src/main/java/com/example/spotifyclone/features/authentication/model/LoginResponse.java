@@ -1,5 +1,4 @@
 package com.example.spotifyclone.features.authentication.model;
-
 import com.example.spotifyclone.shared.model.User;
 
 public class LoginResponse {

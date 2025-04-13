@@ -1,0 +1,37 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bottom_sheet"
+    android:orientation="vertical">
+    <!--    search bar-->
+
+
+    <!--recycler view-->
+    <EditText
+        android:id="@+id/search_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/search_bar_style"
+        android:drawableLeft="@drawable/ic_search"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/avenir_next"
+        android:hint="@string/search_text"
+        android:padding="12dp"
+        android:textColor="@color/text_color" />
+
+    <!-- Nơi chứa AlbumFragment -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
+
+</LinearLayout>

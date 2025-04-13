@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/spotify_green</item>
+        <item name="colorPrimaryDark">@color/spotify_green_dark</item>
+        <item name="colorAccent">@color/spotify_green</item>
+        <item name="android:statusBarColor">@color/spotify_green</item>
+        <item name="android:fontFamily">@font/avenir_next</item>
+    </style>
+
+    <style name="Widget.Theme.SpotifyClone.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+
+    <style name="CircleImageView">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!-- NumberPicker style for Spotify -->
+    <style name="SpotifyNumberPickerStyle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="colorControlNormal">@color/gray_300</item>
+        <item name="android:textSelectHandle">@color/spotify_green</item>
+    </style>
+
+</resources>

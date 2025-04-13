@@ -1,7 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.SpotifyClone" parent="Theme.Material3.DayNight">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+    <style name="Theme.SpotifyClone" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+
+        <!-- Status bar and navigation -->
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="Theme.SpotifyClone.Translucent" parent="Theme.SpotifyClone">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="ThemeOverlay.SpotifyClone.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
+        <item name="fullscreenTextColor">@color/light_blue_A400</item>
+    </style>
+
+    <style name="Base.ThemeNight.SpotifyClone" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">#BB86FC</item>
+        <item name="colorPrimaryVariant">#3700B3</item>
+        <item name="colorOnPrimary">@color/background_color</item>
+        <item name="colorOnBackground">@color/text_color</item>
     </style>
 </resources>
