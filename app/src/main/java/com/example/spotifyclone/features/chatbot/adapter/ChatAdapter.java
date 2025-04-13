@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.chatbot.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
@@ -7,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.features.chatbot.model.ChatMessage;
 
 import java.util.List;
 
@@ -19,55 +23,52 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_USER = 0;
     private static final int TYPE_AI = 1;
+    private static final int TYPE_LOADING = 2;
+    private List<ChatMessage> messages;
 
-    private List<String> messages;
-
-    public ChatAdapter(List<String> messages) {
+    public ChatAdapter(List<ChatMessage> messages) {
         this.messages = messages;
     }
 
     @Override
     public int getItemViewType(int position) {
-        // Nếu tin nhắn của người dùng, trả về TYPE_USER, còn lại là TYPE_AI
-        return position % 2 == 0 ? TYPE_USER : TYPE_AI;  // Ví dụ: Dùng modulo để phân biệt
+        return messages.get(position).getType();
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_USER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chatbot_message, parent, false);
-            return new UserViewHolder(view);
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chatbot_message, parent, false);
-            return new AIViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_USER: {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_user, parent, false);
+                return new UserViewHolder(view);
+            }
+            case TYPE_AI: {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_bot, parent, false);
+                return new AIViewHolder(view);
+            }
+            default: {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_typing, parent, false);
+                return new TypingViewHolder(view);
+            }
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        String message = messages.get(position);
-
-        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int maxWidth = (int) (screenWidth * 0.7);
+        ChatMessage message = messages.get(position);
 
         Context context = holder.itemView.getContext();
         Markwon markwon = Markwon.create(context);
 
         if (holder instanceof UserViewHolder) {
             UserViewHolder userHolder = (UserViewHolder) holder;
-            userHolder.userMessageText.setMaxWidth(maxWidth);
             userHolder.userMessageText.setVisibility(View.VISIBLE);
-            userHolder.aiMessageText.setVisibility(View.GONE);
-
-            markwon.setMarkdown(userHolder.userMessageText, message);
-
+            markwon.setMarkdown(userHolder.userMessageText, message.getMessage());
         } else if (holder instanceof AIViewHolder) {
             AIViewHolder aiHolder = (AIViewHolder) holder;
-            aiHolder.aiMessageText.setMaxWidth(maxWidth);
             aiHolder.aiMessageText.setVisibility(View.VISIBLE);
-            aiHolder.userMessageText.setVisibility(View.GONE);
-
-            markwon.setMarkdown(aiHolder.aiMessageText, message);
+            markwon.setMarkdown(aiHolder.aiMessageText, message.getMessage());
         }
     }
 
@@ -78,33 +79,37 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
         return messages.size();
     }
-    public void setData(List<String> messages) {
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setData(List<ChatMessage> messages) {
         this.messages = messages;
         notifyDataSetChanged();
     }
 
     static class UserViewHolder extends RecyclerView.ViewHolder {
         TextView userMessageText;
-        TextView aiMessageText;
 
         UserViewHolder(View itemView) {
             super(itemView);
-            userMessageText = itemView.findViewById(R.id.userMessageText);
-            aiMessageText = itemView.findViewById(R.id.aiMessageText);
-
+            userMessageText = itemView.findViewById(R.id.textMessage);
         }
     }
 
     static class AIViewHolder extends RecyclerView.ViewHolder {
         TextView aiMessageText;
-        TextView userMessageText;
-
 
         AIViewHolder(View itemView) {
             super(itemView);
-            aiMessageText = itemView.findViewById(R.id.aiMessageText);
-            userMessageText = itemView.findViewById(R.id.userMessageText);
+            aiMessageText = itemView.findViewById(R.id.textMessage);
+        }
+    }
 
+    static class TypingViewHolder extends RecyclerView.ViewHolder {
+        LottieAnimationView animationView;
+
+        TypingViewHolder(View itemView) {
+            super(itemView);
+            animationView = itemView.findViewById(R.id.lottieTyping);
         }
     }
 }

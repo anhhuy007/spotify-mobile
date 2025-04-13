@@ -17,11 +17,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.SpotifyCloneApplication;
+import com.example.spotifyclone.features.genre.model.Genre;
+import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.features.search.adapter.ClassifyAdapter;
 import com.example.spotifyclone.features.search.adapter.SearchAdapter;
 import com.example.spotifyclone.features.search.adapter.SearchAllAdapter;
@@ -52,7 +58,10 @@ public class SearchAllResultFragment extends Fragment {
     private boolean isFiltering = false;
     private boolean isPendingFilterRequest = false;
     private boolean isInitialLoadComplete = false;
+    private List<SearchItem> searchResult = new ArrayList<>();
 
+    //music
+    private MusicPlayerViewModel musicPlayerViewModel;
 
 
     @Override
@@ -110,30 +119,68 @@ public class SearchAllResultFragment extends Fragment {
         SearchAllResultFragmentDirections.ActionSearchAllResultFragmentToNavAlbumDetail action=
                 SearchAllResultFragmentDirections.actionSearchAllResultFragmentToNavAlbumDetail(
                         item.get_id()
-//                        item.getName(),
-//                        item.getArtists_name().toArray(new String[0]),  // Đúng kiểu String[]
-//                        0L,           // release_date (giả sử 0 nếu không có)
-//                        item.getImage_url(),
-//                        0L,           // create_at
-//                        0,            // like_count
-//                        0L,           // updatedAt
-//                        ""            // artist_url
+
                 );
         Navigation.findNavController(requireView()).navigate(action);
 
     }
 
+    private void navigateToGenreDetail(SearchItem item) {
+        SearchAllResultFragmentDirections.ActionSearchAllToGenreDetailFragment action =
+                SearchAllResultFragmentDirections.actionSearchAllToGenreDetailFragment(
+                        item.get_id()
+                );
 
-    void setupRecyclerView(View view) {
+        Navigation.findNavController(requireView()).navigate(action);
+    }
+
+
+    private void navigateToArtistDetail(SearchItem item, View view){
+        if (view != null) {
+            // Get the NavController from the rootView
+            NavController navController = Navigation.findNavController(view);
+
+            // Create the navigation action with the required argument
+            Bundle args = new Bundle();
+            args.putString("ARTIST_ID", item.get_id());
+
+            // Navigate to the ArtistFragment
+            navController.navigate(R.id.artistFragment, args);
+        }
+
+    }
+
+
+
+
+    public void setupRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.recyclerview);
         classifyRecyclerView=view.findViewById(R.id.genre_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL,false));
         classifyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false)); // Hoặc GridLayoutManager nếu muốn
 
         searchAdapter = new SearchAllAdapter(requireContext(), new ArrayList<>(), item  -> {
+            if("song".equals(item.getType())){
+                //
+                List<String> searchIds=new ArrayList<>();
+                for (SearchItem searchItem:searchResult ){
+                    if("song".equals(searchItem.getType()))
+                    {
+                        searchIds.add(searchItem.get_id());
+                    }
+                }
+                musicPlayerViewModel.playSearchSongs(searchIds, item.get_id(), searchQuery);
 
+            }
             if ("album".equals(item.getType())) {
                 navigateToAlbumDetail(item);
+            }
+            if("genre".equals(item.getType())){
+                navigateToGenreDetail(item);
+
+            }
+            if("artist".equals(item.getType())){
+                navigateToArtistDetail(item, view);
             }
 
         });
@@ -251,6 +298,7 @@ public class SearchAllResultFragment extends Fragment {
                 searchViewModel.getItems().removeObservers(getViewLifecycleOwner());
                 searchViewModel.getItems().observe(getViewLifecycleOwner(), items -> {
                     if (items != null && !isFiltering ) {
+                        searchResult=items;
                         searchAdapter.setData(items);
                         searchAdapter.notifyDataSetChanged();
                     }
@@ -265,6 +313,19 @@ public class SearchAllResultFragment extends Fragment {
         if (!isFiltering && classify == null) {
             searchViewModel.fetchSearchResults(searchQuery, null, null, currentPage, 10);
         }
+
+
+        SpotifyCloneApplication app = SpotifyCloneApplication.getInstance();
+        musicPlayerViewModel = new ViewModelProvider(new ViewModelStoreOwner() {
+            @NonNull
+            @Override
+            public ViewModelStore getViewModelStore() {
+                return app.getAppViewModelStore();
+            }
+        }, app.getMusicPlayerViewModelFactory()).get(MusicPlayerViewModel.class);
+
+
+
 
 
     }

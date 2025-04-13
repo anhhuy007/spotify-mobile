@@ -24,6 +24,8 @@ public class GenreViewModel extends ViewModel {
     private final GenreService genreService;
     private final MutableLiveData<List<Genre>> genres=new MutableLiveData<>();
     private final MutableLiveData<List<Album>> albums=new MutableLiveData<>();
+    private final MutableLiveData<Genre> genreById=new MutableLiveData<>();
+
     private final MutableLiveData<Boolean> isLoading=new MutableLiveData<>();
     private final MutableLiveData<String > errorMessage=new MutableLiveData<>();
 
@@ -111,9 +113,46 @@ public class GenreViewModel extends ViewModel {
             }
         });
     }
+    public void fetchGenreByID(String genre_id)//return list of album_songs
+    {
+        isLoading.setValue(true);
+        genreService.getGenreById(genre_id).enqueue(new Callback<APIResponse<Genre>>() { // Load genre data
+            @Override
+            public void onResponse(Call<APIResponse<Genre>> call, Response<APIResponse<Genre>> response) {
+                try {
+                    isLoading.setValue(false);
+                    if (response.isSuccessful()) {
+                        if (response.body().getData() != null) {
+                            if (response.body().isSuccess()) {
+                                genreById.setValue(response.body().getData());
+                            } else {
+                                Log.d("GenreViewModel", "API success flag false");
+                            }
+                        } else {
+                            Log.d("GenreViewModel", "Response body is null");
+                        }
+                    } else {
+                        Log.d("GenreViewModel", "Response not successful: " + response.code());
+                    }
+                } catch (Exception e) {
+                    errorMessage.setValue("Error processing response: " + e.getMessage());
+                }
+            }
+            @Override
+            public void onFailure(Call<APIResponse<Genre>> call, Throwable t) {
+                isLoading.setValue(false);
+                errorMessage.setValue(t.getMessage());
+            }
+        });
+    }
+
     public LiveData<List<Genre>> getGenres(){
         return genres;
     }
+    public LiveData<Genre> getGenreById(){
+        return genreById;
+    }
+
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
     }

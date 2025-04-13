@@ -138,23 +138,23 @@
             android:name="_id"
             app:argType="string"
             app:nullable="false" />
-        <argument
-            android:name="name"
-            app:argType="string"
-            app:nullable="false" />
-        <argument
-            android:name="description"
-            app:argType="string" />
-        <argument
-            android:name="image_url"
-            app:argType="string"
-            app:nullable="false" />
-        <argument
-            android:name="create_at"
-            app:argType="long" />
-        <argument
-            android:name="update_at"
-            app:argType="long" />
+<!--        <argument-->
+<!--            android:name="name"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="false" />-->
+<!--        <argument-->
+<!--            android:name="description"-->
+<!--            app:argType="string" />-->
+<!--        <argument-->
+<!--            android:name="image_url"-->
+<!--            app:argType="string"-->
+<!--            app:nullable="false" />-->
+<!--        <argument-->
+<!--            android:name="create_at"-->
+<!--            app:argType="long" />-->
+<!--        <argument-->
+<!--            android:name="update_at"-->
+<!--            app:argType="long" />-->
         <action
             android:id="@+id/action_genreDetailFragment_to_nav_album_detail"
             app:destination="@id/nav_album_detail" />
@@ -268,6 +268,14 @@
         <action
             android:id="@+id/action_searchSuggestFragment_to_nav_search"
             app:destination="@id/nav_search" />
+        <action
+            android:id="@+id/action_search_suggest_to_genreDetailFragment"
+            app:destination="@id/genreDetailFragment" />
+        <action
+            android:id="@+id/action_search_suggest_to_artistFragment"
+            app:destination="@id/artistFragment" />
+
+
     </fragment>
 
 
@@ -285,6 +293,14 @@
         <action
             android:id="@+id/action_searchAllResultFragment_to_nav_album_detail"
             app:destination="@id/nav_album_detail" />
+        <action
+            android:id="@+id/action_search_all_to_genreDetailFragment"
+            app:destination="@id/genreDetailFragment" />
+        <action
+            android:id="@+id/action_search_all_to_artistFragment"
+            app:destination="@id/artistFragment" />
+
+
     </fragment>
 
     <fragment

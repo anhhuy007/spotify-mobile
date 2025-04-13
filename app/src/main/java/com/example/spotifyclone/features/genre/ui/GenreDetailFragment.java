@@ -76,19 +76,19 @@ public class GenreDetailFragment extends Fragment {
         GenreDetailFragmentArgs args=GenreDetailFragmentArgs.fromBundle(getArguments());
 
         if (args != null) {
-            genre_image= args.getImageUrl();
-            genre_name = args.getName();
+//            genre_image= args.getImageUrl();
+//            genre_name = args.getName();
             genre_id=args.getId();
-            genre_description=args.getDescription();
+//            genre_description=args.getDescription();
 
         } else {
             NavHostFragment.findNavController(this).navigateUp();
             return;
         }
 
-        initViews(view);        setupViewModel();
+        initViews(view);
 
-        setupUI();
+//        setupUI();
         setupViewModel();
         setupRecyclerView(view);
         setupToolbar((AppCompatActivity) requireActivity());
@@ -150,19 +150,13 @@ public class GenreDetailFragment extends Fragment {
             navigateToAlbumDetail(album);
         }, widthInPx, ViewGroup.LayoutParams.WRAP_CONTENT);
         same_genre.setAdapter(albumAdapter);
+
+
     }
 
     private void navigateToAlbumDetail(Album album){
         NavDirections action = GenreDetailFragmentDirections.actionGenreDetailFragmentToNavAlbumDetail(
                 album.getId()
-//                album.getTitle(),
-//                album.getArtists_name().toArray(new String[0]), // List<String> → String[]
-//                album.getReleaseDate() != null ? album.getReleaseDate().getTime() : 0L, // Date → long
-//                album.getCoverUrl(),
-//                album.getCreatedAt() != null ? album.getCreatedAt().getTime() : 0L, // Date → long
-//                album.getLike_count(),
-//                album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
-//                album.getArtist_url().get(0) // Take the first url
         );
         Navigation.findNavController(requireView()).navigate(action);
 
@@ -172,12 +166,24 @@ public class GenreDetailFragment extends Fragment {
                 this,
                 new GenreViewModelFactory(requireContext())
         ).get(GenreViewModel.class);
+        genreViewModel.fetchGenreByID(genre_id);
+        genreViewModel.getGenreById().observe(getViewLifecycleOwner(), genre -> {
+            if (genre != null) {
+                genre_image = genre.getImage_url();
+                genre_name = genre.getName();
+                genre_description = genre.getDescription();
+                setupUI();
+            }
+        });
 
         genreViewModel.getGenreAlbums().observe(getViewLifecycleOwner(), albums -> {
             albumAdapter.setData(albums);
         });
 
         genreViewModel.fetchGenreAlbumsByIds();// fetch album
+
+
+
     }
     private void setupScrollListener() {
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
