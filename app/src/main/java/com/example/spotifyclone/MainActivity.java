@@ -32,6 +32,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -46,6 +47,7 @@ import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.features.profile.ui.EditProfileFragment;
 import com.example.spotifyclone.features.profile.ui.ProfileFragment;
+import com.example.spotifyclone.features.settings.ui.SettingsFragmentDirections;
 import com.example.spotifyclone.shared.model.PlayerState;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.repository.PlayerRepository;
@@ -216,10 +218,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageView userAvatar =  headerView.findViewById(R.id.drawer_header_avatar);
         userAvatar.setOnClickListener(
                 v -> {
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.nav_host_fragment, ProfileFragment.newInstance())
-                            .addToBackStack(null)
-                            .commit();
+//                    NavDirections action = SettingsFragmentDirections.actionSettingsFragmentToProfileFragment();
+//                    NavController navController = Navigation.findNavController();
+//                    navController.navigate(action);
+
+                    navController.navigate(R.id.profileFragment);
                 }
         );
         TextView userName = headerView.findViewById(R.id.drawer_header_username);

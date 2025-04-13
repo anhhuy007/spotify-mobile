@@ -3,6 +3,7 @@ package com.example.spotifyclone.features.library.adapter;
 import static android.provider.Settings.System.getString;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,16 +27,15 @@ public class LibraryArtistAdapter extends RecyclerView.Adapter<LibraryArtistAdap
 
     private Context context;
     private List<LibraryArtist> artistList;
-    private OnArtistClickListener listener;
+    private View rootView;
 
-    public interface OnArtistClickListener {
-        void onArtistClick(LibraryArtist artist);
+    public void setRootView(View rootView) {
+        this.rootView = rootView;
     }
 
-    public LibraryArtistAdapter(Context context, List<LibraryArtist> artistList, OnArtistClickListener listener) {
+    public LibraryArtistAdapter(Context context, List<LibraryArtist> artistList) {
         this.context = context;
         this.artistList = artistList;
-        this.listener = listener;
     }
 
     @NonNull
@@ -58,8 +60,16 @@ public class LibraryArtistAdapter extends RecyclerView.Adapter<LibraryArtistAdap
         }
 
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onArtistClick(artist);
+            if (rootView != null) {
+                // Get the NavController from the rootView
+                NavController navController = Navigation.findNavController(rootView);
+
+                // Create the navigation action with the required argument
+                Bundle args = new Bundle();
+                args.putString("ARTIST_ID", artist.getId());
+
+                // Navigate to the ArtistFragment
+                navController.navigate(R.id.artistFragment, args);
             }
         });
     }

@@ -43,6 +43,7 @@ import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.ui.BaseOnlineFragment;
 import com.example.spotifyclone.shared.utils.NetworkStatusLiveData;
+import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -65,6 +66,7 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
     private ImageButton playLocalSongsButton;
     private HomeViewModel homeViewModel;
     private NetworkStatusLiveData networkStatusLiveData;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -117,6 +119,27 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         popularAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.HORIZONTAL, this);
         popularAlbumsRecyclerView.setAdapter(popularAlbumsAdapter);
         popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
+
+        // CardView for ranking
+        CardView cardViewArtistRanking = view.findViewById(R.id.cardViewArtistRanking);
+        CardView cardViewSongRanking = view.findViewById(R.id.cardViewSongRanking);
+        CardView cardViewAlbumRanking = view.findViewById(R.id.cardViewAlbumRanking);
+
+        cardViewArtistRanking.setOnClickListener(v -> {
+            NavDirections action = HomeFragmentDirections.actionNavHomeToTopArtist();
+            Navigation.findNavController(requireView()).navigate(action);
+        });
+
+        cardViewSongRanking.setOnClickListener(v -> {
+            NavDirections action = HomeFragmentDirections.actionNavHomeToTopSong();
+            Navigation.findNavController(requireView()).navigate(action);
+        });
+
+        cardViewAlbumRanking.setOnClickListener(v -> {
+            NavDirections action = HomeFragmentDirections.actionNavHomeToTopAlbum();
+            Navigation.findNavController(requireView()).navigate(action);
+        });
+
 
         // Latest albums with vertical layout
         latestAlbumsRecylerView = view.findViewById(R.id.rv_latest_albums);

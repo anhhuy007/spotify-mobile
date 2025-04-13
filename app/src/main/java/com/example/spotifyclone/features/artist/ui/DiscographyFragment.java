@@ -129,6 +129,7 @@ public class DiscographyFragment extends Fragment implements ItemDiscographyEPAd
         listDiscographyViewModelAlbum.getListDiscography().observe(getViewLifecycleOwner(), item -> {
             if (item != null) {
                 ItemDiscographyAlbumAdapter rvPopularSongsAdapter = new ItemDiscographyAlbumAdapter(context, item);
+                rvPopularSongsAdapter.setRootView(view);
                 rvAlbums.setAdapter(rvPopularSongsAdapter);
             }
             ViewGroup.LayoutParams params = rvAlbums.getLayoutParams();
@@ -159,6 +160,7 @@ public class DiscographyFragment extends Fragment implements ItemDiscographyEPAd
         listDiscographyViewModelCollection.getListDiscography().observe(getViewLifecycleOwner(), item -> {
             if (item != null) {
                 ItemDiscographyAlbumAdapter rvPopularSongsAdapter = new ItemDiscographyAlbumAdapter(context, item);
+                rvPopularSongsAdapter.setRootView(view);
                 rvCollection.setAdapter(rvPopularSongsAdapter);
             }
             ViewGroup.LayoutParams params = rvCollection.getLayoutParams();

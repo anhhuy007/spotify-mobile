@@ -3,11 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/img_artist_cover_top"
             android:layout_width="match_parent"
@@ -19,55 +21,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <RelativeLayout
                     android:id="@+id/navbar_artist_UI_top"
                     android:layout_width="match_parent"
-                    android:layout_height="72dp"
-                    android:background="@android:color/transparent"/>
+                    android:layout_height="54dp"
+                    android:background="@android:color/transparent" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:paddingTop="24dp">
+                    android:background="@android:color/transparent">
 
                     <FrameLayout
                         android:layout_width="48dp"
-                        android:layout_height="48dp">
+                        android:layout_height="48dp"
+                        android:layout_marginStart="5dp">
 
                         <ImageView
-
                             android:id="@+id/btn_artist_detail_ui_background_top"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/circle_brown_background"
-                            android:scaleType="fitXY" />
-
+                            android:scaleType="fitXY"
+                            android:src="@drawable/circle_brown_background" />
                         <!-- Nút bấm giữ nguyên -->
                         <ImageButton
 
                             android:id="@+id/btn_artist_detail_ui_back_top"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@android:color/transparent"
-                            android:src="@drawable/back_btn_white"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:layout_gravity="center"
-                            android:contentDescription="Back button" />
+                            android:background="@android:color/transparent"
+                            android:contentDescription="Back button"
+                            android:src="@drawable/back_btn_white" />
                     </FrameLayout>
 
                     <TextView
                         android:id="@+id/artist_name_top"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:layout_marginLeft="60dp"
-                        android:gravity="left|center_vertical"
+                        android:layout_marginStart="60dp"
+                        android:alpha="0"
+                        android:fontFamily="@font/avenir_next_bold"
+                        android:gravity="center_vertical"
                         android:text="SOOBIN"
                         android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:alpha="0"
-                        android:fontFamily="@font/avenir_next_bold" />
+                        android:textSize="18sp" />
 
                 </RelativeLayout>
             </FrameLayout>
@@ -91,23 +94,24 @@
 
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:background="@android:color/transparent"/>
+                            android:background="@android:color/transparent" />
+
                         <TextView
                             android:id="@+id/tv_artist_name_top"
                             android:layout_width="match_parent"
                             android:layout_height="118dp"
-                            android:text="Noo Phước Thịnh"
-                            android:textColor="@android:color/white"
-                            android:textSize="50dp"
                             android:fontFamily="@font/avenir_next_bold"
                             android:gravity="bottom"
-                            android:paddingLeft="12dp"/>
+                            android:paddingLeft="12dp"
+                            android:text="Noo Phước Thịnh"
+                            android:textColor="@android:color/white"
+                            android:textSize="50dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:background="@color/white">
+                            android:background="@color/white"
+                            android:orientation="vertical">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -137,22 +141,22 @@
                                     android:id="@+id/img_album_artist_detail_top"
                                     android:layout_width="24dp"
                                     android:layout_height="36dp"
-                                    android:padding="4dp"
-                                    android:background="@drawable/button_outline"
-                                    android:src="@drawable/loading"
+                                    android:layout_gravity="center_vertical"
                                     android:layout_marginRight="12dp"
+                                    android:background="@drawable/button_outline"
+                                    android:padding="4dp"
                                     android:scaleType="fitXY"
-                                    android:layout_gravity="center_vertical" />
+                                    android:src="@drawable/loading" />
 
 
                                 <ImageButton
-                                    android:layout_marginLeft="10dp"
                                     android:id="@+id/btn_more_options_artist_detail_top"
                                     android:layout_width="36dp"
                                     android:layout_height="36dp"
-                                    android:src="@drawable/ic_baseline_more_vert_24"
                                     android:layout_gravity="center_vertical"
-                                    android:background="?attr/selectableItemBackgroundBorderless" />
+                                    android:layout_marginLeft="10dp"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:src="@drawable/ic_baseline_more_vert_24" />
 
                                 <View
                                     android:layout_width="0dp"
@@ -180,14 +184,14 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_next_bold"
+                                android:gravity="center_vertical"
                                 android:paddingStart="16dp"
                                 android:paddingTop="16dp"
                                 android:paddingEnd="16dp"
-                                android:gravity="center_vertical"
                                 android:text="@string/ranking"
                                 android:textColor="@color/black"
-                                android:textSize="18sp"
-                                android:fontFamily="@font/avenir_next_bold" />
+                                android:textSize="18sp" />
 
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -206,22 +210,22 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/avenir_next_bold"
+                                android:gravity="center_vertical"
                                 android:paddingStart="16dp"
                                 android:paddingTop="16dp"
                                 android:paddingEnd="16dp"
-                                android:gravity="center_vertical"
                                 android:text="@string/you_may_also_like"
                                 android:textColor="@color/black"
-                                android:textSize="18sp"
-                                android:fontFamily="@font/avenir_next_bold" />
+                                android:textSize="18sp" />
 
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_also_like_top"
-                                android:layout_marginTop="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:nestedScrollingEnabled="false"/>
+                                android:layout_marginTop="10dp"
+                                android:nestedScrollingEnabled="false" />
 
 
                         </LinearLayout>
