@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.features.artist.adapter.ArtistPlaylistAdapter;
 import com.example.spotifyclone.features.artist.ui.ArtistFragment;
 import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.library.adapter.LibraryArtistAdapter;
@@ -41,7 +41,7 @@ public class LibraryFragment extends Fragment  {
     private TextView profileInitial;
     private ImageView profileImageI, clearFilterButton;
 
-    private View tabContainer;
+    private View tabContainer,rootView;
     private boolean isFilterActive = false;
     private ConstraintLayout addArtistContainer,addPodcastContainer;
 
@@ -58,14 +58,15 @@ public class LibraryFragment extends Fragment  {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_library, container, false);
+        rootView = inflater.inflate(R.layout.fragment_library, container, false);
+        context = getContext();
+        return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        context = requireContext();
         initializeViews(view);
         setupRecyclerViews();
         setupListeners();
@@ -115,17 +116,19 @@ public class LibraryFragment extends Fragment  {
 
         viewModelArtist.getArtistsList().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null && !artists.isEmpty()) {
-                LibraryArtistAdapter adapter = new LibraryArtistAdapter(context, artists,
-                        artist -> navigateToArtistDetail(artist.getId()));
+                LibraryArtistAdapter adapter = new LibraryArtistAdapter(context, artists);
+                adapter.setRootView(rootView);
+
                 artistsRecyclerView.setAdapter(adapter);
+
             }
         });
 
         viewModelPlaylist.getPlaylistsList().observe(getViewLifecycleOwner(), playlists -> {
             if (playlists != null && !playlists.isEmpty()) {
                 playlistCount = playlists.size();
-                LibraryPlaylistAdapter adapter = new LibraryPlaylistAdapter(context, playlists,
-                        playlist -> navigateToPlaylistDetail(playlist.getId()));
+                LibraryPlaylistAdapter adapter = new LibraryPlaylistAdapter(context, playlists, currentUser.getUsername(), currentUser.getAvatarUrl());
+                adapter.setRootView(rootView);
                 playlistsRecyclerView.setAdapter(adapter);
             }
         });
@@ -260,7 +263,6 @@ newPlaylistBottomSheet.show(getParentFragmentManager(), "NewPlaylistBottomSheet"
                         .commit();
             }
         } else {
-            Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -274,7 +276,6 @@ newPlaylistBottomSheet.show(getParentFragmentManager(), "NewPlaylistBottomSheet"
             //         .addToBackStack(null)
             //         .commit();
         } else {
-            Toast.makeText(context, "Invalid Playlist ID", Toast.LENGTH_SHORT).show();
         }
     }
 

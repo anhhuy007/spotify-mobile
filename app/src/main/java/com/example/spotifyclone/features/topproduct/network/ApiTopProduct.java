@@ -1,6 +1,5 @@
 package com.example.spotifyclone.features.topproduct.network;
 
-import com.example.spotifyclone.features.artist.model.Item;
 import com.example.spotifyclone.features.topproduct.model.AlsoLike;
 import com.example.spotifyclone.features.topproduct.model.MostSong;
 import com.example.spotifyclone.features.topproduct.model.TopAlbum;

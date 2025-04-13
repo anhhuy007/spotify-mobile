@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,7 +50,6 @@ public class DiscographyFragment extends Fragment implements ItemDiscographyEPAd
                         .commit();
             }
         } else {
-            Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -97,7 +95,6 @@ public class DiscographyFragment extends Fragment implements ItemDiscographyEPAd
         context = requireContext();
 
         if (artistId == null || artistId.isEmpty()) {
-            Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -129,6 +126,7 @@ public class DiscographyFragment extends Fragment implements ItemDiscographyEPAd
         listDiscographyViewModelAlbum.getListDiscography().observe(getViewLifecycleOwner(), item -> {
             if (item != null) {
                 ItemDiscographyAlbumAdapter rvPopularSongsAdapter = new ItemDiscographyAlbumAdapter(context, item);
+                rvPopularSongsAdapter.setRootView(view);
                 rvAlbums.setAdapter(rvPopularSongsAdapter);
             }
             ViewGroup.LayoutParams params = rvAlbums.getLayoutParams();
@@ -159,6 +157,7 @@ public class DiscographyFragment extends Fragment implements ItemDiscographyEPAd
         listDiscographyViewModelCollection.getListDiscography().observe(getViewLifecycleOwner(), item -> {
             if (item != null) {
                 ItemDiscographyAlbumAdapter rvPopularSongsAdapter = new ItemDiscographyAlbumAdapter(context, item);
+                rvPopularSongsAdapter.setRootView(view);
                 rvCollection.setAdapter(rvPopularSongsAdapter);
             }
             ViewGroup.LayoutParams params = rvCollection.getLayoutParams();

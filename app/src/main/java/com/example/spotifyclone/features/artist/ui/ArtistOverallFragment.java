@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
@@ -27,6 +28,8 @@ public class ArtistOverallFragment extends Fragment {
     private Context context;
     private ArtistOverallViewModel viewModel;
     private String artistId;
+
+    private View view;
 
     public static ArtistOverallFragment newInstance(String artistId) {
         ArtistOverallFragment fragment = new ArtistOverallFragment();
@@ -47,7 +50,7 @@ public class ArtistOverallFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_artist_detail, container, false);
+        view = inflater.inflate(R.layout.fragment_artist_detail, container, false);
         context = getContext();
         return view;
     }
@@ -60,7 +63,6 @@ public class ArtistOverallFragment extends Fragment {
         setupBackButton();
 
         if (artistId == null || artistId.isEmpty()) {
-            Toast.makeText(context, "Invalid Artist ID", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -76,7 +78,40 @@ public class ArtistOverallFragment extends Fragment {
         btnBack = view.findViewById(R.id.back_button_overall);
         tv_monthly_listeners = view.findViewById(R.id.monthly_listeners_overall);
 
-        tv_monthly_listeners.setText("100000000");
+        int randomMonthlyListeners = (int) (Math.random() * 1000000);
+        tv_monthly_listeners.setText(formatListeners(randomMonthlyListeners));
+//        tv_monthly_listeners.setText("100000000");
+
+        artistLogo.setOnClickListener(v -> {
+            if (view != null) {
+                // Get the NavController from the rootView
+                NavController navController = Navigation.findNavController(view);
+
+                // Create the navigation action with the required argument
+                Bundle args = new Bundle();
+                args.putString("ARTIST_ID", artistId);
+
+                // Navigate to the ArtistFragment
+                navController.navigate(R.id.artistFragment, args);
+            }
+        });
+
+
+    }
+
+    private static String formatListeners(int listeners) {
+        // add dot for every 3 digits
+        StringBuilder formatted = new StringBuilder();
+        String str = String.valueOf(listeners);
+        int length = str.length();
+        for (int i = 0; i < length; i++) {
+            formatted.append(str.charAt(i));
+            if ((length - i - 1) % 3 == 0 && i != length - 1) {
+                formatted.append(".");
+            }
+        }
+
+        return formatted.toString();
     }
 
     private void setupBackButton() {
@@ -99,6 +134,7 @@ public class ArtistOverallFragment extends Fragment {
 
             loadImage(artistImage, data.getAvatarUrl());
             loadImage(artistLogo, data.getAvatarUrl());
+
         });
 
         viewModel.fetchArtistDetails();

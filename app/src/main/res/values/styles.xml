@@ -15,7 +15,6 @@
     </style>
 
 
-
     <style name="CircleImageView">
         <item name="cornerSize">50%</item>
     </style>
@@ -27,7 +26,5 @@
         <item name="colorControlNormal">@color/gray_300</item>
         <item name="android:textSelectHandle">@color/spotify_green</item>
     </style>
-
-
 
 </resources>

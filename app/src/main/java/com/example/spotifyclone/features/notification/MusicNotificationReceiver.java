@@ -15,12 +15,12 @@ import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 
 public class MusicNotificationReceiver extends BroadcastReceiver {
+    public static final String ACTION_TOGGLE_SHUFFLE = "com.example.spotifyclone.ACTION_TOGGLE_SHUFFLE";
     private static final String TAG = "MusicNotificationReceiver";
     public static final String ACTION_PLAY_PAUSE = "com.example.spotifyclone.ACTION_PLAY_PAUSE";
     public static final String ACTION_NEXT = "com.example.spotifyclone.ACTION_NEXT";
     public static final String ACTION_PREVIOUS = "com.example.spotifyclone.ACTION_PREVIOUS";
     public static final String ACTION_SEEK_TO = "com.example.spotifyclone.ACTION_SEEK_TO";
-
     public static final String EXTRA_SEEK_POSITION = "seek_position";
 
     @Override
@@ -66,6 +66,12 @@ public class MusicNotificationReceiver extends BroadcastReceiver {
                         if (seekPosition >= 0) {
                             viewModel.seekTo((int) seekPosition);
                         }
+                    }
+                    break;
+                case ACTION_TOGGLE_SHUFFLE:
+                    if(Boolean.FALSE.equals(viewModel.isAdPlaying().getValue())) {
+                        Log.d(TAG, "Shuffle action received");
+                        viewModel.cycleShuffleMode();
                     }
                     break;
                 default:

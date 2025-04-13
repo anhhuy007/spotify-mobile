@@ -22,6 +22,15 @@
         <action
             android:id="@+id/action_nav_home_to_chatbotFragment"
             app:destination="@id/chatbotFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_topSong"
+            app:destination="@id/topSong" />
+        <action
+            android:id="@+id/action_nav_home_to_topArtist"
+            app:destination="@id/topArtist" />
+        <action
+            android:id="@+id/action_nav_home_to_topAlbum"
+            app:destination="@id/topAlbum" />
     </fragment>
 
     <fragment
@@ -205,6 +214,9 @@
         <action
             android:id="@+id/action_artistFragment_to_artistDiscographyFragment"
             app:destination="@id/artistDiscographyFragment" />
+        <action
+            android:id="@+id/action_artistFragment_to_nav_album_detail"
+            app:destination="@id/nav_album_detail" />
     </fragment>
 
     <fragment
@@ -234,7 +246,11 @@
         android:id="@+id/artistDiscographyFragment"
         android:name="com.example.spotifyclone.features.artist.ui.DiscographyFragment"
         android:label="Artist"
-        tools:layout="@layout/fragment_discography" />
+        tools:layout="@layout/fragment_discography" >
+        <action
+            android:id="@+id/action_artistDiscographyFragment_to_nav_album_detail"
+            app:destination="@id/nav_album_detail" />
+    </fragment>
 
     <fragment
         android:id="@+id/topAlbum"

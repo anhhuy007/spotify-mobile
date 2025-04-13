@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
@@ -104,7 +103,6 @@ public class SleepTimerDialog extends BottomSheetDialogFragment {
 
             musicPlayerViewModel.setStopAtEndOfTrack(true);
 
-            Toast.makeText(getContext(), "Sẽ dừng khi kết thúc bài hát hiện tại", Toast.LENGTH_SHORT).show();
             dismiss();
         });
 
@@ -112,7 +110,6 @@ public class SleepTimerDialog extends BottomSheetDialogFragment {
             SleepTimerManager.getInstance().cancelTimer();
            musicPlayerViewModel.setStopAtEndOfTrack(true);
             updateTimerStatus();
-            Toast.makeText(getContext(), "Đã huỷ hẹn giờ ngủ", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -130,7 +127,6 @@ public class SleepTimerDialog extends BottomSheetDialogFragment {
         SleepTimerManager.getInstance().startTimer(minutes);
         updateTimerStatus();
 
-        Toast.makeText(getContext(), "Đã đặt hẹn giờ ngủ: " + minutes + " phút", Toast.LENGTH_SHORT).show();
         dismiss();
     }
 
