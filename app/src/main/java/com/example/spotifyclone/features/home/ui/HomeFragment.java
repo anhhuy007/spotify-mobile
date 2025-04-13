@@ -66,7 +66,7 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
     private ImageButton playLocalSongsButton;
     private HomeViewModel homeViewModel;
     private NetworkStatusLiveData networkStatusLiveData;
-    private MaterialButton btn_artist_ranking,btn_song_ranking,btn_album_ranking;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -120,21 +120,22 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         popularAlbumsRecyclerView.setAdapter(popularAlbumsAdapter);
         popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
-        MaterialButton btnArtistRanking = view.findViewById(R.id.btn_artist_ranking);
-        MaterialButton btnSongRanking = view.findViewById(R.id.btn_song_ranking);
-        MaterialButton btnAlbumRanking = view.findViewById(R.id.btn_album_ranking);
+        // CardView for ranking
+        CardView cardViewArtistRanking = view.findViewById(R.id.cardViewArtistRanking);
+        CardView cardViewSongRanking = view.findViewById(R.id.cardViewSongRanking);
+        CardView cardViewAlbumRanking = view.findViewById(R.id.cardViewAlbumRanking);
 
-        btnArtistRanking.setOnClickListener(v -> {
+        cardViewArtistRanking.setOnClickListener(v -> {
             NavDirections action = HomeFragmentDirections.actionNavHomeToTopArtist();
             Navigation.findNavController(requireView()).navigate(action);
         });
 
-        btnSongRanking.setOnClickListener(v -> {
+        cardViewSongRanking.setOnClickListener(v -> {
             NavDirections action = HomeFragmentDirections.actionNavHomeToTopSong();
             Navigation.findNavController(requireView()).navigate(action);
         });
 
-        btnAlbumRanking.setOnClickListener(v -> {
+        cardViewAlbumRanking.setOnClickListener(v -> {
             NavDirections action = HomeFragmentDirections.actionNavHomeToTopAlbum();
             Navigation.findNavController(requireView()).navigate(action);
         });
