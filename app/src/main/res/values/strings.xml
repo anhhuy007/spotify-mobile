@@ -370,6 +370,22 @@
     <string name="loading">Loading...</string>
     <string name="canceling_your_subscription">Canceling your subscription...</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="playlist_add_string">Thêm vào danh sách phát này</string>
+    <string name="playlist_down_string">Tải xuống</string>
+    <string name="sleep_time">Hẹn giờ ngủ</string>
+    <string name="playlist_song_download_string">Tải bài hát</string>
+    <string name="playlist_premium_text">Premium</string>
+    <string name="playlist_add_song_string">Thêm vào danh sách phát này</string>
+    <string name="playlist_fix_string">Sửa</string>
+    <string name="playlsit_eliminte_fav_string">Loại bỏ khỏi hồ sơ ưa thích của bạn</string>
+    <string name="playlist_set_private_string">Đặt thành riêng tư</string>
+    <string name="playlist_add_profile_string">Thêm vào hồ sơ</string>
+    <string name="playlist_delete_string">Xóa playlist</string>
+    <string name="add_to_another_playlist">Thêm vào danh sách phát khác</string>
+    <string name="playlist_share_string">Chia sẻ</string>
+    <string name="invite_share">Mời cộng sự</string>
+    <string name="show_spotify_code_string">Hiển thị mã Spotify</string>
+    <string name="listen_without_ad">Nghe nhạc không quảng cáo</string>
 
 
 </resources>
