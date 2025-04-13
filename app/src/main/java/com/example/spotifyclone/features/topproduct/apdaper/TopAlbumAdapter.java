@@ -2,6 +2,7 @@ package com.example.spotifyclone.features.topproduct.apdaper;
 
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,12 @@ import com.example.spotifyclone.R;
 
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.spotifyclone.features.album.ui.AlbumDetailFragmentDirections;
 import com.example.spotifyclone.features.topproduct.model.TopAlbum;
 
 import java.util.List;
@@ -22,6 +27,11 @@ import java.util.List;
 public class TopAlbumAdapter extends RecyclerView.Adapter<TopAlbumAdapter.ViewHolder> {
     private Context context;
     private List<TopAlbum> artistList;
+    private View rootView;
+
+    public void setRootView(View rootView) {
+        this.rootView = rootView;
+    }
 
     public TopAlbumAdapter(Context context, List<TopAlbum> artistList) {
         this.context = context;
@@ -44,6 +54,24 @@ public class TopAlbumAdapter extends RecyclerView.Adapter<TopAlbumAdapter.ViewHo
                 .load(item.getAvatarUrl())
                 .placeholder(R.drawable.loading)
                 .into(holder.img);
+        holder.itemView.setOnClickListener(v -> {
+            if (rootView != null) {
+                NavController navController = Navigation.findNavController(rootView);
+                int currentDestId = navController.getCurrentDestination().getId();
+
+                if (currentDestId == R.id.nav_album_detail) {
+                    NavDirections action = AlbumDetailFragmentDirections.actionNavAlbumDetailSelf(
+                            item.getId()
+                    );
+                    navController.navigate(action);
+                } else {
+                    Bundle args = new Bundle();
+                    args.putString("_id", item.getId());
+
+                    navController.navigate(R.id.nav_album_detail, args);
+                }
+            }
+        });
     }
 
     @Override

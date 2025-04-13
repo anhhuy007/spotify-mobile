@@ -265,6 +265,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
             albumId = album.getId();
             artistNames = album.getArtists_name();
             artistUrl = album.getArtist_url().get(0);// take first artist
+            Log.d("AlbumDetailFragment", coverUrl);
 
             setupUI();
             setupToolbar((AppCompatActivity) requireActivity());

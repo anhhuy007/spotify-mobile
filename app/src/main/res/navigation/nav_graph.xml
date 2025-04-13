@@ -256,7 +256,11 @@
         android:id="@+id/topAlbum"
         android:name="com.example.spotifyclone.features.topproduct.ui.TopAlbumFragment"
         android:label="TopProduct"
-        tools:layout="@layout/fragment_top_product" />
+        tools:layout="@layout/fragment_top_product" >
+        <action
+            android:id="@+id/action_topAlbum_to_nav_album_detail"
+            app:destination="@id/nav_album_detail" />
+    </fragment>
 
     <fragment
         android:id="@+id/topSong"
@@ -268,7 +272,11 @@
         android:id="@+id/topArtist"
         android:name="com.example.spotifyclone.features.topproduct.ui.TopArtistFragment"
         android:label="TopProduct"
-        tools:layout="@layout/fragment_top_product" />
+        tools:layout="@layout/fragment_top_product" >
+        <action
+            android:id="@+id/action_topArtist_to_artistFragment"
+            app:destination="@id/artistFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/searchSuggestFragment"

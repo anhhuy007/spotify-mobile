@@ -2,6 +2,7 @@ package com.example.spotifyclone.features.topproduct.apdaper;
 
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import com.example.spotifyclone.R;
 
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spotifyclone.features.topproduct.model.TopArtist;
@@ -22,6 +25,12 @@ import java.util.List;
 public class TopArtistAdapter extends RecyclerView.Adapter<TopArtistAdapter.ViewHolder> {
     private Context context;
     private List<TopArtist> artistList;
+
+    private View rootView;
+
+    public void setRootView(View rootView) {
+        this.rootView = rootView;
+    }
 
     public TopArtistAdapter(Context context, List<TopArtist> artistList) {
         this.context = context;
@@ -44,6 +53,20 @@ public class TopArtistAdapter extends RecyclerView.Adapter<TopArtistAdapter.View
                 .load(item.getAvatarUrl())
                 .placeholder(R.drawable.loading)
                 .into(holder.img);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (rootView != null) {
+                // Get the NavController from the rootView
+                NavController navController = Navigation.findNavController(rootView);
+
+                // Create the navigation action with the required argument
+                Bundle args = new Bundle();
+                args.putString("ARTIST_ID", item.getId());
+
+                // Navigate to the ArtistFragment
+                navController.navigate(R.id.artistFragment, args);
+            }
+        });
     }
 
     @Override
