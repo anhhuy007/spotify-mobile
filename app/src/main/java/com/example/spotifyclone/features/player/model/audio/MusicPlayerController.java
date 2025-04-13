@@ -684,6 +684,7 @@ public class MusicPlayerController {
                 }
             }
 
+
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
                 Log.d("DEBUG", "onFailure: " + t.getMessage());

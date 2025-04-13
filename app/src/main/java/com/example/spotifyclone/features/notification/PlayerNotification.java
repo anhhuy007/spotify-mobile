@@ -116,13 +116,23 @@ public class PlayerNotification {
                 .addCustomAction(
                         "shuffle", "Shuffle mode", R.drawable.ic_shuffle_off
                 )
-                .addCustomAction(
-                        "add", "Add", R.drawable.ic_add
-                )
                 .build();
 
         mediaSession.setPlaybackState(playbackState);
         mediaSession.setCallback(new MediaSessionCompat.Callback() {
+            @Override
+            public void onCustomAction(@NonNull String action, Bundle extras) {
+                super.onCustomAction(action, extras);
+                if ("shuffle".equals(action)) {
+                    try {
+                        Log.d(TAG, "Shuffle action received");
+                        MusicNotificationIntents.createShuffleIntent(context).send();
+                    } catch (Exception e) {
+                        Log.e("MediaSession", "Failed to handle shuffle action", e);
+                    }
+                }
+            }
+
             @Override
             public void onPlay() {
                 Log.d("MediaSession", "Play button pressed");

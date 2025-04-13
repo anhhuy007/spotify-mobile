@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setupNavigation();
             checkNotificationPermission();
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
     }
 
     private void setupPlayerRepositoryAndRestorePlayerViewModel() {
@@ -160,6 +159,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Custom BottomNavigation behavior
+        navView.setOnItemSelectedListener(item -> {
+            int destinationId = item.getItemId();
+
+            // Kiểm tra xem destinationId có phải là 1 trong các ID hợp lệ không
+            if (destinationId == R.id.nav_home ||
+                    destinationId == R.id.nav_search ||
+                    destinationId == R.id.nav_library ||
+                    destinationId == R.id.nav_premium) {
+
+                // Nếu đang ở fragment này rồi thì không cần navigate nữa
+                if (navController.getCurrentDestination() != null &&
+                        navController.getCurrentDestination().getId() == destinationId) {
+                    return false;
+                }
+
+                // Xóa back stack về startDestination, rồi điều hướng
+                navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
+                navController.navigate(destinationId);
+                return true;
+            }
+
+            return false; // Trả về false nếu item không hợp lệ
+        });
     }
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
