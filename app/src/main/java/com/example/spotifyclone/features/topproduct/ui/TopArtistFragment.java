@@ -36,7 +36,7 @@ public class TopArtistFragment extends Fragment {
     private Context context;
     private ImageButton btnBack;
     private TextView tv_artist_name, tv_monthly_listeners, artist_name;
-    private ImageView img_artist_artist_detail, img_artist_cover, img_album_artist_detail, btn_artist_detail_ui_background;
+    private ImageView img_artist_artist_detail, img_artist_cover, btn_artist_detail_ui_background;
     private ScrollView scrollView;
     private RelativeLayout navbar_artist_UI;
 
@@ -44,6 +44,7 @@ public class TopArtistFragment extends Fragment {
     private TopArtistViewModel topProductViewModel;
     private TopArtistAdapter topProductAdapter;
     private AlsoLikeAdapter alsoLikeAdapter;
+    private View rootView;
 
     public static TopArtistFragment newInstance() {
         return new TopArtistFragment();
@@ -52,7 +53,10 @@ public class TopArtistFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_top_product, container, false);
+
+        rootView = inflater.inflate(R.layout.fragment_top_product, container, false);
+        context = getContext();
+        return rootView;
     }
 
     @Override
@@ -78,7 +82,6 @@ public class TopArtistFragment extends Fragment {
         navbar_artist_UI = view.findViewById(R.id.navbar_artist_UI_top);
         btnBack = view.findViewById(R.id.btn_artist_detail_ui_back_top);
         btn_artist_detail_ui_background = view.findViewById(R.id.btn_artist_detail_ui_background_top);
-        img_album_artist_detail = view.findViewById(R.id.img_album_artist_detail_top);
     }
 
     private void setupRecyclerViews() {
@@ -99,6 +102,7 @@ public class TopArtistFragment extends Fragment {
         topProductViewModel.getTopProduct().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
                 topProductAdapter = new TopArtistAdapter(context, artists);
+                topProductAdapter.setRootView(rootView);
                 rvTop.setAdapter(topProductAdapter);
 
                 ViewGroup.LayoutParams params = rvTop.getLayoutParams();
@@ -112,6 +116,7 @@ public class TopArtistFragment extends Fragment {
         alsoLikeViewModel.getTopProduct().observe(getViewLifecycleOwner(), artists -> {
             if (artists != null) {
                 alsoLikeAdapter = new AlsoLikeAdapter(context, artists);
+                alsoLikeAdapter.setRootView(rootView);
                 rvAlsoLike.setAdapter(alsoLikeAdapter);
             }
         });
@@ -122,10 +127,6 @@ public class TopArtistFragment extends Fragment {
             tv_artist_name.setText(data.getName());
             artist_name.setText(data.getName());
 
-            Glide.with(this)
-                    .load(data.getAvatarUrl())
-                    .placeholder(R.drawable.loading)
-                    .into(img_album_artist_detail);
 
             Glide.with(this)
                     .load(data.getAvatarUrl())

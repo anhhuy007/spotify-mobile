@@ -40,7 +40,7 @@
                     <FrameLayout
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_marginStart="5dp">
+                        android:layout_marginLeft="8dp">
 
                         <ImageView
                             android:id="@+id/btn_artist_detail_ui_background_top"
@@ -130,56 +130,56 @@
                                     android:textSize="14sp" />
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:padding="12dp">
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:gravity="center_vertical"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:padding="12dp">-->
 
-                                <ImageView
-                                    android:id="@+id/img_album_artist_detail_top"
-                                    android:layout_width="24dp"
-                                    android:layout_height="36dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginRight="12dp"
-                                    android:background="@drawable/button_outline"
-                                    android:padding="4dp"
-                                    android:scaleType="fitXY"
-                                    android:src="@drawable/loading" />
+<!--                                <ImageView-->
+<!--                                    android:id="@+id/img_album_artist_detail_top"-->
+<!--                                    android:layout_width="24dp"-->
+<!--                                    android:layout_height="36dp"-->
+<!--                                    android:layout_gravity="center_vertical"-->
+<!--                                    android:layout_marginRight="12dp"-->
+<!--                                    android:background="@drawable/button_outline"-->
+<!--                                    android:padding="4dp"-->
+<!--                                    android:scaleType="fitXY"-->
+<!--                                    android:src="@drawable/loading" />-->
 
 
-                                <ImageButton
-                                    android:id="@+id/btn_more_options_artist_detail_top"
-                                    android:layout_width="36dp"
-                                    android:layout_height="36dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="10dp"
-                                    android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/ic_baseline_more_vert_24" />
+<!--                                <ImageButton-->
+<!--                                    android:id="@+id/btn_more_options_artist_detail_top"-->
+<!--                                    android:layout_width="36dp"-->
+<!--                                    android:layout_height="36dp"-->
+<!--                                    android:layout_gravity="center_vertical"-->
+<!--                                    android:layout_marginLeft="10dp"-->
+<!--                                    android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--                                    android:src="@drawable/ic_baseline_more_vert_24" />-->
 
-                                <View
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1" />
+<!--                                <View-->
+<!--                                    android:layout_width="0dp"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:layout_weight="1" />-->
 
-                                <ImageButton
-                                    android:id="@+id/btn_shuffle_artist_detail_top"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/ic_baseline_shuffle_24" />
+<!--                                <ImageButton-->
+<!--                                    android:id="@+id/btn_shuffle_artist_detail_top"-->
+<!--                                    android:layout_width="48dp"-->
+<!--                                    android:layout_height="48dp"-->
+<!--                                    android:layout_gravity="center_vertical"-->
+<!--                                    android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--                                    android:src="@drawable/ic_baseline_shuffle_24" />-->
 
-                                <ImageButton
-                                    android:id="@+id/btn_play_artist_detail_top"
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/ic_baseline_play_circle_filled_24" />
+<!--                                <ImageButton-->
+<!--                                    android:id="@+id/btn_play_artist_detail_top"-->
+<!--                                    android:layout_width="48dp"-->
+<!--                                    android:layout_height="48dp"-->
+<!--                                    android:layout_gravity="center_vertical"-->
+<!--                                    android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--                                    android:src="@drawable/ic_baseline_play_circle_filled_24" />-->
 
-                            </LinearLayout>
+<!--                            </LinearLayout>-->
 
                             <TextView
                                 android:layout_width="match_parent"
