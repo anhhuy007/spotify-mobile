@@ -29,18 +29,19 @@
                 <RelativeLayout
                     android:id="@+id/navbar_artist_UI"
                     android:layout_width="match_parent"
-                    android:layout_height="54dp"
+                    android:layout_height="62dp"
                     android:background="@android:color/transparent" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
                     android:background="@android:color/transparent">
 
                     <FrameLayout
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_marginLeft="8dp">
+                        android:layout_marginLeft="16dp">
 
                         <ImageView
                             android:id="@+id/btn_artist_detail_ui_background"
