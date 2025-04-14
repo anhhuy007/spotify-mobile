@@ -57,7 +57,6 @@ public class MusicPlayerController {
     }
     private static final int MAX_SONGS_TO_ADS = 3;
     private int count_ads = 0;
-
     private MusicPlayerController(@NonNull Context context) {
         Context applicationContext = context.getApplicationContext();
         this.audioPlayer = new AudioPlayer(applicationContext);
@@ -91,8 +90,6 @@ public class MusicPlayerController {
     public void attachViewModel(MusicPlayerViewModel viewModel) {
         this.musicPlayerViewModel = viewModel;
     }
-
-
 
     private void checkReleased() {
         if (isReleased) {
@@ -597,6 +594,7 @@ public class MusicPlayerController {
             localSongs = songDatabaseHelper.getAllSavedSongs();
         } else {
             localSongs = new ArrayList<>();
+            return;
         }
         checkReleased();
         synchronized (playlistLock) {

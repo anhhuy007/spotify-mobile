@@ -1,5 +1,6 @@
 package com.example.spotifyclone.features.home.ui;
 
+import android.annotation.SuppressLint;
 import android.net.Network;
 import android.os.Bundle;
 import android.util.Log;
@@ -115,12 +116,6 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         int spacing = 20; // dp spacing
         boolean includeEdge = true;
 
-        // Popular albums with horizontal layout
-        popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
-        popularAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        popularAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.HORIZONTAL, this);
-        popularAlbumsRecyclerView.setAdapter(popularAlbumsAdapter);
-        popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         // CardView for ranking
         cardViewArtistRanking = view.findViewById(R.id.cardViewArtistRanking);
@@ -142,6 +137,12 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
             Navigation.findNavController(requireView()).navigate(action);
         });
 
+        // Popular albums with horizontal layout
+        popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
+        popularAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        popularAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.HORIZONTAL, this);
+        popularAlbumsRecyclerView.setAdapter(popularAlbumsAdapter);
+        popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         // Latest albums with vertical layout
         latestAlbumsRecylerView = view.findViewById(R.id.rv_latest_albums);
@@ -185,9 +186,7 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         tvPopularAlbums = view.findViewById(R.id.tv_popular_albums);
         tvLocalSongs = view.findViewById(R.id.tv_local_songs);
         tvLocal = view.findViewById(R.id.tv_offline);
-
         tvRanking = view.findViewById(R.id.tv_top);
-
     }
     public void navigateToChatbotFragment() {
         NavDirections action = HomeFragmentDirections.actionNavHomeToChatbotFragment();
@@ -297,6 +296,7 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateOnlineOfflineUI(boolean isConnected) {
         if (isConnected) {
             Log.d("HomeFragment", "updateOnlineOfflineUI: Online");
@@ -317,12 +317,20 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
             cardViewSongRanking.setVisibility(View.VISIBLE);
             tvRanking.setVisibility(View.VISIBLE);
         } else {
-            Log.d("HomeFragment", "updateOnlineOfflineUI: Offline");
-            tvLocalSongs.setVisibility(View.VISIBLE);
-            tvLocal.setVisibility(View.VISIBLE);
-            localSongRecyclerView.setVisibility(View.VISIBLE);
-            localSongsCardView.setVisibility(View.VISIBLE);
+            if(currentUser != null && currentUser.isPremium()) {
+                tvLocalSongs.setVisibility(View.VISIBLE);
+                tvLocal.setVisibility(View.VISIBLE);
+                localSongRecyclerView.setVisibility(View.VISIBLE);
+                localSongsCardView.setVisibility(View.VISIBLE);
+            } else {
+                tvLocal.setVisibility(View.GONE);
+                tvLocalSongs.setVisibility(View.GONE);
+                localSongRecyclerView.setVisibility(View.GONE);
+                localSongsCardView.setVisibility(View.GONE);
 
+                tvLocalSongs.setVisibility(View.VISIBLE);
+                tvLocalSongs.setText("Hãy nâng cấp lên tài khoản Premium để nghe nhạc offline");
+            }
             popularAlbumsRecyclerView.setVisibility(View.GONE);
             latestAlbumsRecylerView.setVisibility(View.GONE);
             popularArtistsRecyclerView.setVisibility(View.GONE);

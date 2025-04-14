@@ -288,7 +288,7 @@ public class MusicPlayerViewModel extends ViewModel {
         }
     }
 
-    public void playLocalSongs(Song priotitizedSong) {
+    public void playLocalSongs(Song prioritizedSong) {
         if (isAdPlaying.getValue() != null && isAdPlaying.getValue()) {
             errorMessage.setValue("Ad is playing");
             return;
@@ -296,7 +296,7 @@ public class MusicPlayerViewModel extends ViewModel {
         currentAlbumId.setValue(null);
         currentArtistId.setValue(null);
         currentPlaylistId.setValue(null);
-        playerController.playLocalSongs(priotitizedSong);
+        playerController.playLocalSongs(prioritizedSong);
         currentPlaybackSourceType.setValue(PlaybackSourceType.LOCAL);
         currentName.setValue("Nhac ngoại tuyến");
         playbackState.setValue(PlaybackState.LOADING);
