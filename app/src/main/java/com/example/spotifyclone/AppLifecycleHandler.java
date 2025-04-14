@@ -47,6 +47,7 @@ public class AppLifecycleHandler implements Application.ActivityLifecycleCallbac
 
     @Override
     public void onStop(@NonNull LifecycleOwner owner) {
+
         Log.d("AppLifecycleHandler", "App moved to background");
     }
 

@@ -92,6 +92,8 @@ public class PlayList {
                 songList.add(song);
             }
         }
+        Log.d(TAG, "Added songs to playlist: " + songList.size());
+        printPlaylist();
     }
 
 
@@ -117,6 +119,8 @@ public class PlayList {
     }
 
     public List<Song> getUpcomingSongs() {
+        Log.d(TAG, "Getting upcoming songs.");
+        printPlaylist();
         return songList.subList(currentIndex + 1, songList.size());
     }
 

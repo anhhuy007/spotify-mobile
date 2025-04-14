@@ -82,22 +82,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("MainActivity", "onCreate called");
         super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
             initUser();
             initUI();
             initViewModel();
             observeViewModel();
-            setupPlayerRepositoryAndRestorePlayerViewModel();
+            setupPlayerRepository();
             setupListeners();
             setupNavigation();
             checkNotificationPermission();
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
-    private void setupPlayerRepositoryAndRestorePlayerViewModel() {
+    private void setupPlayerRepository() {
+        Log.d("MainActivity", "setupPlayerRepositoryAndRestorePlayerViewModel: ");
         this.playerRepository = new PlayerRepository(this);
-        viewModel.setUpMusicPlayerViewModel(playerRepository.loadPlayerState());
     }
 
     private void initUser() {

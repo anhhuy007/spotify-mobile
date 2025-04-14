@@ -303,6 +303,7 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
 
         // Set up observers for play name changes
         viewModel.getPlayName().observe(getViewLifecycleOwner(), name -> {
+            Log.d(TAG, "Play name: " + name);
             updatePlayNameVisibility(name, viewModel.getPlayType().getValue(), viewModel.isAdPlaying().getValue());
         });
 
