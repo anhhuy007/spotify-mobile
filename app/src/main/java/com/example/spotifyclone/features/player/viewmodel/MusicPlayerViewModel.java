@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 //import com.example.spotifyclone.features.notification.MusicNotificationManager;
+import com.airbnb.lottie.L;
 import com.example.spotifyclone.features.player.model.audio.MusicPlayerController;
 import com.example.spotifyclone.features.player.model.audio.PlaybackListener;
 import com.example.spotifyclone.features.player.model.playlist.PlayList;
@@ -83,6 +84,7 @@ public class MusicPlayerViewModel extends ViewModel {
     }
 
     public void setUpMusicPlayerViewModel(PlayerState state) {
+        Log.d("VM", "Set up music player view model");
         if (state == null) {
             return;
         }
@@ -101,9 +103,11 @@ public class MusicPlayerViewModel extends ViewModel {
                 for (Song song : songs.subList(1, songs.size())) {
                     Log.d("VM", "Upcoming song: " + song.toString());
                 }
+                Log.d("VM", "Setting upcoming songs 1: " + songs.subList(1, songs.size()).size());
                 setUpcomingSongs(songs.subList(1, songs.size()), songs.get(0), 0);
             } else {
                 upcomingSongs.setValue(new ArrayList<>());
+                Log.d("VM", "Setting upcoming songs 2: " + songs.subList(1, songs.size()).size());
                 setUpcomingSongs(new ArrayList<>(), songs.get(0), 0);
             }
             currentDuration.setValue(0L);
@@ -113,16 +117,13 @@ public class MusicPlayerViewModel extends ViewModel {
             currentDuration.setValue(state.getCurrentDuration());
             duration.setValue(state.getDuration());
             upcomingSongs.setValue(state.getUpcomingSongs());
+            Log.d("VM", "Setting upcoming songs 3: ");
             setUpcomingSongs(state.getUpcomingSongs(), state.getCurrentSong(), Math.toIntExact(state.getCurrentDuration()));
         }
         setShuffleMode(state.getShuffleMode());
         setRepeatMode(state.getRepeatMode());
 
         playbackState.setValue(PlaybackState.PAUSED);
-
-        upcomingSongs.setValue(state.getUpcomingSongs());
-        setUpcomingSongs(state.getUpcomingSongs(), state.getCurrentSong(), Math.toIntExact(state.getCurrentDuration()));
-
         currentName.setValue(state.getCurrentName());
 
         PlaybackSourceType sourceType = state.getCurrentPlaybackSourceType();
@@ -161,8 +162,8 @@ public class MusicPlayerViewModel extends ViewModel {
             public void onStarted(Song song) {
                 currentSong.postValue(song);
                 playbackState.postValue(PlaybackState.PLAYING);
-                updateUpcomingSongs();
                 updateSongDuration();
+                updateUpcomingSongs();
                 handler.post(updateProgressRunnable);
             }
 
@@ -323,22 +324,6 @@ public class MusicPlayerViewModel extends ViewModel {
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
     }
-//    public void playPlaylist(PlayList playlist) {
-//        if (playlist == null || playlist.isEmpty()) {
-//            return;
-//        }
-//        // Clear current album info and artist
-//        currentAlbumId.setValue(null);
-//
-//        // Set current playlist info
-//        currentPlaylist.setValue(playlist);
-//        currentPlaybackSourceType.setValue(PlaybackSourceType.PLAYLIST);
-//
-//        // Start playback
-//        playerController.playPlaylist(playlist);
-//        playbackState.setValue(PlaybackState.LOADING);
-//        handler.post(updateProgressRunnable);
-//    }
 
     public void stop() {
         playerController.stop();
@@ -418,7 +403,16 @@ public class MusicPlayerViewModel extends ViewModel {
 
     private void updateUpcomingSongs() {
         Log.d("VM", "Update upcoming songs");
-        upcomingSongs.setValue(playerController.getUpcomingSongs());
+        if (playerController.getUpcomingSongs() == null) {
+            return;
+        }
+        // Clear upcoming songs before updating
+        List<Song> upcomingSongsList = playerController.getUpcomingSongs();
+        for (Song song : upcomingSongsList) {
+            Log.d("VM", "Upcoming song: " + song.toString());
+        }
+        upcomingSongs.setValue(new ArrayList<>());
+        upcomingSongs.postValue(upcomingSongsList);
     }
 
     // State Getters

@@ -167,7 +167,7 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
                         public void onResponse(Call<APIResponse<Song>> call, Response<APIResponse<Song>> response) {
                             if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                                 Song song = response.body().getData();
-                                Log.d("DEBUG", "onResponse: " + song.toString());
+//                                Log.d("DEBUG", "onResponse: " + song.toString());
                                 dbHelper.downloadSong(song, new SongDatabaseHelper.DownloadCallback() {
                                     final Handler mainHandler = new Handler(Looper.getMainLooper());
 

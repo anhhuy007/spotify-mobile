@@ -17,9 +17,9 @@ import com.example.spotifyclone.R;
 
 
 public class CircleCheckBox extends View {
-    private float innerCircleRadius = 30.f;
+    private float innerCircleRadius = 20.f;
     private float outerCircleRadius = innerCircleRadius / 2f;
-    private float textSize = 35f;
+    private float textSize = 20f;
     private float borderThickness = 5f;
     private float tickThickness = 2f;
     private float textLeftPadding = 2f;
@@ -456,4 +456,14 @@ public class CircleCheckBox extends View {
             this.text = text;
         }
     }
+
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int width = MeasureSpec.getSize(widthMeasureSpec);
+        int height = MeasureSpec.getSize(heightMeasureSpec);
+        setMeasuredDimension(width, height);
+    }
+
+
 }

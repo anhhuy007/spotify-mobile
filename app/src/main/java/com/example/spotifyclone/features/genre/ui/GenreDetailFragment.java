@@ -89,11 +89,10 @@ public class GenreDetailFragment extends Fragment {
         initViews(view);
 
 //        setupUI();
-        setupViewModel();
+        setupViewModel(view);
         setupRecyclerView(view);
         setupToolbar((AppCompatActivity) requireActivity());
         setupScrollListener();
-        setupGradientBackground(view);
     }
 
     private void setupToolbar(AppCompatActivity activity) {
@@ -161,7 +160,7 @@ public class GenreDetailFragment extends Fragment {
         Navigation.findNavController(requireView()).navigate(action);
 
     }
-    public void setupViewModel() {
+    public void setupViewModel(View view) {
         GenreViewModel genreViewModel = new ViewModelProvider(
                 this,
                 new GenreViewModelFactory(requireContext())
@@ -173,6 +172,8 @@ public class GenreDetailFragment extends Fragment {
                 genre_name = genre.getName();
                 genre_description = genre.getDescription();
                 setupUI();
+                setupGradientBackground(view);
+
             }
         });
 

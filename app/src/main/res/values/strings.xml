@@ -376,6 +376,23 @@
     <string name="song">Song</string>
     <string name="album">Album</string>
     <string name="artist">Artist</string>
+    <string name="playlist_add_string">Thêm vào danh sách phát này</string>
+    <string name="playlist_down_string">Tải xuống</string>
+    <string name="sleep_time">Hẹn giờ ngủ</string>
+    <string name="playlist_song_download_string">Tải bài hát</string>
+    <string name="playlist_premium_text">Premium</string>
+    <string name="playlist_add_song_string">Thêm vào danh sách phát này</string>
+    <string name="playlist_fix_string">Sửa</string>
+    <string name="playlsit_eliminte_fav_string">Loại bỏ khỏi hồ sơ ưa thích của bạn</string>
+    <string name="playlist_set_private_string">Đặt thành riêng tư</string>
+    <string name="playlist_add_profile_string">Thêm vào hồ sơ</string>
+    <string name="playlist_delete_string">Xóa playlist</string>
+    <string name="add_to_another_playlist">Thêm vào danh sách phát khác</string>
+    <string name="playlist_share_string">Chia sẻ</string>
+    <string name="invite_share">Mời cộng sự</string>
+    <string name="show_spotify_code_string">Hiển thị mã Spotify</string>
+    <string name="listen_without_ad">Nghe nhạc không quảng cáo</string>
+    <string name="processing_subscription">Processing subscription...</string>
 
 
 </resources>

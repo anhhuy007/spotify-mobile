@@ -191,8 +191,7 @@
                                     android:layout_height="48dp"
                                     android:layout_gravity="center_vertical"
                                     android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/ic_baseline_shuffle_24"
-                                    app:tint="@color/spotify_green" />
+                                    android:src="@drawable/ic_baseline_shuffle_24" />
 
                                 <ImageButton
                                     android:id="@+id/btn_play_artist_detail"

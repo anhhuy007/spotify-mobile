@@ -42,6 +42,7 @@
     <com.example.spotifyclone.features.playlist.ui.CircleCheckBox
         android:id="@+id/circleCheckBox"
         android:layout_width="30dp"
+        android:layout_marginEnd="10dp"
         android:layout_height="30dp"
         android:layout_gravity="center_vertical"
         app:tickColor="@color/background_color"

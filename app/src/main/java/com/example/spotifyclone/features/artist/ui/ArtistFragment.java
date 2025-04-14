@@ -383,7 +383,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
             tv_artist_info = rootView.findViewById(R.id.tv_artist_info);
             tv_artist_info.setText(data.getDescription());
             participant_artist_detail = rootView.findViewById(R.id.participant_artist_detail);
-            participant_artist_detail.setText(getString(R.string.fans_also_like) + " " +  data.getName());
+            participant_artist_detail.setText(getString(R.string.fans_also_like) + " " + data.getName());
 
             // Load artist images
             loadArtistImages(data.getAvatarUrl());
@@ -553,7 +553,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
     @Override
     public void onSongClick(PopularSong song) {
-        viewModel.playSongsFrom(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST,song.getId());
+        viewModel.playSongsFrom(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST, song.getId());
     }
 
     private static String formatListeners(int listeners) {
