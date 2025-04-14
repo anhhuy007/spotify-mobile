@@ -1,10 +1,7 @@
 package com.example.spotifyclone;
-
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
@@ -25,7 +22,6 @@ public class AppLifecycleHandler implements Application.ActivityLifecycleCallbac
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
         activityCount++;
-        Log.d("AppLifecycleHandler", "App is in foreground");
     }
 
     @Override
@@ -46,14 +42,10 @@ public class AppLifecycleHandler implements Application.ActivityLifecycleCallbac
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {}
 
     @Override
-    public void onStop(@NonNull LifecycleOwner owner) {
-
-        Log.d("AppLifecycleHandler", "App moved to background");
-    }
+    public void onStop(@NonNull LifecycleOwner owner) {}
 
     @Override
     public void onDestroy(@NonNull LifecycleOwner owner) {
-        Log.d("AppLifecycleHandler", "App is closing");
         app.getMusicPlayerController().close();
     }
 }

@@ -125,8 +125,6 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
                 download_song_text.setText("Xóa nhạc");
                 download_song_icon.setImageResource(R.drawable.ic_close);
                 download_song.setOnClickListener(v -> {
-                    Log.d("DEBUG", "onClick: " + finalId);
-                    Log.d("DEBUG", "onClick: " + finalName);
                     dbHelper.deleteSong(finalId, new SongDatabaseHelper.DownloadCallback() {
                         final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -173,7 +171,6 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
                         public void onResponse(Call<APIResponse<Song>> call, Response<APIResponse<Song>> response) {
                             if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                                 Song song = response.body().getData();
-//                                Log.d("DEBUG", "onResponse: " + song.toString());
                                 dbHelper.downloadSong(song, new SongDatabaseHelper.DownloadCallback() {
                                     final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -210,13 +207,13 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
                                 });
 
                             } else {
-                                Log.d("DEBUG Download", "onFailure: " + response.message());
+                                Log.e("DEBUG Download", "onFailure: " + response.message());
                             }
                         }
 
                         @Override
                         public void onFailure(Call<APIResponse<Song>> call, Throwable t) {
-                            Log.d("DEBUG fetch" , "onFailure: " + t.getMessage());
+                            Log.e("DEBUG fetch" , "onFailure: " + t.getMessage());
                         }
                     });
                 });

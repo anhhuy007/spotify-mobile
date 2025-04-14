@@ -35,14 +35,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     public void nextStep() {
-        Log.d("DEBUG", "nextStep: " + viewPager.getCurrentItem());
         if (viewPager.getCurrentItem() < forgotPasswordPagerAdapter.getItemCount() - 1) {
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
         }
     }
 
     public void previousStep() {
-        Log.d("DEBUG", "previousStep: " + viewPager.getCurrentItem());
         if (viewPager.getCurrentItem() > 0) {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         }

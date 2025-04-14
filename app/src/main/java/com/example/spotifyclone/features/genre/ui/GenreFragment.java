@@ -43,7 +43,6 @@ public class GenreFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString("strArg1", strArg);
         fragment.setArguments(args);
-        Log.d("GenreFragment", "newInstance");
         return fragment;
     }
 
@@ -56,7 +55,6 @@ public class GenreFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("GenreFragment", "onCreateView");
         return inflater.inflate(R.layout.activity_layoutlist, container, false);
     }
 
@@ -72,14 +70,12 @@ public class GenreFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
         genreAdapter = new GenreAdapter(requireContext(), new ArrayList<>(), genre -> { //override onCLickItem fron GenreAdapter
-            Log.d("GenreFragment", "Selected genre: " + genre.getName());
             if (main != null) {
                 main.onMsgFromFragToMain("GENRE_FRAGMENT", genre);
             }
         });
 
         recyclerView.setAdapter(genreAdapter);
-        Log.d("GenreFragment", "RecyclerView initialized");
     }
 
     private void setupViewModel() {

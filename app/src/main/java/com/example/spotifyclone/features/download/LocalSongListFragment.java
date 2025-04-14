@@ -72,9 +72,6 @@ public class LocalSongListFragment extends Fragment implements LocalSongAdapter.
         } else {
             localSongs = new ArrayList<>();
         }
-        for (Song song : localSongs) {
-            Log.d("LocalSongListFragment", "Song: " + song.toString());
-        }
     }
 
     private void initViews(View view){
@@ -184,7 +181,6 @@ public class LocalSongListFragment extends Fragment implements LocalSongAdapter.
     }
     @Override
     public void onSongClick(Song song) {
-        Log.d("LocalSongListFragment", "Song clicked: " + song.toString());
         if(localSongs == null || localSongs.isEmpty()) {
             return;
         }

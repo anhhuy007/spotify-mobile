@@ -116,13 +116,11 @@ public class CredentialsFragment extends Fragment {
         if (email.isEmpty()) {
             if (showErrors) {
                 emailInputLayout.setError("Email is required");
-                Log.d("DEBUG", "Email is required");
             }
             isValid = false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             if (showErrors) {
                 emailInputLayout.setError("Please enter a valid email address");
-                Log.d("DEBUG", "Please enter a valid email address");
             }
             isValid = false;
         }
@@ -132,25 +130,19 @@ public class CredentialsFragment extends Fragment {
         if (password.isEmpty()) {
             if (showErrors) {
                 passwordInputLayout.setError("Password is required");
-                Log.d("DEBUG", "Password is required");
             }
             isValid = false;
         } else if (password.length() < 8) {
             if (showErrors) {
                 passwordInputLayout.setError("Password must be at least 8 characters");
-                Log.d("DEBUG", "Password must be at least 8 characters");
             }
             isValid = false;
         } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
             if (showErrors) {
                 passwordInputLayout.setError("Password must include letters, numbers, and symbols");
-                Log.d("DEBUG", "Password must include letters, numbers, and symbols");
             }
             isValid = false;
         }
-
-        Log.d("DEBUG", "isValid: " + isValid);
-
         // Update button state
 //        btnContinue.setEnabled(isValid);
 

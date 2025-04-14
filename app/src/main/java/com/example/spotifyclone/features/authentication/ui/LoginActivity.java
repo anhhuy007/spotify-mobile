@@ -159,15 +159,11 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
-                        // Log.d(TAG, "signInWithCredential:success");
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        Log.d("LoginScreen", "firebaseAuthWithGoogle: " + user.getDisplayName());
-                        Log.d("LoginScreen", "Token: " + idToken);
                         // updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
-                        // Snackbar.make(mBinding.mainLayout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                         // updateUI(null);
                     }
                 });

@@ -115,7 +115,6 @@ public class MusicPlayerController {
             public void onCompleted(@NonNull Song song) {
                 if (Boolean.TRUE.equals(musicPlayerViewModel.isAdPlaying().getValue())) {
                     musicPlayerViewModel.setAdPlaying(false);
-                    Log.d(TAG, "Ad finished playing");
                 }
                 handleSongCompletion();
             }
@@ -237,7 +236,6 @@ public class MusicPlayerController {
 
     public void stop() {
         checkReleased();
-        Log.d(TAG, "Stopping playback");
         audioPlayer.stop();
     }
 
@@ -294,19 +292,15 @@ public class MusicPlayerController {
             }
             Song nextSong = playList.moveToNextSong();
             if (nextSong != null) {
-                Log.d(TAG, "Next song found: " + nextSong.getTitle());
                 audioPlayer.loadAndPlay(nextSong);
                 return true;
             } else {
-                Log.d(TAG, "No next song found");
                 if(musicPlayerViewModel.getPlayType().getValue() == MusicPlayerViewModel.PlaybackSourceType.LOCAL) {
-                    Log.d(TAG, "No next song found, fetching local songs");
                     fetchLocalSongsAndPlayNext();
                 }
                 else {
                     fetchMoreSongsAndPlayNext();
                 }
-                Log.d(TAG, "No next song found, fetching more songs");
                 return false;
             }
         }
@@ -349,15 +343,14 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found in API response");
                     }
-                    Log.d("DEBUG","Popular Songs" + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: "+ response.message());
+                    Log.e("DEBUG", "onFailure: "+ response.message());
 
                 }
             }
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());            }
+                Log.e("DEBUG", "onFailure: " + t.getMessage());            }
         });
     }
 
@@ -431,15 +424,14 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found in API response");
                     }
-                    Log.d("DEBUG", "Popular Songs: " + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -458,16 +450,15 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found in API response");
                     }
-                    Log.d("DEBUG", "Popular Songs" + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
 
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -501,15 +492,15 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found for artist in API response");
                     }
-                    Log.d("DEBUG", "Artist Songs: " + response.body());
+                    Log.e("DEBUG", "Artist Songs: " + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -530,15 +521,14 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found for artist in API response");
                     }
-                    Log.d("DEBUG", "Artist Songs: " + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -648,15 +638,14 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found for artist in API response");
                     }
-                    Log.d("DEBUG", "Artist Songs: " + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -676,16 +665,15 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found for artist in API response");
                     }
-                    Log.d("DEBUG", "Artist Songs: " + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
                 }
             }
 
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -719,7 +707,7 @@ public class MusicPlayerController {
                             }
                         }
                     } else {
-                        Log.d("DEBUG", "onFailure: " + response.message());
+                        Log.e("DEBUG", "onFailure: " + response.message());
                     }
 
                     if (pendingCalls.decrementAndGet() == 0) {
@@ -729,7 +717,6 @@ public class MusicPlayerController {
 
                 @Override
                 public void onFailure(@NonNull Call<APIResponse<Song>> call, @NonNull Throwable t) {
-                    Log.d("DEBUG", "onFailure: " + t.getMessage());
                     if (pendingCalls.decrementAndGet() == 0) {
                         callback.onSongsFetched(result);
                     }

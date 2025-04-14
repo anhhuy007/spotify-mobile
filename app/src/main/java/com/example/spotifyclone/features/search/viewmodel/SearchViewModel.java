@@ -59,7 +59,6 @@ public class SearchViewModel extends ViewModel {
                     // If it's page 1, replace the entire dataset (new filter or initial load)
                     if (page == 1) {
                         items.setValue(new ArrayList<>(newItems));
-                        Log.d("SearchViewModel", "Setting new filtered data, items count: " + newItems.size());
                     } else {
                         // For pagination (page > 1), append to existing list
                         List<SearchItem> currentItems = items.getValue();
@@ -68,7 +67,6 @@ public class SearchViewModel extends ViewModel {
                         }
                         currentItems.addAll(newItems);
                         items.setValue(new ArrayList<>(currentItems)); // Creating new list to ensure LiveData triggers update
-                        Log.d("SearchViewModel", "Appending data, total items now: " + currentItems.size());
                     }
                 } else {
                     errorMessage.setValue("Failed to load search results");

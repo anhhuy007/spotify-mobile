@@ -70,7 +70,6 @@ public class MusicPlayerViewModel extends ViewModel {
     };
 
     public void setAdPlaying(boolean isAdPlaying) {
-        Log.d("VM", "setAdPlaying: " + isAdPlaying);
         this.isAdPlaying.setValue(isAdPlaying);
     }
     public LiveData<Boolean> isAdPlaying() {
@@ -84,7 +83,6 @@ public class MusicPlayerViewModel extends ViewModel {
     }
 
     public void setUpMusicPlayerViewModel(PlayerState state) {
-        Log.d("VM", "Set up music player view model");
         if (state == null) {
             return;
         }
@@ -100,14 +98,9 @@ public class MusicPlayerViewModel extends ViewModel {
 
             if (songs.size() > 1) {
                 upcomingSongs.setValue(songs.subList(1, songs.size()));
-                for (Song song : songs.subList(1, songs.size())) {
-                    Log.d("VM", "Upcoming song: " + song.toString());
-                }
-                Log.d("VM", "Setting upcoming songs 1: " + songs.subList(1, songs.size()).size());
                 setUpcomingSongs(songs.subList(1, songs.size()), songs.get(0), 0);
             } else {
                 upcomingSongs.setValue(new ArrayList<>());
-                Log.d("VM", "Setting upcoming songs 2: " + songs.subList(1, songs.size()).size());
                 setUpcomingSongs(new ArrayList<>(), songs.get(0), 0);
             }
             currentDuration.setValue(0L);
@@ -117,7 +110,6 @@ public class MusicPlayerViewModel extends ViewModel {
             currentDuration.setValue(state.getCurrentDuration());
             duration.setValue(state.getDuration());
             upcomingSongs.setValue(state.getUpcomingSongs());
-            Log.d("VM", "Setting upcoming songs 3: ");
             setUpcomingSongs(state.getUpcomingSongs(), state.getCurrentSong(), Math.toIntExact(state.getCurrentDuration()));
         }
         setShuffleMode(state.getShuffleMode());
@@ -144,11 +136,6 @@ public class MusicPlayerViewModel extends ViewModel {
         if (upcomingSongs == null || currentSong == null) {
             return;
         }
-        Log.d("VM", "Set upcoming songs la: " + upcomingSongs.size());
-        for (Song song : upcomingSongs) {
-            Log.d("VM", "Upcoming song laf: " + song.toString());
-        }
-        Log.d("VM", "Current song is: " + currentSong.toString());
         List<Song> songs = new ArrayList<>();
         songs.add(currentSong);
         songs.addAll(upcomingSongs);
@@ -402,15 +389,11 @@ public class MusicPlayerViewModel extends ViewModel {
     }
 
     private void updateUpcomingSongs() {
-        Log.d("VM", "Update upcoming songs");
         if (playerController.getUpcomingSongs() == null) {
             return;
         }
         // Clear upcoming songs before updating
         List<Song> upcomingSongsList = playerController.getUpcomingSongs();
-        for (Song song : upcomingSongsList) {
-            Log.d("VM", "Upcoming song: " + song.toString());
-        }
         upcomingSongs.setValue(new ArrayList<>());
         upcomingSongs.postValue(upcomingSongsList);
     }

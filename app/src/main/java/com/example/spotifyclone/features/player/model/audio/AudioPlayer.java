@@ -2,7 +2,6 @@ package com.example.spotifyclone.features.player.model.audio;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
@@ -77,7 +76,6 @@ public class AudioPlayer implements AutoCloseable {
             } catch (Exception e) {
                 if (playbackListener != null) {
                     playbackListener.onError(song, "Failed to load media: " + e.getMessage());
-                    Log.e("AudioPlayer", "Error loading media: " + e.getMessage());
                 }
             }
         }
@@ -95,7 +93,6 @@ public class AudioPlayer implements AutoCloseable {
         } catch (Exception e) {
             if (playbackListener != null) {
                 playbackListener.onError(song, "Failed to load media: " + e.getMessage());
-                Log.e("AudioPlayer", "Error loading media: " + e.getMessage());
             }
         }
     }

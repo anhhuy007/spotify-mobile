@@ -18,7 +18,6 @@ public class MusicNotificationIntents {
     }
 
     public static PendingIntent createNextIntent(Context context) {
-        Log.d("MediaSession", "Next button pressed intents");
         Intent intent = new Intent(MusicNotificationReceiver.ACTION_NEXT);
         intent.setClass(context, MusicNotificationReceiver.class);
         intent.setPackage(context.getPackageName());

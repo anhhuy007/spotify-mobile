@@ -31,39 +31,30 @@ public class GenreViewModel extends ViewModel {
 
     public GenreViewModel(GenreService genreService)
     {
-        Log.d("Genre viewmodel", "constructor");
         this.genreService=genreService;
     }
     public void fetchGenresByIds(){
         isLoading.setValue(true);
-
-        Log.d("GenreViewModel", "fetchGenresByids");
-
         genreService.getGenres().enqueue(new Callback<APIResponse<PaginatedResponse<Genre>>>() { // Load genre data
 
             @Override
             public void onResponse(Call<APIResponse<PaginatedResponse<Genre>>> call, Response<APIResponse<PaginatedResponse<Genre>>> response) {
-                Log.d("GenreViewModel", "onResponse: " + response.code());
-
                 isLoading.setValue(false);
 
                 if (response.isSuccessful()) {
                     // Log the raw response body
                     try {
                         String rawJson = response.body().toString();
-                        Log.d("GenreViewModel", "Raw JSON: " + rawJson);
                     } catch (Exception e) {
                         Log.e("GenreViewModel", "Error reading raw response", e);
                     }
 
                     APIResponse<PaginatedResponse<Genre>> body = response.body();
                     if (body != null) {
-                        Log.d("GenreViewModel", "Response Body: " + new Gson().toJson(body));
                         if (body.isSuccess()) {
                             PaginatedResponse<Genre> data = body.getData();
                             if (data != null && data.getItems() != null) {
                                 genres.setValue(data.getItems());
-                                Log.d("GenreViewModel", "Set genres: " + data.getItems().size());
                             } else {
                                 Log.e("GenreViewModel", "Data or items is null");
                             }
@@ -85,7 +76,7 @@ public class GenreViewModel extends ViewModel {
             public void onFailure(Call<APIResponse<PaginatedResponse<Genre>>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG_GENRE", "onFailure: " + t.getMessage());
+                Log.e("DEBUG_GENRE", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -97,8 +88,6 @@ public class GenreViewModel extends ViewModel {
             @Override
             public void onResponse(Call<APIResponse<PaginatedResponse<Album>>> call, Response<APIResponse<PaginatedResponse<Album>>> response) {
                 isLoading.setValue(false);
-                Log.d("GenreViewModel", "onResponse: " + response.code());
-
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     albums.setValue(response.body().getData().getItems());
                 } else {
@@ -109,7 +98,7 @@ public class GenreViewModel extends ViewModel {
             public void onFailure(Call<APIResponse<PaginatedResponse<Album>>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG_Genre", "onFailure: " + t.getMessage());
+                Log.e("DEBUG_Genre", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -126,13 +115,13 @@ public class GenreViewModel extends ViewModel {
                             if (response.body().isSuccess()) {
                                 genreById.setValue(response.body().getData());
                             } else {
-                                Log.d("GenreViewModel", "API success flag false");
+                                Log.e("GenreViewModel", "API success flag false");
                             }
                         } else {
-                            Log.d("GenreViewModel", "Response body is null");
+                            Log.e("GenreViewModel", "Response body is null");
                         }
                     } else {
-                        Log.d("GenreViewModel", "Response not successful: " + response.code());
+                        Log.e("GenreViewModel", "Response not successful: " + response.code());
                     }
                 } catch (Exception e) {
                     errorMessage.setValue("Error processing response: " + e.getMessage());

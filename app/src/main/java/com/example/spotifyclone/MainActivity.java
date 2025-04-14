@@ -26,13 +26,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -45,9 +43,6 @@ import com.example.spotifyclone.features.album.viewmodel.AlbumViewModel;
 import com.example.spotifyclone.features.player.model.song.PlaybackState;
 import com.example.spotifyclone.features.player.ui.PlayerBottomSheetFragment;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
-import com.example.spotifyclone.features.profile.ui.EditProfileFragment;
-import com.example.spotifyclone.features.profile.ui.ProfileFragment;
-import com.example.spotifyclone.features.settings.ui.SettingsFragmentDirections;
 import com.example.spotifyclone.shared.model.PlayerState;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.repository.PlayerRepository;
@@ -57,9 +52,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 import android.Manifest;
-
-import android.util.Log;
-
 import java.util.Locale;
 
 import java.io.File;
@@ -82,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("MainActivity", "onCreate called");
         super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
             initUser();
@@ -97,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setupPlayerRepository() {
-        Log.d("MainActivity", "setupPlayerRepositoryAndRestorePlayerViewModel: ");
         this.playerRepository = new PlayerRepository(this);
     }
 
@@ -127,20 +117,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
 
-//    private void setupNavigation() {
-//        BottomNavigationView navView = findViewById(R.id.bottom_nav);
-//        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.nav_host_fragment);
-//        assert navHostFragment != null;
-//        navController = navHostFragment.getNavController();
-//        NavigationUI.setupWithNavController(navView, navController);
-//
-//        // Setup Navigation Drawer
-//        drawerLayout = findViewById(R.id.drawer_layout);
-//        navigationView = findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//    }
-
     // Method to open drawer from fragments
     public void openDrawer() {
         if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -161,29 +137,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Custom BottomNavigation behavior
         navView.setOnItemSelectedListener(item -> {
             int destinationId = item.getItemId();
 
-            // Kiểm tra xem destinationId có phải là 1 trong các ID hợp lệ không
             if (destinationId == R.id.nav_home ||
                     destinationId == R.id.nav_search ||
                     destinationId == R.id.nav_library ||
                     destinationId == R.id.nav_premium) {
 
-                // Nếu đang ở fragment này rồi thì không cần navigate nữa
                 if (navController.getCurrentDestination() != null &&
                         navController.getCurrentDestination().getId() == destinationId) {
                     return false;
                 }
 
-                // Xóa back stack về startDestination, rồi điều hướng
                 navController.popBackStack(navController.getGraph().getStartDestinationId(), false);
                 navController.navigate(destinationId);
                 return true;
             }
 
-            return false; // Trả về false nếu item không hợp lệ
+            return false;
         });
     }
     @Override
@@ -243,13 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ImageView userAvatar =  headerView.findViewById(R.id.drawer_header_avatar);
         userAvatar.setOnClickListener(
-                v -> {
-//                    NavDirections action = SettingsFragmentDirections.actionSettingsFragmentToProfileFragment();
-//                    NavController navController = Navigation.findNavController();
-//                    navController.navigate(action);
-
-                    navController.navigate(R.id.profileFragment);
-                }
+                v -> navController.navigate(R.id.profileFragment)
         );
         TextView userName = headerView.findViewById(R.id.drawer_header_username);
         TextView userEmail = headerView.findViewById(R.id.drawer_header_email);
@@ -382,11 +348,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
-                        Log.w("FCM", "Fetching FCM registration token failed", task.getException());
                         return;
                     }
                     String token = task.getResult();
-                    Log.d("FCM", "FCM Token: " + token);
                     sendTokenToServer(token);
                 });
     }
@@ -400,10 +364,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == NOTIFICATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d("FCM", "Notification permission granted");
                 retrieveFCMToken();
-            } else {
-                Log.w("FCM", "Notification permission denied");
             }
         }
     }

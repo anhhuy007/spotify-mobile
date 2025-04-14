@@ -3,16 +3,10 @@ package com.example.spotifyclone.shared.repository;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import com.example.spotifyclone.features.player.model.playlist.PlayList;
-import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
-import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
-import com.example.spotifyclone.features.player.model.song.Song;
-import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.shared.model.PlayerState;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class PlayerRepository {
     private static final String PREF_NAME = "player_prefs";
@@ -29,7 +23,6 @@ public class PlayerRepository {
     }
 
     public synchronized void savePlayerState(PlayerState playerState) {
-        Log.d("PlayerRepository", "Lưu trạng thái: " + playerState.toString());
         try {
             String playerStateJson = gson.toJson(playerState);
             editor.putString(KEY_PLAYER_STATE, playerStateJson);
@@ -45,10 +38,7 @@ public class PlayerRepository {
             if (playerStateJson != null) {
                 PlayerState restoredState = gson.fromJson(playerStateJson, PlayerState.class);
 
-                if (restoredState == null) {
-                    return new PlayerState();
-                }
-                return restoredState;
+                return Objects.requireNonNullElseGet(restoredState, PlayerState::new);
             }
         } catch (Exception e) {
             Log.e("PlayerRepository", "❌ Lỗi khi khôi phục trạng thái", e);

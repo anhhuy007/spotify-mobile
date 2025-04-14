@@ -39,7 +39,6 @@ public class GenreAlbumAdapter extends RecyclerView.Adapter<GenreAlbumAdapter.Al
         holder.album_name.setText(album.getTitle());
         String songs_artist = album.getArtists_name() != null ? String.join(", ", album.getArtists_name()) : "";
         holder.album_artist.setText(songs_artist);
-        //Log.d("Song",song.getImg_url());
         Glide.with(context)
                 .load(album.getCoverUrl())
                 .into(holder.album_image);
