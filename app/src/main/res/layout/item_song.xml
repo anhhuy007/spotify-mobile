@@ -39,7 +39,11 @@
             android:text="Cause I Love You"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            />
 
         <TextView
             android:id="@+id/tv_song_plays"

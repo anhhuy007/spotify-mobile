@@ -41,13 +41,14 @@ public class TopAlbumAdapter extends RecyclerView.Adapter<TopAlbumAdapter.ViewHo
     @NonNull
     @Override
     public TopAlbumAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_album_song_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_top_product, parent, false);
         return new TopAlbumAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TopAlbumAdapter.ViewHolder holder, int position) {
         TopAlbum item = artistList.get(position);
+        holder.song_index.setText(Integer.toString(position + 1));
         holder.title.setText(item.getName());
         holder.des.setText(item.getDescription());
         Glide.with(context)
@@ -80,13 +81,14 @@ public class TopAlbumAdapter extends RecyclerView.Adapter<TopAlbumAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title,des;
+        TextView title,des, song_index;
         ImageView img;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.song_name);
+            song_index = itemView.findViewById(R.id.song_index);
             des = itemView.findViewById(R.id.song_artist);
             img = itemView.findViewById(R.id.song_image);
         }
