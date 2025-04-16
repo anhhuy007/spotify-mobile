@@ -49,7 +49,8 @@ public class MusicPlayerViewModel extends ViewModel {
         ARTIST,
         PLAYLIST,
         LOCAL,
-        SEARCH
+        SEARCH,
+        HISTORY
     }
     private final MutableLiveData<Boolean> isAdPlaying = new MutableLiveData<>(false);
 
@@ -286,6 +287,42 @@ public class MusicPlayerViewModel extends ViewModel {
         playerController.playLocalSongs(prioritizedSong);
         currentPlaybackSourceType.setValue(PlaybackSourceType.LOCAL);
         currentName.setValue("Nhac ngoại tuyến");
+        playbackState.setValue(PlaybackState.LOADING);
+        handler.post(updateProgressRunnable);
+    }
+
+
+    public void togglePlayPauseHistory(List<Song> songs) {
+        if (isAdPlaying.getValue() != null && isAdPlaying.getValue()) {
+            errorMessage.setValue("Ad is playing");
+            return;
+        }
+        PlaybackState currentState = playbackState.getValue();
+        PlaybackSourceType type = PlaybackSourceType.HISTORY;
+
+        if (currentPlaybackSourceType.getValue() == type) {
+            if (currentState == PlaybackState.PLAYING) {
+                pausePlayback();
+            } else if (currentState == PlaybackState.PAUSED || currentState == PlaybackState.SEEKING) {
+                continuePlayback();
+            } else {
+                playHistorySongs(songs, null);
+            }
+        } else {
+            playHistorySongs(songs, null);
+        }
+    }
+    public void playHistorySongs(List<Song> songs, Song prioritizedSong) {
+        if (isAdPlaying.getValue() != null && isAdPlaying.getValue()) {
+            errorMessage.setValue("Ad is playing");
+            return;
+        }
+        currentAlbumId.setValue(null);
+        currentArtistId.setValue(null);
+        currentPlaylistId.setValue(null);
+        playerController.playHistorySongs(songs, prioritizedSong);
+        currentPlaybackSourceType.setValue(PlaybackSourceType.HISTORY);
+        currentName.setValue("Những bài hát được phát gần đây");
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
     }

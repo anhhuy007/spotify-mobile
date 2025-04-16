@@ -49,9 +49,6 @@
     <string name="albums_in_genre">Các album thuộc thể loại</string>
 
 
-
-
-
     <string name="search_text">Bạn muốn nghe gì</string>
     <string name="album_same_genre_string">Có thể bạn cũng thích</string>
     <string name="artist_string">Nghệ sĩ</string>
@@ -290,13 +287,13 @@
     <string name="press_to_speak">Press to speak</string>
     <string name="view_all_results">View all search results here</string>
 
-        <string name="step_3_of_4">Bước 3 của 4</string>
+    <string name="step_3_of_4">Bước 3 của 4</string>
     <string name="continue1">Tiếp tục</string>
     <string name="close">Đóng</string>
 
-        <string name="step_2_of_4">Bước 2 trên 4</string>
-        <string name="back">Quay lại</string>
-        <string name="must_be_13">Bạn phải từ 13 tuổi trở lên để sử dụng Spotify</string>
+    <string name="step_2_of_4">Bước 2 trên 4</string>
+    <string name="back">Quay lại</string>
+    <string name="must_be_13">Bạn phải từ 13 tuổi trở lên để sử dụng Spotify</string>
 
     <string name="step_1_of_4">Bước 1 của 4</string>
     <string name="create_account">Tạo tài khoản</string>
@@ -319,11 +316,11 @@
     <string name="complete_sign_up">Hoàn tất đăng ký</string>
 
 
-        <string name="premium_mini_title">Gói Premium Mini</string>
-        <string name="premium_mini_price">₫10.500</string>
-        <string name="premium_mini_duration">TRONG 1 TUẦN</string>
-        <string name="premium_mini_description">1 tài khoản Premium chỉ dùng trên di động • Nghe offline tối đa 30 bài hát trên 1 thiết bị • Thanh toán một lần • Chất lượng âm thanh cơ bản</string>
-        <string name="btn_get_premium_mini">NHẬN GÓI MINI</string>
+    <string name="premium_mini_title">Gói Premium Mini</string>
+    <string name="premium_mini_price">₫10.500</string>
+    <string name="premium_mini_duration">TRONG 1 TUẦN</string>
+    <string name="premium_mini_description">1 tài khoản Premium chỉ dùng trên di động • Nghe offline tối đa 30 bài hát trên 1 thiết bị • Thanh toán một lần • Chất lượng âm thanh cơ bản</string>
+    <string name="btn_get_premium_mini">NHẬN GÓI MINI</string>
 
 
     <string name="step_counter">Bước 4 trong 4</string>
@@ -393,6 +390,7 @@
     <string name="show_spotify_code_string">Hiển thị mã Spotify</string>
     <string name="listen_without_ad">Nghe nhạc không quảng cáo</string>
     <string name="processing_subscription">Processing subscription...</string>
+    <string name="history_list_song">Danh sách nhạc các bài nhạc đã nghe</string>
 
 
 </resources>

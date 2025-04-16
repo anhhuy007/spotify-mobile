@@ -163,10 +163,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation drawer item clicks
         int id = item.getItemId();
         if (id == R.id.nav_profile) {
-            // TODO: Handle navigation to profile
-            // Could use Navigation Component to navigate to profileFragment
             navController.navigate(R.id.editProfileFragment);
-
         } else if (id == R.id.nav_settings) {
              navController.navigate(R.id.settingsFragment);
         } else if (id == R.id.nav_log_out) {
@@ -183,8 +180,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
+        } else if (id == R.id.nav_history_song_list) {
+            navController.navigate(R.id.historySongListFragment);
         }
-
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
