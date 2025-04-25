@@ -63,7 +63,8 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     private TextView artist_album_text;
     private AlbumAdapter artist_albumAdapter;
     private MusicPlayerViewModel viewModel;
-    private ImageButton playButton, imgStory, shuffleButton;
+    private ImageButton playButton, shuffleButton;
+    private ImageView imgStory;
 
     private AlbumAdapter related_albumAdapter;
     private Toolbar toolbar;
@@ -88,14 +89,7 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
         AlbumDetailFragmentArgs args = AlbumDetailFragmentArgs.fromBundle(getArguments());
         if (args != null) {
-//            coverUrl = args.getCoverUrl();
-//            albumTitle = args.getTitle();
             albumId = args.getId();
-//            artistNames = Arrays.asList(args.getArtist());
-//            artistUrl = args.getArtistUrl();
-
-
-
         } else {
             Log.e("AlbumDetailFragment", "Arguments is null");
             NavHostFragment.findNavController(this).navigateUp();
@@ -133,6 +127,10 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
 
         playButton = view.findViewById(R.id.play_button);
         shuffleButton = view.findViewById(R.id.shuffle_button);
+
+        imgStory=view.findViewById(R.id.imgStory);
+
+
     }
     @SuppressLint("SetTextI18n")
     private void setupUI() {
@@ -157,6 +155,12 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
         if(artistNames!=null){
             artist_album_text.setText("Thêm nữa từ " + String.join(" ,", artistNames));
         }
+
+        Glide.with(requireContext())
+                .load(coverUrl)
+                .into(imgStory);
+
+
 
 
     }
@@ -227,14 +231,6 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
     private void navigateToAlbumDetail(Album album){
         NavDirections action = AlbumDetailFragmentDirections.actionNavAlbumDetailSelf(
                 album.getId()
-//                album.getTitle(),
-//                album.getArtists_name().toArray(new String[0]), // List<String> → String[]
-//                album.getReleaseDate() != null ? album.getReleaseDate().getTime() : 0L, // Date → long
-//                album.getCoverUrl(),
-//                album.getCreatedAt() != null ? album.getCreatedAt().getTime() : 0L, // Date → long
-//                album.getLike_count(),
-//                album.getUpdatedAt() != null ? album.getUpdatedAt().getTime() : 0L, // Date → long
-//                album.getArtist_url().get(0) // Take the first url
         );
         Navigation.findNavController(requireView()).navigate(action);
 
@@ -259,20 +255,25 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
             artist_albumAdapter.setData(albums);
         });
         albumViewModel.getAlbumById().observe(getViewLifecycleOwner(), album -> {
-
-            coverUrl = album.getCoverUrl();
-            albumTitle = album.getTitle();
-            albumId = album.getId();
-            artistNames = album.getArtists_name();
-            artistUrl = album.getArtist_url().get(0);// take first artist
-            Log.d("AlbumDetailFragment", coverUrl);
-
-            setupUI();
-            setupToolbar((AppCompatActivity) requireActivity());
-            setupGradientBackground(view);
+            if (album != null) {
+                coverUrl = album.getCoverUrl();
+                albumTitle = album.getTitle();
+                albumId = album.getId();
+                artistNames = album.getArtists_name();
+                artistUrl = album.getArtist_url().get(0); // take first artist
 
 
+                setupUI();
+                setupToolbar((AppCompatActivity) requireActivity());
+                setupGradientBackground(view);
 
+                // Fetch data now that albumId is available
+                albumViewModel.fetchAlbumSongs(albumId);
+                albumViewModel.fetchAlbumsByIds();
+                albumViewModel.fetchAlbumsByArtists(artistNames);
+            } else {
+                Log.d("Albumviewmodel", "Album is null");
+            }
         });
 
 

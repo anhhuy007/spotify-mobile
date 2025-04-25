@@ -145,16 +145,33 @@
                     android:orientation="horizontal"
                     android:layout_weight="1">  <!-- Đẩy phần còn lại về phải -->
 
-                    <ImageButton
-                        android:id="@+id/story"
-                        android:layout_width="48dp"
-                        android:layout_height="55dp"
-                        android:background="?android:attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/like_description"
-                        android:src="@drawable/ic_album_story"
-                        app:tint="@color/text_color"
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginEnd="5dp"/>
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="5dp">
+
+                        <!-- Lớp viền -->
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="55dp"
+                            android:src="@drawable/ic_album_story"
+                            android:layout_gravity="center"
+                            app:tint="@color/text_color"
+                            android:contentDescription="Khung viền" />
+
+                        <!-- Ảnh người dùng hoặc ảnh động -->
+                        <ImageView
+                            android:id="@+id/story"
+                            android:layout_width="35dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="Ảnh người dùng"
+                            android:scaleType="centerCrop" />
+                    </FrameLayout>
+
+
 
                     <ImageButton
                         android:id="@+id/downloadButton"
