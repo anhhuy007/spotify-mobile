@@ -75,9 +75,9 @@ public class HistorySongListFragment extends Fragment implements HistorySongAdap
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews(view);
+        setupRecyclerView(view);
         initData(view);
         setupViewModel();
-        setupRecyclerView(view);
         setupToolbar((AppCompatActivity) requireActivity());
         setupListeners();
         setupScrollListener();
