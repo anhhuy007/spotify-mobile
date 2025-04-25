@@ -93,6 +93,7 @@ public class HistorySongListFragment extends Fragment implements HistorySongAdap
         }
         this.songService = RetrofitClient.getClient(requireContext()).create(SongService.class);
         fetchListSongs(song_ids, songs -> {
+            if(songs == null) return;
             this.songs = songs;
             historySongAdapter.setData(historySongs, songs);
         });
