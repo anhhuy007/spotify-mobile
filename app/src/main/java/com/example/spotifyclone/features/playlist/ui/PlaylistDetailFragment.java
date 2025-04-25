@@ -89,7 +89,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
     private Chip edit_chip;
 
     // UI component
-    private ImageView playlist_image;
+    private ImageView playlist_image, story;
     private Toolbar toolbar;
     private NestedScrollView nestedScrollView;
     private RecyclerView song_recyclerview;
@@ -154,6 +154,10 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
         Glide.with(requireContext())
                 .load(playlistUrl)
                 .into(playlist_image);
+
+        Glide.with(requireContext())
+                .load(playlistUrl)
+                .into(story);
 
         // User info
         Glide.with(requireContext())
@@ -228,6 +232,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
         song_recommend_recyclerview=view.findViewById(R.id.song_recommend_recyclerview);
         song_recommend_recyclerview.setLayoutManager(new LinearLayoutManager(requireContext()));
         recommend_albums_recyclerview=view.findViewById(R.id.recommend_albums);
+
         recommend_albums_recyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 2));
 
         songAdapter = new AlbumSongAdapter(getContext(), playlist_songs, 3, (songId, songImage, songTitle,  authorNames, view1) -> {
@@ -314,6 +319,7 @@ public class PlaylistDetailFragment extends Fragment implements AlbumSongAdapter
         playlist_description=view.findViewById(R.id.playlist_description);
         moreoption=view.findViewById(R.id.optionsButton);
         add_chip=view.findViewById(R.id.add_chip);
+        story=view.findViewById(R.id.story);
 
     }
     private void setupViewModel(){
