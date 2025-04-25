@@ -6,15 +6,11 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
 import com.example.spotifyclone.R;
-import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.shared.model.APIResponse;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.network.ApiService;
@@ -30,18 +26,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
         sendTokenToServer(this, token);
-        Log.d("FCM", "New token: " + token);
     }
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
         if (remoteMessage.getData().isEmpty()) {
-            Log.d("FCM", "Message received with no data payload");
             return;
         }
-
-        Log.d("FCM", "Message received: " + remoteMessage.getData());
 
         remoteMessage.getData();
         String title = remoteMessage.getData().get("title");
@@ -75,11 +67,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
-            Log.d("FCM", "No permission to post notifications");
             return;
         }
 
-        Log.d("FCM", "Showing notification");
         manager.notify(1, builder.build());
     }
 
@@ -89,16 +79,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
          call.enqueue(new Callback<APIResponse<User>>() {
                 @Override
                 public void onResponse(Call<APIResponse<User>> call, retrofit2.Response<APIResponse<User>> response) {
-                    if (response.isSuccessful()) {
-                        Log.d("FCM", "Token successfully updated to server");
-                    } else {
-                        Log.d("FCM", "Failed to update token" + response.message());
-                    }
                 }
 
                 @Override
                 public void onFailure(Call<APIResponse<User>> call, Throwable t) {
-                    Log.d("FCM", "Failed to update token: " + t.getMessage());
                 }
          });
     }

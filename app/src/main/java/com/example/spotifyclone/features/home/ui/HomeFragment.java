@@ -1,8 +1,7 @@
 package com.example.spotifyclone.features.home.ui;
 
-import android.net.Network;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +9,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -23,12 +20,10 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.spotifyclone.MainActivity;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.album.model.Album;
-import com.example.spotifyclone.features.album.ui.AlbumFragmentDirections;
 import com.example.spotifyclone.features.artist.model.Artist;
 import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.home.adapter.AlbumAdapter;
@@ -43,14 +38,8 @@ import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
 import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.ui.BaseOnlineFragment;
 import com.example.spotifyclone.shared.utils.NetworkStatusLiveData;
-import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnAlbumClickListener, ArtistAdapter.OnArtistClickListener, SongAdapter.OnSongClickListener {
     private RecyclerView localSongRecyclerView, popularAlbumsRecyclerView, latestAlbumsRecylerView, popularArtistsRecyclerView;
@@ -108,19 +97,11 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
     private void initUser() {
         AuthRepository authRepository = new AuthRepository(getContext());
         currentUser = authRepository.getUser();
-
-        Log.d("HomeFragment", "initUser: " + currentUser.getAvatarUrl());
     }
     private void initUI(View view) {
         int spacing = 20; // dp spacing
         boolean includeEdge = true;
 
-        // Popular albums with horizontal layout
-        popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
-        popularAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        popularAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.HORIZONTAL, this);
-        popularAlbumsRecyclerView.setAdapter(popularAlbumsAdapter);
-        popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         // CardView for ranking
         cardViewArtistRanking = view.findViewById(R.id.cardViewArtistRanking);
@@ -142,6 +123,12 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
             Navigation.findNavController(requireView()).navigate(action);
         });
 
+        // Popular albums with horizontal layout
+        popularAlbumsRecyclerView = view.findViewById(R.id.rv_popular_albums);
+        popularAlbumsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        popularAlbumsAdapter = new AlbumAdapter(new ArrayList<>(), AlbumAdapter.AlbumItemType.HORIZONTAL, this);
+        popularAlbumsRecyclerView.setAdapter(popularAlbumsAdapter);
+        popularAlbumsRecyclerView.addItemDecoration(new SpacingItemDecoration(spacing, includeEdge)); // Add spacing
 
         // Latest albums with vertical layout
         latestAlbumsRecylerView = view.findViewById(R.id.rv_latest_albums);
@@ -185,9 +172,7 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         tvPopularAlbums = view.findViewById(R.id.tv_popular_albums);
         tvLocalSongs = view.findViewById(R.id.tv_local_songs);
         tvLocal = view.findViewById(R.id.tv_offline);
-
         tvRanking = view.findViewById(R.id.tv_top);
-
     }
     public void navigateToChatbotFragment() {
         NavDirections action = HomeFragmentDirections.actionNavHomeToChatbotFragment();
@@ -267,7 +252,6 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
         networkStatusLiveData.observe(getViewLifecycleOwner(), isConnected -> {
             if (isConnected) {
                 // Update UI online
-                Log.d("HomeFragment", "Online state detected");
                 homeViewModel.getLatestAlbums().observe(getViewLifecycleOwner(), albums -> {
                     if(albums != null) {
                         latestAlbumsAdapter.setAlbums(albums);
@@ -297,15 +281,14 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void updateOnlineOfflineUI(boolean isConnected) {
         if (isConnected) {
-            Log.d("HomeFragment", "updateOnlineOfflineUI: Online");
             tvLocal.setVisibility(View.GONE);
             tvLocalSongs.setVisibility(View.GONE);
             localSongRecyclerView.setVisibility(View.GONE);
             localSongsCardView.setVisibility(View.GONE);
-
-//            popularAlbumsRecyclerView.setVisibility(View.VISIBLE);
+            popularAlbumsRecyclerView.setVisibility(View.VISIBLE);
             latestAlbumsRecylerView.setVisibility(View.VISIBLE);
             popularArtistsRecyclerView.setVisibility(View.VISIBLE);
             tvPopularArtists.setVisibility(View.VISIBLE);
@@ -317,12 +300,20 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
             cardViewSongRanking.setVisibility(View.VISIBLE);
             tvRanking.setVisibility(View.VISIBLE);
         } else {
-            Log.d("HomeFragment", "updateOnlineOfflineUI: Offline");
-            tvLocalSongs.setVisibility(View.VISIBLE);
-            tvLocal.setVisibility(View.VISIBLE);
-            localSongRecyclerView.setVisibility(View.VISIBLE);
-            localSongsCardView.setVisibility(View.VISIBLE);
+            if(currentUser != null && currentUser.isPremium()) {
+                tvLocalSongs.setVisibility(View.VISIBLE);
+                tvLocal.setVisibility(View.VISIBLE);
+                localSongRecyclerView.setVisibility(View.VISIBLE);
+                localSongsCardView.setVisibility(View.VISIBLE);
+            } else {
+                tvLocal.setVisibility(View.GONE);
+                tvLocalSongs.setVisibility(View.GONE);
+                localSongRecyclerView.setVisibility(View.GONE);
+                localSongsCardView.setVisibility(View.GONE);
 
+                tvLocalSongs.setVisibility(View.VISIBLE);
+                tvLocalSongs.setText("Hãy nâng cấp lên tài khoản Premium để nghe nhạc offline");
+            }
             popularAlbumsRecyclerView.setVisibility(View.GONE);
             latestAlbumsRecylerView.setVisibility(View.GONE);
             popularArtistsRecyclerView.setVisibility(View.GONE);

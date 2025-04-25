@@ -284,7 +284,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         // Play button listener
         btnPlay.setOnClickListener(v -> {
-            Log.d("ArtistId", artistId + " " + artistName);
             viewModel.togglePlayPause(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST);
         });
         btnShuffle.setOnClickListener(v -> {
@@ -321,10 +320,8 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         if (shuffleMode == ShuffleMode.SHUFFLE_ON) {
             btnShuffle.setImageResource(R.drawable.ic_shuffle_on);
             btnShuffle.setTag("shuffle_on");
-            Log.d("ShuffleMode", shuffleMode.toString());
         } else {
             btnShuffle.setImageResource(R.drawable.ic_shuffle_off);
-            Log.d("ShuffleMode", shuffleMode.toString());
             btnShuffle.setTag("shuffle_off");
         }
     }

@@ -75,8 +75,6 @@ public class SubscriptionDetailFragment extends Fragment {
     }
 
     private void handleSubscriptionType(String subscriptionType) {
-        Log.d("SubscriptionDetailFragment", "Subscription Type: " + subscriptionType);
-
         String title = getString(R.string.unknown_plan);
         String description = getString(R.string.no_details_available);
 
@@ -121,7 +119,7 @@ public class SubscriptionDetailFragment extends Fragment {
                 navController.navigate(R.id.nav_home);
             } else {
                 // Handle cancellation failure
-                Log.d("SubscriptionDetailFragment", "Failed to cancel subscription");
+                Log.e("SubscriptionDetailFragment", "Failed to cancel subscription");
             }
         });
     }

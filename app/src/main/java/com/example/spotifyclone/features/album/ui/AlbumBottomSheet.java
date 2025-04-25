@@ -27,12 +27,14 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.download.SongDatabaseHelper;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.network.SongService;
 import com.example.spotifyclone.features.playlist.ui.AllPlaylistBottomSheet;
 import com.example.spotifyclone.shared.model.APIResponse;
 import com.example.spotifyclone.shared.model.PaginatedResponse;
+import com.example.spotifyclone.shared.model.User;
 import com.example.spotifyclone.shared.network.RetrofitClient;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -52,6 +54,7 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
     private SongDatabaseHelper dbHelper;
     private TextView download_song_text;
     private ImageView download_song_icon;
+    private User currentUser;
 
     public static AlbumBottomSheet newInstance(String id, String song_image, String song_name, List<String> artists_name) {
         AlbumBottomSheet fragment = new AlbumBottomSheet();
@@ -74,6 +77,8 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        initUser();
+
         this.songService = RetrofitClient.getClient(requireContext()).create(SongService.class);
         dbHelper = new SongDatabaseHelper(requireContext());  // Or your current Activity/Fragment context
 
@@ -114,60 +119,58 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
         String finalId = id;
         String finalImage = image;
         String finalName = name;
-        if (dbHelper.isSongDownloaded(finalId)) {
+        if (currentUser != null && currentUser.isPremium()) {
+            if (dbHelper.isSongDownloaded(finalId)) {
 
-            download_song_text.setText("Xóa nhạc");
-            download_song_icon.setImageResource(R.drawable.ic_close);
-            download_song.setOnClickListener(v -> {
-                Log.d("DEBUG", "onClick: " + finalId);
-                Log.d("DEBUG", "onClick: " + finalName);
-                dbHelper.deleteSong(finalId, new SongDatabaseHelper.DownloadCallback() {
-                    final Handler mainHandler = new Handler(Looper.getMainLooper());
+                download_song_text.setText("Xóa nhạc");
+                download_song_icon.setImageResource(R.drawable.ic_close);
+                download_song.setOnClickListener(v -> {
+                    dbHelper.deleteSong(finalId, new SongDatabaseHelper.DownloadCallback() {
+                        final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onProgressUpdate(int progress) {
-                        mainHandler.post(() -> {
-                            if (isAdded()) {
-                                download_song_text.setText("Deleting... " + progress + "%");
-                            }
-                        });
-                    }
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onProgressUpdate(int progress) {
+                            mainHandler.post(() -> {
+                                if (isAdded()) {
+                                    download_song_text.setText("Deleting... " + progress + "%");
+                                }
+                            });
+                        }
 
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onDownloadComplete(Song localSong) {
-                        mainHandler.post(() -> {
-                            if (isAdded()) {
-                                download_song_text.setText("Tải nhạc");
-                                download_song_icon.setImageResource(R.drawable.ic_download);
-                                Toast.makeText(requireContext(), "Song deleted!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                        @SuppressLint("SetTextI18n")
+                        @Override
+                        public void onDownloadComplete(Song localSong) {
+                            mainHandler.post(() -> {
+                                if (isAdded()) {
+                                    download_song_text.setText("Tải nhạc");
+                                    download_song_icon.setImageResource(R.drawable.ic_download);
+                                    Toast.makeText(requireContext(), "Song deleted!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
 
-                    @Override
-                    public void onError(String message) {
-                        mainHandler.post(() -> {
-                            if (isAdded()) {
-                                Toast.makeText(requireContext(), "Download failed: " + message, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                        @Override
+                        public void onError(String message) {
+                            mainHandler.post(() -> {
+                                if (isAdded()) {
+                                    Toast.makeText(requireContext(), "Download failed: " + message, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
 
+                    });
                 });
-            });
 
-        } else {
-            download_song_text.setText("Tải nhạc");
-            download_song_icon.setImageResource(R.drawable.ic_download);
-            download_song.setOnClickListener(v -> {
+            } else {
+                download_song_text.setText("Tải nhạc");
+                download_song_icon.setImageResource(R.drawable.ic_download);
+                download_song.setOnClickListener(v -> {
                     songService.getSongById(finalId).enqueue(new Callback<APIResponse<Song>>() {
                         @Override
                         public void onResponse(Call<APIResponse<Song>> call, Response<APIResponse<Song>> response) {
                             if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                                 Song song = response.body().getData();
-//                                Log.d("DEBUG", "onResponse: " + song.toString());
                                 dbHelper.downloadSong(song, new SongDatabaseHelper.DownloadCallback() {
                                     final Handler mainHandler = new Handler(Looper.getMainLooper());
 
@@ -204,17 +207,25 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
                                 });
 
                             } else {
-                                Log.d("DEBUG Download", "onFailure: " + response.message());
+                                Log.e("DEBUG Download", "onFailure: " + response.message());
                             }
                         }
 
                         @Override
                         public void onFailure(Call<APIResponse<Song>> call, Throwable t) {
-                            Log.d("DEBUG fetch" , "onFailure: " + t.getMessage());
+                            Log.e("DEBUG fetch" , "onFailure: " + t.getMessage());
                         }
                     });
-            });
+                });
+            }
+        } else {
+            download_song_text.setText("Nâng cấp lên Premium để tải nhạc");
+            download_song.setAlpha(0.5f);
+            download_song_icon.setAlpha(0.5f);
+            download_song.setEnabled(false);
+            download_song.setClickable(false);
         }
+
         add_to_playlist.setOnClickListener(view1 -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
 
@@ -273,4 +284,10 @@ public class AlbumBottomSheet extends BottomSheetDialogFragment {
             });
         }
     }
+
+    private void initUser() {
+        AuthRepository authRepository = new AuthRepository(requireContext());
+        currentUser = authRepository.getUser();
+    }
+
 }

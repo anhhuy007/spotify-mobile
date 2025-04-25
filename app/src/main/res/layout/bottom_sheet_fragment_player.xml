@@ -209,7 +209,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Shuffle"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_shuffle_1" />
+                android:src="@drawable/ic_shuffle_off" />
 
             <ImageButton
                 android:id="@+id/btnPrevious"

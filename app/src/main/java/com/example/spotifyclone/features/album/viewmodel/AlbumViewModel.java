@@ -109,13 +109,13 @@ public class AlbumViewModel extends ViewModel {
                             if (response.body().isSuccess()) {
                                 album_songs.setValue(response.body().getData().getItems());
                             } else {
-                                Log.d("AlbumViewModel", "API success flag false");
+                                Log.e("AlbumViewModel", "API success flag false");
                             }
                         } else {
-                            Log.d("AlbumViewModel", "Response body is null");
+                            Log.e("AlbumViewModel", "Response body is null");
                         }
                     } else {
-                        Log.d("AlbumViewModel", "Response not successful: " + response.code());
+                        Log.e("AlbumViewModel", "Response not successful: " + response.code());
                     }
                 } catch (Exception e) {
                     errorMessage.setValue("Error processing response: " + e.getMessage());
@@ -141,13 +141,13 @@ public class AlbumViewModel extends ViewModel {
                             if (response.body().isSuccess()) {
                                 albumById.setValue(response.body().getData());
                             } else {
-                                Log.d("AlbumViewModel", "API success flag false");
+                                Log.e("AlbumViewModel", "API success flag false");
                             }
                         } else {
-                            Log.d("AlbumViewModel", "Response body is null");
+                            Log.e("AlbumViewModel", "Response body is null");
                         }
                     } else {
-                        Log.d("AlbumViewModel", "Response not successful: " + response.code());
+                        Log.e("AlbumViewModel", "Response not successful: " + response.code());
                     }
                 } catch (Exception e) {
                     errorMessage.setValue("Error processing response: " + e.getMessage());

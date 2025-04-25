@@ -214,7 +214,6 @@ public class UsernameFragment extends Fragment {
     private void checkUsernameAvailability(String username) {
         usernameInputLayout.setHelperTextColor(getContext().getColorStateList(R.color.gray_600));
         usernameInputLayout.setHelperText("Checking availability...");
-        Log.d("DEBUG", "Check username availability");
         handler.postDelayed(() -> {
             authViewModel.checkUsernameAvailability(username, new CheckUserExistCallBack() {
                 @Override

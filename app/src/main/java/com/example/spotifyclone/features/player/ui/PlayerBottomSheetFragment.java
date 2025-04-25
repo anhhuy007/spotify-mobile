@@ -1,14 +1,13 @@
 package com.example.spotifyclone.features.player.ui;
 
 import android.content.Context;
+import android.util.Log;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -297,7 +296,6 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
         viewModel.getUpcomingSongs().observe(getViewLifecycleOwner(), this::updateUpcomingSongsList);
         // Set up observers for play type changes
         viewModel.getPlayType().observe(getViewLifecycleOwner(), type -> {
-            Log.d(TAG, "Play type: " + type);
             updatePlayTypeAndVisibility(type, viewModel.isAdPlaying().getValue());
         });
 
@@ -443,7 +441,6 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             if(song.getSingerImageUrlAt(0) != null && !song.getSingerImageUrlAt(0).isEmpty()) {
                 Picasso.get().load(song.getSingerImageUrlAt(0)).placeholder(R.drawable.progress_drawable).into(ivArtistImage);
             }
-//            Log.d("Artist Image", song.getSingerImageUrlAt(0));
             if(viewModel.getPlayType().getValue() == MusicPlayerViewModel.PlaybackSourceType.LOCAL) {
                 artistCard.setVisibility(View.GONE);
             } else {

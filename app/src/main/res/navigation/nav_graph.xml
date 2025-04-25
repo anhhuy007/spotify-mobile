@@ -517,4 +517,9 @@
             android:id="@+id/action_premiumFragment_to_subscriptionPlanFragment"
             app:destination="@id/subscriptionPlanFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/historySongListFragment"
+        android:name="com.example.spotifyclone.features.history.HistorySongListFragment"
+        android:label="HistorySongListFragment"/>
 </navigation>

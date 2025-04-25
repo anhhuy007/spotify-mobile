@@ -113,7 +113,6 @@ public class OTPFragment extends Fragment {
         ((ForgotPasswordActivity) requireActivity()).fpViewModel.getIsOtpSent().observe(getViewLifecycleOwner(), isOtpSent -> {
             if (isOtpSent) {
                 // OTP sent successfully
-                Log.d("DEBUG", "OTP resent successfully");
                 Toast.makeText(requireActivity(), "Verification code resent to " + email, Toast.LENGTH_SHORT).show();
             }
         });
@@ -129,7 +128,6 @@ public class OTPFragment extends Fragment {
         ((ForgotPasswordActivity) requireActivity()).fpViewModel.getErrorMessage().observe(getViewLifecycleOwner(), errorMessage -> {
             if (errorMessage != null) {
                 // Show error message
-                Log.d("DEBUG", "Error: " + errorMessage);
                 Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_SHORT).show();
             }
         });

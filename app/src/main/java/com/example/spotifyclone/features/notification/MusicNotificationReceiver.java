@@ -44,13 +44,9 @@ public class MusicNotificationReceiver extends BroadcastReceiver {
             String action = intent.getAction();
             switch (action) {
                 case ACTION_PLAY_PAUSE:
-                    Log.d("MediaSession", "Páe button pressed receiver");
-
                     viewModel.togglePlayPause();
                     break;
                 case ACTION_NEXT:
-                    Log.d("MediaSession", "Next button pressed receiver");
-
                     if(Boolean.FALSE.equals(viewModel.isAdPlaying().getValue())) {
                         viewModel.playNext();
                     }
@@ -70,7 +66,6 @@ public class MusicNotificationReceiver extends BroadcastReceiver {
                     break;
                 case ACTION_TOGGLE_SHUFFLE:
                     if(Boolean.FALSE.equals(viewModel.isAdPlaying().getValue())) {
-                        Log.d(TAG, "Shuffle action received");
                         viewModel.cycleShuffleMode();
                     }
                     break;

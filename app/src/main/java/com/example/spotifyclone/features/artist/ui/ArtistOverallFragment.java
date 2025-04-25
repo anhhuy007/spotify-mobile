@@ -1,16 +1,21 @@
 package com.example.spotifyclone.features.artist.ui;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -19,8 +24,10 @@ import androidx.navigation.Navigation;
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.artist.viewModel.ArtistOverallViewModel;
+import com.example.spotifyclone.shared.ui.DominantColorExtractor;
 
 public class ArtistOverallFragment extends Fragment {
+    private LinearLayout navbar_artist_UI;
 
     private TextView artistName, artistDescription, postAuthor, tv_monthly_listeners;
     private ImageView artistImage, artistLogo;
@@ -69,6 +76,28 @@ public class ArtistOverallFragment extends Fragment {
         loadData();
     }
 
+    private void applyDynamicBackground(String avatarUrl) {
+        DominantColorExtractor.getDominantColor(context, avatarUrl, color -> {
+            int baseColor = ContextCompat.getColor(context, R.color.white);
+            int adjustedColor = adjustAlpha(color, 0.8f);
+
+            GradientDrawable gradient = new GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    new int[]{adjustedColor, baseColor}
+            );
+            gradient.setCornerRadius(0.3f);
+            navbar_artist_UI.setBackground(gradient);
+        });
+    }
+
+    private int adjustAlpha(int color, float factor) {
+        int alpha = Math.round(255 * factor);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
+    }
+
     private void initViews(View view) {
         artistName = view.findViewById(R.id.artist_name_overall);
         artistDescription = view.findViewById(R.id.artist_description_overall);
@@ -76,6 +105,8 @@ public class ArtistOverallFragment extends Fragment {
         artistImage = view.findViewById(R.id.artist_image_overall);
         artistLogo = view.findViewById(R.id.artist_logo_overall);
         btnBack = view.findViewById(R.id.back_button_overall);
+        navbar_artist_UI = view.findViewById(R.id.navbar_artist_UI_tt);
+
         tv_monthly_listeners = view.findViewById(R.id.monthly_listeners_overall);
 
         int randomMonthlyListeners = (int) (Math.random() * 1000000);
@@ -134,6 +165,8 @@ public class ArtistOverallFragment extends Fragment {
 
             loadImage(artistImage, data.getAvatarUrl());
             loadImage(artistLogo, data.getAvatarUrl());
+            applyDynamicBackground(data.getAvatarUrl());
+
 
         });
 

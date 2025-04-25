@@ -7,16 +7,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
-import android.util.Log;
-
 import com.example.spotifyclone.features.artist.model.Artist;
 import com.example.spotifyclone.features.genre.model.Genre;
 import com.example.spotifyclone.features.player.model.song.Song;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+import android.util.Log;
 public class SongDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "SongDatabaseHelper";
     private static final String DATABASE_NAME = "songs.db";
@@ -126,7 +122,6 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
 
                 callback.onDownloadComplete(localSong);
             } catch (IOException e) {
-                Log.e(TAG, "Error downloading song: " + e.getMessage());
                 callback.onError("Failed to download: " + e.getMessage());
             }
         });
@@ -181,7 +176,6 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
             }
             return jsonArray.toString();
         } catch (JSONException e) {
-            Log.e(TAG, "Error converting artists to JSON: " + e.getMessage());
             return "[]";
         }
     }
@@ -202,7 +196,6 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
             }
             return jsonArray.toString();
         } catch (JSONException e) {
-            Log.e(TAG, "Error converting genres to JSON: " + e.getMessage());
             return "[]";
         }
     }
@@ -254,7 +247,6 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
 
     // Save song to SQLite database
     public void saveSongToDatabase(Song song) {
-        Log.d(TAG, "Saving song to database: " + song.toString());
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 

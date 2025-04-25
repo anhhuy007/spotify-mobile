@@ -111,15 +111,12 @@ public class SignupViewModel extends ViewModel {
             return;
         }
 
-        Log.d("DEBUG", "Uploading avatar: " + imageUri);
         Uri uri = Uri.parse(imageUri);
         File file = new File(Objects.requireNonNull(getRealPathFromUri(uri)));
 
         if (!file.exists()) {
             Log.e("ERROR", "File does not exist: " + file.getAbsolutePath());
             return;
-        } else {
-            Log.d("DEBUG", "File exists: " + file.getAbsolutePath());
         }
 
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
@@ -136,9 +133,6 @@ public class SignupViewModel extends ViewModel {
                     setAvatarUrl(avatarUrl);
 
                     callBack.onSuccess(avatarUrl);
-
-                    Log.d("DEBUG", "Avatar uploaded successfully");
-                    Log.d("DEBUG", "Avatar URL: " + avatarUrl);
                 } else {
                     Log.e("ERROR", "Failed to upload avatar: " + response.message());
                     callBack.onFailure(response.message());

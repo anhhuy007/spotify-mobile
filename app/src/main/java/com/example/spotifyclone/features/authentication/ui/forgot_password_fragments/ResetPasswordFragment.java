@@ -53,8 +53,6 @@ public class ResetPasswordFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fp_resetpw, container, false);
 
-        Log.d("DEBUG", "onCreateView ResetPasswordFragment");
-
         // Initialize views
         passwordInputLayout = view.findViewById(R.id.passwordInputLayout);
         confirmPasswordInputLayout = view.findViewById(R.id.confirmPasswordInputLayout);
@@ -141,7 +139,6 @@ public class ResetPasswordFragment extends Fragment {
         ((ForgotPasswordActivity) requireActivity()).fpViewModel.getIsPasswordReset().observe(getViewLifecycleOwner(), isPasswordReset -> {
             if (isPasswordReset) {
                 // Password reset successful, navigate to login
-                Log.d("DEBUG", "Password reset successfully");
                 Toast.makeText(requireActivity(), "Password reset successful", Toast.LENGTH_SHORT).show();
 
                 ((ForgotPasswordActivity) requireActivity()).navigateToLogin();
@@ -207,9 +204,6 @@ public class ResetPasswordFragment extends Fragment {
 
     private boolean validateInputs(boolean showErrors) {
         boolean isValid = true;
-
-        Log.d("DEBUG", "Validating inputs with showErrors: " + showErrors);
-
         // Validate password
         String password = passwordInput.getText() != null ? passwordInput.getText().toString() : "";
         if (password.isEmpty()) {
@@ -244,7 +238,6 @@ public class ResetPasswordFragment extends Fragment {
             isValid = false;
         } else if (!confirmPassword.equals(password)) {
             if (showErrors) {
-                Log.d("DEBUG", "Passwords do not match");
                 confirmPasswordInputLayout.setError("Passwords do not match");
             }
             isValid = false;
@@ -263,11 +256,6 @@ public class ResetPasswordFragment extends Fragment {
         // Show loading state
         btnResetPassword.setEnabled(false);
         btnResetPassword.setText("Resetting...");
-
-        Log.d("DEBUG", "Resetting password...");
-        Log.d("DEBUG", "Email: " + ((ForgotPasswordActivity) requireActivity()).fpViewModel.getEmail().getValue());
-        Log.d("DEBUG", "OTP: " + ((ForgotPasswordActivity) requireActivity()).fpViewModel.getOTP().getValue());
-        Log.d("DEBUG", "Password: " + ((ForgotPasswordActivity) requireActivity()).fpViewModel.getPassword().getValue());
 
         // Reset password
         ((ForgotPasswordActivity) requireActivity()).fpViewModel.resetPassword(

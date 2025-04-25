@@ -43,7 +43,6 @@ public class FPViewModel extends ViewModel {
                 } else {
                     isLoading.setValue(false);
                     errorMessage.setValue("Failed to send OTP");
-                    Log.d("DEBUG", "onResponse: " + response.message());
                 }
             }
 
@@ -51,7 +50,6 @@ public class FPViewModel extends ViewModel {
             public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -61,14 +59,12 @@ public class FPViewModel extends ViewModel {
         authService.verifyOTP(email, otp).enqueue(new Callback<APIResponse<Void>>() {
             @Override
             public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
-                Log.d("DEBUG", "onResponse: " + response.message());
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     isLoading.setValue(false);
                     isOTPValid.setValue(true);
                 } else {
                     isLoading.setValue(false);
                     errorMessage.setValue("Invalid OTP");
-                    Log.d("DEBUG", "onResponse: " + response.message());
                 }
             }
 
@@ -76,7 +72,7 @@ public class FPViewModel extends ViewModel {
             public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -92,7 +88,6 @@ public class FPViewModel extends ViewModel {
                 } else {
                     isLoading.setValue(false);
                     errorMessage.setValue("Failed to reset password");
-                    Log.d("DEBUG", "onResponse: " + response.message());
                 }
             }
 
@@ -100,7 +95,7 @@ public class FPViewModel extends ViewModel {
             public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
