@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 //import com.example.spotifyclone.features.notification.MusicNotificationManager;
+import com.airbnb.lottie.L;
 import com.example.spotifyclone.features.player.model.audio.MusicPlayerController;
 import com.example.spotifyclone.features.player.model.audio.PlaybackListener;
 import com.example.spotifyclone.features.player.model.playlist.PlayList;
@@ -48,7 +49,8 @@ public class MusicPlayerViewModel extends ViewModel {
         ARTIST,
         PLAYLIST,
         LOCAL,
-        SEARCH
+        SEARCH,
+        HISTORY
     }
     private final MutableLiveData<Boolean> isAdPlaying = new MutableLiveData<>(false);
 
@@ -69,7 +71,6 @@ public class MusicPlayerViewModel extends ViewModel {
     };
 
     public void setAdPlaying(boolean isAdPlaying) {
-        Log.d("VM", "setAdPlaying: " + isAdPlaying);
         this.isAdPlaying.setValue(isAdPlaying);
     }
     public LiveData<Boolean> isAdPlaying() {
@@ -98,9 +99,6 @@ public class MusicPlayerViewModel extends ViewModel {
 
             if (songs.size() > 1) {
                 upcomingSongs.setValue(songs.subList(1, songs.size()));
-                for (Song song : songs.subList(1, songs.size())) {
-                    Log.d("VM", "Upcoming song: " + song.toString());
-                }
                 setUpcomingSongs(songs.subList(1, songs.size()), songs.get(0), 0);
             } else {
                 upcomingSongs.setValue(new ArrayList<>());
@@ -119,10 +117,6 @@ public class MusicPlayerViewModel extends ViewModel {
         setRepeatMode(state.getRepeatMode());
 
         playbackState.setValue(PlaybackState.PAUSED);
-
-        upcomingSongs.setValue(state.getUpcomingSongs());
-        setUpcomingSongs(state.getUpcomingSongs(), state.getCurrentSong(), Math.toIntExact(state.getCurrentDuration()));
-
         currentName.setValue(state.getCurrentName());
 
         PlaybackSourceType sourceType = state.getCurrentPlaybackSourceType();
@@ -143,11 +137,6 @@ public class MusicPlayerViewModel extends ViewModel {
         if (upcomingSongs == null || currentSong == null) {
             return;
         }
-        Log.d("VM", "Set upcoming songs la: " + upcomingSongs.size());
-        for (Song song : upcomingSongs) {
-            Log.d("VM", "Upcoming song laf: " + song.toString());
-        }
-        Log.d("VM", "Current song is: " + currentSong.toString());
         List<Song> songs = new ArrayList<>();
         songs.add(currentSong);
         songs.addAll(upcomingSongs);
@@ -161,8 +150,8 @@ public class MusicPlayerViewModel extends ViewModel {
             public void onStarted(Song song) {
                 currentSong.postValue(song);
                 playbackState.postValue(PlaybackState.PLAYING);
-                updateUpcomingSongs();
                 updateSongDuration();
+                updateUpcomingSongs();
                 handler.post(updateProgressRunnable);
             }
 
@@ -287,7 +276,7 @@ public class MusicPlayerViewModel extends ViewModel {
         }
     }
 
-    public void playLocalSongs(Song priotitizedSong) {
+    public void playLocalSongs(Song prioritizedSong) {
         if (isAdPlaying.getValue() != null && isAdPlaying.getValue()) {
             errorMessage.setValue("Ad is playing");
             return;
@@ -295,9 +284,45 @@ public class MusicPlayerViewModel extends ViewModel {
         currentAlbumId.setValue(null);
         currentArtistId.setValue(null);
         currentPlaylistId.setValue(null);
-        playerController.playLocalSongs(priotitizedSong);
+        playerController.playLocalSongs(prioritizedSong);
         currentPlaybackSourceType.setValue(PlaybackSourceType.LOCAL);
         currentName.setValue("Nhac ngoại tuyến");
+        playbackState.setValue(PlaybackState.LOADING);
+        handler.post(updateProgressRunnable);
+    }
+
+
+    public void togglePlayPauseHistory(List<Song> songs) {
+        if (isAdPlaying.getValue() != null && isAdPlaying.getValue()) {
+            errorMessage.setValue("Ad is playing");
+            return;
+        }
+        PlaybackState currentState = playbackState.getValue();
+        PlaybackSourceType type = PlaybackSourceType.HISTORY;
+
+        if (currentPlaybackSourceType.getValue() == type) {
+            if (currentState == PlaybackState.PLAYING) {
+                pausePlayback();
+            } else if (currentState == PlaybackState.PAUSED || currentState == PlaybackState.SEEKING) {
+                continuePlayback();
+            } else {
+                playHistorySongs(songs, null);
+            }
+        } else {
+            playHistorySongs(songs, null);
+        }
+    }
+    public void playHistorySongs(List<Song> songs, Song prioritizedSong) {
+        if (isAdPlaying.getValue() != null && isAdPlaying.getValue()) {
+            errorMessage.setValue("Ad is playing");
+            return;
+        }
+        currentAlbumId.setValue(null);
+        currentArtistId.setValue(null);
+        currentPlaylistId.setValue(null);
+        playerController.playHistorySongs(songs, prioritizedSong);
+        currentPlaybackSourceType.setValue(PlaybackSourceType.HISTORY);
+        currentName.setValue("Những bài hát được phát gần đây");
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
     }
@@ -323,22 +348,6 @@ public class MusicPlayerViewModel extends ViewModel {
         playbackState.setValue(PlaybackState.LOADING);
         handler.post(updateProgressRunnable);
     }
-//    public void playPlaylist(PlayList playlist) {
-//        if (playlist == null || playlist.isEmpty()) {
-//            return;
-//        }
-//        // Clear current album info and artist
-//        currentAlbumId.setValue(null);
-//
-//        // Set current playlist info
-//        currentPlaylist.setValue(playlist);
-//        currentPlaybackSourceType.setValue(PlaybackSourceType.PLAYLIST);
-//
-//        // Start playback
-//        playerController.playPlaylist(playlist);
-//        playbackState.setValue(PlaybackState.LOADING);
-//        handler.post(updateProgressRunnable);
-//    }
 
     public void stop() {
         playerController.stop();
@@ -417,8 +426,13 @@ public class MusicPlayerViewModel extends ViewModel {
     }
 
     private void updateUpcomingSongs() {
-        Log.d("VM", "Update upcoming songs");
-        upcomingSongs.setValue(playerController.getUpcomingSongs());
+        if (playerController.getUpcomingSongs() == null) {
+            return;
+        }
+        // Clear upcoming songs before updating
+        List<Song> upcomingSongsList = playerController.getUpcomingSongs();
+        upcomingSongs.setValue(new ArrayList<>());
+        upcomingSongs.postValue(upcomingSongsList);
     }
 
     // State Getters

@@ -29,18 +29,19 @@
                 <RelativeLayout
                     android:id="@+id/navbar_artist_UI"
                     android:layout_width="match_parent"
-                    android:layout_height="54dp"
+                    android:layout_height="62dp"
                     android:background="@android:color/transparent" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
                     android:background="@android:color/transparent">
 
                     <FrameLayout
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_marginLeft="8dp">
+                        android:layout_marginLeft="16dp">
 
                         <ImageView
                             android:id="@+id/btn_artist_detail_ui_background"
@@ -191,8 +192,7 @@
                                     android:layout_height="48dp"
                                     android:layout_gravity="center_vertical"
                                     android:background="?attr/selectableItemBackgroundBorderless"
-                                    android:src="@drawable/ic_baseline_shuffle_24"
-                                    app:tint="@color/spotify_green" />
+                                    android:src="@drawable/ic_baseline_shuffle_24" />
 
                                 <ImageButton
                                     android:id="@+id/btn_play_artist_detail"

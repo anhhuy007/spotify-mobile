@@ -93,12 +93,9 @@ public class AuthRepository {
         authService.signup(username, email, password, dob, avatarUrl).enqueue(new Callback<APIResponse<User>>() {
             @Override
             public void onResponse(Call<APIResponse<User>> call, Response<APIResponse<User>> response) {
-                Log.d("DEBUG", "Response: " + response);
-                Log.d("DEBUG", "BODY: " + response.body());
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     User user = response.body().getData();
                     authCallback.onSuccess(user);
-                    Log.d("DEBUG", "User signed up successfully");
                 } else {
                     authCallback.onFailure("An error occurred");
                     Log.e("ERROR", "Failed to sign up user: " + response.message());
@@ -117,8 +114,6 @@ public class AuthRepository {
         authService.checkUserNameExist(username).enqueue(new Callback<APIResponse<CheckUsernameExistResponse>>() {
             @Override
             public void onResponse(Call<APIResponse<CheckUsernameExistResponse>> call, Response<APIResponse<CheckUsernameExistResponse>> response) {
-                Log.d("DEBUG", "Response: " + response);
-                Log.d("DEBUG", "BODY: " + response.body());
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     callBack.onUserExist(response.body().getData().getExisted());
                 } else {
@@ -130,7 +125,6 @@ public class AuthRepository {
             @Override
             public void onFailure(Call<APIResponse<CheckUsernameExistResponse>> call, Throwable t) {
                 callBack.onFailure(t.getMessage());
-                Log.d("DEBUG", "Failure: " + t.getMessage());
             }
         });
     }

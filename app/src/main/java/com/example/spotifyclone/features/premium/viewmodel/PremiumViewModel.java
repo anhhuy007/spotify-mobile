@@ -3,6 +3,7 @@ package com.example.spotifyclone.features.premium.viewmodel;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.compose.ui.node.LookaheadDelegate;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -73,7 +74,6 @@ public class PremiumViewModel extends ViewModel {
                     }
 
                 } else {
-                    Log.d("DEBUG", "Failed to create subscription: " + response.message());
                     errorMessage.setValue("Failed to create subscription");
                 }
             }
@@ -81,7 +81,6 @@ public class PremiumViewModel extends ViewModel {
             @Override
             public void onFailure(Call<APIResponse<Subscription>> call, Throwable t) {
                 isLoading.setValue(false);
-                Log.d("DEBUG", "Failed to create subscription: " + t.getMessage());
                 errorMessage.setValue(t.getMessage());
             }
         });

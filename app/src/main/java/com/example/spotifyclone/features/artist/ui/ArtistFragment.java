@@ -284,7 +284,6 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
         // Play button listener
         btnPlay.setOnClickListener(v -> {
-            Log.d("ArtistId", artistId + " " + artistName);
             viewModel.togglePlayPause(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST);
         });
         btnShuffle.setOnClickListener(v -> {
@@ -321,10 +320,8 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
         if (shuffleMode == ShuffleMode.SHUFFLE_ON) {
             btnShuffle.setImageResource(R.drawable.ic_shuffle_on);
             btnShuffle.setTag("shuffle_on");
-            Log.d("ShuffleMode", shuffleMode.toString());
         } else {
             btnShuffle.setImageResource(R.drawable.ic_shuffle_off);
-            Log.d("ShuffleMode", shuffleMode.toString());
             btnShuffle.setTag("shuffle_off");
         }
     }
@@ -383,7 +380,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
             tv_artist_info = rootView.findViewById(R.id.tv_artist_info);
             tv_artist_info.setText(data.getDescription());
             participant_artist_detail = rootView.findViewById(R.id.participant_artist_detail);
-            participant_artist_detail.setText(getString(R.string.fans_also_like) + " " +  data.getName());
+            participant_artist_detail.setText(getString(R.string.fans_also_like) + " " + data.getName());
 
             // Load artist images
             loadArtistImages(data.getAvatarUrl());
@@ -553,7 +550,7 @@ public class ArtistFragment extends Fragment implements SongArtistAdapter.OnSong
 
     @Override
     public void onSongClick(PopularSong song) {
-        viewModel.playSongsFrom(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST,song.getId());
+        viewModel.playSongsFrom(artistId, artistName, MusicPlayerViewModel.PlaybackSourceType.ARTIST, song.getId());
     }
 
     private static String formatListeners(int listeners) {

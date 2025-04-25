@@ -171,6 +171,5 @@
         app:itemTextColor="@color/text_side_nav_selector"
         app:itemIconTint="@color/text_side_nav_selector"
         app:menu="@menu/side_nav_menu"/>
-
 </androidx.drawerlayout.widget.DrawerLayout>
 

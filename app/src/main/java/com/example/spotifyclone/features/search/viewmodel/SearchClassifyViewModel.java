@@ -53,16 +53,14 @@ public class SearchClassifyViewModel extends ViewModel {
             public void onResponse(Call<APIResponse<PaginatedResponse<SearchItem>>> call, Response<APIResponse<PaginatedResponse<SearchItem>>> response) {
                 isLoading.setValue(false);
                 if (response.isSuccessful() && response.body() != null) {
-//                    Log.d("SearchViewModel", "onResponse: " + response.body().getData().getItems().get(0).getName());
-
                     List<SearchItem> newItems = response.body().getData().getItems();
 
-                    List<SearchItem> currentItems = items.getValue(); // Lấy danh sách hiện tại
+                    List<SearchItem> currentItems = items.getValue();
                     if (currentItems == null) {
                         currentItems = new ArrayList<>();
                     }
-                    currentItems.addAll(newItems); // Thêm dữ liệu mới vào danh sách cũ
-                    items.setValue(currentItems); // Cập nhật danh sách
+                    currentItems.addAll(newItems);
+                    items.setValue(currentItems);
                 } else {
                     errorMessage.setValue("Failed to load search results");
                 }
@@ -72,8 +70,6 @@ public class SearchClassifyViewModel extends ViewModel {
             public void onFailure(Call<APIResponse<PaginatedResponse<SearchItem>>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.d("DEBUG_SEARCH", "onFailure: " + t.getMessage());
-
             }
         });
 

@@ -9,6 +9,8 @@ import com.example.spotifyclone.R;
 import com.example.spotifyclone.SpotifyCloneApplication;
 import com.example.spotifyclone.features.authentication.repository.AuthRepository;
 import com.example.spotifyclone.features.download.SongDatabaseHelper;
+import com.example.spotifyclone.features.history.HistorySong;
+import com.example.spotifyclone.features.history.HistorySongDatabaseHelper;
 import com.example.spotifyclone.features.player.model.playlist.PlayList;
 import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
@@ -52,12 +54,12 @@ public class MusicPlayerController {
     private MusicPlayerViewModel musicPlayerViewModel;
     private PremiumService premiumService;
     private final SongDatabaseHelper songDatabaseHelper;
+    private final HistorySongDatabaseHelper historySongDatabaseHelper;
     public void setStopAtEndOfTrack(boolean isOn){
         this.isStopAtEndOfTrack =isOn;
     }
     private static final int MAX_SONGS_TO_ADS = 3;
     private int count_ads = 0;
-
     private MusicPlayerController(@NonNull Context context) {
         Context applicationContext = context.getApplicationContext();
         this.audioPlayer = new AudioPlayer(applicationContext);
@@ -67,8 +69,9 @@ public class MusicPlayerController {
         this.shuffleMode = ShuffleMode.SHUFFLE_OFF;
         this.playList = new PlayList(List.of(), ShuffleMode.SHUFFLE_OFF);
         this.isReleased = false;
-        songDatabaseHelper = new SongDatabaseHelper(getApplicationContext());
+        this.songDatabaseHelper = new SongDatabaseHelper(getApplicationContext());
         this.songService = RetrofitClient.getClient(context).create(SongService.class);
+        this.historySongDatabaseHelper = HistorySongDatabaseHelper.getInstance(context);
         setupInternalPlaybackListener();
     }
 
@@ -91,8 +94,6 @@ public class MusicPlayerController {
     public void attachViewModel(MusicPlayerViewModel viewModel) {
         this.musicPlayerViewModel = viewModel;
     }
-
-
 
     private void checkReleased() {
         if (isReleased) {
@@ -118,7 +119,6 @@ public class MusicPlayerController {
             public void onCompleted(@NonNull Song song) {
                 if (Boolean.TRUE.equals(musicPlayerViewModel.isAdPlaying().getValue())) {
                     musicPlayerViewModel.setAdPlaying(false);
-                    Log.d(TAG, "Ad finished playing");
                 }
                 handleSongCompletion();
             }
@@ -195,6 +195,12 @@ public class MusicPlayerController {
     }
 
     private void handleSongCompletion() {
+        historySongDatabaseHelper.addSongToHistory(playList.getCurrentSong().getId());
+        Log.d(TAG, "Song completed: " + playList.getCurrentSong().getId());
+        List<HistorySong> songs = historySongDatabaseHelper.getHistorySongs();
+        for (HistorySong song : songs) {
+            Log.d(TAG, "History Song: " + song.getSongId() + ", Timestamp: " + song.getDate());
+        }
         synchronized (playlistLock) {
             checkAndFetchMoreSongs();
             if (isStopAtEndOfTrack){
@@ -212,15 +218,6 @@ public class MusicPlayerController {
         notifyPlaybackError(error);
         playNextSong();
     }
-
-//    public void playPlaylist(PlayList newPlayList) {
-//        checkReleased();
-//        synchronized (playlistLock) {
-//            playList.insertPlaylist(newPlayList);
-//            checkAndFetchMoreSongs();
-//            play();
-//        }
-//    }
 
     public void play() {
         checkReleased();
@@ -240,7 +237,6 @@ public class MusicPlayerController {
 
     public void stop() {
         checkReleased();
-        Log.d(TAG, "Stopping playback");
         audioPlayer.stop();
     }
 
@@ -297,19 +293,15 @@ public class MusicPlayerController {
             }
             Song nextSong = playList.moveToNextSong();
             if (nextSong != null) {
-                Log.d(TAG, "Next song found: " + nextSong.getTitle());
                 audioPlayer.loadAndPlay(nextSong);
                 return true;
             } else {
-                Log.d(TAG, "No next song found");
                 if(musicPlayerViewModel.getPlayType().getValue() == MusicPlayerViewModel.PlaybackSourceType.LOCAL) {
-                    Log.d(TAG, "No next song found, fetching local songs");
                     fetchLocalSongsAndPlayNext();
                 }
                 else {
                     fetchMoreSongsAndPlayNext();
                 }
-                Log.d(TAG, "No next song found, fetching more songs");
                 return false;
             }
         }
@@ -352,15 +344,14 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found in API response");
                     }
-                    Log.d("DEBUG","Popular Songs" + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: "+ response.message());
+                    Log.e("DEBUG", "onFailure: "+ response.message());
 
                 }
             }
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());            }
+                Log.e("DEBUG", "onFailure: " + t.getMessage());            }
         });
     }
 
@@ -434,15 +425,14 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found in API response");
                     }
-                    Log.d("DEBUG", "Popular Songs: " + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -461,16 +451,15 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found in API response");
                     }
-                    Log.d("DEBUG", "Popular Songs" + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
 
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -504,15 +493,15 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found for artist in API response");
                     }
-                    Log.d("DEBUG", "Artist Songs: " + response.body());
+                    Log.e("DEBUG", "Artist Songs: " + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -533,15 +522,14 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found for artist in API response");
                     }
-                    Log.d("DEBUG", "Artist Songs: " + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -597,6 +585,7 @@ public class MusicPlayerController {
             localSongs = songDatabaseHelper.getAllSavedSongs();
         } else {
             localSongs = new ArrayList<>();
+            return;
         }
         checkReleased();
         synchronized (playlistLock) {
@@ -650,15 +639,14 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found for artist in API response");
                     }
-                    Log.d("DEBUG", "Artist Songs: " + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -678,16 +666,15 @@ public class MusicPlayerController {
                     } else {
                         Log.w(TAG, "No songs found for artist in API response");
                     }
-                    Log.d("DEBUG", "Artist Songs: " + response.body());
                 } else {
-                    Log.d("DEBUG", "onFailure: " + response.message());
+                    Log.e("DEBUG", "onFailure: " + response.message());
                 }
             }
 
 
             @Override
             public void onFailure(@NonNull Call<APIResponse<PaginatedResponse<Song>>> call, @NonNull Throwable t) {
-                Log.d("DEBUG", "onFailure: " + t.getMessage());
+                Log.e("DEBUG", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -697,7 +684,7 @@ public class MusicPlayerController {
         void onSongsFetched(List<Song> songs);
     }
 
-    private void fetchSearchSongs(List<String> song_ids, String first_song_id, FetchSongsCallback callback) {
+    private void fetchListSongs(List<String> song_ids, String first_song_id, FetchSongsCallback callback) {
         if (song_ids == null || song_ids.isEmpty()) {
             callback.onSongsFetched(new ArrayList<>());
             return;
@@ -721,7 +708,7 @@ public class MusicPlayerController {
                             }
                         }
                     } else {
-                        Log.d("DEBUG", "onFailure: " + response.message());
+                        Log.e("DEBUG", "onFailure: " + response.message());
                     }
 
                     if (pendingCalls.decrementAndGet() == 0) {
@@ -731,7 +718,6 @@ public class MusicPlayerController {
 
                 @Override
                 public void onFailure(@NonNull Call<APIResponse<Song>> call, @NonNull Throwable t) {
-                    Log.d("DEBUG", "onFailure: " + t.getMessage());
                     if (pendingCalls.decrementAndGet() == 0) {
                         callback.onSongsFetched(result);
                     }
@@ -742,7 +728,7 @@ public class MusicPlayerController {
 
     public void playSearchSongs(List<String> song_ids, String first_song_id) {
         checkReleased();
-        fetchSearchSongs(song_ids, first_song_id, songs -> {
+        fetchListSongs(song_ids, first_song_id, songs -> {
             synchronized (playlistLock) {
                 playList.clear();
                 playList.addSongs(songs);
@@ -751,5 +737,24 @@ public class MusicPlayerController {
         });
     }
 
-
+    public void playHistorySongs(List<Song> songs, Song first_song) {
+        checkReleased();
+        synchronized (playlistLock) {
+            playList.clear();
+            if (first_song != null) {
+                playList.addFirstSong(first_song);
+                List<Song> filteredSongs = new ArrayList<>();
+                for (Song song : songs) {
+                    if (!song.getId().equals(first_song.getId())) {
+                        filteredSongs.add(song);
+                    }
+                }
+                playList.addSongs(filteredSongs);
+                play();
+            } else {
+                playList.addSongs(songs);
+                play();
+            }
+        }
+    }
 }

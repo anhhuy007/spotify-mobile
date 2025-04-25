@@ -255,25 +255,18 @@ public class AlbumDetailFragment extends Fragment implements AlbumSongAdapter.On
             artist_albumAdapter.setData(albums);
         });
         albumViewModel.getAlbumById().observe(getViewLifecycleOwner(), album -> {
-            if (album != null) {
-                coverUrl = album.getCoverUrl();
-                albumTitle = album.getTitle();
-                albumId = album.getId();
-                artistNames = album.getArtists_name();
-                artistUrl = album.getArtist_url().get(0); // take first artist
+
+            coverUrl = album.getCoverUrl();
+            albumTitle = album.getTitle();
+            albumId = album.getId();
+            artistNames = album.getArtists_name();
+            artistUrl = album.getArtist_url().get(0);// take first artist
+            setupUI();
+            setupToolbar((AppCompatActivity) requireActivity());
+            setupGradientBackground(view);
 
 
-                setupUI();
-                setupToolbar((AppCompatActivity) requireActivity());
-                setupGradientBackground(view);
 
-                // Fetch data now that albumId is available
-                albumViewModel.fetchAlbumSongs(albumId);
-                albumViewModel.fetchAlbumsByIds();
-                albumViewModel.fetchAlbumsByArtists(artistNames);
-            } else {
-                Log.d("Albumviewmodel", "Album is null");
-            }
         });
 
 

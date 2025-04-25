@@ -109,13 +109,13 @@ public class AlbumViewModel extends ViewModel {
                             if (response.body().isSuccess()) {
                                 album_songs.setValue(response.body().getData().getItems());
                             } else {
-                                Log.d("AlbumViewModel", "API success flag false");
+                                Log.e("AlbumViewModel", "API success flag false");
                             }
                         } else {
-                            Log.d("AlbumViewModel", "Response body is null");
+                            Log.e("AlbumViewModel", "Response body is null");
                         }
                     } else {
-                        Log.d("AlbumViewModel", "Response not successful: " + response.code());
+                        Log.e("AlbumViewModel", "Response not successful: " + response.code());
                     }
                 } catch (Exception e) {
                     errorMessage.setValue("Error processing response: " + e.getMessage());
@@ -128,39 +128,35 @@ public class AlbumViewModel extends ViewModel {
             }
         });
     }
-    public void fetchAlbumById(String album_id) {
+    public void fetchAlbumById(String album_id)//return list of album_songs
+    {
         isLoading.setValue(true);
-        albumService.getAlbumById(album_id).enqueue(new Callback<APIResponse<Album>>() {
+        albumService.getAlbumById(album_id).enqueue(new Callback<APIResponse<Album>>() { // Load genre data
             @Override
             public void onResponse(Call<APIResponse<Album>> call, Response<APIResponse<Album>> response) {
                 try {
                     isLoading.setValue(false);
                     if (response.isSuccessful()) {
-                        if (response.body() != null && response.body().getData() != null) {
+                        if (response.body().getData() != null) {
                             if (response.body().isSuccess()) {
-                                // Đảm bảo rằng albumById.setValue được gọi
                                 albumById.setValue(response.body().getData());
-                                Log.d("AlbumViewModel", "Album updated successfully");
                             } else {
-                                Log.d("AlbumViewModel", "API success flag false");
+                                Log.e("AlbumViewModel", "API success flag false");
                             }
                         } else {
-                            Log.d("AlbumViewModel", "Response body or data is null");
+                            Log.e("AlbumViewModel", "Response body is null");
                         }
                     } else {
-                        Log.d("AlbumViewModel", "Response not successful: " + response.code());
+                        Log.e("AlbumViewModel", "Response not successful: " + response.code());
                     }
                 } catch (Exception e) {
                     errorMessage.setValue("Error processing response: " + e.getMessage());
-                    Log.e("AlbumViewModel", "Error: " + e.getMessage());
                 }
             }
-
             @Override
             public void onFailure(Call<APIResponse<Album>> call, Throwable t) {
                 isLoading.setValue(false);
                 errorMessage.setValue(t.getMessage());
-                Log.e("AlbumViewModel", "onFailure: " + t.getMessage());
             }
         });
     }

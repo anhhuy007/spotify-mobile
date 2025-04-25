@@ -23,11 +23,6 @@ import java.util.List;
 public class LocalSongAdapter extends RecyclerView.Adapter<LocalSongAdapter.LocalSongViewHolder> {
     private List<Song> songs;
     private OnSongClickListener listener;
-
-    public void setOnSongClickListener(OnSongClickListener onSongClickListener) {
-        this.listener = onSongClickListener;
-    }
-
     public interface OnSongClickListener {
         void onSongClick(Song song);
     }

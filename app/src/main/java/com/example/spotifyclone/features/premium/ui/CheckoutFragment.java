@@ -164,8 +164,6 @@ public class CheckoutFragment extends Fragment {
 
                 // Print user premium status
                 User newUser = authRepository.getUser();
-                Log.d("CheckoutFragment", "User premium status: " + newUser.isPremium());
-
                 // dismiss loading dialog
                 if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.dismiss();

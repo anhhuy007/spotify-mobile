@@ -7,37 +7,22 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.media.MediaMetadataCompat;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.media.app.NotificationCompat.MediaStyle;
-import androidx.media3.common.MediaMetadata;
-import androidx.media3.common.Player;
-import androidx.media3.exoplayer.ExoPlayer;
-
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.spotifyclone.R;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.MainActivity;
-
-import java.io.IOException;
-import java.net.URL;
 
 public class PlayerNotification {
     private static final String CHANNEL_ID = "music_player_channel";
@@ -78,7 +63,6 @@ public class PlayerNotification {
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                        Bitmap scaledBitmap = createScaledBitmap(resource, 800, 450);
                         buildNotification(song, resource, isPlaying, currentPosition, duration);
                     }
 
@@ -125,7 +109,6 @@ public class PlayerNotification {
                 super.onCustomAction(action, extras);
                 if ("shuffle".equals(action)) {
                     try {
-                        Log.d(TAG, "Shuffle action received");
                         MusicNotificationIntents.createShuffleIntent(context).send();
                     } catch (Exception e) {
                         Log.e("MediaSession", "Failed to handle shuffle action", e);
@@ -135,7 +118,6 @@ public class PlayerNotification {
 
             @Override
             public void onPlay() {
-                Log.d("MediaSession", "Play button pressed");
                 try {
                     MusicNotificationIntents.createPlayPauseIntent(context).send();
                 } catch (PendingIntent.CanceledException e) {
@@ -145,7 +127,6 @@ public class PlayerNotification {
 
             @Override
             public void onPause() {
-                Log.d("MediaSession", "Pause button pressed");
                 try {
                     MusicNotificationIntents.createPlayPauseIntent(context).send();
                 } catch (PendingIntent.CanceledException e) {
@@ -155,9 +136,7 @@ public class PlayerNotification {
 
             @Override
             public void onSkipToNext() {
-                Log.d("MediaSession", "Next button pressed");
                 try {
-                    Log.d("MediaSession", "Next button pressed");
                     MusicNotificationIntents.createNextIntent(context).send();
                 } catch (PendingIntent.CanceledException e) {
                     throw new RuntimeException(e);
@@ -166,7 +145,6 @@ public class PlayerNotification {
 
             @Override
             public void onSkipToPrevious() {
-                Log.d("MediaSession", "Previous button pressed");
                 try {
                     MusicNotificationIntents.createPreviousIntent(context).send();
                 } catch (PendingIntent.CanceledException e) {

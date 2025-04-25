@@ -47,7 +47,6 @@ public class PlayList {
     }
 
     public void reset() {
-        Log.d(TAG, "Resetting playlist index.");
         currentIndex = 0;
     }
 
@@ -92,6 +91,7 @@ public class PlayList {
                 songList.add(song);
             }
         }
+        printPlaylist();
     }
 
 
@@ -105,16 +105,12 @@ public class PlayList {
         if (songList.size() - (currentIndex + 1) > 2) {
             Collections.shuffle(songList.subList(currentIndex + 1, songList.size()));
         } else {
-            Log.d(TAG, "Not enough songs to shuffle.");
+            Log.e(TAG, "Not enough songs to shuffle.");
         }
     }
 
 
-    public void printPlaylist() {
-        for (int i = 0; i < songList.size(); i++) {
-            Log.d(TAG, "Song " + i + ": " + songList.get(i).getTitle());
-        }
-    }
+    public void printPlaylist() {}
 
     public List<Song> getUpcomingSongs() {
         return songList.subList(currentIndex + 1, songList.size());

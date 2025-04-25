@@ -1,6 +1,7 @@
 package com.example.spotifyclone.features.topproduct.apdaper;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.spotifyclone.R;
+import com.example.spotifyclone.features.album.ui.AlbumDetailFragmentDirections;
 import com.example.spotifyclone.features.topproduct.model.AlsoLike;
 
 import java.util.List;
@@ -21,6 +26,11 @@ public class AlsoLikeAdapter extends RecyclerView.Adapter<AlsoLikeAdapter.ViewHo
     private Context context;
     private List<AlsoLike> artistList;
 
+    private View rootView;
+
+    public void setRootView(View rootView) {
+        this.rootView = rootView;
+    }
     public AlsoLikeAdapter(Context context, List<AlsoLike> artistList) {
         this.context = context;
         this.artistList = artistList;
@@ -42,6 +52,26 @@ public class AlsoLikeAdapter extends RecyclerView.Adapter<AlsoLikeAdapter.ViewHo
                 .load(item.getAvatarUrl())
                 .placeholder(R.drawable.loading)
                 .into(holder.img);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (rootView != null) {
+                NavController navController = Navigation.findNavController(rootView);
+                int currentDestId = navController.getCurrentDestination().getId();
+
+                if (currentDestId == R.id.nav_album_detail) {
+                    NavDirections action = AlbumDetailFragmentDirections.actionNavAlbumDetailSelf(
+                            item.getId()
+                    );
+                    navController.navigate(action);
+                } else {
+                    Bundle args = new Bundle();
+                    args.putString("_id", item.getId());
+
+                    navController.navigate(R.id.nav_album_detail, args);
+                }
+            }
+        });
+
     }
 
     @Override

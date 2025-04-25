@@ -1,14 +1,10 @@
 package com.example.spotifyclone.shared.model;
 
-import android.util.Log;
-import android.content.SharedPreferences;
-import com.example.spotifyclone.features.player.model.playlist.PlayList;
+
 import com.example.spotifyclone.features.player.model.playlist.RepeatMode;
 import com.example.spotifyclone.features.player.model.playlist.ShuffleMode;
 import com.example.spotifyclone.features.player.model.song.Song;
 import com.example.spotifyclone.features.player.viewmodel.MusicPlayerViewModel;
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
 
