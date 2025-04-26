@@ -220,9 +220,6 @@ public class HomeFragment extends BaseOnlineFragment implements AlbumAdapter.OnA
             }
         });
 
-        musicPlayerViewModel.getError().observe(getViewLifecycleOwner(), errorMessage ->
-                Toast.makeText(getContext(), "Error: " + errorMessage, Toast.LENGTH_SHORT).show());
-
         homeViewModel.getLatestAlbums().observe(getViewLifecycleOwner(), albums -> {
             if(albums != null) {
                 latestAlbumsAdapter.setAlbums(albums);

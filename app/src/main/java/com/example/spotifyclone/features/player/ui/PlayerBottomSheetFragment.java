@@ -413,10 +413,11 @@ public class PlayerBottomSheetFragment extends BottomSheetDialogFragment {
             updatePlayNameVisibility(viewModel.getPlayName().getValue(), type, false);
         }
     }
+
     private void updateUI() {
         if (song != null) {
             tvSongTitle.setText(song.getTitle());
-            tvArtistName.setText(song.getSingersString().toString());
+            tvArtistName.setText(song.getSingersString());
             tvLyricsTitle.setText(song.getTitle());
             String lyrics = song.getLyrics();
             if (lyrics != null && lyrics.length() > 3) {

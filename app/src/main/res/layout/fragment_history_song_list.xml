@@ -87,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/histort_layout">
+            android:id="@+id/history_layout">
             <TextView
                 android:layout_width="wrap_content"
                 android:fontFamily="@font/avenir_next"

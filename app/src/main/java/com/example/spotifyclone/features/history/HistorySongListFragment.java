@@ -87,10 +87,27 @@ public class HistorySongListFragment extends Fragment implements HistorySongAdap
     private void initData(View view) {
         this.historySongDatabaseHelper = HistorySongDatabaseHelper.getInstance(requireContext());
         this.historySongs = historySongDatabaseHelper.getHistorySongs();
+        if(historySongs == null) {
+
+            play_button.setEnabled(false);
+            shuffle_button.setEnabled(false);
+
+            play_button.setAlpha(0.5f);
+            shuffle_button.setAlpha(0.5f);
+        } else {
+            play_button.setEnabled(true);
+            shuffle_button.setEnabled(true);
+
+            play_button.setAlpha(1f);
+            shuffle_button.setAlpha(1f);
+        }
+
         List<String> song_ids = new ArrayList<>();
+
         for (HistorySong historySong : historySongs) {
             song_ids.add(historySong.getSongId());
         }
+
         this.songService = RetrofitClient.getClient(requireContext()).create(SongService.class);
         fetchListSongs(song_ids, songs -> {
             if(songs == null) return;

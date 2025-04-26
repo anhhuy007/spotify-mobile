@@ -114,7 +114,6 @@ public class HistorySongAdapter extends RecyclerView.Adapter<HistorySongAdapter.
 
             }
         }
-
     }
 }
 
