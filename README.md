@@ -4,6 +4,19 @@ A comprehensive Spotify clone mobile app developed on Android. This project repl
 
 ![App Mockup](https://github.com/anhhuy007/spotify-mobile/blob/master/spotify%20clone.png) <!-- Replace with actual image URL if available -->
 
+<div align="center">
+  <p align="center">
+    A mobile clone app of <strong>Spotify</strong> built on Android using Java and Node.js backend.
+    <br />
+    <a href="https://drive.google.com/file/d/1zRXpzmPPI7xydeOQe341ZAkbJTfrPVCZ/view?usp=drive_link"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://drive.google.com/file/d/1vwkwNnwSuI_T6_1Q6ug_HKUAcVRE89-f/view?usp=sharing">View Demo</a>
+    ·
+    <a href="https://docs.google.com/presentation/d/1PAafdFnVqIbzCh_kr04a4PRySFD_EqOU/edit?usp=drive_link&ouid=100651601658120224541&rtpof=true&sd=true">View Presentation</a>
+  </p>
+</div>
+
 ## Features
 
 - **User Authentication**
